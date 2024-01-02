@@ -4,7 +4,11 @@ import { createGlobalStyle, ThemeProvider } from "styled-components";
 import Main from "./pages/Main";
 import Test from "./pages/Test";
 import { theme } from "./theme";
+
 import Testing from "./pages/Testing";
+
+import Sumin from "./pages/Sumin";
+
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@1,8..60,300&display=swap');
@@ -80,10 +84,16 @@ const router = createBrowserRouter([
     element: <Main />,
   },
   {
+
     path: "/testing",
     element: <Testing />,
 
   }
+
+    path: "/sumin",
+    element: <Sumin />,
+  },
+
 ]);
 
 function App() {
