@@ -1,4 +1,6 @@
 const express = require('express');
+const swaggerUi = require('swagger-ui-express'); //swagger
+const swaggerDocument = require('./swagger/swagger_output.json'); //swagger
 const app = express();
 
 // express.json(): 클라이언트로부터 오는 JSON 형식의 요청 본문을 파싱하여 JavaScript 객체로 변환.
@@ -6,6 +8,9 @@ app.use(express.json());
 
 // express.urlencoded(): 클라이언트로부터 오는 URL 인코딩된 요청 본문을 파싱하여 JavaScript 객체로 변환. 주로 HTML 폼 데이터 처리에 사용.
 app.use(express.urlencoded({ extended: false }));
+
+//swagger UI 사용 설정
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // 루트 경로 핸들러
 app.get('/', (req, res, next) => {
