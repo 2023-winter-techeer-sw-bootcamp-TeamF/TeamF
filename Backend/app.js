@@ -1,7 +1,6 @@
 const express = require('express');
 const swaggerUi = require('swagger-ui-express'); //swagger
 const swaggerDocument = require('./swagger/swagger_output.json'); //swagger
-
 const app = express();
 
 // express.json(): 클라이언트로부터 오는 JSON 형식의 요청 본문을 파싱하여 JavaScript 객체로 변환.
@@ -23,8 +22,8 @@ app.get('/', (req, res, next) => {
 const apiRouter = require('./routes/api');
 app.use('/api', apiRouter);
 
-const userInfoRouter = require('./routes/user');
-app.use('/user', userInfoRouter);
+const userInfoRouter = require('./routes/userInfo');
+app.use('/userinfo', userInfoRouter);
 
 
 // 공통 응답 미들웨어
