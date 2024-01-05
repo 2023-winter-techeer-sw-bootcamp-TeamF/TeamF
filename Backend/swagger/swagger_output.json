@@ -21,23 +21,7 @@
         }
       }
     },
-    "/api/test": {
-      "get": {
-        "tags": [
-          "Test"
-        ],
-        "description": "페이지 이동 테스트",
-        "responses": {
-          "200": {
-            "description": "페이지 이동 테스트 성공"
-          },
-          "400": {
-            "description": "잘못된 요청"
-          }
-        }
-      }
-    },
-    "/userinfo/test": {
+    "/test/user/info": {
       "get": {
         "tags": [
           "Test"
@@ -46,6 +30,22 @@
         "responses": {
           "200": {
             "description": "유저 조회 테스트 성공"
+          },
+          "400": {
+            "description": "잘못된 요청"
+          }
+        }
+      }
+    },
+    "/test/page": {
+      "get": {
+        "tags": [
+          "Test"
+        ],
+        "description": "페이지 이동 테스트",
+        "responses": {
+          "200": {
+            "description": "페이지 이동 테스트 성공"
           },
           "400": {
             "description": "잘못된 요청"
