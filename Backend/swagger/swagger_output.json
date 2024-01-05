@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Taro API Test",
+    "title": "Tarot API Test",
     "description": "오늘도 화이팅",
     "version": "1.0.0"
   },
@@ -15,31 +15,8 @@
       "get": {
         "description": "",
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "default": {
             "description": ""
-          }
-        }
-      }
-    },
-    "/api/": {
-      "get": {
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/userinfo/": {
-      "get": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
           }
         }
       }
