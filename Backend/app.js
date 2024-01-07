@@ -13,6 +13,12 @@ const swaggerDocument = require('./swagger/swagger_output.json');
 //swagger UI 사용 설정
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
+// dotenv 설정
+const dotenv = require('dotenv');
+dotenv.config();
+// const basic_port = 3000
+// app.set('port', process.env.PORT || basic_port);
+
 // 루트 경로 핸들러
 app.get('/', (req, res, next) => {
   res.locals.data = { message: 'Page : app.js' };
