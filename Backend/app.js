@@ -15,7 +15,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // 루트 경로 핸들러
 app.get('/', (req, res, next) => {
-  res.locals.data = { message: 'Page : app.js' };
+  res.locals.data = { message: 'Page : app.js -> dev 테스트' };
   next();
 });
 
