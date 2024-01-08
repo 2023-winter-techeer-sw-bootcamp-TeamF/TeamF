@@ -16,7 +16,17 @@ const client = new SecretsManagerClient({
     region: "ap-northeast-2",
 });
 
-router.get('/get-secret', async (req, res) => {
+router.get('/MySQL', async (req, res) => {
+    // Swagger 문서화
+    // #swagger.summary = "시크릿 매니저를 통한 MySQL 정보 조회"
+    // #swagger.description = 'SecretsManager Router Test -> MySQL'
+    // #swagger.tags = ['Test']
+    /*  #swagger.responses[200] = {
+              description: 'MySQL 정보 조회 성공',}
+      } */
+    /*  #swagger.responses[400] = {
+              description: '잘못된 요청',
+      } */
     try {
         const response = await client.send(
             new GetSecretValueCommand({

@@ -3,6 +3,7 @@ const router = express.Router();
 
 router.get('/user/info', (req, res, next) => {
   // Swagger 문서화
+  // #swagger.summary = "유저 조회 테스트"
   // #swagger.description = '유저 조회 테스트'
   // #swagger.tags = ['Test']
   /*  #swagger.responses[200] = {
@@ -24,6 +25,7 @@ router.get('/user/info', (req, res, next) => {
 
 router.get('/page', (req, res, next) => {
   // Swagger 문서화
+  // #swagger.summary = "페이지 이동 테스트"
   // #swagger.description = '페이지 이동 테스트'
   // #swagger.tags = ['Test']
   /*  #swagger.responses[200] = {
