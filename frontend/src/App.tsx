@@ -57,8 +57,6 @@ table {
   box-sizing: border-box;
 }
 body {
-  font-weight: 300;
-  font-family: Inter;
   background-color:${(props) => props.theme.bgColor};
   color:black;
   line-height: 1.2;
