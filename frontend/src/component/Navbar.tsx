@@ -3,15 +3,12 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 const NavContainer = styled.nav`
-  background-color: #000000;
+  //background-color: #000000;
   width: 100%;
   height: 70px;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  position: fixed;
-  top: 0;
-  left: 0;
   z-index: 10;
 `;
 
@@ -23,7 +20,6 @@ const LogoContainer = styled.div`
   font-weight: 700;
   line-height: normal;
   text-transform: capitalize;
-  margin-left: 85px;
   display: flex;
 `;
 
@@ -47,7 +43,6 @@ const LoginButton = styled.button`
   font-weight: 400;
   line-height: normal;
   text-transform: capitalize;
-  margin-right: 80px;
   cursor: pointer;
 `;
 
