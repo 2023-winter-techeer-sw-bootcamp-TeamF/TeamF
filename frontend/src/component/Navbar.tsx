@@ -69,14 +69,16 @@ const Navbar = () => {
   return (
     <NavContainer>
       <LogoContainer>
-        <LargeLetter>T</LargeLetter>AROT&nbsp;<LargeLetter>C</LargeLetter>
-        OUNSELING
+        <Link to="/">
+          <LargeLetter>T</LargeLetter>AROT&nbsp;<LargeLetter>C</LargeLetter>
+          OUNSELING
+        </Link>
       </LogoContainer>
 
       <MenuContainer>
         <MenuItem to="/mypage"> MYPAGE</MenuItem>
         <MenuItem to="/login">
-          <LoginButton>LOG IN!</LoginButton>
+          <LoginButton>LOG IN</LoginButton>
         </MenuItem>
       </MenuContainer>
     </NavContainer>
