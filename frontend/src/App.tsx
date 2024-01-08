@@ -1,11 +1,10 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
-import Main from "./pages/Main";
+import Main from "./pages/Landing";
 import Test from "./pages/Test";
 import { theme } from "./theme";
 
-import Testing from "./pages/Testing";
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@1,8..60,300&display=swap');
@@ -58,8 +57,6 @@ table {
   box-sizing: border-box;
 }
 body {
-  font-weight: 300;
-  font-family: Inter;
   background-color:${(props) => props.theme.bgColor};
   color:black;
   line-height: 1.2;
@@ -79,10 +76,6 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Main />,
-  },
-  {
-    path: "/testing",
-    element: <Testing />,
   },
 ]);
 
