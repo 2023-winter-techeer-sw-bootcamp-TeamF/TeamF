@@ -8,19 +8,20 @@ app.use(express.json());
 // express.urlencoded(): 클라이언트로부터 오는 URL 인코딩된 요청 본문을 파싱하여 JavaScript 객체로 변환. 주로 HTML 폼 데이터 처리에 사용.
 app.use(express.urlencoded({ extended: false }));
 
- //swagger
+//cors 허용 출처
+const corsConfig = {
+  origin: ['http://43.202.208.226:3000', 'http://43.202.208.226:3001'],
+  credentials: true,
+};
+
+// CORS 사용 설정 - 다른 미들웨어나 라우트 설정보다 먼저 선언합니다.
+app.use(cors(corsConfig));
+
+//swagger
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger/swagger_output.json');
 //swagger UI 사용 설정
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-//cors 허용 출처
-const corsConfig = {
-  origin: 'http://43.202.208.226:3000',
-  credentials: true,
-};
-//cors 사용 설정
-app.use(cors(corsConfig));
 
 // 루트 경로 핸들러
 app.get('/', (req, res, next) => {
