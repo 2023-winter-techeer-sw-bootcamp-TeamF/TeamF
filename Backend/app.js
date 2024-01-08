@@ -9,13 +9,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 //cors 허용 출처
-const corsConfig = {
-  origin: ['http://43.202.208.226:3000', 'http://43.202.208.226:3001'],
-  credentials: true,
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (['http://43.202.208.226:3000', 'http://43.202.208.226:3001'].indexOf(origin) !== -1 || !origin) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
+  credentials: true
 };
 
-// CORS 사용 설정 - 다른 미들웨어나 라우트 설정보다 먼저 선언합니다.
-app.use(cors(corsConfig));
+app.use(cors(corsOptions));
 
 //swagger
 const swaggerUi = require('swagger-ui-express');
