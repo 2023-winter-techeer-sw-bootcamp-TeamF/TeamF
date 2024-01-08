@@ -5,5 +5,15 @@ services:
     build: ./Backend
     ports:
       - "3001:3000"
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASSWORD=yourpassword
+      - DB_NAME=mydatabase
     # volumes:
     #   - ./backend:/usr/src/app
+
+volumes:
+  mysql_data:

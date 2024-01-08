@@ -55,6 +55,23 @@
         }
       }
     },
+    "/test/testdb": {
+      "get": {
+        "tags": [
+          "Test"
+        ],
+        "summary": "DB 테스트",
+        "description": "DB를 테스트 해봅시다 :>",
+        "responses": {
+          "200": {
+            "description": "테스트 값 조회 성공"
+          },
+          "400": {
+            "description": "잘못된 요청"
+          }
+        }
+      }
+    },
     "/secret/MySQL": {
       "get": {
         "tags": [

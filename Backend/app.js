@@ -1,7 +1,14 @@
 const express = require('express');
 const cors = require('cors');
-const app = express();
+const mysql = require('mysql');
+const { SecretsManagerClient } = require("@aws-sdk/client-secrets-manager");
+const { loadDBConfig, getDBConfig } = require('./mysql/configDB');
+const db = require('./mysql/database');
 
+const client = new SecretsManagerClient({ region: "ap-northeast-2" });
+const secretName = "MySQL_Info";
+
+const app = express();
 // express.json(): 클라이언트로부터 오는 JSON 형식의 요청 본문을 파싱하여 JavaScript 객체로 변환.
 app.use(express.json());
 
@@ -59,7 +66,14 @@ app.use((error, req, res, next) => {
   });
 });
 
-const port = 3000;
-app.listen(port, () => {
-  console.log(`서버가 포트 ${port}에서 실행`);
+// 데이터베이스 설정 로드 및 애플리케이션 시작
+loadDBConfig(client, secretName).then(() => {
+  const dbConfig = getDBConfig();
+  db.initializeConnection(dbConfig);
+  const port = 3000;
+  app.listen(port, () => {
+    console.log(`서버가 포트 ${port}에서 실행 중입니다.`);
+  });
+}).catch(error => {
+  console.error("DB 설정 로드 중 오류 발생:", error);
 });
