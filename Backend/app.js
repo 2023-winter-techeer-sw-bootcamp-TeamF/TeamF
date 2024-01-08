@@ -11,18 +11,13 @@ app.use(express.urlencoded({ extended: false }));
 //cors 허용 출처
 const corsOptions = {
   origin: function (origin, callback) {
-    if (
-      ['http://43.202.208.226:3000', 'http://43.202.208.226:3001'].indexOf(
-        origin
-      ) !== -1 ||
-      !origin
-    ) {
-      callback(null, true);
+    if (['http://43.202.208.226:3000', 'http://43.202.208.226:3001'].indexOf(origin) !== -1 || !origin) {
+      callback(null, true)
     } else {
-      callback(new Error('Not allowed by CORS'));
+      callback(new Error('Not allowed by CORS'))
     }
   },
-  credentials: true,
+  credentials: true
 };
 
 app.use(cors(corsOptions));
@@ -56,7 +51,7 @@ app.use((req, res, next) => {
 app.use((error, req, res, next) => {
   console.error(error);
   res.status(500).json({
-    message: '서버 내부 오류',
+    message: '서버 내부 오류'
   });
 });
 
