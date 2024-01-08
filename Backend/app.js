@@ -10,7 +10,7 @@ app.use(express.urlencoded({ extended: false }));
 
 //cors 허용 출처
 const corsConfig = {
-  origin: ['http://43.202.208.226:3000', 'http://43.202.208.226:3000'],
+  origin: ['http://43.202.208.226:3000', 'http://43.202.208.226:3001'],
   credentials: true,
 };
 
