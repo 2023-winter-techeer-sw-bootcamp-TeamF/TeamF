@@ -51,11 +51,11 @@ app.use((req, res, next) => {
 app.use((error, req, res, next) => {
   console.error(error);
   res.status(500).json({
-      message: '서버 내부 오류'
+    message: '서버 내부 오류'
   });
 });
 
 const port = 3000;
 app.listen(port, () => {
-    console.log(`서버가 포트 ${port}에서 실행`);
+  console.log(`서버가 포트 ${port}에서 실행`);
 });
