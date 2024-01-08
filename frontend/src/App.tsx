@@ -1,10 +1,12 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
-import Main from "./pages/Landing";
+import Landing from "./pages/Landing";
 import Test from "./pages/Test";
 import { theme } from "./theme";
-
+import Main from "./pages/Main";
+import MyPage from "./pages/MyPage";
+import FortuneSelect from "./pages/FoutuneSelect";
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@1,8..60,300&display=swap');
@@ -75,7 +77,19 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
+    element: <Landing />,
+  },
+  {
+    path: "/main",
     element: <Main />,
+  },
+  {
+    path: "/mypage",
+    element: <MyPage />,
+  },
+  {
+    path: "/fortuneselect",
+    element: <FortuneSelect />,
   },
 ]);
 
