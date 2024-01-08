@@ -7,13 +7,6 @@ app.use(express.json());
 // express.urlencoded(): 클라이언트로부터 오는 URL 인코딩된 요청 본문을 파싱하여 JavaScript 객체로 변환. 주로 HTML 폼 데이터 처리에 사용.
 app.use(express.urlencoded({ extended: false }));
 
-// mysql 설정
-const mysql = require("mysql");
-const dbconfig = require("./mysql/database");
-const connection = mysql.createConnection(dbconfig);
-// mysql 연결
-connection.connect();
-
 //swagger
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger/swagger_output.json");
