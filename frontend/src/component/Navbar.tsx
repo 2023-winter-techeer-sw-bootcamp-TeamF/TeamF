@@ -76,7 +76,7 @@ const Navbar = () => {
       <MenuContainer>
         <MenuItem to="/mypage"> MYPAGE</MenuItem>
         <MenuItem to="/login">
-          <LoginButton>LOG IN</LoginButton>
+          <LoginButton>LOG IN!</LoginButton>
         </MenuItem>
       </MenuContainer>
     </NavContainer>
