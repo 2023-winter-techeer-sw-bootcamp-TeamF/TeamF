@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 
 // express.json(): 클라이언트로부터 오는 JSON 형식의 요청 본문을 파싱하여 JavaScript 객체로 변환.
@@ -7,7 +8,21 @@ app.use(express.json());
 // express.urlencoded(): 클라이언트로부터 오는 URL 인코딩된 요청 본문을 파싱하여 JavaScript 객체로 변환. 주로 HTML 폼 데이터 처리에 사용.
 app.use(express.urlencoded({ extended: false }));
 
- //swagger
+//cors 허용 출처
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (['http://43.202.208.226:3000', 'http://43.202.208.226:3001'].indexOf(origin) !== -1 || !origin) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
+  credentials: true
+};
+
+app.use(cors(corsOptions));
+
+//swagger
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger/swagger_output.json');
 //swagger UI 사용 설정
@@ -40,11 +55,11 @@ app.use((req, res, next) => {
 app.use((error, req, res, next) => {
   console.error(error);
   res.status(500).json({
-      message: '서버 내부 오류'
+    message: '서버 내부 오류'
   });
 });
 
 const port = 3000;
 app.listen(port, () => {
-    console.log(`서버가 포트 ${port}에서 실행`);
+  console.log(`서버가 포트 ${port}에서 실행`);
 });

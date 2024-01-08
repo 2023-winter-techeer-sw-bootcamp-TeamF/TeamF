@@ -6,7 +6,7 @@ const doc = {
     description: '오늘도 화이팅',
   },
   //host: 'localhost:3000',
-  host: '43.202.208.226:3000',
+  host: '43.202.208.226:3001',
   schemes: ['http'],
 };
 
