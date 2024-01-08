@@ -15,12 +15,12 @@ const swaggerDocument = require('./swagger/swagger_output.json');
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //cors 허용 출처
-const corsConfig = {
-  origin: 'http://43.202.208.226:3000',
-  credentials: true,
-};
-//cors 사용 설정
-app.use(cors(corsConfig));
+// const corsConfig = {
+//   origin: 'http://43.202.208.226:3001',
+//   credentials: true,
+// };
+//cors 모두 허용
+app.use(cors());
 
 // 루트 경로 핸들러
 app.get('/', (req, res, next) => {
