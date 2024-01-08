@@ -41,11 +41,27 @@ app.get('/', (req, res, next) => {
   next();
 });
 
-// API 라우트 설정
+// router → ./routes/tarot
+const tarotRouter = require('./routes/tarot');
+app.use('/tarot', tarotRouter);
+
+// router → ./routes/result
+const resultRouter = require('./routes/result');
+app.use('/result', resultRouter);
+
+// router → ./routes/user
+const userRouter = require('./routes/user');
+app.use('/user', userRouter);
+
+// router → ./routes/mypage
+const mypageRouter = require('./routes/mypage');
+app.use('/mypage', mypageRouter);
+
+// router → ./routes/test/test
 const testRouter = require('./routes/test/test');
 app.use('/test', testRouter);
 
-// SecretsManager 테스트 라우트
+// router → ./routes/test/SecretsManager
 const secretTestRouter = require('./routes/test/secreatsManager');
 app.use('/secret', secretTestRouter);
 
@@ -67,13 +83,27 @@ app.use((error, req, res, next) => {
 });
 
 // 데이터베이스 설정 로드 및 애플리케이션 시작
-loadDBConfig(client, secretName).then(() => {
-  const dbConfig = getDBConfig();
-  db.initializeConnection(dbConfig);
-  const port = 3000;
-  app.listen(port, () => {
-    console.log(`서버가 포트 ${port}에서 실행 중입니다.`);
-  });
-}).catch(error => {
-  console.error("DB 설정 로드 중 오류 발생:", error);
-});
+// async 함수로 서버 시작 로직을 감싸기
+async function startServer() {
+  try {
+    // 데이터베이스 설정 로드
+    await loadDBConfig(client, secretName);
+
+    // DB 설정 가져오기 및 연결 초기화
+    const dbConfig = getDBConfig();
+    db.initializeConnection(dbConfig);
+
+    // 서버 시작
+    const port = 3000;
+    app.listen(port, () => {
+      console.log(`서버가 포트 ${port}에서 실행 중입니다.`);
+    });
+  } catch (error) {
+    // 오류 처리
+    console.error("DB 설정 로드 중 오류 발생:", error);
+  }
+}
+
+// 서버 시작 함수 실행
+startServer();
+

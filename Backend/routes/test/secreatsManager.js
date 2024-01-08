@@ -39,9 +39,10 @@ router.get('/MySQL', async (req, res) => {
 
         // MySQL 정보를 하나의 객체로 묶음
         const mysqlInfo = {
-            url: secret.MYSQL_URL,
-            id: secret.MYSQL_ID,
-            pw: secret.MYSQL_PW
+            host: secret.host,
+            user: secret.user,
+            password: secret.password,
+            database: secret.database
         };
 
         // 응답 반환 형식

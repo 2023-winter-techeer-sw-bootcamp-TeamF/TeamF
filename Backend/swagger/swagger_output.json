@@ -21,6 +21,62 @@
         }
       }
     },
+    "/tarot/": {
+      "get": {
+        "tags": [
+          "Tarot"
+        ],
+        "summary": "Todo: 운세 카테고리 선택, 가이드라인, 질문 전송, 뽑은 것 조회, 카드 이미지 반환",
+        "description": "/select /guide /ask /cards /card/info",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/result/": {
+      "get": {
+        "tags": [
+          "Result"
+        ],
+        "summary": "Todo: 결과 리스트, 결과 상세조회, 결과 삭제",
+        "description": "/list /detail /delete",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/user/": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "TODO : 로그인, 회원가입, 로그아웃",
+        "description": "/login /signup /logout",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/mypage/": {
+      "get": {
+        "tags": [
+          "MyPage"
+        ],
+        "summary": "Todo: 총합 결과, 총합 결과 저장",
+        "description": "/result /result/save",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/test/user/info": {
       "get": {
         "tags": [
