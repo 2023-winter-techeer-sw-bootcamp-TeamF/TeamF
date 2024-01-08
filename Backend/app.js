@@ -38,6 +38,10 @@ app.get('/', (req, res, next) => {
 const testRouter = require('./routes/test/test');
 app.use('/test', testRouter);
 
+// SecretsManager 테스트 라우트
+const secretTestRouter = require('./routes/test/secreatsManager');
+app.use('/secret', secretTestRouter);
+
 // 공통 응답 미들웨어
 const commonResponseMiddleware = require('./middleware/commonResponse');
 app.use(commonResponseMiddleware);
