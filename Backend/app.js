@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 
 // express.json(): 클라이언트로부터 오는 JSON 형식의 요청 본문을 파싱하여 JavaScript 객체로 변환.
@@ -12,6 +13,14 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger/swagger_output.json');
 //swagger UI 사용 설정
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+//cors 허용 출처
+const corsConfig = {
+  origin: 'http://43.202.208.226:3000',
+  credentials: true,
+};
+//cors 사용 설정
+app.use(cors(corsConfig));
 
 // 루트 경로 핸들러
 app.get('/', (req, res, next) => {
