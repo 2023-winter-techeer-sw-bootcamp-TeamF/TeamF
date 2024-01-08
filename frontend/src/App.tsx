@@ -1,13 +1,9 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
-import Main from "./pages/Main";
+import Main from "./pages/Landing";
 import Test from "./pages/Test";
 import { theme } from "./theme";
-
-import Testing from "./pages/Testing";
-
-import Sumin from "./pages/Sumin";
 
 
 const GlobalStyle = createGlobalStyle`
@@ -83,17 +79,6 @@ const router = createBrowserRouter([
     path: "/",
     element: <Main />,
   },
-  {
-
-    path: "/testing",
-    element: <Testing />,
-
-  }
-
-    path: "/sumin",
-    element: <Sumin />,
-  },
-
 ]);
 
 function App() {
