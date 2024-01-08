@@ -1,9 +1,10 @@
 import React from "react";
+import Navbar from "../component/Navbar";
 
 function Main() {
   return (
     <>
-      <h1>Main입니다.</h1>
+      <Navbar />
     </>
   );
 }
