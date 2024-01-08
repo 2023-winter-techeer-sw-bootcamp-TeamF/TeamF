@@ -30,13 +30,17 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // 루트 경로 핸들러
 app.get('/', (req, res, next) => {
-  res.locals.data = { message: 'Page : app.js -> dev 테스트' };
+  res.locals.data = { message: 'Page : app.js' };
   next();
 });
 
 // API 라우트 설정
 const testRouter = require('./routes/test/test');
 app.use('/test', testRouter);
+
+// SecretsManager 테스트 라우트
+const secretTestRouter = require('./routes/test/secreatsManager');
+app.use('/secret', secretTestRouter);
 
 // 공통 응답 미들웨어
 const commonResponseMiddleware = require('./middleware/commonResponse');
@@ -51,11 +55,11 @@ app.use((req, res, next) => {
 app.use((error, req, res, next) => {
   console.error(error);
   res.status(500).json({
-      message: '서버 내부 오류'
+    message: '서버 내부 오류'
   });
 });
 
 const port = 3000;
 app.listen(port, () => {
-    console.log(`서버가 포트 ${port}에서 실행`);
+  console.log(`서버가 포트 ${port}에서 실행`);
 });
