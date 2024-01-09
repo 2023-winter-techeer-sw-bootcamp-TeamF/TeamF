@@ -102,5 +102,4 @@ module.exports = {
   initializeGpt,
   getGptStream,
   gptMessageForm,
-  creatGptContextSaveFs,
 };

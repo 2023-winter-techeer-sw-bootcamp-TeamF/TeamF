@@ -7,11 +7,20 @@ import { theme } from "./theme";
 
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9df10cb1a818da2cedec204860e66edeaa95e958
 import Main from "./pages/Main";
 import MyPage from "./pages/MyPage";
 import FortuneSelect from "./pages/FoutuneSelect";
 import ResultDetail from "./pages/ResultDetail";
 import TarotProcess from "./pages/TarotProcess";
+<<<<<<< HEAD
+=======
+
+import BeforeChat from "./pages/BeforeChat";
+>>>>>>> 9df10cb1a818da2cedec204860e66edeaa95e958
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@1,8..60,300&display=swap');
@@ -97,6 +106,10 @@ const router = createBrowserRouter([
     path: "/signup",
     element: <Signup />,
   },
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9df10cb1a818da2cedec204860e66edeaa95e958
   {
     path: "/mypage",
     element: <MyPage />,
@@ -111,8 +124,18 @@ const router = createBrowserRouter([
   },
   {
     path: "/tarotprocess",
+<<<<<<< HEAD
     element: <TarotProcess />,
   },
+=======
+
+    element: <TarotProcess />,
+  },
+  {
+    path: "/beforechat",
+    element: <BeforeChat />,
+  },
+>>>>>>> 9df10cb1a818da2cedec204860e66edeaa95e958
 ]);
 
 function App() {
