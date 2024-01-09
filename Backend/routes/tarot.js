@@ -49,8 +49,8 @@ router.get('/guide', (req, res, next) => {
 // 뽑은 카드 저장
 router.get('/cards', (req, res, next) => {
     // Swagger 문서화
-    // #swagger.summary = "카드 저장 페이지 이동 테스트"
-    // #swagger.description = '카드 저장 페이지 이동 테스트'
+    // #swagger.summary = "뽑은 카드 저장 페이지 이동 테스트"
+    // #swagger.description = '뽑은 카드 저장 페이지 이동 테스트'
     // #swagger.tags = ['Tarot']
     /*  #swagger.responses[200] = {
             description: '페이지 이동 테스트 성공',}
@@ -58,11 +58,13 @@ router.get('/cards', (req, res, next) => {
     /*  #swagger.responses[400] = {
             description: '잘못된 요청',
         } */
-
+    
     // 뽑은 카드 Table에 뽑은 카드 정보 추가
     const connection = db.getConnection();
-    const sql = "INSERT INTO cards (poll_seq, UserSeq, ordered, image_url, explanation, created_at, partner) values(?,?,?,?,?,NOW(),?)";
-    const params = [req.body.poll_seq, req.body.UserSeq, req.body.ordered, req.body.image_url, req.body.explanation, req.body.partner];
+    const sql = "INSERT INTO cards (poll_seq, UserSeq, ordered, image_url, explanation, created_at, partner) "
+                + "values(?,?,?,?,?,NOW(),?)";
+    const params = [req.body.poll_seq, req.body.UserSeq, req.body.ordered, req.body.image_url, 
+                    req.body.explanation, req.body.partner];
     connection.query(sql, params, (error, fields) => {
         if (error) {
         res.locals.status = 500;
