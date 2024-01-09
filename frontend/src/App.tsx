@@ -7,6 +7,8 @@ import { theme } from "./theme";
 import Main from "./pages/Main";
 import MyPage from "./pages/MyPage";
 import FortuneSelect from "./pages/FoutuneSelect";
+import ResultDetail from "./pages/ResultDetail";
+import TarotProcess from "./pages/TarotProcess";
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@1,8..60,300&display=swap');
@@ -91,6 +93,14 @@ const router = createBrowserRouter([
     path: "/fortuneselect",
     element: <FortuneSelect />,
   },
+  {
+    path: "/resultdetail",
+    element: <ResultDetail />
+  },
+  {
+    path: "/tarotprocess",
+    element: <TarotProcess />
+  }
 ]);
 
 function App() {
