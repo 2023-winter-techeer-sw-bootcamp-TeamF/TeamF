@@ -5,7 +5,7 @@
     "description": "오늘도 화이팅",
     "version": "1.0.0"
   },
-  "host": "43.202.208.226:3001",
+  "host": "localhost:3000",
   "basePath": "/",
   "schemes": [
     "http"
@@ -32,6 +32,73 @@
         ],
         "summary": "Todo: 결과 리스트, 결과 상세조회, 결과 삭제",
         "description": "/list /detail /delete",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/user/signup": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                },
+                "username": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/user/login": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/user/logout": {
+      "post": {
+        "description": "",
         "responses": {
           "default": {
             "description": ""

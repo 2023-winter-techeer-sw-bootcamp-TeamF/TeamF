@@ -18,8 +18,8 @@ app.use(express.urlencoded({ extended: false }));
 // CORS 설정
 const corsOptions = {
   origin: function (origin, callback) {
-    if (['https://43.202.208.226:3000', 'http://43.202.208.226:3001'].indexOf(origin) !== -1 || !origin) {
-      callback(null, true);
+    if (['https://43.202.208.226:3000', 'http://43.202.208.226:3001', 'http://localhost:3000'].indexOf(origin) !== -1 || !origin) {
+      callback(null, true)
     } else {
       callback(new Error('Not allowed by CORS'));
     }
