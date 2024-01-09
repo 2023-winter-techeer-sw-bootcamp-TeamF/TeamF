@@ -22,7 +22,7 @@ const Circle = styled.div`
   align-items: center;
   justify-content: center;
   flex-flow: column nowrap;
-  gap: 1.13rem;
+  gap: 0.5rem;
 `;
 
 const SWord = styled.div`
