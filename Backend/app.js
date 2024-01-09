@@ -1,14 +1,27 @@
 const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql');
-const { SecretsManagerClient } = require("@aws-sdk/client-secrets-manager");
+const { SecretsManagerClient, GetSecretValueCommand } = require("@aws-sdk/client-secrets-manager");
 const { loadDBConfig, getDBConfig } = require('./mysql/configDB');
 const db = require('./mysql/database');
 
-const client = new SecretsManagerClient({ region: "ap-northeast-2" });
+console.log(process.env.AWS_ACCESS_KEY_ID);
+console.log(process.env.AWS_SECRET_ACCESS_KEY);
+console.log(process.env.AWS_REGION);
+
+// AWS Secrets Manager 클라이언트 설정
+const client = new SecretsManagerClient({
+  
+  credentials: {
+    accessKeyId:process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey:process.env.AWS_SECRET_ACCESS_KEY,
+    region:process.env.AWS_REGION
+  }
+});
 const secretName = "MySQL_Info";
 
 const app = express();
+
 // express.json(): 클라이언트로부터 오는 JSON 형식의 요청 본문을 파싱하여 JavaScript 객체로 변환.
 app.use(express.json());
 
@@ -26,7 +39,6 @@ const corsOptions = {
   },
   credentials: true
 };
-
 app.use(cors(corsOptions));
 
 //swagger
@@ -82,16 +94,20 @@ app.use((error, req, res, next) => {
   });
 });
 
-// 데이터베이스 설정 로드 및 애플리케이션 시작
-// async 함수로 서버 시작 로직을 감싸기
 async function startServer() {
   try {
-    // 데이터베이스 설정 로드
-    await loadDBConfig(client, secretName);
+    // AWS Secrets Manager에서 시크릿 로드
+    const response = await client.send(new GetSecretValueCommand({ SecretId: secretName }));
+    const secrets = JSON.parse(response.SecretString);
 
-    // DB 설정 가져오기 및 연결 초기화
-    const dbConfig = getDBConfig();
-    db.initializeConnection(dbConfig);
+    // 데이터베이스 설정 로드 및 연결 초기화
+    // AWS Secrets Manager에서 받아온 시크릿을 사용
+    db.initializeConnection({
+      host: secrets.DB_HOST,
+      user: secrets.DB_USER,
+      password: secrets.DB_PASSWORD,
+      database: secrets.DB_NAME
+    });
 
     // 서버 시작
     const port = 3000;
@@ -100,10 +116,10 @@ async function startServer() {
     });
   } catch (error) {
     // 오류 처리
-    console.error("DB 설정 로드 중 오류 발생:", error);
+    console.error("시작 중 오류 발생:", error);
+    console.error("스택 트레이스:", error.stack);
   }
 }
 
 // 서버 시작 함수 실행
 startServer();
-
