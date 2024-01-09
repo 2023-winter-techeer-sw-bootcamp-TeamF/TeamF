@@ -1,14 +1,15 @@
 const { SecretsManagerClient } = require("@aws-sdk/client-secrets-manager");
 
 function configureAwsClient() {
-    const a01 = 'AKIA4VFKZCU3VLHZKPVJ';
-    const a02 = 'r3wUuwnSQfmwZ6yhWxf1zVq0n4mjL9PijxR5VPbl';
-    const a03 = 'ap-northeast-2';
+    const awsAccessKeyId = process.env.AWS_ACCESS_KEY_ID;
+    const awsSecretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
+    const awsRegion = process.env.AWS_REGION;
+
     return new SecretsManagerClient({
-        region: a03,
+        region: awsRegion,
         credentials: {
-            accessKeyId: a01,
-            secretAccessKey: a02
+            accessKeyId: awsAccessKeyId,
+            secretAccessKey: awsSecretAccessKey
         }
     });
 }
