@@ -91,8 +91,8 @@ function Landing() {
       <Background>
         <LandingBackground></LandingBackground>
         <LandingThings>
-          <Name>tarot counseling</Name>
-          <Link to="/start">
+          <Name>TAIROT</Name>
+          <Link to="/fortuneselect">
             <StartButton>
               <StartText>START</StartText>
             </StartButton>

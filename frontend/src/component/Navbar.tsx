@@ -3,12 +3,19 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 const NavContainer = styled.nav`
+<<<<<<< HEAD
   width: 100%;
   height: 50px;
   background-color: #000000;
+=======
+  //background-color: #000000;
+  width: 100%;
+  height: 70px;
+>>>>>>> 1f90f7c334e49548e13eb8a2b4e2f1ed7d3caf3e
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
+  z-index: 10;
 `;
 
 const LogoContainer = styled.div`
@@ -19,7 +26,6 @@ const LogoContainer = styled.div`
   font-weight: 700;
   line-height: normal;
   text-transform: capitalize;
-  margin-left: 40px;
   display: flex;
 `;
 
@@ -43,7 +49,6 @@ const LoginButton = styled.button`
   font-weight: 400;
   line-height: normal;
   text-transform: capitalize;
-  margin-right: 40px;
   cursor: pointer;
 `;
 
@@ -55,7 +60,7 @@ const MenuItem = styled(Link)`
   font-weight: 400;
   line-height: normal;
   text-transform: capitalize;
-  margin-right: 40px;
+  margin-right: 20px;
 `;
 
 const LargeLetter = styled.span`
