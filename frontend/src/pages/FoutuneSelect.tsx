@@ -10,7 +10,7 @@ import TodayFortune from "../assets/TodayFortune.png";
 import WishFortune from "../assets/WishFortune.png";
 const BackgroundWrapper = styled.div`
   position: relative; // 자식 요소를 절대 위치로 배치하기 위한 설정
-  width: 100vw;
+  width: 77vw;
   height: 89vh;
 `;
 
@@ -129,60 +129,68 @@ const CardLink = styled(Link)`
   color: inherit;
 `;
 
+const Inside = styled.div`
+  width: 1500px;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
 const FortuneSelect = () => {
   return (
     <BackgroundColor>
-      <Navbar />
-      <BackgroundWrapper>
-        <BackgroundImg src={Background} />
-        <OverlayContent>
-          <TitleContainer>
-            타로 마스터가
-            <br /> 여러분의 운세를 봐드립니다!
-          </TitleContainer>
-          <ContentContainer>
-            타로 마스터의 설명을 참고하여
-            <br /> 주제별 운세를 선택해주세요
-          </ContentContainer>
-          <CardsContainer>
-            <CardBox>
-              <CardLink to="/todayfortune">
-                <ProfileImage src={TodayFortune} />
-                <Question>나의 오늘은 어떨까?</Question>
-                <CardTitle>오늘의 운세</CardTitle>
-              </CardLink>
-            </CardBox>
-            <CardBox>
-              <CardLink to="/lovefortune">
-                <ProfileImage src={LoveFortune} />
-                <Question>우리 사이 애정은?</Question>
-                <CardTitle>연애운</CardTitle>
-              </CardLink>
-            </CardBox>
-            <CardBox>
-              <CardLink to="/friendship">
-                <ProfileImage src={Friendship} />
-                <Question>우리 사이 우정은?</Question>
-                <CardTitle>우정운</CardTitle>
-              </CardLink>
-            </CardBox>
-            <CardBox>
-              <CardLink to="/moneyfortune">
-                <ProfileImage src={MoneyFortune} />
-                <Question>나 부자될 수 있을까?</Question>
-                <CardTitle>재물운</CardTitle>
-              </CardLink>
-            </CardBox>
-            <CardBox>
-              <CardLink to="/wishfortune">
-                <ProfileImage src={WishFortune} />
-                <Question>이룰 수 있을까?</Question>
-                <CardTitle>소망운</CardTitle>
-              </CardLink>
-            </CardBox>
-          </CardsContainer>
-        </OverlayContent>
-      </BackgroundWrapper>
+      <Inside>
+        <Navbar />
+        <BackgroundWrapper>
+          <BackgroundImg src={Background} />
+          <OverlayContent>
+            <TitleContainer>
+              타로 마스터가
+              <br /> 여러분의 운세를 봐드립니다!
+            </TitleContainer>
+            <ContentContainer>
+              타로 마스터의 설명을 참고하여
+              <br /> 주제별 운세를 선택해주세요
+            </ContentContainer>
+            <CardsContainer>
+              <CardBox>
+                <CardLink to="/todayfortune">
+                  <ProfileImage src={TodayFortune} />
+                  <Question>나의 오늘은 어떨까?</Question>
+                  <CardTitle>오늘의 운세</CardTitle>
+                </CardLink>
+              </CardBox>
+              <CardBox>
+                <CardLink to="/lovefortune">
+                  <ProfileImage src={LoveFortune} />
+                  <Question>우리 사이 애정은?</Question>
+                  <CardTitle>연애운</CardTitle>
+                </CardLink>
+              </CardBox>
+              <CardBox>
+                <CardLink to="/friendship">
+                  <ProfileImage src={Friendship} />
+                  <Question>우리 사이 우정은?</Question>
+                  <CardTitle>우정운</CardTitle>
+                </CardLink>
+              </CardBox>
+              <CardBox>
+                <CardLink to="/moneyfortune">
+                  <ProfileImage src={MoneyFortune} />
+                  <Question>나 부자될 수 있을까?</Question>
+                  <CardTitle>재물운</CardTitle>
+                </CardLink>
+              </CardBox>
+              <CardBox>
+                <CardLink to="/wishfortune">
+                  <ProfileImage src={WishFortune} />
+                  <Question>이룰 수 있을까?</Question>
+                  <CardTitle>소망운</CardTitle>
+                </CardLink>
+              </CardBox>
+            </CardsContainer>
+          </OverlayContent>
+        </BackgroundWrapper>
+      </Inside>
     </BackgroundColor>
   );
 };

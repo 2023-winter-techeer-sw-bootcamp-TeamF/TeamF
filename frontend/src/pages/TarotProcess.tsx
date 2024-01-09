@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "../component/Navbar";
 import styled from "styled-components";
-import BackgroundImg from "../assets/Background.png";
+// import BackgroundImg from "../assets/Background.png";
 
 const Background = styled.div`
   width: 100vw;
