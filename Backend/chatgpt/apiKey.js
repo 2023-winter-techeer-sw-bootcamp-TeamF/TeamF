@@ -7,7 +7,7 @@ const {
 let gptApiKey = null;
 
 /**
- * AWS Secrets Manager에서 데이터베이스 설정을 로드
+ * AWS Secrets Manager에서 API 설정을 로드
  * @param {SecretsManagerClient} client - AWS Secrets Manager 클라이언트 인스턴스
  * @param {string} secretName - 가져올 비밀의 이름
  */
@@ -28,7 +28,7 @@ async function getKey(client, secretName) {
 
   console.log('gpt_api의 key 불러오기 성공');
 
-  // 가져온 비밀 값을 JSON 형식으로 파싱 → dbConfig 변수에 저장
+  // 가져온 비밀 값을 JSON 형식으로 파싱 → gptConfig 변수에 저장
   gptConfig = JSON.parse(response.SecretString);
 
   // 파싱된 api 키 값을 반환함

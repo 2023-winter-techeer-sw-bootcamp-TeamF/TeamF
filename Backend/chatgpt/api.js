@@ -7,8 +7,6 @@
     import {Configuration, OpenAI} from 'openai'
 */
 const { Configuration, OpenAI } = require('openai');
-const fs = require('fs')
-
 /**
  * gpt 대화 파라메터 설정 기본 설정만 현재 설정, 추후 수정 예정
  * model : gpt 모델
@@ -17,13 +15,13 @@ const fs = require('fs')
  * Openai.chat.completions.ChatCompletionCreateParamsBase에 더욱 자세한 설명있음
  */
 const GPT_STREAM_CONFIG = {
-    model: 'gpt-3.5-turbo-1106',
-    stream: true,
-    messages: null,
+  model: 'gpt-3.5-turbo-1106',
+  stream: true,
+  messages: null,
 };
 
 const gptConfig = {
-    apiKey: null
+  apiKey: null,
 };
 
 // openai의 객체를 담을 변수
@@ -40,7 +38,7 @@ function initializeGpt(gptApiKey) {
 
   client = new OpenAI(gptConfig);
 
-    streamConfig = GPT_STREAM_CONFIG;
+  streamConfig = GPT_STREAM_CONFIG;
 }
 
 /**
@@ -62,19 +60,19 @@ async function getGptStream(message) {
   // 메시지를 넣는다.
   streamConfig.messages = [message];
 
-// 스트림을 받는다.
+  // 스트림을 받는다.
   return await client.beta.chat.completions.stream(streamConfig);
 }
 
 /**
  * gpt 메시지 형태
- * 
+ *
  * 주의
  * json의 형식으로 key: value의 형식을 지니지만 딕셔너리와 다른 점에 주의해야한다
  * key의 경우 json이 문자열 임으로 주의
- * 
+ *
  * 메시지의 형태는 보통 메시지라는 리스트안에 딕셔너리가 있는 형태이다.
- * 
+ *
  * {"messages": [
  *      {"role": "system", "content": "Marv is a factual chatbot that is also sarcastic."},
  *      {"role": "user", "content": "What's the capital of France?"},
@@ -101,8 +99,8 @@ function gptMessageForm(role, content) {
 }
 
 module.exports = {
-    initializeGpt,
-    getGptStream,
-    gptMessageForm,
-    creatGptContextSaveFs,
-    };
+  initializeGpt,
+  getGptStream,
+  gptMessageForm,
+  creatGptContextSaveFs,
+};
