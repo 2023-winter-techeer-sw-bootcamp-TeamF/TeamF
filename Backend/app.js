@@ -5,11 +5,14 @@ const { configureAwsClient } = require('./aws/awsClientConfig'); // AWS 클라�
 const { GetSecretValueCommand } = require("@aws-sdk/client-secrets-manager"); // GetSecretValueCommand 가져오기
 const { loadDBConfig, getDBConfig } = require('./mysql/configDB');
 const db = require('./mysql/database');
+const { loadGptApiKey, initializeGpt } = require('./chatgpt/apiKey');
+const gpt = require('./chatgpt/api');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger/swagger_output.json');
 
 const app = express();
 const secretName = "MySQL_Info";
+const secretGptApiKey = "GPT_KEY";
 
 // Express 미들웨어 설정
 app.use(express.json());
@@ -61,6 +64,11 @@ async function startServer() {
     await loadDBConfig(client, secretName);
     const dbConfig = getDBConfig();
     db.initializeConnection(dbConfig);
+    // gpt api 연결
+    const gptApiKey = await loadGptApiKey(client, secretGptApiKey);
+    gpt.initializeGpt(gptApiKey);
+
+    // 서버 시작
     const port = 3000;
     app.listen(port, () => console.log(`서버가 포트 ${port}에서 실행 중입니다.`));
   } catch (error) {
