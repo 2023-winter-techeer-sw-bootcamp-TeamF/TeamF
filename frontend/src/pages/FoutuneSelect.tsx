@@ -10,7 +10,7 @@ import TodayFortune from "../assets/TodayFortune.png";
 import WishFortune from "../assets/WishFortune.png";
 const BackgroundWrapper = styled.div`
   position: relative; // 자식 요소를 절대 위치로 배치하기 위한 설정
-  width: 77vw;
+  width: 97%;
   height: 89vh;
 `;
 

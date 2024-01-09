@@ -9,6 +9,7 @@ import MyPage from "./pages/MyPage";
 import FortuneSelect from "./pages/FoutuneSelect";
 import ResultDetail from "./pages/ResultDetail";
 import TarotProcess from "./pages/TarotProcess";
+import BeforeChat from "./pages/BeforeChat";
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@1,8..60,300&display=swap');
@@ -95,12 +96,16 @@ const router = createBrowserRouter([
   },
   {
     path: "/resultdetail",
-    element: <ResultDetail />
+    element: <ResultDetail />,
   },
   {
     path: "/tarotprocess",
-    element: <TarotProcess />
-  }
+    element: <TarotProcess />,
+  },
+  {
+    path: "/beforechat",
+    element: <BeforeChat />,
+  },
 ]);
 
 function App() {
