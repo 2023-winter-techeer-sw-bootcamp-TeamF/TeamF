@@ -3,16 +3,18 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 const NavContainer = styled.nav`
-  background-color: #000000;
   width: 100%;
   height: 70px;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  position: fixed;
-  top: 0;
-  left: 0;
   z-index: 10;
+`;
+
+const Empty = styled.div`
+  margin-left: auto;
+  margin-right: auto;
+  width: 1500px;
 `;
 
 const LogoContainer = styled.div`
@@ -23,7 +25,7 @@ const LogoContainer = styled.div`
   font-weight: 700;
   line-height: normal;
   text-transform: capitalize;
-  margin-left: 85px;
+
   display: flex;
 `;
 
@@ -47,7 +49,7 @@ const LoginButton = styled.button`
   font-weight: 400;
   line-height: normal;
   text-transform: capitalize;
-  margin-right: 80px;
+
   cursor: pointer;
 `;
 
@@ -72,19 +74,21 @@ const LargeLetter = styled.span`
 const Navbar = () => {
   return (
     <NavContainer>
-      <LogoContainer>
-        <Link to="/">
-          <LargeLetter>T</LargeLetter>AROT&nbsp;<LargeLetter>C</LargeLetter>
-          OUNSELING
-        </Link>
-      </LogoContainer>
+      <Empty>
+        <LogoContainer>
+          <Link to="/">
+            <LargeLetter>T</LargeLetter>AROT&nbsp;<LargeLetter>C</LargeLetter>
+            OUNSELING
+          </Link>
+        </LogoContainer>
 
-      <MenuContainer>
-        <MenuItem to="/mypage"> MYPAGE</MenuItem>
-        <MenuItem to="/login">
-          <LoginButton>LOG IN</LoginButton>
-        </MenuItem>
-      </MenuContainer>
+        <MenuContainer>
+          <MenuItem to="/mypage"> MYPAGE</MenuItem>
+          <MenuItem to="/login">
+            <LoginButton>LOG IN</LoginButton>
+          </MenuItem>
+        </MenuContainer>
+      </Empty>
     </NavContainer>
   );
 };
