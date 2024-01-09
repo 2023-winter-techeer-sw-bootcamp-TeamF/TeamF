@@ -4,6 +4,7 @@ import styled from "styled-components";
 import TaroEx1 from "../assets/TaroEx1.png";
 import TaroEx2 from "../assets/TaroEx2.png";
 import TaroEx3 from "../assets/TaroEx3.png";
+import { Link } from "react-router-dom";
 
 const Background = styled.div`
   width: 100vw;
@@ -51,6 +52,7 @@ const Card = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 3rem;
+  cursor: pointer;
 `;
 
 const CardLine1 = styled.div`
@@ -146,103 +148,105 @@ function MyPage() {
             <MyDrawer>내 서랍</MyDrawer>
           </Folder>
           <Line />
-          <Row>
-            <Card>
-              <CardLine1>
-                <CardLine2>
-                  <TaroExs>
-                    <TaroEx src={TaroEx1} />
-                    <TaroEx src={TaroEx2} />
-                    <TaroEx src={TaroEx3} />
-                  </TaroExs>
-                  <CardText>
-                    어쩌구 저쩌구 어쩌구 어쩌구 저쩌구 어쩌구 저쩌 어쩌구 저쩌구
-                    어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구
-                    어쩌구 저쩌 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
-                    저 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
-                    할거에요♥
-                  </CardText>
-                </CardLine2>
-                <UserName>ㆍUSERNAMEㆍ</UserName>
-              </CardLine1>
-            </Card>
-            <Card>
-              <CardLine1>
-                <CardLine2>
-                  <TaroExs>
-                    <TaroEx src={TaroEx1} />
-                    <TaroEx src={TaroEx2} />
-                    <TaroEx src={TaroEx3} />
-                  </TaroExs>
-                  <CardText>
-                    어쩌구 저쩌구 어쩌구 어쩌구 저쩌구 어쩌구 저쩌 어쩌구 저쩌구
-                    어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구
-                    어쩌구 저쩌 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
-                    저 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
-                    할거에요♥
-                  </CardText>
-                </CardLine2>
-                <UserName>ㆍUSERNAMEㆍ</UserName>
-              </CardLine1>
-            </Card>
-            <Card>
-              <CardLine1>
-                <CardLine2>
-                  <TaroExs>
-                    <TaroEx src={TaroEx1} />
-                    <TaroEx src={TaroEx2} />
-                    <TaroEx src={TaroEx3} />
-                  </TaroExs>
-                  <CardText>
-                    어쩌구 저쩌구 어쩌구 어쩌구 저쩌구 어쩌구 저쩌 어쩌구 저쩌구
-                    어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구
-                    어쩌구 저쩌 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
-                    저 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
-                    할거에요♥
-                  </CardText>
-                </CardLine2>
-                <UserName>ㆍUSERNAMEㆍ</UserName>
-              </CardLine1>
-            </Card>
-            <Card>
-              <CardLine1>
-                <CardLine2>
-                  <TaroExs>
-                    <TaroEx src={TaroEx1} />
-                    <TaroEx src={TaroEx2} />
-                    <TaroEx src={TaroEx3} />
-                  </TaroExs>
-                  <CardText>
-                    어쩌구 저쩌구 어쩌구 어쩌구 저쩌구 어쩌구 저쩌 어쩌구 저쩌구
-                    어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구
-                    어쩌구 저쩌 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
-                    저 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
-                    할거에요♥
-                  </CardText>
-                </CardLine2>
-                <UserName>ㆍUSERNAMEㆍ</UserName>
-              </CardLine1>
-            </Card>
-            <Card>
-              <CardLine1>
-                <CardLine2>
-                  <TaroExs>
-                    <TaroEx src={TaroEx1} />
-                    <TaroEx src={TaroEx2} />
-                    <TaroEx src={TaroEx3} />
-                  </TaroExs>
-                  <CardText>
-                    어쩌구 저쩌구 어쩌구 어쩌구 저쩌구 어쩌구 저쩌 어쩌구 저쩌구
-                    어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구
-                    어쩌구 저쩌 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
-                    저 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
-                    할거에요♥
-                  </CardText>
-                </CardLine2>
-                <UserName>ㆍUSERNAMEㆍ</UserName>
-              </CardLine1>
-            </Card>
-          </Row>
+          <Link to="/resultdetail">
+            <Row>
+              <Card>
+                <CardLine1>
+                  <CardLine2>
+                    <TaroExs>
+                      <TaroEx src={TaroEx1} />
+                      <TaroEx src={TaroEx2} />
+                      <TaroEx src={TaroEx3} />
+                    </TaroExs>
+                    <CardText>
+                      어쩌구 저쩌구 어쩌구 어쩌구 저쩌구 어쩌구 저쩌 어쩌구
+                      저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
+                      저쩌구 어쩌구 저쩌 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
+                      저쩌구 어쩌구 저 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구
+                      어쩌구 할거에요♥
+                    </CardText>
+                  </CardLine2>
+                  <UserName>ㆍUSERNAMEㆍ</UserName>
+                </CardLine1>
+              </Card>
+              <Card>
+                <CardLine1>
+                  <CardLine2>
+                    <TaroExs>
+                      <TaroEx src={TaroEx1} />
+                      <TaroEx src={TaroEx2} />
+                      <TaroEx src={TaroEx3} />
+                    </TaroExs>
+                    <CardText>
+                      어쩌구 저쩌구 어쩌구 어쩌구 저쩌구 어쩌구 저쩌 어쩌구
+                      저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
+                      저쩌구 어쩌구 저쩌 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
+                      저쩌구 어쩌구 저 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구
+                      어쩌구 할거에요♥
+                    </CardText>
+                  </CardLine2>
+                  <UserName>ㆍUSERNAMEㆍ</UserName>
+                </CardLine1>
+              </Card>
+              <Card>
+                <CardLine1>
+                  <CardLine2>
+                    <TaroExs>
+                      <TaroEx src={TaroEx1} />
+                      <TaroEx src={TaroEx2} />
+                      <TaroEx src={TaroEx3} />
+                    </TaroExs>
+                    <CardText>
+                      어쩌구 저쩌구 어쩌구 어쩌구 저쩌구 어쩌구 저쩌 어쩌구
+                      저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
+                      저쩌구 어쩌구 저쩌 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
+                      저쩌구 어쩌구 저 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구
+                      어쩌구 할거에요♥
+                    </CardText>
+                  </CardLine2>
+                  <UserName>ㆍUSERNAMEㆍ</UserName>
+                </CardLine1>
+              </Card>
+              <Card>
+                <CardLine1>
+                  <CardLine2>
+                    <TaroExs>
+                      <TaroEx src={TaroEx1} />
+                      <TaroEx src={TaroEx2} />
+                      <TaroEx src={TaroEx3} />
+                    </TaroExs>
+                    <CardText>
+                      어쩌구 저쩌구 어쩌구 어쩌구 저쩌구 어쩌구 저쩌 어쩌구
+                      저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
+                      저쩌구 어쩌구 저쩌 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
+                      저쩌구 어쩌구 저 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구
+                      어쩌구 할거에요♥
+                    </CardText>
+                  </CardLine2>
+                  <UserName>ㆍUSERNAMEㆍ</UserName>
+                </CardLine1>
+              </Card>
+              <Card>
+                <CardLine1>
+                  <CardLine2>
+                    <TaroExs>
+                      <TaroEx src={TaroEx1} />
+                      <TaroEx src={TaroEx2} />
+                      <TaroEx src={TaroEx3} />
+                    </TaroExs>
+                    <CardText>
+                      어쩌구 저쩌구 어쩌구 어쩌구 저쩌구 어쩌구 저쩌 어쩌구
+                      저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
+                      저쩌구 어쩌구 저쩌 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
+                      저쩌구 어쩌구 저 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구
+                      어쩌구 할거에요♥
+                    </CardText>
+                  </CardLine2>
+                  <UserName>ㆍUSERNAMEㆍ</UserName>
+                </CardLine1>
+              </Card>
+            </Row>
+          </Link>
         </Inside>
       </Background>
     </>
