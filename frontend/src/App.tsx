@@ -4,11 +4,17 @@ import { createGlobalStyle, ThemeProvider } from "styled-components";
 import Landing from "./pages/Landing";
 import Test from "./pages/Test";
 import { theme } from "./theme";
+<<<<<<< HEAD
+
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+=======
 import Main from "./pages/Main";
 import MyPage from "./pages/MyPage";
 import FortuneSelect from "./pages/FoutuneSelect";
 import ResultDetail from "./pages/ResultDetail";
 import TarotProcess from "./pages/TarotProcess";
+>>>>>>> 1f90f7c334e49548e13eb8a2b4e2f1ed7d3caf3e
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@1,8..60,300&display=swap');
@@ -85,6 +91,17 @@ const router = createBrowserRouter([
     path: "/main",
     element: <Main />,
   },
+<<<<<<< HEAD
+
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/signup",
+    element: <Signup />,
+  },
+=======
   {
     path: "/mypage",
     element: <MyPage />,
@@ -101,6 +118,7 @@ const router = createBrowserRouter([
     path: "/tarotprocess",
     element: <TarotProcess />
   }
+>>>>>>> 1f90f7c334e49548e13eb8a2b4e2f1ed7d3caf3e
 ]);
 
 function App() {
