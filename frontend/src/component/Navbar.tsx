@@ -3,13 +3,22 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 const NavContainer = styled.nav`
+<<<<<<< HEAD
+=======
   //background-color: #000000;
+>>>>>>> 98ec88778b398f232e9bdac3d1ec64de728c8c0d
   width: 100%;
   height: 70px;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
   z-index: 10;
+`;
+
+const Empty = styled.div`
+  margin-left: auto;
+  margin-right: auto;
+  width: 1500px;
 `;
 
 const LogoContainer = styled.div`
@@ -20,6 +29,10 @@ const LogoContainer = styled.div`
   font-weight: 700;
   line-height: normal;
   text-transform: capitalize;
+<<<<<<< HEAD
+
+=======
+>>>>>>> 98ec88778b398f232e9bdac3d1ec64de728c8c0d
   display: flex;
 `;
 
@@ -43,6 +56,10 @@ const LoginButton = styled.button`
   font-weight: 400;
   line-height: normal;
   text-transform: capitalize;
+<<<<<<< HEAD
+
+=======
+>>>>>>> 98ec88778b398f232e9bdac3d1ec64de728c8c0d
   cursor: pointer;
 `;
 
@@ -67,19 +84,21 @@ const LargeLetter = styled.span`
 const Navbar = () => {
   return (
     <NavContainer>
-      <LogoContainer>
-        <Link to="/">
-          <LargeLetter>T</LargeLetter>AROT&nbsp;<LargeLetter>C</LargeLetter>
-          OUNSELING
-        </Link>
-      </LogoContainer>
+      <Empty>
+        <LogoContainer>
+          <Link to="/">
+            <LargeLetter>T</LargeLetter>AROT&nbsp;<LargeLetter>C</LargeLetter>
+            OUNSELING
+          </Link>
+        </LogoContainer>
 
-      <MenuContainer>
-        <MenuItem to="/mypage"> MYPAGE</MenuItem>
-        <MenuItem to="/login">
-          <LoginButton>LOG IN</LoginButton>
-        </MenuItem>
-      </MenuContainer>
+        <MenuContainer>
+          <MenuItem to="/mypage"> MYPAGE</MenuItem>
+          <MenuItem to="/login">
+            <LoginButton>LOG IN</LoginButton>
+          </MenuItem>
+        </MenuContainer>
+      </Empty>
     </NavContainer>
   );
 };
