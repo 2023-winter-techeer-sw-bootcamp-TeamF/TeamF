@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "../component/Navbar";
 import styled from "styled-components";
+// import BackgroundImg from "../assets/Background.png";
 
 const Background = styled.div`
   width: 100vw;
@@ -14,7 +15,7 @@ const Inside = styled.div`
   margin-right: auto;
 `;
 
-function Main() {
+function TarotProcess() {
   return (
     <>
       <Background>
@@ -26,4 +27,4 @@ function Main() {
   );
 }
 
-export default Main;
+export default TarotProcess;

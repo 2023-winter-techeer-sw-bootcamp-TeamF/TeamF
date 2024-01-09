@@ -92,7 +92,7 @@ function Landing() {
         <LandingBackground></LandingBackground>
         <LandingThings>
           <Name>TAIROT</Name>
-          <Link to="/main">
+          <Link to="/fortuneselect">
             <StartButton>
               <StartText>START</StartText>
             </StartButton>
