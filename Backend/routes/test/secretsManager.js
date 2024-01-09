@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { configureAwsClient } = require('./awsClientConfig');
+const { configureAwsClient } = require('../../middleware/awsClientConfig');
 
 // Secrets Manager 보안 암호 이름
 const secretName = "MySQL_Info";

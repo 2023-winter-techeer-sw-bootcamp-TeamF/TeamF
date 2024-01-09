@@ -5,22 +5,12 @@
     "description": "오늘도 화이팅",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "localhost:3001",
   "basePath": "/",
   "schemes": [
     "http"
   ],
   "paths": {
-    "/": {
-      "get": {
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
     "/tarot/": {
       "get": {
         "tags": [
@@ -130,17 +120,10 @@
     },
     "/secret/MySQL": {
       "get": {
-        "tags": [
-          "Test"
-        ],
-        "summary": "시크릿 매니저를 통한 MySQL 정보 조회",
-        "description": "SecretsManager Router Test -> MySQL",
+        "description": "",
         "responses": {
           "200": {
-            "description": "MySQL 정보 조회 성공"
-          },
-          "400": {
-            "description": "잘못된 요청"
+            "description": "OK"
           },
           "500": {
             "description": "Internal Server Error"

@@ -1,4 +1,3 @@
-// awsClientConfig.js
 const { SecretsManagerClient } = require("@aws-sdk/client-secrets-manager");
 
 function configureAwsClient() {
