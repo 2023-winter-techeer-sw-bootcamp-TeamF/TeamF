@@ -7,6 +7,10 @@ const db = require('./mysql/database');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger/swagger_output.json');
 
+console.log("ACCESS: " + process.env.AWS_ACCESS_KEY_ID)
+console.log("SECRET: " + process.env.AWS_SECRET_ACCESS_KEY)
+console.log("REGION: " + process.env.AWS_REGION)
+
 const app = express();
 const secretName = "MySQL_Info";
 
