@@ -1,15 +1,12 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const { configureAwsClient } = require('./middleware/awsClientConfig'); // AWS 클라이언트 설정
+const { configureAwsClient } = require('./aws/awsClientConfig'); // AWS 클라이언트 설정
 const { GetSecretValueCommand } = require("@aws-sdk/client-secrets-manager"); // GetSecretValueCommand 가져오기
 const { loadDBConfig, getDBConfig } = require('./mysql/configDB');
 const db = require('./mysql/database');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger/swagger_output.json');
-
-console.log("ACCESS: " + process.env.AWS_ACCESS_KEY_ID)
-console.log("SECRET: " + process.env.AWS_SECRET_ACCESS_KEY)
-console.log("REGION: " + process.env.AWS_REGION)
 
 const app = express();
 const secretName = "MySQL_Info";

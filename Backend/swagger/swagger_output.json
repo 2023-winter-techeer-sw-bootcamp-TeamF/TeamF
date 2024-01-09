@@ -120,10 +120,17 @@
     },
     "/secret/MySQL": {
       "get": {
-        "description": "",
+        "tags": [
+          "Test"
+        ],
+        "summary": "시크릿 매니저를 통한 MySQL 정보 조회",
+        "description": "SecretsManager Router Test -> MySQL",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "MySQL 정보 조회 성공"
+          },
+          "400": {
+            "description": "잘못된 요청"
           },
           "500": {
             "description": "Internal Server Error"
