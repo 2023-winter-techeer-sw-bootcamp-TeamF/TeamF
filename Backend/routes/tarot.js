@@ -47,7 +47,7 @@ router.get('/guide', (req, res, next) => {
 }, commonResponse); // commonResponse 미들웨어를 체인으로 추가
 
 // 뽑은 카드 저장
-router.get('/cards', (req, res, next) => {
+router.post('/cards', (req, res, next) => {
     // Swagger 문서화
     // #swagger.summary = "뽑은 카드 저장 페이지 이동 테스트"
     // #swagger.description = '뽑은 카드 저장 페이지 이동 테스트'
