@@ -3,9 +3,9 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 const NavContainer = styled.nav`
-  background-color: #000000;
   width: 100%;
   height: 50px;
+  background-color: #000000;
   display: flex;
   justify-content: space-between;
   align-items: center;
