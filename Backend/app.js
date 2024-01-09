@@ -4,9 +4,12 @@ const mysql = require('mysql');
 const { SecretsManagerClient } = require("@aws-sdk/client-secrets-manager");
 const { loadDBConfig, getDBConfig } = require('./mysql/configDB');
 const db = require('./mysql/database');
+const { loadGptApiKey, initializeGpt } = require('./chatgpt/apiKey');
+const gpt = require('./chatgpt/api');
 
 const client = new SecretsManagerClient({ region: "ap-northeast-2" });
 const secretName = "MySQL_Info";
+const secretGptApiKey = "GPT_KEY";
 
 const app = express();
 // express.json(): 클라이언트로부터 오는 JSON 형식의 요청 본문을 파싱하여 JavaScript 객체로 변환.
@@ -92,6 +95,10 @@ async function startServer() {
     // DB 설정 가져오기 및 연결 초기화
     const dbConfig = getDBConfig();
     db.initializeConnection(dbConfig);
+
+    // gpt api 연결
+    const gptApiKey = await loadGptApiKey(client, secretGptApiKey);
+    gpt.initializeGpt(gptApiKey);
 
     // 서버 시작
     const port = 3000;
