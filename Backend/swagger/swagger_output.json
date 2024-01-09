@@ -25,6 +25,40 @@
         }
       }
     },
+    "/tarot/guide": {
+      "get": {
+        "tags": [
+          "Tarot"
+        ],
+        "summary": "가이드라인 페이지 이동 테스트",
+        "description": "가이드라인 페이지 이동 테스트",
+        "responses": {
+          "200": {
+            "description": "페이지 이동 테스트 성공"
+          },
+          "400": {
+            "description": "잘못된 요청"
+          }
+        }
+      }
+    },
+    "/tarot/cards": {
+      "get": {
+        "tags": [
+          "Tarot"
+        ],
+        "summary": "뽑은 카드 저장 페이지 이동 테스트",
+        "description": "뽑은 카드 저장 페이지 이동 테스트",
+        "responses": {
+          "200": {
+            "description": "페이지 이동 테스트 성공"
+          },
+          "400": {
+            "description": "잘못된 요청"
+          }
+        }
+      }
+    },
     "/tarot/poll/create": {
       "get": {
         "tags": [
