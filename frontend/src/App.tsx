@@ -4,11 +4,16 @@ import { createGlobalStyle, ThemeProvider } from "styled-components";
 import Landing from "./pages/Landing";
 import Test from "./pages/Test";
 import { theme } from "./theme";
+
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+
 import Main from "./pages/Main";
 import MyPage from "./pages/MyPage";
 import FortuneSelect from "./pages/FoutuneSelect";
 import ResultDetail from "./pages/ResultDetail";
 import TarotProcess from "./pages/TarotProcess";
+
 import BeforeChat from "./pages/BeforeChat";
 
 const GlobalStyle = createGlobalStyle`
@@ -86,6 +91,16 @@ const router = createBrowserRouter([
     path: "/main",
     element: <Main />,
   },
+
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/signup",
+    element: <Signup />,
+  },
+
   {
     path: "/mypage",
     element: <MyPage />,
@@ -100,6 +115,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/tarotprocess",
+
     element: <TarotProcess />,
   },
   {
