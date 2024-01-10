@@ -142,18 +142,19 @@ router.post('/card/info', async (req, res, next) => {
     let result = null;
    const cardNum = req.query.card; // 카드 번호 저장
     if(!cardNum) {
-        res.status(400).send({ message: '카드 넘버가 없습니다.' });
+        res.locals.status = 400;
+        res.locals.data = { message: '카드 넘버가 없습니다.' };
         return next(); // 오류 발생 → commonResponse 미들웨어로 이동
     }
 
     if(cardNum < 1 || cardNum > 78) {
-        res.status(400).send({ message: '카드 넘버가 범위를 벗어났습니다.' });
+        res.locals.status = 400;
+        res.locals.data = { message: '카드 넘버가 잘못되었습니다.' };
         return next(); // 오류 발생 → commonResponse 미들웨어로 이동
     }
     try{
         const bucketList = await s3.getbucketList(); // 연결된 S3에서 파일을 리스트로 가져옴
         const fileName = await s3.getObjectName(await s3.findIndex(bucketList, cardNum)); // 파일명을 가져옴
-        await console.log('tatot : '+ fileName);
         result = await s3.getS3ImageURL(fileName); // 파일명을 통해 S3에서 이미지 주소를 가져옴
         
     } catch(error) {

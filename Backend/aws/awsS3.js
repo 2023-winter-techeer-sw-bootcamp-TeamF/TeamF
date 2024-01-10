@@ -79,7 +79,6 @@ async function findIndex(bucketList, number) {
  * @returns 버킷안 파일명
  */
 function getObjectName(index) {
-    console.log('getobjectname' + index);
   return bucketListStore[index];
 }
 
@@ -91,7 +90,6 @@ function getObjectName(index) {
 async function getS3ImageURL(fileName) {
   comfirmS3Client();
   let stringBuffer = '';
-  await console.log(fileName);
   const commend = new GetObjectCommand({ Bucket: buckName, Key: fileName });
   const response = await client.send(commend);
   stringBuffer += await String(response.Body.socket.servername);
