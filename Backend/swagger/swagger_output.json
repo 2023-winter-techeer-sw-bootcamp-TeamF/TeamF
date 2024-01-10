@@ -32,26 +32,27 @@
         ],
         "summary": "가이드라인 페이지 이동 테스트",
         "description": "가이드라인 페이지 이동 테스트",
-        "responses": {
-          "200": {
-            "description": "페이지 이동 테스트 성공"
+        "parameters": [
+          {
+            "name": "luckType",
+            "in": "query",
+            "description": "운 종류",
+            "required": true,
+            "type": "string",
+            "example": "애정운"
           },
-          "400": {
-            "description": "잘못된 요청"
+          {
+            "name": "luckOpt",
+            "in": "query",
+            "description": "뽑는 사람 수",
+            "required": true,
+            "type": "tinyint",
+            "example": "1"
           }
-        }
-      }
-    },
-    "/tarot/cards": {
-      "get": {
-        "tags": [
-          "Tarot"
         ],
-        "summary": "뽑은 카드 저장 페이지 이동 테스트",
-        "description": "뽑은 카드 저장 페이지 이동 테스트",
         "responses": {
           "200": {
-            "description": "페이지 이동 테스트 성공"
+            "description": "테스트 값 조회 성공"
           },
           "400": {
             "description": "잘못된 요청"
