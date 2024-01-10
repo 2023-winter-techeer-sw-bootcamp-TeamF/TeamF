@@ -115,7 +115,7 @@ router.get('/poll/create', (req, res, next) => {
             console.error('DB 저장 오류:', error);
             res.status(500).send({ message: 'DB 저장 오류' });
         } else {
-            res.locals.data = { message: 'Poll created successfully', pollId: results.insertId };
+            res.locals.data = { message: 'Poll ID 생성 완료', pollId: results.insertId };
             next();
         }
     });
