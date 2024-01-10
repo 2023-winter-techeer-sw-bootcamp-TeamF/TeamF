@@ -9,10 +9,13 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Main from "./pages/Main";
 import MyPage from "./pages/MyPage";
-import FortuneSelect from "./pages/FoutuneSelect";
+import FortuneSelect from "./pages/FortuneSelect";
 import ResultDetail from "./pages/ResultDetail";
 import TarotProcess from "./pages/TarotProcess";
 import BeforeChat from "./pages/BeforeChat";
+
+import CardSelect from "./pages/CardSelect";
+
 import CardSave from "./pages/CardSave";
 
 const GlobalStyle = createGlobalStyle`
@@ -121,6 +124,9 @@ const router = createBrowserRouter([
     element: <BeforeChat />,
   },
   {
+    path: "/cardselect",
+    element: <CardSelect />,
+  },{
     path: "/cardsave",
     element: <CardSave />,
   },

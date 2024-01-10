@@ -85,11 +85,35 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request"
-          },
           "500": {
             "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/tarot/card/info": {
+      "post": {
+        "tags": [
+          "Tarot"
+        ],
+        "summary": "카드 정보 조회",
+        "description": "카드 정보를 정수형으로 전달하면 해당 카드의 정보를 반환함",
+        "parameters": [
+          {
+            "name": "card",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "카드 정보 불러오기 성공 url 전송"
+          },
+          "400": {
+            "description": "잘못된 카드 번호 요청"
+          },
+          "500": {
+            "description": "카드 정보 불러오기 실패"
           }
         }
       }

@@ -1,6 +1,7 @@
 const express = require('express');
 const commonResponse = require('../middleware/commonResponse');
 const db = require('../mysql/database.js');
+const s3 = require('../aws/awsS3');
 const router = express.Router();
 
 router.get('/', (req, res, next) => {
@@ -81,7 +82,6 @@ router.get('/poll/create', (req, res, next) => {
     // #swagger.tags = ['Tarot']
     // #swagger.summary = "타로 시작 시 Poll(임시저장) → 타로 시작 할 경우 뽑은 카드와 결과 저장을 구별할 Poll Table"
     // #swagger.description = '뽑은 카드 결과 저장 및 총 결과 저장 시 사용됨'
-
     /* #swagger.parameters['userid'] = {
            in: 'query',
            description: '사용자의 ID',
@@ -99,8 +99,12 @@ router.get('/poll/create', (req, res, next) => {
     const { userid, partnerid } = req.query;
 
     if (!userid) {
-        return res.status(400).send({ message: 'User ID is required' });
+        res.locals.status = 400;
+        res.locals.data = { message: "유저 아이디 누락" };
+        res.locals.success = false;
+        return next();
     }
+
 
     // 데이터베이스 연결 및 쿼리 실행
     const connection = db.getConnection();
@@ -108,13 +112,65 @@ router.get('/poll/create', (req, res, next) => {
 
     connection.query(query, [userid, partnerid], (error, results, fields) => {
         if (error) {
-            console.error('Error saving poll:', error);
-            res.status(500).send({ message: 'Error saving poll' });
+            console.error('DB 저장 오류:', error);
+            res.status(500).send({ message: 'DB 저장 오류' });
         } else {
-            res.locals.data = { message: 'Poll created successfully', pollId: results.insertId };
+            res.locals.data = { message: 'Poll ID 생성 완료', pollId: results.insertId };
             next();
         }
     });
 });
+
+router.post('/card/info', async (req, res, next) => {
+    // #swagger.tags = ['Tarot']
+    // #swagger.summary = "카드 정보 조회"
+    // #swagger.description = '카드 정보를 정수형으로 전달하면 해당 카드의 정보를 반환함'
+    /*  #swagger.responses[200] = {
+            description: '카드 정보 불러오기 성공 url 전송',
+
+        } */
+    /*  #swagger.responses[400] = {
+            description: '잘못된 카드 번호 요청',
+        } */
+    /*  #swagger.responses[500] = {
+            description: '카드 정보 불러오기 실패',
+    } */
+    /* #swagger.parameters['card'] = { 
+        in: 'query',
+        description: '카드 번호', 
+        required: true,
+        type: 'integer'
+        example: '1'
+    }
+    */
+    let result = null;
+   const cardNum = req.query.card; // 카드 번호 저장
+    if(!cardNum) {
+        res.locals.status = 400;
+        res.locals.data = { message: '카드 넘버가 없습니다.' };
+        return next(); // 오류 발생 → commonResponse 미들웨어로 이동
+    }
+
+    if(cardNum < 1 || cardNum > 78) {
+        res.locals.status = 400;
+        res.locals.data = { message: '카드 넘버가 잘못되었습니다.' };
+        return next(); // 오류 발생 → commonResponse 미들웨어로 이동
+    }
+    try{
+        const bucketList = await s3.getbucketList(); // 연결된 S3에서 파일을 리스트로 가져옴
+        const fileName = await s3.getObjectName(await s3.findIndex(bucketList, cardNum)); // 파일명을 가져옴
+        result = await s3.getS3ImageURL(fileName); // 파일명을 통해 S3에서 이미지 주소를 가져옴
+        
+    } catch(error) {
+        console.log(error);
+        res.locals.status = 500;
+        res.locals.data = { message: '카드 정보를 가져오는데 실패했습니다.' };
+        return next(); // 오류 발생 → commonResponse 미들웨어로 이동
+    }
+    res.locals.data = {message: 'creat image url successfully', image_url: result};
+    next();
+}, commonResponse); // commonResponse 미들웨어를 체인으로 추가
+
+module.exports = router;
 
 module.exports = router;

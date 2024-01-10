@@ -10,8 +10,12 @@ import TodayFortune from "../assets/TodayFortune.png";
 import WishFortune from "../assets/WishFortune.png";
 const BackgroundWrapper = styled.div`
   position: relative; // 자식 요소를 절대 위치로 배치하기 위한 설정
-  width: 97%;
+  width: 100%;
   height: 89vh;
+  @media (max-width: 1300px), (max-height: 650px) {
+    width: 85%;
+    height: 89vh;
+  }
 `;
 
 const BackgroundImg = styled.img`
@@ -75,6 +79,11 @@ const CardBox = styled.div`
   justify-content: flex-start;
   align-items: center;
   position: relative; // 내부 절대 위치 요소를 위한 상대 위치 설정
+
+  @media (max-width: 1300px), (max-height: 650px) {
+    width: 165px;
+    height: 300px;
+  }
 `;
 
 const CardsContainer = styled.div`
@@ -92,6 +101,10 @@ const ProfileImage = styled.img`
   width: auto;
   height: auto;
   flex-direction: column;
+  @media (max-width: 1300px), (max-height: 650px) {
+    width: 6.5rem;
+    height: 6.5rem;
+  }
 `;
 
 const Question = styled.span`
