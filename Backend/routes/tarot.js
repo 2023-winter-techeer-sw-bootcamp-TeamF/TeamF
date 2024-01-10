@@ -176,5 +176,3 @@ router.post('/card/info', async (req, res, next) => {
 }, commonResponse); // commonResponse 미들웨어를 체인으로 추가
 
 module.exports = router;
-
-module.exports = router;
