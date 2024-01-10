@@ -40,11 +40,20 @@ const CardBackground = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  @media screen and (max-width: 1300px), (max-height: 650px) {
+    width: 7rem;
+    height: 11.5rem;
+  }
 `;
 
 const TaroEx = styled.img`
   width: 7.72438rem;
   height: 13.90388rem;
+  @media screen and (max-width: 1300px), (max-height: 650px) {
+    width: 6.22438rem;
+    height: auto;
+    max-width: 100%;
+  }
 `;
 
 const Cards = styled.div`
@@ -56,8 +65,8 @@ const Cards = styled.div`
   left: 28%;
   @media screen and (max-width: 1300px), (max-height: 650px) {
     top: 9%;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    left: 25%;
+    gap: 5.5rem;
   }
 `;
 
@@ -68,6 +77,10 @@ const TaroMaster = styled.img`
   position: absolute;
   top: 46%;
   left: 9%;
+  @media screen and (max-width: 1300px), (max-height: 650px) {
+    top: 46%;
+    left: 7%;
+  }
 `;
 
 const ChatBox = styled.div`
@@ -79,6 +92,11 @@ const ChatBox = styled.div`
   position: absolute;
   top: 47%;
   left: 16%;
+  @media screen and (max-width: 1300px), (max-height: 650px) {
+    height: 14.9375rem;
+    top: 47%;
+    left: 13%;
+  }
 `;
 
 const Chat = styled.p`
@@ -106,6 +124,12 @@ const Chat = styled.p`
   &::-webkit-scrollbar-thumb:hover {
     background-color: #daa520; /* 호버시 색상 변경 (더 진한 황금색) */
   }
+  @media screen and (max-width: 1300px), (max-height: 650px) {
+    font-size: 1.1375rem;
+    margin: 19px;
+    padding-right: 13px;
+    height: 12rem;
+  }
 `;
 
 const NextBtn = styled.button`
@@ -118,6 +142,10 @@ const NextBtn = styled.button`
   right: 8rem;
   bottom: 7rem;
   cursor: pointer;
+  @media screen and (max-width: 1300px), (max-height: 650px) {
+    right: 21rem;
+    bottom: 4rem;
+  }
 `;
 
 function TarotProcess() {
