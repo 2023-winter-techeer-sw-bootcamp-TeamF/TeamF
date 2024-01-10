@@ -144,6 +144,7 @@ router.post('/card/info', async (req, res, next) => {
     }
     */
     let result = null;
+    let dataObject = null;
    const cardNum = req.query.card; // 카드 번호 저장
     if(!cardNum) {
         res.locals.status = 400;
@@ -158,7 +159,10 @@ router.post('/card/info', async (req, res, next) => {
     }
     try{
         const bucketList = await s3.getbucketList(); // 연결된 S3에서 파일을 리스트로 가져옴
-        const fileName = await s3.getObjectName(await s3.findIndex(bucketList, cardNum)); // 파일명을 가져옴
+        const index = await s3.findIndex(bucketList, cardNum); // 카드 번호를 통해 S3에서 파일의 인덱스를 가져옴
+        const fileName = await s3.getObjectName(index); // 파일명을 가져옴
+        const onlyFileName = await s3.getObjectNames(bucketList, index); // 파일명을 가져옴
+        dataObject = s3.getDataObject(onlyFileName); // 파일명을 통해 데이터를 가져옴
         result = await s3.getS3ImageURL(fileName); // 파일명을 통해 S3에서 이미지 주소를 가져옴
         
     } catch(error) {
@@ -167,7 +171,13 @@ router.post('/card/info', async (req, res, next) => {
         res.locals.data = { message: '카드 정보를 가져오는데 실패했습니다.' };
         return next(); // 오류 발생 → commonResponse 미들웨어로 이동
     }
-    res.locals.data = {message: 'creat image url successfully', image_url: result};
+    res.locals.data = {
+        message: 'creat image url successfully',
+        name: dataObject.name,
+        english: dataObject.english,
+        mean: dataObject.mean,
+        image_url: result
+    };
     next();
 }, commonResponse); // commonResponse 미들웨어를 체인으로 추가
 
