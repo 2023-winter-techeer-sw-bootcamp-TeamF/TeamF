@@ -32,26 +32,27 @@
         ],
         "summary": "가이드라인 페이지 이동 테스트",
         "description": "가이드라인 페이지 이동 테스트",
-        "responses": {
-          "200": {
-            "description": "페이지 이동 테스트 성공"
+        "parameters": [
+          {
+            "name": "luckType",
+            "in": "query",
+            "description": "운 종류",
+            "required": true,
+            "type": "string",
+            "example": "애정운"
           },
-          "400": {
-            "description": "잘못된 요청"
+          {
+            "name": "luckOpt",
+            "in": "query",
+            "description": "뽑는 사람 수",
+            "required": true,
+            "type": "tinyint",
+            "example": "1"
           }
-        }
-      }
-    },
-    "/tarot/cards": {
-      "get": {
-        "tags": [
-          "Tarot"
         ],
-        "summary": "뽑은 카드 저장 페이지 이동 테스트",
-        "description": "뽑은 카드 저장 페이지 이동 테스트",
         "responses": {
           "200": {
-            "description": "페이지 이동 테스트 성공"
+            "description": "테스트 값 조회 성공"
           },
           "400": {
             "description": "잘못된 요청"
@@ -102,7 +103,10 @@
           {
             "name": "card",
             "in": "query",
-            "type": "string"
+            "description": "카드 번호",
+            "required": true,
+            "type": "integer",
+            "example": "1"
           }
         ],
         "responses": {
@@ -132,13 +136,75 @@
         }
       }
     },
-    "/user/": {
-      "get": {
-        "tags": [
-          "User"
+    "/user/signup": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                },
+                "username": {
+                  "example": "any"
+                }
+              }
+            }
+          }
         ],
-        "summary": "TODO : 로그인, 회원가입, 로그아웃",
-        "description": "/login /signup /logout",
+        "responses": {
+          "400": {
+            "description": "Bad Request"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/user/login": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/user/logout": {
+      "post": {
+        "description": "",
         "responses": {
           "default": {
             "description": ""
