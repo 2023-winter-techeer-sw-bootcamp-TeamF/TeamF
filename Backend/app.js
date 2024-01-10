@@ -9,6 +9,7 @@ const { loadGptApiKey, initializeGpt } = require('./chatgpt/apiKey');
 const gpt = require('./chatgpt/api');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger/swagger_output.json');
+const s3 = require('./aws/awsS3');
 
 const app = express();
 const secretName = "MySQL_Info";
@@ -67,6 +68,8 @@ async function startServer() {
     // gpt api 연결
     const gptApiKey = await loadGptApiKey(client, secretGptApiKey);
     gpt.initializeGpt(gptApiKey);
+    // s3 연결
+    s3.initializeS3();
 
     // 서버 시작
     const port = 3000;
