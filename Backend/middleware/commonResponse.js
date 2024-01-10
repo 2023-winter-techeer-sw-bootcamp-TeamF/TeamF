@@ -4,7 +4,7 @@ const commonResponse = (req, res, next) => {
     if (!res.locals.data) return next();
 
     const responseData = {
-        status: 'success',
+        status: res.locals.success === false ? 'failed' : 'success',
         statusCode: res.locals.status || 200,
         data: res.locals.data,
     };

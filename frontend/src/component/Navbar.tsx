@@ -10,6 +10,9 @@ const NavContainer = styled.nav`
   justify-content: space-between;
   align-items: flex-end;
   z-index: 10;
+  @media (max-width: 1300px), (max-height: 650px) {
+    width: 85%;
+  }
 `;
 
 const LogoContainer = styled.div`
