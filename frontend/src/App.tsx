@@ -7,13 +7,11 @@ import { theme } from "./theme";
 
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-
 import Main from "./pages/Main";
 import MyPage from "./pages/MyPage";
 import FortuneSelect from "./pages/FoutuneSelect";
 import ResultDetail from "./pages/ResultDetail";
 import TarotProcess from "./pages/TarotProcess";
-
 import BeforeChat from "./pages/BeforeChat";
 import CardSave from "./pages/CardSave";
 
@@ -101,7 +99,6 @@ const router = createBrowserRouter([
     path: "/signup",
     element: <Signup />,
   },
-
   {
     path: "/mypage",
     element: <MyPage />,
@@ -116,9 +113,9 @@ const router = createBrowserRouter([
   },
   {
     path: "/tarotprocess",
-
     element: <TarotProcess />,
   },
+
   {
     path: "/beforechat",
     element: <BeforeChat />,

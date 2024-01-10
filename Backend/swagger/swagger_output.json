@@ -59,6 +59,41 @@
         }
       }
     },
+    "/tarot/poll/create": {
+      "get": {
+        "tags": [
+          "Tarot"
+        ],
+        "summary": "타로 시작 시 Poll(임시저장) → 타로 시작 할 경우 뽑은 카드와 결과 저장을 구별할 Poll Table",
+        "description": "뽑은 카드 결과 저장 및 총 결과 저장 시 사용됨",
+        "parameters": [
+          {
+            "name": "userid",
+            "in": "query",
+            "description": "사용자의 ID",
+            "required": true,
+            "type": "string",
+            "example": "12345"
+          },
+          {
+            "name": "partnerid",
+            "in": "query",
+            "description": "파트너의 ID (선택 사항)",
+            "required": false,
+            "type": "string",
+            "example": "67890"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/result/": {
       "get": {
         "tags": [
