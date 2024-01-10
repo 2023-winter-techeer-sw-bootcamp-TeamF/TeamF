@@ -23,7 +23,7 @@ const BackgroundImg = styled.img`
 `;
 
 const Inside = styled.div`
-  width: 1250px;
+  width: 1500px;
   margin-left: auto;
   margin-right: auto;
 `;
@@ -35,9 +35,8 @@ const TitleBox = styled.div`
   height: 50px;
   flex-shrink: 0;
   position: absolute; // 부모 컨테이너인 BackgroundWrapper에 상대적인 위치
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -500%);
+  top: 12%;
+  left: 39%;
   text-align: center;
   @media screen and (max-width: 1300px), (max-height: 650px) {
     display: none;
@@ -71,7 +70,7 @@ const Profile = styled.img`
   transform: translate(-950%, -250%);
   @media screen and (max-width: 1300px), (max-height: 650px) {
     top: 43%;
-    left: 58%;
+    left: 49%;
     transform: translate(-1000%, -260%);
   }
 `;
