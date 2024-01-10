@@ -14,7 +14,7 @@ const Background = styled.div`
 `;
 
 const Inside = styled.div`
-  width: 1250px;
+  width: 1500px;
   margin-left: auto;
   margin-right: auto;
 `;
