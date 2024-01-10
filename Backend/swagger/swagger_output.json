@@ -73,7 +73,6 @@
         ],
         "responses": {
           "200": {
-<<<<<<< Updated upstream
             "description": "Poll ID가 성공적으로 생성되었을 때의 응답",
             "schema": {
               "type": "object",
@@ -119,9 +118,6 @@
                 "name": "main"
               }
             }
-=======
-            "description": "OK"
->>>>>>> Stashed changes
           },
           "500": {
             "description": "DB 저장 과정에서 오류 발생 시의 응답",
@@ -216,7 +212,6 @@
         ],
         "responses": {
           "200": {
-<<<<<<< Updated upstream
             "description": "GPT-3 API 요청 성공",
             "schema": {
               "type": "object",
@@ -285,68 +280,6 @@
                 "name": "main"
               }
             }
-=======
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/result/save": {
-      "post": {
-        "tags": [
-          "Result"
-        ],
-        "summary": "총합 결과 저장",
-        "description": "총합 결과 저장",
-        "parameters": [
-          {
-            "name": "user_id",
-            "in": "query",
-            "description": "유저 고유번호",
-            "required": true,
-            "type": "string",
-            "example": "12345"
-          },
-          {
-            "name": "poll_id",
-            "in": "query",
-            "description": "폴 아이디",
-            "required": true,
-            "type": "string",
-            "example": "56789"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "question": {
-                  "example": "any"
-                },
-                "result_explanation": {
-                  "example": "any"
-                },
-                "master_name": {
-                  "example": "any"
-                },
-                "luck_type": {
-                  "example": "any"
-                },
-                "cards": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "테스트 값 조회 성공"
-          },
-          "400": {
-            "description": "잘못된 요청"
->>>>>>> Stashed changes
           }
         }
       }
@@ -455,7 +388,6 @@
         "responses": {
           "200": {
             "description": "OK"
-<<<<<<< Updated upstream
           },
           "400": {
             "description": "접근 방식 오류"
@@ -465,8 +397,6 @@
           },
           "500": {
             "description": "회원가입 정보 불러오기 실패"
-=======
->>>>>>> Stashed changes
           }
         }
       }
@@ -545,7 +475,6 @@
         ],
         "responses": {
           "200": {
-<<<<<<< Updated upstream
             "description": "결과와 카드 데이터 성공적으로 조회됨.",
             "schema": {
               "type": "object",
@@ -614,9 +543,6 @@
                 "name": "main"
               }
             }
-=======
-            "description": "OK"
->>>>>>> Stashed changes
           }
         }
       }
