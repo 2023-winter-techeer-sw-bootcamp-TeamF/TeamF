@@ -14,13 +14,10 @@ const Background = styled.div`
   justify-content: center;
 `;
 
-const LandingBackground = styled.div`
+const LandingBackground = styled.img`
   width: 100vw;
   height: 100vh;
-  background: url(${LandingBackgroundImg});
   mix-blend-mode: hard-light;
-  background-repeat: no-repeat;
-  background-position: center;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -36,7 +33,7 @@ const BackofCardsLeft = styled.div`
   background: url(${BackOfCard});
   position: absolute;
   z-index: 3;
-  left: 27%;
+  left: 23%;
 `;
 const BackofCardsRight = styled.div`
   width: 351.45px;
@@ -45,7 +42,7 @@ const BackofCardsRight = styled.div`
   position: absolute;
   z-index: 3;
   transform: scaleX(-1);
-  left: 55%;
+  right: 23%;
 `;
 
 const Name = styled.p`
@@ -72,6 +69,8 @@ const StartButton = styled.button`
   background: rgba(195, 128, 23, 0);
   margin-left: 9.5rem;
   cursor: pointer;
+  z-index: 11;
+  position: fixed;
 `;
 
 const StartText = styled.p`
@@ -89,7 +88,7 @@ function Landing() {
   return (
     <>
       <Background>
-        <LandingBackground></LandingBackground>
+        <LandingBackground src={LandingBackgroundImg}></LandingBackground>
         <LandingThings>
           <Name>TAIROT</Name>
           <Link to="/fortuneselect">
