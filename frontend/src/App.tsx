@@ -15,6 +15,7 @@ import ResultDetail from "./pages/ResultDetail";
 import TarotProcess from "./pages/TarotProcess";
 
 import BeforeChat from "./pages/BeforeChat";
+import CardSave from "./pages/CardSave";
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@1,8..60,300&display=swap');
@@ -121,6 +122,10 @@ const router = createBrowserRouter([
   {
     path: "/beforechat",
     element: <BeforeChat />,
+  },
+  {
+    path: "/cardsave",
+    element: <CardSave />,
   },
 ]);
 
