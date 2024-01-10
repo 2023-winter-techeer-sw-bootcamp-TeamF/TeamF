@@ -86,8 +86,67 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Poll ID가 성공적으로 생성되었을 때의 응답",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "statusCode": {
+                  "type": "number",
+                  "example": 200
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Poll ID 생성 완료"
+                    },
+                    "pollId": {
+                      "type": "number",
+                      "example": 0
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "요청된 사용자 ID가 누락되었을 때의 응답",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "유저 아이디 누락"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
           "500": {
-            "description": "Internal Server Error"
+            "description": "DB 저장 과정에서 오류 발생 시의 응답",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "DB 저장 오류"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
@@ -103,7 +162,10 @@
           {
             "name": "card",
             "in": "query",
-            "type": "string"
+            "description": "카드 번호",
+            "required": true,
+            "type": "integer",
+            "example": "1"
           }
         ],
         "responses": {
@@ -133,6 +195,74 @@
         }
       }
     },
+    "/result/save": {
+      "post": {
+        "tags": [
+          "Result"
+        ],
+        "summary": "총합 결과 저장",
+        "description": "총합 결과 저장",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "query",
+            "description": "유저 고유번호",
+            "required": true,
+            "type": "string",
+            "example": "12345"
+          },
+          {
+            "name": "poll_id",
+            "in": "query",
+            "description": "폴 아이디",
+            "required": true,
+            "type": "string",
+            "example": "56789"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "question": {
+                  "example": "any"
+                },
+                "result_explanation": {
+                  "example": "any"
+                },
+                "master_name": {
+                  "example": "any"
+                },
+                "luck_type": {
+                  "example": "any"
+                },
+                "card_image_url": {
+                  "example": "any"
+                },
+                "card_explanation": {
+                  "example": "any"
+                },
+                "card_eng_name": {
+                  "example": "any"
+                },
+                "card_kor_name": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "테스트 값 조회 성공"
+          },
+          "400": {
+            "description": "잘못된 요청"
+          }
+        }
+      }
+    },
     "/user/": {
       "get": {
         "tags": [
@@ -152,11 +282,99 @@
         "tags": [
           "MyPage"
         ],
-        "summary": "Todo: 총합 결과, 총합 결과 저장",
+        "summary": "TODO: 총합 결과 저장",
         "description": "/result /result/save",
         "responses": {
           "default": {
             "description": ""
+          }
+        }
+      }
+    },
+    "/mypage/detail": {
+      "get": {
+        "tags": [
+          "MyPage"
+        ],
+        "summary": "결과 리스트에서 선택한 결과 상세 조회",
+        "description": "결과 리스트 중 선택한 결과(Poll_id)를 통해 해당 결과를 상세조회한다.",
+        "parameters": [
+          {
+            "name": "poll_id",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "결과와 카드 데이터 성공적으로 조회됨.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "question": {
+                        "type": "string",
+                        "example": ""
+                      },
+                      "explanation": {
+                        "type": "string",
+                        "example": ""
+                      },
+                      "luck": {
+                        "type": "string",
+                        "example": ""
+                      },
+                      "master_name": {
+                        "type": "string",
+                        "example": ""
+                      },
+                      "created_at": {
+                        "type": "string",
+                        "example": ""
+                      }
+                    }
+                  }
+                },
+                "cards": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "image_url": {
+                        "type": "string",
+                        "example": ""
+                      },
+                      "explanation": {
+                        "type": "string",
+                        "example": ""
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "내부 서버 오류로 인한 DB 쿼리 실패.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "DB 쿼리 오류"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
