@@ -5,6 +5,7 @@ import TaroEx1 from "../assets/TaroEx1.png";
 import TaroEx2 from "../assets/TaroEx2.png";
 import TaroEx3 from "../assets/TaroEx3.png";
 import BackgroundImg1 from "../assets/Background.png";
+import { Link } from "react-router-dom";
 
 const Background = styled.div`
   width: 100vw;
@@ -45,6 +46,7 @@ const CardLine1 = styled.div`
   border-radius: 0.625rem;
   border: 0.5px solid #b88150;
   background: rgba(217, 217, 217, 0);
+  margin-top: 0.97rem;
 `;
 
 const CardLine2 = styled.div`
@@ -79,8 +81,9 @@ const CardText = styled.p`
   line-height: normal;
   letter-spacing: -0.0225rem;
   text-transform: uppercase;
-  margin-top: 1rem;
-  margin-left: 0.7rem;
+  padding: 0.7rem;
+  height: 15.5rem;
+  overflow-y: hidden;
 `;
 
 const UserName = styled.p`
@@ -143,6 +146,9 @@ const ShareButton = styled.button`
   border: 1px solid #ecb973;
   background: rgba(217, 217, 217, 0);
   display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 `;
 
 const ShareButtonIcon = styled.svg`
@@ -167,6 +173,7 @@ const SaveButton = styled.button`
   height: 2.1875rem;
   border-radius: 0.9375rem;
   background: #ecb973;
+  cursor: pointer;
 `;
 
 const SaveButtonText = styled.p`
@@ -184,6 +191,7 @@ const SaveButtonText = styled.p`
 const Buttons = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 0.44rem;
 `;
 
 function CardSave() {
@@ -230,7 +238,10 @@ function CardSave() {
                     />
                   </svg>
                 </ShareIcon>
-                <ShareText>나의 타로 운세를 저장하고<br /> 공유해보세요!</ShareText>
+                <ShareText>
+                  나의 타로 운세를 저장하고
+                  <br /> 공유해보세요!
+                </ShareText>
                 <Buttons>
                   <ShareButton>
                     <ShareButtonIcon>
@@ -249,9 +260,12 @@ function CardSave() {
                     </ShareButtonIcon>
                     <ShareButtonText>링크 공유하기</ShareButtonText>
                   </ShareButton>
-                  <SaveButton>
-                    <SaveButtonText>내 서랍에 저장하기</SaveButtonText>
-                  </SaveButton>
+
+                  <Link to="/mypage">
+                    <SaveButton>
+                      <SaveButtonText>내 서랍에 저장하기</SaveButtonText>
+                    </SaveButton>
+                  </Link>
                 </Buttons>
               </RightBox>
             </Cards>
