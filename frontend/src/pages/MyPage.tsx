@@ -13,7 +13,7 @@ const Background = styled.div`
 `;
 
 const Inside = styled.div`
-  width: 1300px;
+  width: 1500px;
   margin-left: auto;
   margin-right: auto;
 `;
