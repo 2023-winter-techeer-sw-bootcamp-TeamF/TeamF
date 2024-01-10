@@ -199,12 +199,36 @@
           {
             "name": "cards",
             "in": "query",
-            "type": "string"
+            "description": "카드 배열",
+            "required": true,
+            "type": "array",
+            "example": "[Ace of Wands, Ace of Cups, Ace of Swords]",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "cards": {
+                  "type": "string",
+                  "example": "[Ace of Wands, Ace of Cups, Ace of Swords]"
+                }
+              }
+            }
           },
           {
             "name": "ask",
             "in": "query",
-            "type": "string"
+            "description": "질문",
+            "required": true,
+            "type": "string",
+            "example": "오늘의 운세는 어떤가요?",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "ask": {
+                  "type": "string",
+                  "example": "오늘의 운세는 어떤가요?"
+                }
+              }
+            }
           }
         ],
         "responses": {

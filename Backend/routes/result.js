@@ -48,9 +48,9 @@ router.post('/', async (req, res, next) => {
         description: '카드 배열',
         required: true,
         type: 'array',
-        example: Ace of Wands,
+        example: '[Ace of Wands, Ace of Cups, Ace of Swords]',
         schema: {
-            card: [Ace of Wands, Ace of Cups, Ace of Swords]
+            cards: '[Ace of Wands, Ace of Cups, Ace of Swords]'
         }
     }
     #swagger.parameters['ask'] = {
@@ -58,7 +58,7 @@ router.post('/', async (req, res, next) => {
         description: '질문',
         required: true,
         type: 'string',
-        example: '오늘의 운세는 어떤가요?'
+        example: '오늘의 운세는 어떤가요?',
         schema: {
             ask: '오늘의 운세는 어떤가요?'
         }
