@@ -168,11 +168,16 @@
       }
     },
     "/result/": {
+<<<<<<< HEAD
       "post": {
+=======
+      "get": {
+>>>>>>> develop
         "tags": [
           "Result"
         ],
         "summary": "Todo: 결과 리스트, 결과 상세조회, 결과 삭제",
+<<<<<<< HEAD
         "description": "/list /detail /deswaggerlete",
         "parameters": [
           {
@@ -205,6 +210,69 @@
                 "ask": {
                   "type": "string",
                   "example": "오늘의 운세는 어떤가요?"
+=======
+        "description": "/list /detail /delete",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/result/save": {
+      "post": {
+        "tags": [
+          "Result"
+        ],
+        "summary": "총합 결과 저장",
+        "description": "총합 결과 저장",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "query",
+            "description": "유저 고유번호",
+            "required": true,
+            "type": "string",
+            "example": "12345"
+          },
+          {
+            "name": "poll_id",
+            "in": "query",
+            "description": "폴 아이디",
+            "required": true,
+            "type": "string",
+            "example": "56789"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "question": {
+                  "example": "any"
+                },
+                "result_explanation": {
+                  "example": "any"
+                },
+                "master_name": {
+                  "example": "any"
+                },
+                "luck_type": {
+                  "example": "any"
+                },
+                "card_image_url": {
+                  "example": "any"
+                },
+                "card_explanation": {
+                  "example": "any"
+                },
+                "card_eng_name": {
+                  "example": "any"
+                },
+                "card_kor_name": {
+                  "example": "any"
+>>>>>>> develop
                 }
               }
             }
@@ -212,6 +280,7 @@
         ],
         "responses": {
           "200": {
+<<<<<<< HEAD
             "description": "GPT-3 API 요청 성공",
             "schema": {
               "type": "object",
@@ -280,6 +349,12 @@
                 "name": "main"
               }
             }
+=======
+            "description": "테스트 값 조회 성공"
+          },
+          "400": {
+            "description": "잘못된 요청"
+>>>>>>> develop
           }
         }
       }
