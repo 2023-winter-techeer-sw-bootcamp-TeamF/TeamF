@@ -6,10 +6,45 @@ const router = express.Router();
 
 // 회원가입, 로그인, 로그아웃, 그리고 로그인시 액세스와 리프레시 토큰(jwt)을 발급하는 기능 등의  API를 다음과 같이 구현했다.
 
+
 // 회원가입 API
 router.post('/signup', async (req, res, next) => {
+    // #swagger.tags = ['Tarot']
+    // #swagger.summary = "회원가입"
+    // #swagger.description = '회원가입 하는 유저의 아이디, username 중복검사 및 가입 하는 유저의 정보를 데이터베이스에 저장'
+    /*  #swagger.responses[400] = {
+            description: '접근 방식 오류',
+        } */
+    /*  #swagger.responses[409] = {
+            description: '이미 존재하는 아이디나 username',
+        } */
+    /*  #swagger.responses[500] = {
+            description: '회원가입 정보 불러오기 실패',
+    } */
+    /* #swagger.parameters['id'] = { 
+        in: 'query',
+        description: '사용자의 아이디', 
+        required: true,
+        type: 'string',
+        example: 'minki',
+    } */     
+    /* #swagger.parameters['password'] = {
+        in: 'query',
+        description: '비밀번호',
+        required: true,
+        type: 'string',
+        example: '0000'
+    } */
+    /* #swagger.parameters['username'] = {
+        in: 'query',
+        description: '닉네임',
+        required: true,
+        type: 'string',
+        example: '타로마스터'
+    }*/
+
     try {
-        const { id, password, username } = req.body;
+        const { id, password, username } = req.query;
 
         // 유효한 정보인지 검사하는 기능
         if (!id || !password || !username) {
@@ -52,8 +87,35 @@ router.post('/signup', async (req, res, next) => {
 
 // 로그인 API
 router.post('/login', async (req, res, next) => {
+    // #swagger.tags = ['Tarot']
+    // #swagger.summary = "로그인"
+    // #swagger.description = '아이디와 비밀번호를 이용하여 로그인을 수행하고, 성공 시 액세스 토큰과 리프레시 토큰을 발급'
+    /*  #swagger.responses[400] = {
+            description: '접근 방식 오류',
+        } */
+    /*  #swagger.responses[401] = {
+            description: '유효하지 않은 아이디 또는 비밀번호',
+        } */
+    /*  #swagger.responses[500] = {
+            description: '로그인 정보 불러오기 실패',
+    } */
+    /* #swagger.parameters['id'] = { 
+        in: 'query',
+        description: '사용자의 아이디', 
+        required: true,
+        type: 'string',
+        example: 'minki',
+    } */     
+    /* #swagger.parameters['password'] = {
+        in: 'query',
+        description: '비밀번호',
+        required: true,
+        type: 'string',
+        example: '0000'
+    } */
+
     try {
-        const { id, password } = req.body;
+        const { id, password } = req.query;
 
         // 디비로부터 사용자 정보 조회
         const connection = db.getConnection();
@@ -66,7 +128,7 @@ router.post('/login', async (req, res, next) => {
             }
 
             if (results.length > 0) {
-                // 디비와 일치하는 사용자 정보가 있는 경우 다음과 같이 진행됨.
+                // 디비와 일치하는 사용자 정보가 있는 경우
 
                 // 로그인 성공 시, 액세스 토큰과 리프레시 토큰 발급 및 응답
                 const accessToken = jwt.sign({ id, username: results[0].username }, 'your_secret_key_for_access_token', { expiresIn: '1h' });
@@ -76,7 +138,7 @@ router.post('/login', async (req, res, next) => {
                 res.locals.data = { message: '성공적으로 로그인이 완료되었습니다!', accessToken, refreshToken };
                 next();
             } else {
-                // 디비와 일치하는 사용자 정보가 없는 경우 다음과 같이 진행됨.
+                // 디비와 일치하는 사용자 정보가 없는 경우
                 res.status(401).json({ error: '유효하지 않은 아이디 또는 비밀번호 입니다.' });
             }
         });
@@ -88,6 +150,13 @@ router.post('/login', async (req, res, next) => {
 
 // 로그아웃 API
 router.post('/logout', (req, res, next) => {
+    // #swagger.tags = ['Tarot']
+    // #swagger.summary = "로그아웃"
+    // #swagger.description = '현재 로그인된 사용자의 로그아웃을 수행'
+    /*  #swagger.responses[500] = {
+            description: '로그아웃 정보 불러오기 실패',
+    } */
+
     res.locals.data = { message: '로그아웃 되었습니다.' };
     next();
 });
