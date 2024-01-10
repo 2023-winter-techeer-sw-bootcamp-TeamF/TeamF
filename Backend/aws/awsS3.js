@@ -75,11 +75,23 @@ async function findIndex(bucketList, number) {
 
 /**
  * 버킷안에 있는 카드의 원래 파일명을 가져오는 함수 ex) 폴더명/파일명
+ * 폴더명이 포함된 파일명을 가져오는 함수
  * @param {int} index - 찾을 카드의 인덱스
  * @returns 버킷안 파일명
  */
 function getObjectName(index) {
   return bucketListStore[index];
+}
+
+/**
+ * 버킷안에 있는 카드의 원래 파일명을 가져오는 함수 ex) 폴더명/파일명, 파일명
+ * 폴더명이 제외된 파일명을 가져오는 함수
+ * @param {int} index - 찾을 카드의 인덱스
+ * @param {list} bucketList - 버킷안 카드의 리스트
+ * @returns 버킷안 파일명
+ */
+function getObjectNames(bucketList, index) {
+  return bucketList[index];
 }
 
 /**
@@ -97,11 +109,31 @@ async function getS3ImageURL(fileName) {
   return stringBuffer;
 }
 
+/**
+ * 파일명을 통해 데이터를 가져오는 함수
+ * @param {string} fileName - 파일명만 있는 문자열
+ * @returns - 데이터를 담은 객체
+ */
+function getDataObject(fileName) {
+  let data = [];
+  for (let str of fileName.split(',')) {
+    data.push(str);
+  }
+  return {
+    number: data[0],
+    name: data[1],
+    english: data[2],
+    mean: data[3].split('.')[0],
+  };
+}
+
 module.exports = {
   initializeS3,
   getS3Client,
   getbucketList,
   findIndex,
   getObjectName,
+  getObjectNames,
   getS3ImageURL,
+  getDataObject,
 };
