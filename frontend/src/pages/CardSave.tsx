@@ -14,14 +14,14 @@ const Background = styled.div`
 `;
 
 const Inside = styled.div`
-  width: 1300px;
+  width: 1250px;
   margin-left: auto;
   margin-right: auto;
 `;
 
 const BackgroundWrapper = styled.div`
   position: relative;
-  width: 97%;
+  width: 100%;
   height: 89vh;
 `;
 
