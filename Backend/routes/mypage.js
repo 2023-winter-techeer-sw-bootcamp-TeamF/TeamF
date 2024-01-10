@@ -3,14 +3,6 @@ const commonResponse = require('../middleware/commonResponse');
 const db = require('../mysql/database.js');
 const router = express.Router();
 
-router.get('/', (req, res, next) => {
-    // #swagger.tags = ['MyPage']
-    // #swagger.summary = "TODO: 총합 결과 저장"
-    // #swagger.description = '/result /result/save'
-    res.locals.data = { message: 'Page : mypage.js' };
-    next();
-});
-
 router.get('/detail', (req, res) => {
     // #swagger.tags = ['MyPage']
     // #swagger.summary = "결과 리스트에서 선택한 결과 상세 조회"

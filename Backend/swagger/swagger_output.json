@@ -5,26 +5,12 @@
     "description": "오늘도 화이팅",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "43.202.208.226:3001",
   "basePath": "/",
   "schemes": [
     "http"
   ],
   "paths": {
-    "/tarot/": {
-      "get": {
-        "tags": [
-          "Tarot"
-        ],
-        "summary": "Todo: 운세 카테고리 선택, 가이드라인, 질문 전송, 뽑은 것 조회, 카드 이미지 반환",
-        "description": "/select /guide /ask /cards /card/info",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
     "/tarot/guide": {
       "get": {
         "tags": [
@@ -189,8 +175,8 @@
         "summary": "Todo: 결과 리스트, 결과 상세조회, 결과 삭제",
         "description": "/list /detail /delete",
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -263,30 +249,109 @@
         }
       }
     },
-    "/user/": {
-      "get": {
+    "/user/signup": {
+      "post": {
         "tags": [
           "User"
         ],
-        "summary": "TODO : 로그인, 회원가입, 로그아웃",
-        "description": "/login /signup /logout",
+        "summary": "회원가입",
+        "description": "회원가입 하는 유저의 아이디, username 중복검사 및 가입 하는 유저의 정보를 데이터베이스에 저장",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "사용자의 아이디",
+            "required": true,
+            "type": "string",
+            "example": "minki"
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "description": "비밀번호",
+            "required": true,
+            "type": "string",
+            "example": "0000"
+          },
+          {
+            "name": "username",
+            "in": "query",
+            "description": "닉네임",
+            "required": true,
+            "type": "string",
+            "example": "타로마스터"
+          }
+        ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "접근 방식 오류"
+          },
+          "409": {
+            "description": "이미 존재하는 아이디나 username"
+          },
+          "500": {
+            "description": "회원가입 정보 불러오기 실패"
           }
         }
       }
     },
-    "/mypage/": {
-      "get": {
+    "/user/login": {
+      "post": {
         "tags": [
-          "MyPage"
+          "User"
         ],
-        "summary": "TODO: 총합 결과 저장",
-        "description": "/result /result/save",
+        "summary": "로그인",
+        "description": "아이디와 비밀번호를 이용하여 로그인을 수행하고, 성공 시 액세스 토큰과 리프레시 토큰을 발급",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "사용자의 아이디",
+            "required": true,
+            "type": "string",
+            "example": "minki"
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "description": "비밀번호",
+            "required": true,
+            "type": "string",
+            "example": "0000"
+          }
+        ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "접근 방식 오류"
+          },
+          "401": {
+            "description": "유효하지 않은 아이디 또는 비밀번호"
+          },
+          "500": {
+            "description": "로그인 정보 불러오기 실패"
+          }
+        }
+      }
+    },
+    "/user/logout": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "로그아웃",
+        "description": "현재 로그인된 사용자의 로그아웃을 수행",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "로그아웃 정보 불러오기 실패"
           }
         }
       }
