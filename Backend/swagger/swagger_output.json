@@ -167,6 +167,123 @@
         }
       }
     },
+    "/result/": {
+      "post": {
+        "tags": [
+          "Result"
+        ],
+        "summary": "Todo: 결과 리스트, 결과 상세조회, 결과 삭제",
+        "description": "/list /detail /deswaggerlete",
+        "parameters": [
+          {
+            "name": "cards",
+            "in": "query",
+            "description": "카드 배열",
+            "required": true,
+            "type": "array",
+            "example": "[Ace of Wands, Ace of Cups, Ace of Swords]",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "cards": {
+                  "type": "string",
+                  "example": "[Ace of Wands, Ace of Cups, Ace of Swords]"
+                }
+              }
+            }
+          },
+          {
+            "name": "ask",
+            "in": "query",
+            "description": "질문",
+            "required": true,
+            "type": "string",
+            "example": "오늘의 운세는 어떤가요?",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "ask": {
+                  "type": "string",
+                  "example": "오늘의 운세는 어떤가요?"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "GPT-3 API 요청 성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "json": {
+                  "type": "object",
+                  "properties": {
+                    "card1": {
+                      "type": "string",
+                      "example": "Ace of Wands"
+                    },
+                    "card2": {
+                      "type": "string",
+                      "example": "Ace of Cups"
+                    },
+                    "card3": {
+                      "type": "string",
+                      "example": "Ace of Swords"
+                    },
+                    "ask": {
+                      "type": "string",
+                      "example": "오늘의 운세는 어떤가요?"
+                    },
+                    "answer": {
+                      "type": "string",
+                      "example": "오늘은 행운이 가득할 거예요!"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "유효하지않은 질문 정보",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "request is null or undefined"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "GPT-3 API 요청 중 오류 발생",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "GPT-3 API 요청 중 오류 발생"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "error"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
     "/user/signup": {
       "post": {
         "tags": [
