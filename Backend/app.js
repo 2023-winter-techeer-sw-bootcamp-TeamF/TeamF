@@ -12,47 +12,42 @@ const gpt = require('./chatgpt/api');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger/swagger_output.json');
 const s3 = require('./aws/awsS3');
-
 const app = express();
 const secretName = "MySQL_Info";
 const secretGptApiKey = "GPT_KEY";
-
 // Express 미들웨어 설정
 app.use(express.json());
 const server = http.createServer(app); // http 서버 생성
 const io = socketIo(server); // socket.io와 서버 연결
 app.use(express.urlencoded({ extended: false }));
-
 // 소켓 이벤트 설정
 io.on('connection', (socket) => {
   console.log('User connected');
-
   socket.on('message', (message) => {
     console.log('Message received:', message);
   });
-
   socket.on('disconnect', () => {
     console.log('User disconnected');
   });
-
 });
-
-// CORS 설정
 const corsOptions = {
-  origin: function (origin, callback) {
-    if (['https://43.202.208.226:3000', 'http://43.202.208.226:3001'].indexOf(origin) !== -1 || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true
+  origin: '*', // 모든 오리진 허용
+  credentials: true,
+  methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE']
 };
 app.use(cors(corsOptions));
-
+// OPTIONS 요청 처리를 위한 미들웨어
+app.use((req, res, next) => {
+  if (req.method === 'OPTIONS') {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    return res.status(200).json({});
+  }
+  next();
+});
 // Swagger UI 설정
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
 // 라우팅 설정
 app.use('/tarot', require('./routes/tarot'));
 app.use('/result', require('./routes/result'));
@@ -60,21 +55,17 @@ app.use('/user', require('./routes/user'));
 app.use('/mypage', require('./routes/mypage'));
 app.use('/test', require('./routes/test/test'));
 app.use('/secret', require('./routes/test/secretsManager'));
-
 // 공통 응답 미들웨어
 app.use(require('./middleware/commonResponse'));
-
 // 404 핸들러
 app.use((req, res, next) => {
   res.status(404).json({ message: 'Page Not found.' });
 });
-
 // 오류 처리 미들웨어
 app.use((error, req, res, next) => {
   console.error(error);
   res.status(500).json({ message: '서버 내부 오류' });
 });
-
 // 서버 시작 함수
 async function startServer() {
   try {
@@ -88,7 +79,6 @@ async function startServer() {
     gpt.initializeGpt(gptApiKey);
     // s3 연결
     s3.initializeS3();
-
     // 서버 시작
     const port = 3000;
     // 기존 app.listen() 대신 server.listen()을 사용
@@ -98,5 +88,4 @@ async function startServer() {
     console.error("시작 중 오류 발생:", error);
   }
 }
-
 startServer();

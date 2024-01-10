@@ -25,10 +25,14 @@ const BackgroundWrapper = styled.div`
   position: relative;
   width: 100%;
   height: 89vh;
+  @media (max-width: 1300px), (max-height: 650px) {
+    width: 85%;
+    height: 89vh;
+  }
 `;
 
 const BackgroundImg = styled.img`
-  width: 84%;
+  width: 100%;
   height: 100%;
 `;
 
@@ -142,10 +146,6 @@ const NextBtn = styled.button`
   right: 8rem;
   bottom: 7rem;
   cursor: pointer;
-  @media screen and (max-width: 1300px), (max-height: 650px) {
-    right: 21rem;
-    bottom: 4rem;
-  }
 `;
 
 function TarotProcess() {

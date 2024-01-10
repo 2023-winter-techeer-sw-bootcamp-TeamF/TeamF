@@ -19,8 +19,8 @@
         "summary": "Todo: 운세 카테고리 선택, 가이드라인, 질문 전송, 뽑은 것 조회, 카드 이미지 반환",
         "description": "/select /guide /ask /cards /card/info",
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -86,6 +86,9 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "OK"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -274,82 +277,114 @@
                 "name": "main"
               }
             }
+            "description": "OK"
           }
         }
       }
     },
     "/user/signup": {
       "post": {
-        "description": "",
+        "tags": [
+          "Tarot"
+        ],
+        "summary": "회원가입",
+        "description": "회원가입 하는 유저의 아이디, username 중복검사 및 가입 하는 유저의 정보를 데이터베이스에 저장",
         "parameters": [
           {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "example": "any"
-                },
-                "password": {
-                  "example": "any"
-                },
-                "username": {
-                  "example": "any"
-                }
-              }
-            }
+            "name": "id",
+            "in": "query",
+            "description": "사용자의 아이디",
+            "required": true,
+            "type": "string",
+            "example": "minki"
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "description": "비밀번호",
+            "required": true,
+            "type": "string",
+            "example": "0000"
+          },
+          {
+            "name": "username",
+            "in": "query",
+            "description": "닉네임",
+            "required": true,
+            "type": "string",
+            "example": "타로마스터"
           }
         ],
         "responses": {
+          "200": {
+            "description": "OK"
+          },
           "400": {
-            "description": "Bad Request"
+            "description": "접근 방식 오류"
           },
           "409": {
-            "description": "Conflict"
+            "description": "이미 존재하는 아이디나 username"
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "회원가입 정보 불러오기 실패"
           }
         }
       }
     },
     "/user/login": {
       "post": {
-        "description": "",
+        "tags": [
+          "Tarot"
+        ],
+        "summary": "로그인",
+        "description": "아이디와 비밀번호를 이용하여 로그인을 수행하고, 성공 시 액세스 토큰과 리프레시 토큰을 발급",
         "parameters": [
           {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "example": "any"
-                },
-                "password": {
-                  "example": "any"
-                }
-              }
-            }
+            "name": "id",
+            "in": "query",
+            "description": "사용자의 아이디",
+            "required": true,
+            "type": "string",
+            "example": "minki"
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "description": "비밀번호",
+            "required": true,
+            "type": "string",
+            "example": "0000"
           }
         ],
         "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "접근 방식 오류"
+          },
           "401": {
-            "description": "Unauthorized"
+            "description": "유효하지 않은 아이디 또는 비밀번호"
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "로그인 정보 불러오기 실패"
           }
         }
       }
     },
     "/user/logout": {
       "post": {
-        "description": "",
+        "tags": [
+          "Tarot"
+        ],
+        "summary": "로그아웃",
+        "description": "현재 로그인된 사용자의 로그아웃을 수행",
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "로그아웃 정보 불러오기 실패"
           }
         }
       }
@@ -362,8 +397,8 @@
         "summary": "Todo: 총합 결과, 총합 결과 저장",
         "description": "/result /result/save",
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "OK"
           }
         }
       }
