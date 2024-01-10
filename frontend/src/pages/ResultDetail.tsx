@@ -12,7 +12,7 @@ const Background = styled.div`
 `;
 
 const Inside = styled.div`
-  width: 1500px;
+  width: 1300px;
   margin-left: auto;
   margin-right: auto;
 `;
@@ -34,6 +34,9 @@ const DetailBackground = styled.div`
 
   display: flex;
   justify-content: center;
+  @media screen and (max-width: 1300px), (max-height: 800px) {
+    height: 500px;
+  }
 `;
 
 const DetailLine1 = styled.div`
@@ -48,6 +51,9 @@ const DetailLine1 = styled.div`
   align-items: center;
   margin-top: 24px;
   flex-direction: column;
+  @media screen and (max-width: 1300px), (max-height: 800px) {
+    height: 450px;
+  }
 `;
 
 const DetailLine2 = styled.div`
@@ -60,6 +66,9 @@ const DetailLine2 = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media screen and (max-width: 1300px), (max-height: 800px) {
+    height: 400px;
+  }
 `;
 
 const Date = styled.p`
@@ -88,6 +97,10 @@ const Title = styled.p`
   width: 4.5rem;
   margin-top: 15px;
   line-height: 1.5;
+
+  @media screen and (max-width: 1300px), (max-height: 800px) {
+    display: none;
+  }
 `;
 
 const Worry = styled.p`
@@ -116,6 +129,10 @@ const Worry = styled.p`
   &::-webkit-scrollbar-thumb:hover {
     background-color: #daa520; /* 호버시 색상 변경 (더 진한 황금색) */
   }
+
+  @media screen and (max-width: 1300px), (max-height: 800px) {
+    display: none;
+  }
 `;
 
 const Cards = styled.div`
@@ -133,11 +150,17 @@ const CardBackground = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  @media screen and (max-width: 1300px), (max-height: 800px) {
+    height: 180px;
+  }
 `;
 
 const TaroEx = styled.img`
   width: 125.135px;
   height: 225.243px;
+  @media screen and (max-width: 1300px), (max-height: 800px) {
+    height: 150px;
+  }
 `;
 
 const Solutions = styled.div`
@@ -156,6 +179,9 @@ const SolutionTitle = styled.p`
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+  @media screen and (max-width: 1300px), (max-height: 800px) {
+    display: none;
+  }
 `;
 
 const SolutionDetail = styled.p`
@@ -245,10 +271,10 @@ function ResultDetail() {
                       대한 용기와 기존 직장에서의 성장 가능성, 그리고 미래에
                       대한 안정성 사이의 균형을 찾는 것 같아. 변화는 두려울 수
                       있지만, 새로운 도전에서 더 큰 만족과 성취를 발견할 수도
-                      있어. 네가 어떤 결정을 내리든, 너를 응원할게! 🌟💕
-                      지금 당신이 처한 상황에서 가장 중요한 건, 새로운 시작에
-                      대한 용기와 기존 직장에서의 성장 가능성, 그리고 미래에
-                      대한 안정성 사이의 균형을 찾는 것 같아. 변화는 두려울 수
+                      있어. 네가 어떤 결정을 내리든, 너를 응원할게! 🌟💕 지금
+                      당신이 처한 상황에서 가장 중요한 건, 새로운 시작에 대한
+                      용기와 기존 직장에서의 성장 가능성, 그리고 미래에 대한
+                      안정성 사이의 균형을 찾는 것 같아. 변화는 두려울 수
                       있지만, 새로운 도전에서 더 큰 만족과 성취를 발견할 수도
                       있어. 네가 어떤 결정을 내리든, 너를 응원할게! 🌟💕
                     </SolutionDetail>

@@ -130,7 +130,7 @@ const CardLink = styled(Link)`
 `;
 
 const Inside = styled.div`
-  width: 1500px;
+  width: 1300px;
   margin-left: auto;
   margin-right: auto;
 `;
