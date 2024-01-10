@@ -23,12 +23,12 @@ const Inside = styled.div`
 
 const BackgroundWrapper = styled.div`
   position: relative;
-  width: 97%;
+  width: 100%;
   height: 89vh;
 `;
 
 const BackgroundImg = styled.img`
-  width: 100%;
+  width: 84%;
   height: 100%;
 `;
 
@@ -54,6 +54,11 @@ const Cards = styled.div`
   gap: 6.5rem;
   top: 13%;
   left: 28%;
+  @media screen and (max-width: 1300px), (max-height: 650px) {
+    top: 9%;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
 `;
 
 const TaroMaster = styled.img`
