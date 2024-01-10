@@ -5,7 +5,7 @@
     "description": "오늘도 화이팅",
     "version": "1.0.0"
   },
-  "host": "43.202.208.226:3001",
+  "host": "localhost:3000",
   "basePath": "/",
   "schemes": [
     "http"
@@ -55,6 +55,38 @@
           },
           "400": {
             "description": "잘못된 요청"
+          }
+        }
+      }
+    },
+    "/tarot/poll/create": {
+      "get": {
+        "tags": [
+          "Tarot"
+        ],
+        "summary": "타로 시작 시 Poll(임시저장) → 타로 시작 할 경우 뽑은 카드와 결과 저장을 구별할 Poll Table",
+        "description": "뽑은 카드 결과 저장 및 총 결과 저장 시 사용됨",
+        "parameters": [
+          {
+            "name": "userid",
+            "in": "query",
+            "description": "사용자의 ID",
+            "required": true,
+            "type": "string",
+            "example": "12345"
+          },
+          {
+            "name": "partnerid",
+            "in": "query",
+            "description": "파트너의 ID (선택 사항)",
+            "required": false,
+            "type": "string",
+            "example": "67890"
+          }
+        ],
+        "responses": {
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
