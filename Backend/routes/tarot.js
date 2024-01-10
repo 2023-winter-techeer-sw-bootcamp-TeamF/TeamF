@@ -99,8 +99,12 @@ router.get('/poll/create', (req, res, next) => {
     const { userid, partnerid } = req.query;
 
     if (!userid) {
-        return res.status(400).send({ message: 'User ID is required' });
+        res.locals.status = 400;
+        res.locals.data = { message: "유저 아이디 누락" };
+        res.locals.success = false;
+        return next();
     }
+
 
     // 데이터베이스 연결 및 쿼리 실행
     const connection = db.getConnection();
@@ -108,8 +112,8 @@ router.get('/poll/create', (req, res, next) => {
 
     connection.query(query, [userid, partnerid], (error, results, fields) => {
         if (error) {
-            console.error('Error saving poll:', error);
-            res.status(500).send({ message: 'Error saving poll' });
+            console.error('DB 저장 오류:', error);
+            res.status(500).send({ message: 'DB 저장 오류' });
         } else {
             res.locals.data = { message: 'Poll created successfully', pollId: results.insertId };
             next();
