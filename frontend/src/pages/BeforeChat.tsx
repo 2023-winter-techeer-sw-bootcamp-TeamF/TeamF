@@ -13,12 +13,8 @@ const BackgroundColor = styled.div`
 
 const BackgroundWrapper = styled.div`
   position: relative; // 자식 요소를 절대 위치로 배치하기 위한 설정
-  width: 97%;
+  width: 100%;
   height: 89vh;
-  @media screen and (max-width: 1300px) {
-    width: 85%;
-    height: 89vh;
-  }
 `;
 
 const BackgroundImg = styled.img`
@@ -27,7 +23,7 @@ const BackgroundImg = styled.img`
 `;
 
 const Inside = styled.div`
-  width: 1500px;
+  width: 1250px;
   margin-left: auto;
   margin-right: auto;
 `;
@@ -43,10 +39,8 @@ const TitleBox = styled.div`
   left: 50%;
   transform: translate(-50%, -500%);
   text-align: center;
-  @media screen and (max-width: 1300px) {
-    width: 270px;
-    height: 40px;
-    top: 45%; // 글자가 세로 방향에서 가운데로 가게 하려면?
+  @media screen and (max-width: 1300px), (max-height: 650px) {
+    display: none;
   }
 `;
 
@@ -60,7 +54,7 @@ const TitleContent = styled.p`
   text-transform: capitalize;
   margin-top: 13px;
 
-  @media screen and (max-width: 1300px) {
+  @media screen and (max-width: 1300px), (max-height: 650px) {
     font-size: 18px;
   }
 `;
@@ -75,6 +69,11 @@ const Profile = styled.img`
   top: 50%;
   left: 50%;
   transform: translate(-950%, -250%);
+  @media screen and (max-width: 1300px), (max-height: 650px) {
+    top: 43%;
+    left: 58%;
+    transform: translate(-1000%, -260%);
+  }
 `;
 
 const ChatBox = styled.div`
@@ -85,6 +84,12 @@ const ChatBox = styled.div`
   border: 1px solid #ecb973;
   transform: translate(35%, -190%);
   padding: 22px;
+  @media screen and (max-width: 1300px), (max-height: 650px) {
+    width: 611px;
+    height: 239px;
+    transform: translate(28%, -200%);
+    padding: 10px;
+  }
 `;
 
 const Tellme = styled.p`
@@ -110,6 +115,9 @@ const Tellme = styled.p`
   &::-webkit-scrollbar-thumb:hover {
     background-color: #daa520; /* 호버시 색상 변경 (더 진한 황금색) */
   }
+  @media screen and (max-width: 1300px), (max-height: 650px) {
+    font-size: 20px;
+  }
 `;
 
 const ReplyBox = styled.div`
@@ -121,6 +129,9 @@ const ReplyBox = styled.div`
   padding: 15px;
   display: flex;
   transform: translate(110%, -420%);
+  @media screen and (max-width: 1300px), (max-height: 650px) {
+    transform: translate(85%, -420%);
+  }
 `;
 
 const Reply = styled.p`
@@ -144,6 +155,9 @@ const Reply = styled.p`
 
   &::-webkit-scrollbar-thumb:hover {
     background-color: #ffffff; /* 호버시 색상 변경 (흰색) */
+  }
+  @media screen and (max-width: 1300px), (max-height: 650px) {
+    font-size: 20px;
   }
 `;
 
