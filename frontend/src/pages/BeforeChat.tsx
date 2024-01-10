@@ -15,6 +15,10 @@ const BackgroundWrapper = styled.div`
   position: relative; // 자식 요소를 절대 위치로 배치하기 위한 설정
   width: 97%;
   height: 89vh;
+  @media screen and (max-width: 1300px) {
+    width: 85%;
+    height: 89vh;
+  }
 `;
 
 const BackgroundImg = styled.img`
@@ -39,6 +43,11 @@ const TitleBox = styled.div`
   left: 50%;
   transform: translate(-50%, -500%);
   text-align: center;
+  @media screen and (max-width: 1300px) {
+    width: 270px;
+    height: 40px;
+    top: 45%; // 글자가 세로 방향에서 가운데로 가게 하려면?
+  }
 `;
 
 const TitleContent = styled.p`
@@ -50,6 +59,10 @@ const TitleContent = styled.p`
   line-height: normal;
   text-transform: capitalize;
   margin-top: 13px;
+
+  @media screen and (max-width: 1300px) {
+    font-size: 18px;
+  }
 `;
 
 const Profile = styled.img`
