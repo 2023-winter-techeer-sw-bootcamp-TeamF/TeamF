@@ -109,31 +109,174 @@
             "description": "카드 번호",
             "required": true,
             "type": "integer",
-            "example": "1"
+            "schema": {
+              "type": "object",
+              "properties": {
+                "card": {
+                  "type": "number",
+                  "example": 1
+                }
+              },
+              "required": [
+                "card"
+              ]
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "카드 정보 불러오기 성공 url 전송"
+            "description": "카드 정보 불러오기 성공, url 전송",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "creat image url successfully"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "카드 이름"
+                },
+                "english": {
+                  "type": "string",
+                  "example": "영어 이름"
+                },
+                "mean": {
+                  "type": "string",
+                  "example": "해석"
+                },
+                "image_url": {
+                  "type": "string",
+                  "example": "이미지 url"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "400": {
-            "description": "잘못된 카드 번호 요청"
+            "description": "잘못된 카드 번호 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "잘못된 카드 번호 요청"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "500": {
-            "description": "카드 정보 불러오기 실패"
+            "description": "카드 정보 불러오기 실패",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "카드 정보를 가져오는데 실패했습니다."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
     "/result/": {
-      "get": {
+      "post": {
         "tags": [
           "Result"
         ],
         "summary": "Todo: 결과 리스트, 결과 상세조회, 결과 삭제",
-        "description": "/list /detail /delete",
+        "description": "/list /detail /deswaggerlete",
+        "parameters": [
+          {
+            "name": "cards",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "ask",
+            "in": "query",
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
+            "description": "GPT-3 API 요청 성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "json": {
+                  "type": "object",
+                  "properties": {
+                    "card1": {
+                      "type": "string",
+                      "example": "Ace of Wands"
+                    },
+                    "card2": {
+                      "type": "string",
+                      "example": "Ace of Cups"
+                    },
+                    "card3": {
+                      "type": "string",
+                      "example": "Ace of Swords"
+                    },
+                    "ask": {
+                      "type": "string",
+                      "example": "오늘의 운세는 어떤가요?"
+                    },
+                    "answer": {
+                      "type": "string",
+                      "example": "오늘은 행운이 가득할 거예요!"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "유효하지않은 질문 정보",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "request is null or undefined"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "GPT-3 API 요청 중 오류 발생",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "GPT-3 API 요청 중 오류 발생"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "error"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
             "description": "OK"
           }
         }
