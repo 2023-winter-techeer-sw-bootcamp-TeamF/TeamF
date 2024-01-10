@@ -14,7 +14,7 @@ const Background = styled.div`
 `;
 
 const Inside = styled.div`
-  width: 1250px;
+  width: 1500px;
   margin-left: auto;
   margin-right: auto;
 `;
@@ -23,6 +23,10 @@ const BackgroundWrapper = styled.div`
   position: relative;
   width: 100%;
   height: 89vh;
+  @media (max-width: 1300px), (max-height: 650px) {
+    width: 85%;
+    height: 89vh;
+  }
 `;
 
 const BackgroundImg = styled.img`
@@ -38,6 +42,11 @@ const Card = styled.div`
   display: flex;
   justify-content: center;
   cursor: pointer;
+
+  @media (max-width: 1300px), (max-height: 650px) {
+    width: 15rem;
+    height: 27rem;
+  }
 `;
 
 const CardLine1 = styled.div`
@@ -47,6 +56,10 @@ const CardLine1 = styled.div`
   border: 0.5px solid #b88150;
   background: rgba(217, 217, 217, 0);
   margin-top: 0.97rem;
+  @media (max-width: 1300px), (max-height: 650px) {
+    width: 13rem;
+    height: 25rem;
+  }
 `;
 
 const CardLine2 = styled.div`
@@ -57,6 +70,12 @@ const CardLine2 = styled.div`
   background: rgba(217, 217, 217, 0);
   margin-top: 5px;
   margin-left: 2px;
+
+  @media (max-width: 1300px), (max-height: 650px) {
+    width: 12.5rem;
+    height: 22rem;
+    margin-left: 3.5px;
+  }
 `;
 
 const TaroExs = styled.div`
@@ -69,6 +88,10 @@ const TaroExs = styled.div`
 const TaroEx = styled.img`
   width: 4.16306rem;
   height: 7.4935rem;
+  @media (max-width: 1300px), (max-height: 650px) {
+    width: 3.5rem;
+    height: 6.4rem;
+  }
 `;
 
 const CardText = styled.p`
@@ -83,7 +106,25 @@ const CardText = styled.p`
   text-transform: uppercase;
   padding: 0.7rem;
   height: 15.5rem;
-  overflow-y: hidden;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  &::-webkit-scrollbar {
+    width: 5px; /* 스크롤바의 너비 */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #e1ded9; /* 연한 흰색 */
+    border-radius: 4px; /* 스크롤바 모양 (둥근 모서리) */
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #ffffff; /* 호버시 색상 변경 (흰색) */
+  }
+  @media (max-width: 1300px), (max-height: 650px) {
+    letter-spacing: -0.01rem;
+    font-size: 1rem;
+    height: 14rem;
+  }
 `;
 
 const UserName = styled.p`
@@ -98,6 +139,11 @@ const UserName = styled.p`
 
   letter-spacing: 0.08313rem;
   text-transform: uppercase;
+
+  @media (max-width: 1300px), (max-height: 650px) {
+    font-size: 0.9rem;
+    font-weight: 380;
+  }
 `;
 
 const Cards = styled.div`
@@ -107,6 +153,10 @@ const Cards = styled.div`
   gap: 6.5rem;
   top: 22%;
   left: 28%;
+
+  @media screen and (max-height: 900px) {
+    top: 15%;
+  }
 `;
 
 const RightBox = styled.div`
@@ -119,6 +169,11 @@ const RightBox = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 4.5rem;
+
+  @media (max-width: 1300px), (max-height: 650px) {
+    width: 15rem;
+    height: 27rem;
+  }
 `;
 
 const ShareIcon = styled.svg`
@@ -216,7 +271,11 @@ function CardSave() {
                       저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
                       저쩌구 어쩌구 저쩌 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
                       저쩌구 어쩌구 저 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구
-                      어쩌구 할거에요♥
+                      어쩌구 할거에요♥어쩌구 저쩌구 어쩌구 어쩌구 저쩌구 어쩌구
+                      저쩌 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
+                      저쩌구 어쩌구 저쩌구 어쩌구 저쩌 어쩌구 저쩌구 어쩌구
+                      저쩌구 어쩌구 저쩌구 어쩌구 저 어쩌구 저쩌구 어쩌구 저쩌구
+                      어쩌구 저쩌구 어쩌구 할거에요♥
                     </CardText>
                   </CardLine2>
                   <UserName>ㆍUSERNAMEㆍ</UserName>
