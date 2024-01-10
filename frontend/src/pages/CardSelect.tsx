@@ -17,9 +17,9 @@ const BackgroundColor = styled.div`
 
 const BackgroundWrapper = styled.div`
   position: relative; // 자식 요소를 절대 위치로 배치하기 위한 설정
-  width: 97%;
+  width: 100%;
   height: 89vh;
-  @media (max-width: 1300px) {
+  @media (max-width: 1300px), (max-height: 650px) {
     width: 85%;
     height: 89vh;
   }
@@ -31,7 +31,7 @@ const BackgroundImg = styled.img`
 `;
 
 const Inside = styled.div`
-  width: 1500px;
+  width: 1250px;
   margin-left: auto;
   margin-right: auto;
 `;
@@ -45,7 +45,7 @@ const CardBackground = styled.div`
   align-items: center;
   justify-content: center;
 
-  @media (max-width: 1300px) {
+  @media (max-width: 1300px), (max-height: 650px) {
     width: 8rem;
     height: 14rem;
   }
@@ -55,7 +55,7 @@ const TaroEx = styled.img`
   width: 7.72438rem;
   height: 13.90388rem;
 
-  @media (max-width: 1300px) {
+  @media (max-width: 1300px), (max-height: 650px) {
     width: 7rem;
     height: 13rem;
   }
@@ -67,7 +67,11 @@ const Cards = styled.div`
   position: absolute;
   gap: 6.5rem;
   top: 13%;
-  left: 28%;
+  left: 25%;
+
+  @media (max-width: 1300px), (max-height: 650px) {
+    gap: 4rem;
+  }
 `;
 
 const BackcardBackground = styled.div`
@@ -80,13 +84,13 @@ const BackcardBackground = styled.div`
   justify-content: center;
   position: absolute;
 
-  @media (max-width: 1300px) {
-    width: 8rem;
-    height: 14rem;
+  @media (max-width: 1300px), (max-height: 650px) {
+    width: 7rem;
+    height: 11rem;
 
     img {
-      width: 7.2rem;
-      height: 13rem;
+      width: 6.5rem;
+      height: 10.5rem;
     }
   }
 `;
@@ -96,10 +100,10 @@ const StackedCardsContainer = styled.div`
   height: 238.254px; // 자식 컨테이너(BackcardBackground)와 같은 높이
   width: 100%; // 또는 전체 카드가 겹치는 너비에 맞게 조정
   bottom: 45%;
-  left: 73.3%;
-  @media (max-width: 1300px) {
-    bottom: 45%;
-    left: 127%;
+  left: 70%;
+  @media (max-width: 1300px), (max-height: 650px) {
+    bottom: 40%;
+    left: 124.5%;
     transform: translateX(-50%);
   }
 `;
@@ -115,7 +119,7 @@ const NextBtn = styled.button`
   bottom: 10.5rem;
   cursor: pointer;
 
-  @media (max-width: 1300px) {
+  @media (max-width: 1300px), (max-height: 650px) {
     width: 3.5rem;
     height: 4rem;
     right: 5rem;
@@ -130,21 +134,21 @@ const BeforeBtn = styled.button`
   height: 3.75rem;
   background-image: url(${NextButton});
   position: absolute;
-  right: 79rem;
+  right: 66rem;
   bottom: 10.5rem;
   cursor: pointer;
   transform: rotate(180deg);
 
-  @media (max-width: 1300px) {
+  @media (max-width: 1300px), (max-height: 650px) {
     width: 3.5rem;
     height: 4rem;
-    right: 71rem;
+    right: 58rem;
     bottom: 10.5rem;
   }
 `;
 
 const CardSelect = () => {
-  const NumberOfCards = 28; // 겹칠 카드의 수
+  const NumberOfCards = 22; // 겹칠 카드의 수
   const Overlap = -30; // 카드 겹침 정도
 
   return (
