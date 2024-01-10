@@ -126,7 +126,8 @@ const router = createBrowserRouter([
   {
     path: "/cardselect",
     element: <CardSelect />,
-  },{
+  },
+  {
     path: "/cardsave",
     element: <CardSave />,
   },
