@@ -152,22 +152,28 @@ router.post('/save', (req, res, next) => {
             type: 'string',
             example: '56789'
     } */
-    /*
-    타로 결과 request 필요 항목
-    1. 고민 질문 v
-    2. 종합 해석 v
-    3. 폴 아이디 v
-    4. 유저 고유번호 v
-    뽑은 카드 request 필요항목
-    1. 폴 아이디 v
-    2. 카드 이미지 주소 v
-    3. 카드별 해석 v
-    4. 영어 카드 이름 v
-    5. 한글 카드 이름 v
-    */
+    
     const { user_id, poll_id } = req.query;
-    const { question, result_explanation, master_name, luck_type, card_image_url, card_explanation, card_eng_name, card_kor_name } = req.body;
+    //const { question, result_explanation, master_name, luck_type, card_image_url, card_explanation, card_eng_name, card_kor_name } = req.body;
+    const { question, result_explanation, master_name, luck_type, cards } = req.body;
+    
+    /*
+    뽑은 카드 배열로 묶어서 받기
+    const cards = [
+        { card_image_url: 'url1', card_explanation: 'explanation1', card_eng_name: 'eng1', card_kor_name: 'kor1' },
+        { card_image_url: 'url2', card_explanation: 'explanation2', card_eng_name: 'eng2', card_kor_name: 'kor2' },
+        { card_image_url: 'url3', card_explanation: 'explanation3', card_eng_name: 'eng3', card_kor_name: 'kor3' }
+    ];
+    */
+
     // 누락 여부 체크
+    if (!user_id) {
+        res.locals.status = 400;
+        res.locals.data = { message: "유저 아이디 누락" };
+        res.locals.success = false;
+        return next();
+    }
+
     // 타로 결과 Table에 타로 결과 저장
     const connection = db.getConnection();
     const results_query = "INSERT INTO results (poll_id, user_id, question, explanation, master_name, luck, created_at) "
@@ -182,21 +188,28 @@ router.post('/save', (req, res, next) => {
             res.locals.data = { message : '타로 결과 Table에 데이터 저장 성공', resultsId: results.insertId };
         }
     });
-    // 뽑은 카드 Table에 뽑은 카드 정보 저장 (일단 카드 1장일 경우)
-    const cards_query = "INSERT INTO cards (poll_id, image_url, explanation, eng_name, kor_name, ordered, created_at) "
+    
+    for(const card of cards) {
+        // 뽑은 카드 Table에 뽑은 카드 정보 저장
+        const cards_query = "INSERT INTO cards (poll_id, image_url, explanation, eng_name, kor_name, ordered, created_at) "
                 + "VALUES(?, ?, ?, ?, ?, 0, NOW())";
-    connection.query(cards_query, [poll_id, card_image_url, card_explanation, card_eng_name, card_kor_name], (error, results, fields) => {
-        if (error) {
-            res.locals.status = 500;
-            res.locals.data = { message: ' 뽑은 카드 Table에 데이터 저장 중 오류 발생', error };
-            return next();
-        }
-        else {
-            res.locals.data = { message : '뽑은 카드 Table에 데이터 저장 성공', cardsId: results.insertId };
-        }
-    });
+        connection.query(cards_query, [poll_id, card.card_image_url, card.card_explanation, card.card_eng_name, card.card_kor_name], (error, results, fields) => {
+            if (error) {
+                res.locals.status = 500;
+                res.locals.data = { message: ' 뽑은 카드 Table에 데이터 저장 중 오류 발생', error };
+                return next();
+            }
+            else {
+                res.locals.data = { message : '뽑은 카드 Table에 데이터 저장 성공', cardsId: results.insertId };
+            }
+        });
+
+    }
+
     res.locals.data = { message: '타로 결과, 뽑은 카드 정보 저장 성공' };
     next();
 });
+
+
 
 module.exports = router;
