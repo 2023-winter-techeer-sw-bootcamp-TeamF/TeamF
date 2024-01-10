@@ -1,5 +1,7 @@
 require('dotenv').config();
 const express = require('express');
+const http = require('http'); // 소켓 io 필요 모듈
+const socketIo = require('socket.io'); // 소켓 io 필요 모듈
 const cors = require('cors');
 const { configureAwsClient } = require('./aws/awsClientConfig'); // AWS 클라이언트 설정
 const { GetSecretValueCommand } = require("@aws-sdk/client-secrets-manager"); // GetSecretValueCommand 가져오기
@@ -16,7 +18,23 @@ const secretGptApiKey = "GPT_KEY";
 
 // Express 미들웨어 설정
 app.use(express.json());
+const server = http.createServer(app); // http 서버 생성
+const io = socketIo(server); // socket.io와 서버 연결
 app.use(express.urlencoded({ extended: false }));
+
+// 소켓 이벤트 설정
+io.on('connection', (socket) => {
+  console.log('User connected');
+
+  socket.on('message', (message) => {
+    console.log('Message received:', message);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('User disconnected');
+  });
+
+});
 
 // CORS 설정
 const corsOptions = {
@@ -70,7 +88,9 @@ async function startServer() {
 
     // 서버 시작
     const port = 3000;
-    app.listen(port, () => console.log(`서버가 포트 ${port}에서 실행 중입니다.`));
+    // 기존 app.listen() 대신 server.listen()을 사용
+    // HTTP 서버와 소켓 서버가 모두 동일한 포트로 설정
+    server.listen(port, () => console.log(`서버와 소켓이 포트 ${port}에서 실행 중입니다.`));
   } catch (error) {
     console.error("시작 중 오류 발생:", error);
   }
