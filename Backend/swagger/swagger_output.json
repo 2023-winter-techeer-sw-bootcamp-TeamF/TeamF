@@ -11,20 +11,6 @@
     "http"
   ],
   "paths": {
-    "/tarot/": {
-      "get": {
-        "tags": [
-          "Tarot"
-        ],
-        "summary": "Todo: 운세 카테고리 선택, 가이드라인, 질문 전송, 뽑은 것 조회, 카드 이미지 반환",
-        "description": "/select /guide /ask /cards /card/info",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/tarot/guide": {
       "get": {
         "tags": [
@@ -181,24 +167,10 @@
         }
       }
     },
-    "/result/": {
-      "get": {
-        "tags": [
-          "Result"
-        ],
-        "summary": "Todo: 결과 리스트, 결과 상세조회, 결과 삭제",
-        "description": "/list /detail /delete",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/user/signup": {
       "post": {
         "tags": [
-          "Tarot"
+          "User"
         ],
         "summary": "회원가입",
         "description": "회원가입 하는 유저의 아이디, username 중복검사 및 가입 하는 유저의 정보를 데이터베이스에 저장",
@@ -247,7 +219,7 @@
     "/user/login": {
       "post": {
         "tags": [
-          "Tarot"
+          "User"
         ],
         "summary": "로그인",
         "description": "아이디와 비밀번호를 이용하여 로그인을 수행하고, 성공 시 액세스 토큰과 리프레시 토큰을 발급",
@@ -288,7 +260,7 @@
     "/user/logout": {
       "post": {
         "tags": [
-          "Tarot"
+          "User"
         ],
         "summary": "로그아웃",
         "description": "현재 로그인된 사용자의 로그아웃을 수행",
@@ -302,16 +274,90 @@
         }
       }
     },
-    "/mypage/": {
+    "/mypage/detail": {
       "get": {
         "tags": [
           "MyPage"
         ],
-        "summary": "Todo: 총합 결과, 총합 결과 저장",
-        "description": "/result /result/save",
+        "summary": "결과 리스트에서 선택한 결과 상세 조회",
+        "description": "결과 리스트 중 선택한 결과(Poll_id)를 통해 해당 결과를 상세조회한다.",
+        "parameters": [
+          {
+            "name": "poll_id",
+            "in": "query",
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "결과와 카드 데이터 성공적으로 조회됨.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "question": {
+                        "type": "string",
+                        "example": ""
+                      },
+                      "explanation": {
+                        "type": "string",
+                        "example": ""
+                      },
+                      "luck": {
+                        "type": "string",
+                        "example": ""
+                      },
+                      "master_name": {
+                        "type": "string",
+                        "example": ""
+                      },
+                      "created_at": {
+                        "type": "string",
+                        "example": ""
+                      }
+                    }
+                  }
+                },
+                "cards": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "image_url": {
+                        "type": "string",
+                        "example": ""
+                      },
+                      "explanation": {
+                        "type": "string",
+                        "example": ""
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "내부 서버 오류로 인한 DB 쿼리 실패.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "DB 쿼리 오류"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
