@@ -152,151 +152,78 @@ router.post('/stream', async (req, res, next) => {
 
 router.post('/save', (req, res, next) => {
     // Swagger 문서화
-    // #swagger.summary = "총합 결과 저장"
-    // #swagger.description = '총합 결과 저장'
+    // #swagger.summary = "종합 결과 저장"
+    // #swagger.description = '종합 결과 저장'
     // #swagger.tags = ['Result']
-     /*  #swagger.responses[200] = {
-              description: '테스트 값 조회 성공',}
-      } */
-    /*  #swagger.responses[400] = {
-              description: '잘못된 요청',
-      } */
-    /* #swagger.parameters['user_id'] = {
-           in: 'query',
-           description: '유저 고유번호',
-           required: true,
-           type: 'integer',
-           example: '12345'
-   } */
-    /* #swagger.parameters['poll_id'] = {
-            in: 'query',
-            description: '폴 아이디',
-            required: true,
-            type: 'integer',
-            example: '56789'
+    /* #swagger.parameters['body'] = {
+        in: 'body',
+        description: '타로 결과 및 뽑은 카드 정보 저장을 위한 요청값',
+        required: true,
+        schema: {
+            poll_id : '12345',
+            question : '사용자 질문',
+            result_explanation : '종합 결과',
+            master_name : '마스터 이름',
+            luck_type : '운 종류',
+            cards : [
+                {
+                    "card_image_url": "url1",
+                    "card_explanation": "explanation1",
+                    "card_eng_name": "eng1",
+                    "card_kor_name": "kor1"
+                },
+                {
+                    "card_image_url": "url2",
+                    "card_explanation": "explanation2",
+                    "card_eng_name": "eng2",
+                    "card_kor_name": "kor2"
+                }
+            ],
+        }
     } */
-    /* #swagger.parameters['requestData'] = {
-            in: 'body',
-            description: '타로 결과 및 뽑은 카드 정보 저장을 위한 요청값',
-            required: true,
-            type: 'object',
-            schema: {
-                "question": "any",
-                "result_explanation": "any",
-                "master_name": "any",
-                "luck_type": "any",
-                "cards": [
-                    {
-                        "card_image_url": "url3",
-                        "card_explanation": "explanation3",
-                        "card_eng_name": "eng3",
-                        "card_kor_name": "kor3"
-                    },
-                    {
-                        "card_image_url": "url3",
-                        "card_explanation": "explanation3",
-                        "card_eng_name": "eng3",
-                        "card_kor_name": "kor3"
-                    }
-                ]
-            },
-            example : {
-                "question": "any",
-                "result_explanation": "any",
-                "master_name": "any",
-                "luck_type": "any",
-                "cards": [
-                    {
-                        "card_image_url": "url3",
-                        "card_explanation": "explanation3",
-                        "card_eng_name": "eng3",
-                        "card_kor_name": "kor3"
-                    },
-                    {
-                        "card_image_url": "url3",
-                        "card_explanation": "explanation3",
-                        "card_eng_name": "eng3",
-                        "card_kor_name": "kor3"
-                    }
-                ]
-            }
-        }; */
     
-    const { user_id, poll_id } = req.query;
-    const { requestData } = req.body;
+    const { poll_id, question, result_explanation, master_name, luck_type, cards } = req.body;
  
     // 누락 여부 체크
-    if (!requestData.user_id) {
+    let missingParameter = null;
+
+    if (!poll_id) {
+        missingParameter = "Poll 아이디 누락";
+    } 
+    else if (!question) {
+        missingParameter = "사용자 질문 누락";
+    } 
+    else if (!result_explanation) {
+        missingParameter = "종합 결과 누락";
+    } 
+    else if (!master_name) {
+        missingParameter = "타로 마스터 이름 누락";
+    } 
+    else if (!luck_type) {
+        missingParameter = "운 종류 누락";
+    } 
+    else if (!cards || Object.keys(cards).length == 0) {
+        missingParameter = "뽑은 카드 정보 누락";
+    }
+
+    if (missingParameter) {
         /* #swagger.responses[400] = {
-            description: '요청된 사용자 ID가 누락되었을 때의 응답',
-            schema: { message: '유저 아이디 누락' }
+            description: '요청된 값이 누락되었을 때의 응답',
+            schema: { message: 'missingParameter' }
         } */
         res.locals.status = 400;
-        res.locals.data = { message: "유저 아이디 누락" };
+        res.locals.data = { message: missingParameter };
         res.locals.success = false;
         return next();
     }
 
-    if (!requestData.poll_id) {
-        /* #swagger.responses[400] = {
-            description: '요청된 Poll ID가 누락되었을 때의 응답',
-            schema: { message: 'Poll 아이디 누락' }
-        } */
-        res.locals.status = 400;
-        res.locals.data = { message: "Poll 아이디 누락" };
-        res.locals.success = false;
-        return next();
-    }
-
-    if (!requestData.question) {
-        /* #swagger.responses[400] = {
-            description: '요청된 사용자 질문이 누락되었을 때의 응답',
-            schema: { message: '사용자 질문 누락' }
-        } */
-        res.locals.status = 400;
-        res.locals.data = { message: "사용자 질문 누락" };
-        res.locals.success = false;
-        return next();
-    }
-
-    if (!requestData.result_explanation) {
-        /* #swagger.responses[400] = {
-            description: '요청된 종합 결과가 누락되었을 때의 응답',
-            schema: { message: '종합 결과 누락' }
-        } */
-        res.locals.status = 400;
-        res.locals.data = { message: "종합 결과 누락" };
-        res.locals.success = false;
-        return next();
-    }
-
-    if (!requestData.master_name) {
-        /* #swagger.responses[400] = {
-            description: '요청된 타로 마스터 이름이 누락되었을 때의 응답',
-            schema: { message: '타로 마스터 이름 누락' }
-        } */
-        res.locals.status = 400;
-        res.locals.data = { message: "타로 마스터 이름 누락" };
-        res.locals.success = false;
-        return next();
-    }
-    
-    if (!requestData.cards || Object.keys(requestData.cards).length == 0) {
-        /* #swagger.responses[400] = {
-            description: '요청된 운 종류가 누락되었을 때의 응답',
-            schema: { message: '운 종류 누락' }
-        } */
-        res.locals.status = 400;
-        res.locals.data = { message: "운 종류 누락" };
-        res.locals.success = false;
-        return next();
-    }
+    let resultsId = null;
 
     // 타로 결과 Table에 타로 결과 저장
     const connection = db.getConnection();
-    const results_query = "INSERT INTO results (poll_id, user_id, question, explanation, master_name, luck, created_at) "
-                + "VALUES(?, ?, ?, ?, ?, ?, NOW())";
-    const results_params = [poll_id, user_id, requestData.question, requestData.result_explanation, requestData.master_name, requestData.luck_type];
+    const results_query = "INSERT INTO results (poll_id, question, explanation, master_name, luck, created_at) "
+                + "VALUES(?, ?, ?, ?, ?, NOW())";
+    const results_params = [poll_id, question, result_explanation, master_name, luck_type];
     connection.query(results_query, [results_params], (error, results, fields) => {
         if (error) {
             /* #swagger.responses[500] = {
@@ -308,36 +235,45 @@ router.post('/save', (req, res, next) => {
             return next();
         }
         else {
-            res.locals.data = { message : '타로 결과 Table에 데이터 저장 성공', resultsId: results.insertId };
+            resultsId = results.insertId;
+            // res.locals.data = { message : '타로 결과 Table에 데이터 저장 성공', resultsId: results.insertId };
         }
     });
 
-    for(const card in requestData.cards) {
+    let cardsId = [];
+
+    for(const card in cards) {
+        // 뽑은 순서
+        let ordered = 0;
+
         // 뽑은 카드 Table에 뽑은 카드 정보 저장
         const cards_query = "INSERT INTO cards (poll_id, image_url, explanation, eng_name, kor_name, ordered, created_at) "
-                + "VALUES(?, ?, ?, ?, ?, 0, NOW())";
-        connection.query(cards_query, [poll_id, card.card_image_url, card.card_explanation, card.card_eng_name, card.card_kor_name], (error, results, fields) => {
+                + "VALUES(?, ?, ?, ?, ?, ?, NOW())";
+        connection.query(cards_query, [poll_id, card.card_image_url, card.card_explanation, card.card_eng_name, card.card_kor_name, ordered], (error, results, fields) => {
             if (error) {
-                /* #swagger.responses[500] = {
+                /* #swagger.responses[510] = {
                     description: '뽑은 카드 Table에 데이터 저장 중 오류가 발생했을 때의 응답',
                     schema: { message: '뽑은 카드 Table에 데이터 저장 중 오류 발생' }
                     } */
-                res.locals.status = 500;
+                res.locals.status = 510;
                 res.locals.data = { message: '뽑은 카드 Table에 데이터 저장 중 오류 발생', error };
                 return next();
             }
             else {
-                res.locals.data = { message : '뽑은 카드 Table에 데이터 저장 성공', cardsId: results.insertId };
+                cardsId.push(results.insertId);
+                // res.locals.data = { message : '뽑은 카드 Table에 데이터 저장 성공', cardsId: results.insertId };
             }
         });
+
+        ordered++;
 
     }
 
     /* #swagger.responses[200] = {
-                    description: '타로 결과, 뽑은 카드 정보 저장 성공',
-                    schema: { message: '타로 결과, 뽑은 카드 정보 저장 성공' },
-                    } */
-    res.locals.data = { message: '타로 결과, 뽑은 카드 정보 저장 성공' };
+            description: '타로 결과, 뽑은 카드 정보 저장 성공',
+            schema: { message: '타로 결과, 뽑은 카드 정보 저장 성공' },
+        } */
+    res.locals.data = { message: '타로 결과, 뽑은 카드 정보 저장 성공', resultsId, cardsId };
     next();
 });
 
