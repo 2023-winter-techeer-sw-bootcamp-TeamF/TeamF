@@ -326,16 +326,7 @@
                 "luck_type": {
                   "example": "any"
                 },
-                "card_image_url": {
-                  "example": "any"
-                },
-                "card_explanation": {
-                  "example": "any"
-                },
-                "card_eng_name": {
-                  "example": "any"
-                },
-                "card_kor_name": {
+                "cards": {
                   "example": "any"
                 }
               }
@@ -390,13 +381,49 @@
             "description": "OK"
           },
           "400": {
-            "description": "접근 방식 오류"
+            "description": "접근 방식 오류",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "접근 방식 오류"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "409": {
-            "description": "이미 존재하는 아이디나 username"
+            "description": "이미 존재하는 아이디나 username 입니다.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "이미 존재하는 아이디나 username 입니다."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "500": {
-            "description": "회원가입 정보 불러오기 실패"
+            "description": "회원가입 정보 불러오기 실패",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "회원가입 정보 불러오기 실패"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
@@ -431,13 +458,49 @@
             "description": "OK"
           },
           "400": {
-            "description": "접근 방식 오류"
+            "description": "접근 방식 오류",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "접근 방식 오류"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "401": {
-            "description": "유효하지 않은 아이디 또는 비밀번호"
+            "description": "유효하지 않은 아이디 또는 비밀번호",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "유효하지 않은 아이디 또는 비밀번호"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "500": {
-            "description": "로그인 정보 불러오기 실패"
+            "description": "로그인 정보 불러오기 실패",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "로그인 정보 불러오기 실패"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
@@ -454,7 +517,19 @@
             "description": "OK"
           },
           "500": {
-            "description": "로그아웃 정보 불러오기 실패"
+            "description": "로그아웃 정보 불러오기 실패",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "로그아웃 정보 불러오기 실패"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
