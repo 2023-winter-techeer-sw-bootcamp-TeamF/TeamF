@@ -314,7 +314,7 @@ router.post('/save', (req, res, next) => {
 
     /* #swagger.responses[200] = {
                     description: '타로 결과, 뽑은 카드 정보 저장 성공',
-                    schema: { message: '뽑은 카드 Table에 데이터 저장 중 오류 발생' },
+                    schema: { message: '타로 결과, 뽑은 카드 정보 저장 성공' },
                     } */
     res.locals.data = { message: '타로 결과, 뽑은 카드 정보 저장 성공' };
     next();
