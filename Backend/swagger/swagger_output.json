@@ -358,48 +358,36 @@
         "tags": [
           "Result"
         ],
-        "summary": "총합 결과 저장",
-        "description": "총합 결과 저장",
+        "summary": "종합 결과 저장",
+        "description": "종합 결과 저장",
         "parameters": [
           {
-            "name": "user_id",
-            "in": "query",
-            "description": "유저 고유번호",
-            "required": true,
-            "type": "integer",
-            "example": "12345"
-          },
-          {
-            "name": "poll_id",
-            "in": "query",
-            "description": "폴 아이디",
-            "required": true,
-            "type": "integer",
-            "example": "56789"
-          },
-          {
-            "name": "requestData",
+            "name": "body",
             "in": "body",
             "description": "타로 결과 및 뽑은 카드 정보 저장을 위한 요청값",
             "required": true,
             "schema": {
               "type": "object",
               "properties": {
+                "poll_id": {
+                  "type": "string",
+                  "example": "12345"
+                },
                 "question": {
                   "type": "string",
-                  "example": "any"
+                  "example": "사용자 질문"
                 },
                 "result_explanation": {
                   "type": "string",
-                  "example": "any"
+                  "example": "종합 결과"
                 },
                 "master_name": {
                   "type": "string",
-                  "example": "any"
+                  "example": "마스터 이름"
                 },
                 "luck_type": {
                   "type": "string",
-                  "example": "any"
+                  "example": "운 종류"
                 },
                 "cards": {
                   "type": "array",
@@ -408,44 +396,24 @@
                     "properties": {
                       "card_image_url": {
                         "type": "string",
-                        "example": "url3"
+                        "example": "url2"
                       },
                       "card_explanation": {
                         "type": "string",
-                        "example": "explanation3"
+                        "example": "explanation2"
                       },
                       "card_eng_name": {
                         "type": "string",
-                        "example": "eng3"
+                        "example": "eng2"
                       },
                       "card_kor_name": {
                         "type": "string",
-                        "example": "kor3"
+                        "example": "kor2"
                       }
                     }
                   }
                 }
               }
-            },
-            "example": {
-              "question": "any",
-              "result_explanation": "any",
-              "master_name": "any",
-              "luck_type": "any",
-              "cards": [
-                {
-                  "card_image_url": "url3",
-                  "card_explanation": "explanation3",
-                  "card_eng_name": "eng3",
-                  "card_kor_name": "kor3"
-                },
-                {
-                  "card_image_url": "url3",
-                  "card_explanation": "explanation3",
-                  "card_eng_name": "eng3",
-                  "card_kor_name": "kor3"
-                }
-              ]
             }
           }
         ],
@@ -466,13 +434,13 @@
             }
           },
           "400": {
-            "description": "요청된 운 종류가 누락되었을 때의 응답",
+            "description": "요청된 값이 누락되었을 때의 응답",
             "schema": {
               "type": "object",
               "properties": {
                 "message": {
                   "type": "string",
-                  "example": "운 종류 누락"
+                  "example": "missingParameter"
                 }
               },
               "xml": {
@@ -481,6 +449,21 @@
             }
           },
           "500": {
+            "description": "타로 결과 Table에 데이터 저장 중 오류가 발생했을 때의 응답",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "타로 결과 Table에 데이터 저장 중 오류 발생"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "510": {
             "description": "뽑은 카드 Table에 데이터 저장 중 오류가 발생했을 때의 응답",
             "schema": {
               "type": "object",
