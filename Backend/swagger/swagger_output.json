@@ -159,29 +159,90 @@
             "description": "카드 번호",
             "required": true,
             "type": "integer",
-            "example": "1"
+            "example": "1",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "card": {
+                  "type": "number",
+                  "example": 1
+                }
+              }
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "카드 정보 불러오기 성공 url 전송"
+            "description": "카드 정보 불러오기 성공 url 전송",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "creat image url successfully"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "카드 이름"
+                },
+                "english": {
+                  "type": "string",
+                  "example": "카드 영어 이름"
+                },
+                "mean": {
+                  "type": "string",
+                  "example": "카드 뜻"
+                },
+                "image_url": {
+                  "type": "string",
+                  "example": "카드 이미지 url"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "400": {
-            "description": "잘못된 카드 번호 요청"
+            "description": "잘못된 카드 번호 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "카드 번호가 없습니다."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "500": {
-            "description": "카드 정보 불러오기 실패"
+            "description": "카드 정보 불러오기 실패",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "카드 정보를 가져오는데 실패했습니다."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
-    "/result/": {
+    "/result/stream": {
       "post": {
         "tags": [
           "Result"
         ],
-        "summary": "Todo: 결과 리스트, 결과 상세조회, 결과 삭제",
-        "description": "/list /detail /deswaggerlete",
+        "summary": "타로 결과 GPT 요청",
+        "description": "타로 결과를 API에 요청하고 결과를 반환함",
         "parameters": [
           {
             "name": "cards",
@@ -220,7 +281,7 @@
         ],
         "responses": {
           "200": {
-            "description": "GPT-3 API 요청 성공",
+            "description": "GPT API 요청 성공",
             "schema": {
               "type": "object",
               "properties": {
@@ -256,13 +317,13 @@
             }
           },
           "400": {
-            "description": "유효하지않은 질문 정보",
+            "description": "유효하지않은 데이터",
             "schema": {
               "type": "object",
               "properties": {
                 "message": {
                   "type": "string",
-                  "example": "request is null or undefined"
+                  "example": "데이터가 유효하지 않습니다. (널값, 누락 등)"
                 }
               },
               "xml": {
@@ -271,17 +332,17 @@
             }
           },
           "500": {
-            "description": "GPT-3 API 요청 중 오류 발생",
+            "description": "GPT API 요청 중 오류 발생",
             "schema": {
               "type": "object",
               "properties": {
                 "message": {
                   "type": "string",
-                  "example": "GPT-3 API 요청 중 오류 발생"
+                  "example": "GPT에서 오류가 발생해 데이터를 불러올 수 없습니다!"
                 },
                 "error": {
                   "type": "string",
-                  "example": "error"
+                  "example": ""
                 }
               },
               "xml": {
