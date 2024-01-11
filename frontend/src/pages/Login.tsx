@@ -148,7 +148,7 @@ function Login() {
         <Circle>
           <LWord>LOG IN</LWord>
           <Id placeholder="ID" />
-          <Pw placeholder="PASSWORD"></Pw>
+          <Pw type="password" placeholder="PASSWORD"></Pw>
           <LButton> LOG IN</LButton>
           <Sign>
             <Link to="/signup">SIGN UP</Link>
