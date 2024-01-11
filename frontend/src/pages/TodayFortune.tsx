@@ -197,7 +197,7 @@ const TodayFortune = () => {
             </Tellme>
           </ChatBox>
           <ReplyBox>
-            <Reply placeholder="자! 이제 너의 고민을 말해봐."></Reply>
+            <Reply placeholder="자! 이제 네 고민을 말해봐."></Reply>
           </ReplyBox>
         </BackgroundWrapper>
       </Inside>
