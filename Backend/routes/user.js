@@ -102,7 +102,6 @@ router.post('/login', (req, res, next) => {
         in: 'body',
         description: '로그인 정보',
         required: true,
-        schema: {
             id : 'test',
             password : '123'
         }
