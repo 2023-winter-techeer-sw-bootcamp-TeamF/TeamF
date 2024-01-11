@@ -15,6 +15,10 @@ const BackgroundWrapper = styled.div`
   position: relative; // 자식 요소를 절대 위치로 배치하기 위한 설정
   width: 100%;
   height: 89vh;
+  @media (max-width: 1300px), (max-height: 650px) {
+    width: 85%;
+    height: 89vh;
+  }
 `;
 
 const BackgroundImg = styled.img`
@@ -70,7 +74,7 @@ const Profile = styled.img`
   transform: translate(-950%, -250%);
   @media screen and (max-width: 1300px), (max-height: 650px) {
     top: 43%;
-    left: 49%;
+    left: 57%;
     transform: translate(-1000%, -260%);
   }
 `;
