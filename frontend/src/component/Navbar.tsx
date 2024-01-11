@@ -11,7 +11,7 @@ const NavContainer = styled.nav`
   align-items: flex-end;
   z-index: 10;
   @media (max-width: 1300px), (max-height: 650px) {
-    width: 85%;
+    width: 80%;
   }
 `;
 
@@ -72,8 +72,7 @@ const Navbar = () => {
     <NavContainer>
       <LogoContainer>
         <Link to="/">
-          <LargeLetter>T</LargeLetter>AROT&nbsp;<LargeLetter>C</LargeLetter>
-          OUNSELING
+          <LargeLetter>T</LargeLetter>AIROT&nbsp;
         </Link>
       </LogoContainer>
 

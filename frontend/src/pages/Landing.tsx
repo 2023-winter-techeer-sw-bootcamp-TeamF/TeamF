@@ -15,12 +15,16 @@ const Background = styled.div`
 `;
 
 const LandingBackground = styled.img`
-  width: 100vw;
-  height: 100vh;
+  width: 90rem;
+  height: 60rem;
   mix-blend-mode: hard-light;
   display: flex;
   align-items: center;
   justify-content: center;
+  @media screen and (max-width: 1500px) {
+    width: 60rem;
+    height: 40rem;
+  }
 `;
 
 const LandingThings = styled.div`
