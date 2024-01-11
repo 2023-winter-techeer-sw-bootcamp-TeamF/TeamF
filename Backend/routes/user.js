@@ -162,4 +162,17 @@ router.post('/login', (req, res, next) => {
     });
 }, commonResponse);
 
+// 로그아웃 API
+router.post('/logout', (req, res, next) => {
+    // #swagger.tags = ['User']
+    // #swagger.summary = "로그아웃"
+    // #swagger.description = '현재 로그인된 사용자의 로그아웃을 수행'
+    /*  #swagger.responses[500] = {
+            description: '로그아웃 정보 불러오기 실패',
+    } */
+
+    res.locals.data = { message: '로그아웃 되었습니다.' };
+    next();
+});
+
 module.exports = router;
