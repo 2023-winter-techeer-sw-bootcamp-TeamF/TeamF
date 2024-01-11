@@ -12,8 +12,11 @@ import MyPage from "./pages/MyPage";
 import FortuneSelect from "./pages/FortuneSelect";
 import ResultDetail from "./pages/ResultDetail";
 import TarotProcess from "./pages/TarotProcess";
-import BeforeChat from "./pages/BeforeChat";
-
+import TodayFortune from "./pages/TodayFortune";
+import LoveFortune from "./pages/LoveFortune";
+import Friendship from "./pages/Friendship";
+import MoneyFortune from "./pages/MoneyFortune";
+import WishFortune from "./pages/WishFortune";
 import CardSelect from "./pages/CardSelect";
 
 import CardSave from "./pages/CardSave";
@@ -120,8 +123,24 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "/beforechat",
-    element: <BeforeChat />,
+    path: "/todayfortune",
+    element: <TodayFortune />,
+  },
+  {
+    path: "/lovefortune",
+    element: <LoveFortune />,
+  },
+  {
+    path: "/friendship",
+    element: <Friendship />,
+  },
+  {
+    path: "/moneyfortune",
+    element: <MoneyFortune />,
+  },
+  {
+    path: "/wishfortune",
+    element: <WishFortune />,
   },
   {
     path: "/cardselect",

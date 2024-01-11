@@ -3,11 +3,11 @@ import Navbar from "../component/Navbar";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Background from "../assets/Background.png";
-import Friendship from "../assets/Friendship.png";
-import LoveFortune from "../assets/LoveFortune.png";
-import MoneyFortune from "../assets/MoneyFortune.png";
-import TodayFortune from "../assets/TodayFortune.png";
-import WishFortune from "../assets/WishFortune.png";
+import FriendshipImg from "../assets/Friendship.png";
+import LoveFortuneImg from "../assets/LoveFortune.png";
+import MoneyFortuneImg from "../assets/MoneyFortune.png";
+import TodayFortuneImg from "../assets/TodayFortune.png";
+import WishFortuneImg from "../assets/WishFortune.png";
 const BackgroundWrapper = styled.div`
   position: relative; // 자식 요소를 절대 위치로 배치하기 위한 설정
   width: 100%;
@@ -82,7 +82,7 @@ const CardBox = styled.div`
 
   @media (max-width: 1300px), (max-height: 650px) {
     width: 165px;
-    height: 300px;
+    height: 256px;
   }
 `;
 
@@ -167,35 +167,35 @@ const FortuneSelect = () => {
             <CardsContainer>
               <CardBox>
                 <CardLink to="/todayfortune">
-                  <ProfileImage src={TodayFortune} />
+                  <ProfileImage src={TodayFortuneImg} />
                   <Question>나의 오늘은 어떨까?</Question>
                   <CardTitle>오늘의 운세</CardTitle>
                 </CardLink>
               </CardBox>
               <CardBox>
                 <CardLink to="/lovefortune">
-                  <ProfileImage src={LoveFortune} />
+                  <ProfileImage src={LoveFortuneImg} />
                   <Question>우리 사이 애정은?</Question>
                   <CardTitle>연애운</CardTitle>
                 </CardLink>
               </CardBox>
               <CardBox>
                 <CardLink to="/friendship">
-                  <ProfileImage src={Friendship} />
+                  <ProfileImage src={FriendshipImg} />
                   <Question>우리 사이 우정은?</Question>
                   <CardTitle>우정운</CardTitle>
                 </CardLink>
               </CardBox>
               <CardBox>
                 <CardLink to="/moneyfortune">
-                  <ProfileImage src={MoneyFortune} />
+                  <ProfileImage src={MoneyFortuneImg} />
                   <Question>나 부자될 수 있을까?</Question>
                   <CardTitle>재물운</CardTitle>
                 </CardLink>
               </CardBox>
               <CardBox>
                 <CardLink to="/wishfortune">
-                  <ProfileImage src={WishFortune} />
+                  <ProfileImage src={WishFortuneImg} />
                   <Question>이룰 수 있을까?</Question>
                   <CardTitle>소망운</CardTitle>
                 </CardLink>

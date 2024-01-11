@@ -186,7 +186,7 @@ function Signup() {
           <SWord>SIGN UP</SWord>
           <Id placeholder="ID"></Id>
           <Pw placeholder="PASSWORD"></Pw>
-          <ConfirmP placeholder="CORNFIRM PASSWORD"></ConfirmP>
+          <ConfirmP placeholder="CONFIRM PASSWORD"></ConfirmP>
           <Username placeholder="USERNAME"></Username>
           <SButton>SIGN UP</SButton>
         </Circle>

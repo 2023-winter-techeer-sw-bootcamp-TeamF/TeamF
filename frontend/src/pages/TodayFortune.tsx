@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "../component/Navbar";
 import styled from "styled-components";
 import Background from "../assets/Background.png";
-import TodayFortune from "../assets/TodayFortune.png";
+import TodayFortuneImg from "../assets/TodayFortune.png";
 
 const BackgroundColor = styled.div`
   background: #000;
@@ -133,8 +133,10 @@ const ReplyBox = styled.div`
   }
 `;
 
-const Reply = styled.p`
+const Reply = styled.textarea`
   color: #fff;
+  background-color: #000;
+  width: 600px;
   text-align: right;
   font-family: Inter;
   font-size: 23px;
@@ -143,6 +145,9 @@ const Reply = styled.p`
   line-height: normal;
   overflow-y: scroll;
   padding-right: 1rem;
+  outline: none;
+  border: none;
+  resize: none;
   &::-webkit-scrollbar {
     width: 5px; /* 스크롤바의 너비 */
   }
@@ -155,18 +160,25 @@ const Reply = styled.p`
   &::-webkit-scrollbar-thumb:hover {
     background-color: #ffffff; /* 호버시 색상 변경 (흰색) */
   }
+  &::placeholder {
+    color: #fff;
+    background-color: #000;
+    font-size: 23px;
+    padding-right: 1rem;
+  }
+
   @media screen and (max-width: 1300px), (max-height: 650px) {
     font-size: 20px;
   }
 `;
 
-const BeforeChat = () => {
+const TodayFortune = () => {
   return (
     <BackgroundColor>
       <Inside>
         <Navbar />
         <BackgroundWrapper>
-          <Profile src={TodayFortune}></Profile>
+          <Profile src={TodayFortuneImg}></Profile>
           <TitleBox>
             <TitleContent>OO운 타로 마스터와의 대화</TitleContent>
           </TitleBox>
@@ -185,19 +197,11 @@ const BeforeChat = () => {
             </Tellme>
           </ChatBox>
           <ReplyBox>
-            <Reply>
-              일하는데 스트레스를 너무 많이 받습니다. 이직을 하면 좋을 지 아니면
-              더 적응을 해야할 지 알려주세요. 타로점을 볼 때 주의할 점
-              <br /> .<br /> . <br />. <br />. <br />.
-              <br /> .<br /> .<br /> .<br />
-              <br />
-              <br />
-              <br /> 자! 이제 너의 고민을 말해봐.
-            </Reply>
+            <Reply placeholder="자! 이제 너의 고민을 말해봐."></Reply>
           </ReplyBox>
         </BackgroundWrapper>
       </Inside>
     </BackgroundColor>
   );
 };
-export default BeforeChat;
+export default TodayFortune;
