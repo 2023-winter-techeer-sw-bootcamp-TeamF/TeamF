@@ -4,7 +4,7 @@ const db = require('../mysql/database.js');
 const router = express.Router();
 
 router.post('/refresh', (req, res) => {
-    // #swagger.tags = ['Authentication']
+    // #swagger.tags = ['Token']
     // #swagger.summary = "리프레시 토큰을 사용하여 새로운 엑세스 토큰과 리프레시 토큰 발급"
     // #swagger.description = '유효한 리프레시 토큰을 제공받아 새로운 엑세스 토큰과 리프레시 토큰을 발급합니다.'
     /* #swagger.parameters['refreshToken'] = {
