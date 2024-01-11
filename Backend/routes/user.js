@@ -6,7 +6,6 @@ const router = express.Router();
 
 // 회원가입, 로그인, 로그아웃, 그리고 로그인시 액세스와 리프레시 토큰(jwt)을 발급하는 기능 등의  API를 다음과 같이 구현했다.
 
-
 // 회원가입 API
 router.post('/signup', async (req, res, next) => {
     // #swagger.tags = ['User']
@@ -36,7 +35,7 @@ router.post('/signup', async (req, res, next) => {
         required: true,
         type: 'string',
         example: 'minki',
-    } */     
+    } */
     /* #swagger.parameters['password'] = {
         in: 'query',
         description: '비밀번호',
@@ -95,91 +94,72 @@ router.post('/signup', async (req, res, next) => {
 });
 
 // 로그인 API
-router.post('/login', async (req, res, next) => {
+router.post('/login', (req, res, next) => {
     // #swagger.tags = ['User']
-    // #swagger.summary = "로그인"
-    // #swagger.description = '아이디와 비밀번호를 이용하여 로그인을 수행하고, 성공 시 액세스 토큰과 리프레시 토큰을 발급'
-    /*  #swagger.responses[400] = {
-            description: '접근 방식 오류',
-            schema: {
-                message: '접근 방식 오류'
-            }
-        } */
-    /*  #swagger.responses[401] = {
-            description: '유효하지 않은 아이디 또는 비밀번호',
-            schema: {
-                message: '유효하지 않은 아이디 또는 비밀번호'
-            }
-        } */
-    /*  #swagger.responses[500] = {
-            description: '로그인 정보 불러오기 실패',
-            schema: {
-                message: '로그인 정보 불러오기 실패'
-            }
+    // #swagger.summary = '로그인 API'
+    // #swagger.description = '사용자의 아이디와 비밀번호를 받아 로그인을 수행하고, 성공 시 액세스 토큰과 리프레시 토큰을 반환합니다.'
+    /* #swagger.parameters['body'] = {
+        in: 'body',
+        description: '로그인 정보',
+        required: true,
+            id : 'test',
+            password : '123'
+        }
     } */
-    /* #swagger.parameters['id'] = { 
-        in: 'query',
-        description: '사용자의 아이디', 
-        required: true,
-        type: 'string',
-        example: 'minki',
-    } */     
-    /* #swagger.parameters['password'] = {
-        in: 'query',
-        description: '비밀번호',
-        required: true,
-        type: 'string',
-        example: '0000'
+    /* #swagger.responses[200] = { 
+           description: '로그인 성공',
+           schema: {
+               status: "success",
+               statusCode: 200,
+               data: {
+                   message: "성공적으로 로그인이 완료되었습니다!",
+                   accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InRlc3QiLCJ1c2VybmFtZSI6InRlc3ROYW1lIiwiaWF0IjoxNzA0OTYyMTIyLCJleHAiOjE3MDQ5NjU3MjJ9.ziYSVP8XfBiwV6bAuMizpUclMJQw6sK3AceNXiGR-0I",
+                   refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InRlc3QiLCJ1c2VybmFtZSI6InRlc3ROYW1lIiwiaWF0IjoxNzA0OTYyMTIyLCJleHAiOjE3MDUyMjEzMjJ9._hVLt5hY1kywTaFSm0FL0G9nsHXVYK_PcDo8YqAq8hI"
+               }
+           }
+    } */
+    /* #swagger.responses[401] = { 
+           description: '유효하지 않은 아이디 또는 비밀번호'
+    } */
+    /* #swagger.responses[500] = { 
+           description: '서버 내부 오류'
     } */
 
-    try {
-        const { id, password } = req.query;
+    const { id, password } = req.body;
+    const connection = db.getConnection();
+    const query = 'SELECT * FROM users WHERE id = ? AND password = ?';
 
-        // 디비로부터 사용자 정보 조회
-        const connection = db.getConnection();
-        const query = 'SELECT * FROM users WHERE id = ? AND password = ?';
-        connection.query(query, [id, password], (error, results) => {
-            if (error) {
-                console.error('Error during login:', error);
-                res.status(500).json({ error: 'Internal Server Error' });
-                return;
-            }
+    connection.query(query, [id, password], (err, results) => {
+        if (err) {
+            console.error('로그인 중 데이터베이스 조회 에러:', err);
+            res.locals = { success: false, status: 500, data: { error: '서버 내부 오류' } };
+            return next();
+        }
 
-            if (results.length > 0) {
-                // 디비와 일치하는 사용자 정보가 있는 경우
+        if (results.length > 0) {
+            const user = results[0];
 
-                // 로그인 성공 시, 액세스 토큰과 리프레시 토큰 발급 및 응답
-                const accessToken = jwt.sign({ id, username: results[0].username }, 'your_secret_key_for_access_token', { expiresIn: '1h' });
-                const refreshToken = jwt.sign({ id, username: results[0].username }, 'your_secret_key_for_refresh_token', { expiresIn: '3d' });
+            // 토큰 생성
+            const accessToken = jwt.sign({ id, username: user.username }, 'your_secret_key_for_access_token', { expiresIn: '1h' });
+            const refreshToken = jwt.sign({ id, username: user.username }, 'your_secret_key_for_refresh_token', { expiresIn: '3d' });
 
-                // 발급받은 토큰을 응답에 담아 클라이언트로 전송
-                res.locals.data = { message: '성공적으로 로그인이 완료되었습니다!', accessToken, refreshToken };
+            // 리프레시 토큰 저장
+            const updateRefreshTokenQuery = 'UPDATE users SET refresh_token = ? WHERE id = ?';
+            connection.query(updateRefreshTokenQuery, [refreshToken, id], (err) => {
+                if (err) {
+                    console.error('리프레시 토큰 업데이트 에러:', err);
+                    res.locals = { success: false, status: 500, data: { error: '리프레시 토큰 업데이트 중 오류가 발생했습니다.' } };
+                    return next();
+                }
+
+                res.locals = { status: 200, data: { message: '성공적으로 로그인이 완료되었습니다!', accessToken, refreshToken } };
                 next();
-            } else {
-                // 디비와 일치하는 사용자 정보가 없는 경우
-                res.status(401).json({ error: '유효하지 않은 아이디 또는 비밀번호 입니다.' });
-            }
-        });
-    } catch (error) {
-        console.error('Error during login:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-});
-
-// 로그아웃 API
-router.post('/logout', (req, res, next) => {
-    // #swagger.tags = ['User']
-    // #swagger.summary = "로그아웃"
-    // #swagger.description = '현재 로그인된 사용자의 로그아웃을 수행'
-    /*  #swagger.responses[500] = {
-            description: '로그아웃 정보 불러오기 실패',
-            schema: {
-                message: '로그아웃 정보 불러오기 실패'
-            }
-    } */
-
-    res.locals.data = { message: '로그아웃 되었습니다.' };
-    next();
-});
+            });
+        } else {
+            res.locals = { success: false, status: 401, data: { error: '유효하지 않은 아이디 또는 비밀번호 입니다.' } };
+            next();
+        }
+    });
+}, commonResponse);
 
 module.exports = router;
