@@ -14,12 +14,21 @@ router.post('/signup', async (req, res, next) => {
     // #swagger.description = '회원가입 하는 유저의 아이디, username 중복검사 및 가입 하는 유저의 정보를 데이터베이스에 저장'
     /*  #swagger.responses[400] = {
             description: '접근 방식 오류',
+            schema: {
+                message: '접근 방식 오류'
+            }
         } */
     /*  #swagger.responses[409] = {
-            description: '이미 존재하는 아이디나 username',
+            description: '이미 존재하는 아이디나 username 입니다.',
+            schema: {
+                message: '이미 존재하는 아이디나 username 입니다.'
+            }
         } */
     /*  #swagger.responses[500] = {
             description: '회원가입 정보 불러오기 실패',
+            schema: {
+                message: '회원가입 정보 불러오기 실패'
+            }
     } */
     /* #swagger.parameters['id'] = { 
         in: 'query',
@@ -92,12 +101,21 @@ router.post('/login', async (req, res, next) => {
     // #swagger.description = '아이디와 비밀번호를 이용하여 로그인을 수행하고, 성공 시 액세스 토큰과 리프레시 토큰을 발급'
     /*  #swagger.responses[400] = {
             description: '접근 방식 오류',
+            schema: {
+                message: '접근 방식 오류'
+            }
         } */
     /*  #swagger.responses[401] = {
             description: '유효하지 않은 아이디 또는 비밀번호',
+            schema: {
+                message: '유효하지 않은 아이디 또는 비밀번호'
+            }
         } */
     /*  #swagger.responses[500] = {
             description: '로그인 정보 불러오기 실패',
+            schema: {
+                message: '로그인 정보 불러오기 실패'
+            }
     } */
     /* #swagger.parameters['id'] = { 
         in: 'query',
@@ -155,6 +173,9 @@ router.post('/logout', (req, res, next) => {
     // #swagger.description = '현재 로그인된 사용자의 로그아웃을 수행'
     /*  #swagger.responses[500] = {
             description: '로그아웃 정보 불러오기 실패',
+            schema: {
+                message: '로그아웃 정보 불러오기 실패'
+            }
     } */
 
     res.locals.data = { message: '로그아웃 되었습니다.' };
