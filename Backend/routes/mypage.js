@@ -61,6 +61,7 @@ router.get('/detail', (req, res) => {
 
 router.delete('/delete', (req, res) => {
     // #swagger.tags = ['MyPage']
+    // #swagger.security = [{ "Bearer": [] }]
     // #swagger.summary = "결과 리스트에서 선택한 결과 및 카드 삭제"
     // #swagger.description = '결과 리스트 중 선택한 결과(Poll_id) 및 해당 결과에 대한 카드를 삭제한다.'
 
