@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../component/Navbar";
 import styled from "styled-components";
 import Background from "../assets/Background.png";
@@ -7,6 +7,7 @@ import TaroEx2 from "../assets/TaroEx2.png";
 import TaroEx3 from "../assets/TaroEx3.png";
 import BackOfCard from "../assets/BackOfCard.png";
 import NextButton from "../assets/NextButton.png";
+import { motion, AnimatePresence } from "framer-motion";
 
 const BackgroundColor = styled.div`
   background: #000;
@@ -74,7 +75,7 @@ const Cards = styled.div`
   }
 `;
 
-const BackcardBackground = styled.div`
+const BackcardBackground = styled(motion.div)`
   width: 139.343px;
   height: 238.254px;
   border-radius: 15px;
@@ -95,7 +96,7 @@ const BackcardBackground = styled.div`
   }
 `;
 
-const StackedCardsContainer = styled.div`
+const StackedCardsContainer = styled(motion.div)`
   position: relative;
   height: 238.254px; // 자식 컨테이너(BackcardBackground)와 같은 높이
   width: 100%; // 또는 전체 카드가 겹치는 너비에 맞게 조정
@@ -147,9 +148,33 @@ const BeforeBtn = styled.button`
   }
 `;
 
+const rowVariants = {
+  hidden: (isBack: boolean) => ({
+    x: isBack ? -window.outerWidth - 10 : window.outerWidth + 10,
+  }),
+  visible: {
+    x: 0,
+  },
+  exit: (isBack: boolean) => ({
+    x: isBack ? window.outerWidth + 10 : -window.outerWidth - 10,
+  }),
+};
+
 const CardSelect = () => {
   const NumberOfCards = 22; // 겹칠 카드의 수
   const Overlap = -30; // 카드 겹침 정도
+  const [count, setCount] = useState(0); //몇번째 슬라이드인지
+  const [back, setBack] = useState(false); //뒤로 갈지 앞으로 갈지
+  const incraseIndex = () => {
+    setCount((prev) => prev + 1);
+    setBack(false);
+    console.log(count);
+  };
+  const decraseIndex = () => {
+    setCount((prev) => prev - 1);
+    setBack(true);
+    console.log(count);
+  };
 
   return (
     <BackgroundColor>
@@ -169,21 +194,32 @@ const CardSelect = () => {
               <TaroEx src={TaroEx3} />
             </CardBackground>
           </Cards>
-          <StackedCardsContainer>
-            {Array.from({ length: NumberOfCards }).map((_, index) => (
-              <BackcardBackground
-                key={index}
-                style={{
-                  left: `${index * Overlap}px`,
-                  zIndex: NumberOfCards - index,
-                }}
-              >
-                <img src={BackOfCard} alt="Card back" />
-              </BackcardBackground>
-            ))}
-          </StackedCardsContainer>
-          <NextBtn></NextBtn>
-          <BeforeBtn></BeforeBtn>
+          <AnimatePresence mode="wait" custom={back}>
+            <StackedCardsContainer
+              custom={back}
+              variants={rowVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              transition={{ type: "tween", duration: 1 }}
+              key={count}
+            >
+              {Array.from({ length: NumberOfCards }).map((_, index) => (
+                <BackcardBackground
+                  key={index}
+                  style={{
+                    left: `${index * Overlap}px`,
+                    zIndex: NumberOfCards - index,
+                  }}
+                >
+                  <img src={BackOfCard} alt="Card back" />
+                </BackcardBackground>
+              ))}
+            </StackedCardsContainer>
+          </AnimatePresence>
+
+          <NextBtn onClick={incraseIndex}></NextBtn>
+          <BeforeBtn onClick={decraseIndex}></BeforeBtn>
         </BackgroundWrapper>
       </Inside>
     </BackgroundColor>
