@@ -5,7 +5,7 @@
     "description": "오늘도 화이팅",
     "version": "1.0.0"
   },
-  "host": "43.202.208.226:3001",
+  "host": "localhost:3000",
   "basePath": "/",
   "schemes": [
     "http"
@@ -596,6 +596,23 @@
         }
       }
     },
+    "/user/logout": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "로그아웃",
+        "description": "현재 로그인된 사용자의 로그아웃을 수행",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "로그아웃 정보 불러오기 실패"
+          }
+        }
+      }
+    },
     "/mypage/detail": {
       "get": {
         "tags": [
@@ -733,6 +750,12 @@
                 "name": "main"
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "500": {
             "description": "내부 서버 오류로 인한 DB 쿼리 실패.",
