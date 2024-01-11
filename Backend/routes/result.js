@@ -285,7 +285,6 @@ router.post('/save', (req, res, next) => {
             return next();
         }
         else {
-            resultsId = results.insertId;
             res.locals.data = { message : '타로 결과 Table에 데이터 저장 성공', resultsId: results.insertId };
         }
     });
@@ -305,7 +304,6 @@ router.post('/save', (req, res, next) => {
                 return next();
             }
             else {
-                cardsId.push(results.insertId);
                 res.locals.data = { message : '뽑은 카드 Table에 데이터 저장 성공', cardsId: results.insertId };
             }
         });
