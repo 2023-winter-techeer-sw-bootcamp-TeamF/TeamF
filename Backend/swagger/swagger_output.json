@@ -5,7 +5,7 @@
     "description": "오늘도 화이팅",
     "version": "1.0.0"
   },
-  "host": "43.202.208.226:3001",
+  "host": "localhost:3000",
   "basePath": "/",
   "schemes": [
     "http"
@@ -228,7 +228,7 @@
         }
       }
     },
-    "/result/": {
+    "/result/stream": {
       "post": {
         "tags": [
           "Result"
@@ -330,11 +330,11 @@
               "properties": {
                 "message": {
                   "type": "string",
-                  "example": "GPT API 요청 중 오류 발생"
+                  "example": "GPT에서 오류가 발생해 데이터를 불러올 수 없습니다!"
                 },
                 "error": {
                   "type": "string",
-                  "example": "GPT에서 오류가 발생해 데이터를 불러올 수 없습니다!"
+                  "example": ""
                 }
               },
               "xml": {

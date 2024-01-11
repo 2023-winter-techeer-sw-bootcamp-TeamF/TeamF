@@ -76,23 +76,9 @@ router.post('/stream', async (req, res, next) => {
 
     // 문자열로 들어온 카드 정보를 배열로 만든다.
     if(typeof cards === 'string') {
-        let buffer = '';
-        for(let char of cards) {
-            // 콤마가 나오면 버퍼에 있는 문자열을 배열에 넣는다.
-            if(char === ','){
-                console.log('buffer : ' + buffer);
-                await cardsArray.push(buffer);
-                buffer = ''; // 버퍼 초기화
-                continue;
-            }
-            // 마지막 문자일 경우 버퍼에 배열을 넣는다.
-            if(cards.indexOf(char) === cards.length - 1) {
-                await cardsArray.push(buffer);
-                break;
-            }
-            // 버퍼에 문자를 넣는다.
-            buffer += char;
-            console.log('char : ' + char);
+        let buffer = cards.split(',');
+        for (let card of buffer) {
+            cardsArray.push(card);
         }
     }
 
@@ -117,46 +103,49 @@ router.post('/stream', async (req, res, next) => {
     try {
         // gpt에게 메시지를 보내고 스트림 형태로 데이터를 받는다.
         const stream = await gptApi.getGptStream(gptApi.gptMessageForm('user', messages.join('')));
-
         // 스트림에서 데이터를 받는다.
         for await (const chunk of stream) {
             // 스트림 데이터의 형식에 따라 데이터를 추출한 형태
-            if(!chunk) {
+            if(chunk) {
                 console.log(chunk.choices[0]?.delta?.content || '');
-                res.write(chunk.choices[0]?.delta?.content || '');  //스트림을 사용할 경우 res.write()를 사용한다.
+                //res.write(chunk.choices[0]?.delta?.content || '');  //스트림을 사용할 경우 res.write()를 사용한다.
                 gptAnswers.push(chunk.choices[0]?.delta?.content || '');
             }
         }
         // 스트림 데이터를 문자열로 변환하여 반환한다.
         answers['answer'] = await gptAnswers.join('');
-        //res.end(); //스트림을 사용할 경우 res.end()를 사용한다.
+        //await res.end(); //스트림을 사용할 경우 res.end()를 사용한다.
+        
+        res.locals.data = JSON.stringify(answers); // 조회 결과 → res.locals.data에 저장
 
     } catch (err) {
         res.locals.status = 500;
         res.locals.data = { message: 'GPT API 요청 중 오류 발생', error: err.message };
-        return next(); // 오류 발생 → commonResponse 미들웨어로 이동
+        return next(); // 오류 발생 → commonResponse 미들웨어로 이동 
     }
 
-    try {
-        const connection = db.getConnection();
-        const query = "INSERT INTO temp_result (user_id, json) VALUES (?, ?, NOW())";
+    // 결과를 DB에 저장한다. (일단 보류)
+    // try {
+    //     const connection = db.getConnection();
 
-        connection.query(query, [1, JSON.stringify(answers)], (error, results, fields) => {
-                if (error) {
-                    res.locals.status = 500;
-                    res.locals.data = { message: 'DB 저장 오류', error };
-                    return next(); // 오류 발생 → commonResponse 미들웨어로 이동
-                } else {
-                    res.locals.data = { message: '데이터 저장 완료', resultsId: results.insertId };
-            
-                }
-        });
-    } catch (err) {
-            res.locals.status = 500;
-            res.locals.data = { message: 'DB 저장 오류', error: err.message };
-            return next(); // 오류 발생 → commonResponse 미들웨어로 이동
-    }   
-    
+    //     const query = "INSERT INTO temp_result (user_id, json) VALUES (?, ?)";
+
+    //     connection.query(query, [user_id, JSON.stringify(answers)], (error, results, fields) => {
+    //         if (error) {
+    //             res.locals.status = 500;
+    //             res.locals.data = { message: '데이터 저장 중 오류 발생', error };
+    //             return next(); // 오류 발생 → commonResponse 미들웨어로 이동
+    //         }
+    //         else {
+    //             res.locals.data = { message: '데이터 저장 성공' };
+    //         }
+    //     });
+    // }
+    // catch (err) {
+    //     res.locals.status = 500;
+    //     res.locals.data = { message: '데이터 저장 중 오류 발생', error: err.message };
+    //     return next(); // 오류 발생 → commonResponse 미들웨어로 이동
+    // }
 
     next();
 }, commonResponse); // commonResponse 미들웨어를 체인으로 추가
