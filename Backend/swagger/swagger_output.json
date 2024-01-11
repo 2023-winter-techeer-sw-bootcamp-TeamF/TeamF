@@ -16,8 +16,8 @@
         "tags": [
           "Tarot"
         ],
-        "summary": "가이드라인 페이지 이동 테스트",
-        "description": "가이드라인 페이지 이동 테스트",
+        "summary": "가이드라인 불러오기",
+        "description": "가이드라인 불러오기",
         "parameters": [
           {
             "name": "luckType",
@@ -32,7 +32,7 @@
             "in": "query",
             "description": "뽑는 사람 수",
             "required": true,
-            "type": "tinyint",
+            "type": "integer",
             "example": "1"
           }
         ],

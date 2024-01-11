@@ -6,8 +6,8 @@ const router = express.Router();
 
 router.get('/guide', (req, res, next) => {
     // Swagger 문서화
-    // #swagger.summary = "가이드라인 페이지 이동 테스트"
-    // #swagger.description = '가이드라인 페이지 이동 테스트'
+    // #swagger.summary = "가이드라인 불러오기"
+    // #swagger.description = '가이드라인 불러오기'
     // #swagger.tags = ['Tarot']
     /*  #swagger.responses[200] = {
              description: '테스트 값 조회 성공',}
@@ -26,7 +26,7 @@ router.get('/guide', (req, res, next) => {
             in: 'query',
             description: '뽑는 사람 수',
             required: true,
-            type: 'tinyint',
+            type: 'integer',
             example: '1'
     } */
 
@@ -35,14 +35,14 @@ router.get('/guide', (req, res, next) => {
     // 운 카테고리 Table에서 가이드라인 내용 조회
     const connection = db.getConnection();
     const query = "SELECT * FROM luck_list WHERE type = ? AND opt = ?";
-    connection.query(query, [luckType, luckOpt], (error, gide_line_results, fields) => {
+    connection.query(query, [luckType, luckOpt], (error, guide_line_results, fields) => {
         if (error) {
             res.locals.status = 500;
             res.locals.data = { message: '운 카테고리 Table에서 데이터 조회 중 오류 발생', error };
             return next();
         }
 
-        res.locals.data = { gide_line_results };
+        res.locals.data = { guide_line_results };
         next();
     });
 }, commonResponse); // commonResponse 미들웨어를 체인으로 추가
