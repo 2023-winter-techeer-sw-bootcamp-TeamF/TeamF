@@ -6,7 +6,7 @@
     ES6에서 사용하는 문법
     import {Configuration, OpenAI} from 'openai'
 */
-const { Configuration, OpenAI } = require('openai');
+const { Configuration, OpenAI,  } = require('openai');
 /**
  * gpt 대화 파라메터 설정 기본 설정만 현재 설정, 추후 수정 예정
  * model : gpt 모델
@@ -54,14 +54,22 @@ function initializeGpt(gptApiKey) {
  * @returns {stream} stream - 받을 스트림(gpt에게 실시간으로 데이터를 받는다.)
  */
 async function getGptStream(message) {
+
   // 스트림을 이용하기 전
   if (!client) throw new Error('gptApi가 초기화 되지 않았습니다.');
 
-  // 메시지를 넣는다.
-  streamConfig.messages = [message];
+  try {
+    // 메시지를 넣는다.
+    streamConfig.messages = [message];
 
-  // 스트림을 받는다.
-  return await client.beta.chat.completions.stream(streamConfig);
+    const stream = await client.chat.completions.create(streamConfig);
+
+    // 스트림을 반환한다.
+    return stream;
+  } catch (err) {
+    throw err;
+  }
+  return null;
 }
 
 /**

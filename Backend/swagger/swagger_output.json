@@ -234,7 +234,7 @@
           "Result"
         ],
         "summary": "타로 결과 GPT 요청",
-        "description": "/list /detail /deswaggerlete",
+        "description": "타로 결과를 API에 요청하고 결과를 반환함",
         "parameters": [
           {
             "name": "cards",
@@ -273,7 +273,7 @@
         ],
         "responses": {
           "200": {
-            "description": "GPT-3 API 요청 성공",
+            "description": "GPT API 요청 성공",
             "schema": {
               "type": "object",
               "properties": {
@@ -309,13 +309,13 @@
             }
           },
           "400": {
-            "description": "유효하지않은 질문 정보",
+            "description": "유효하지않은 데이터",
             "schema": {
               "type": "object",
               "properties": {
                 "message": {
                   "type": "string",
-                  "example": "request is null or undefined"
+                  "example": "데이터가 유효하지 않습니다. (널값, 누락 등)"
                 }
               },
               "xml": {
@@ -324,17 +324,17 @@
             }
           },
           "500": {
-            "description": "GPT-3 API 요청 중 오류 발생",
+            "description": "GPT API 요청 중 오류 발생",
             "schema": {
               "type": "object",
               "properties": {
                 "message": {
                   "type": "string",
-                  "example": "GPT-3 API 요청 중 오류 발생"
+                  "example": "GPT API 요청 중 오류 발생"
                 },
                 "error": {
                   "type": "string",
-                  "example": "error"
+                  "example": "GPT에서 오류가 발생해 데이터를 불러올 수 없습니다!"
                 }
               },
               "xml": {
