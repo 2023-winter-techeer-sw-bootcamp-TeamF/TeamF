@@ -114,19 +114,31 @@ router.post('/card/info', async (req, res, next) => {
     // #swagger.description = '카드 정보를 정수형으로 전달하면 해당 카드의 정보를 반환함'
     /*  #swagger.responses[200] = {
             description: '카드 정보 불러오기 성공 url 전송',
+            schema: {
+                message: 'creat image url successfully',
+                name: '카드 이름',
+                english: '카드 영어 이름',
+                mean: '카드 뜻',
+                image_url: '카드 이미지 url'
+            }
         } */
     /*  #swagger.responses[400] = {
             description: '잘못된 카드 번호 요청',
+            schema: { message: '카드 번호가 없습니다.' }
         } */
     /*  #swagger.responses[500] = {
             description: '카드 정보 불러오기 실패',
+            schema: { message: '카드 정보를 가져오는데 실패했습니다.' }
     } */
     /* #swagger.parameters['card'] = { 
         in: 'query',
         description: '카드 번호', 
         required: true,
         type: 'integer',
-        example: '1'
+        example: '1',
+        schema: {
+          card: 1
+        }
     } */
 
     let result = null;

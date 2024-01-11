@@ -122,8 +122,6 @@ router.get('/testgpt', async (req, res, next) => {
     messages.push(gpt.gptMessageForm('assistant', data.join('')));
     res.locals.data = messages // 조회 결과 → res.locals.data에 저장
     next(); // commonResponse 미들웨어로 이동
-  },
-  commonResponse
-); // commonResponse 미들웨어를 체인으로 추가
+  },  commonResponse); // commonResponse 미들웨어를 체인으로 추가
 
 module.exports = router;

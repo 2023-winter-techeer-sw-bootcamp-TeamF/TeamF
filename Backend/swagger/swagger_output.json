@@ -151,18 +151,79 @@
             "description": "카드 번호",
             "required": true,
             "type": "integer",
-            "example": "1"
+            "example": "1",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "card": {
+                  "type": "number",
+                  "example": 1
+                }
+              }
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "카드 정보 불러오기 성공 url 전송"
+            "description": "카드 정보 불러오기 성공 url 전송",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "creat image url successfully"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "카드 이름"
+                },
+                "english": {
+                  "type": "string",
+                  "example": "카드 영어 이름"
+                },
+                "mean": {
+                  "type": "string",
+                  "example": "카드 뜻"
+                },
+                "image_url": {
+                  "type": "string",
+                  "example": "카드 이미지 url"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "400": {
-            "description": "잘못된 카드 번호 요청"
+            "description": "잘못된 카드 번호 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "카드 번호가 없습니다."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "500": {
-            "description": "카드 정보 불러오기 실패"
+            "description": "카드 정보 불러오기 실패",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "카드 정보를 가져오는데 실패했습니다."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
@@ -172,7 +233,7 @@
         "tags": [
           "Result"
         ],
-        "summary": "Todo: 결과 리스트, 결과 상세조회, 결과 삭제",
+        "summary": "타로 결과 GPT 요청",
         "description": "/list /detail /deswaggerlete",
         "parameters": [
           {

@@ -7,7 +7,7 @@ const router = express.Router();
 router.post('/', async (req, res, next) => {
     /*
     #swagger.tags = ['Result']
-    #swagger.summary = "Todo: 결과 리스트, 결과 상세조회, 결과 삭제"
+    #swagger.summary = "타로 결과 GPT 요청"
     #swagger.description = '/list /detail /deswaggerlete'
     #swagger.tags = ['Result']
     #swagger.summary = "GPT 데이터 요청"
