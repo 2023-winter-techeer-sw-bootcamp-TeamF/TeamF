@@ -772,7 +772,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/test/user/info": {
