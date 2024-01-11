@@ -72,6 +72,28 @@ async function getGptStream(message) {
   return null;
 }
 
+async function getGptJsonStream(message) {
+  let streamJsonConfig = streamConfig;
+  // 스트림을 이용하기 전
+  if (!client) throw new Error('gptApi가 초기화 되지 않았습니다.');
+
+  try {
+    streamJsonConfig['response_format'] = { "type": "json_object" };
+    // 메시지를 넣는다.
+    streamJsonConfig.messages = message;
+
+    console.log('config', streamJsonConfig);
+
+    const stream = await client.chat.completions.create(streamJsonConfig);
+
+    // 스트림을 반환한다.
+    return stream;
+  } catch (err) {
+    throw err;
+  }
+  return null;
+}
+
 /**
  * gpt 메시지 형태
  *
@@ -110,4 +132,5 @@ module.exports = {
   initializeGpt,
   getGptStream,
   gptMessageForm,
+  getGptJsonStream,
 };
