@@ -24,6 +24,12 @@ const Circle = styled.div`
   justify-content: center;
   flex-flow: column nowrap;
   gap: 1.73rem;
+
+  @media screen and (max-width: 1300px), (max-height: 650px) {
+    width: 364px;
+    height: 364px;
+    gap: 1.13rem;
+  }
 `;
 
 const LWord = styled.div`
@@ -35,7 +41,11 @@ const LWord = styled.div`
   line-height: normal;
   text-transform: uppercase;
   margin-bottom: 1.9rem;
+  @media screen and (max-width: 1300px), (max-height: 650px) {
+    font-size: 19px;
+  }
 `;
+
 const Id = styled.input`
   width: 400px;
   height: 52px;
@@ -55,6 +65,12 @@ const Id = styled.input`
   &::placeholder {
     color: #ecb973;
     text-indent: 10px;
+  }
+  @media screen and (max-width: 1300px), (max-height: 650px) {
+    width: 200px;
+    height: 26px;
+    border-radius: 15px;
+    font-size: 9px;
   }
 `;
 
@@ -78,6 +94,12 @@ const Pw = styled.input`
     color: #ecb973;
     text-indent: 10px;
   }
+  @media screen and (max-width: 1300px), (max-height: 650px) {
+    width: 200px;
+    height: 26px;
+    border-radius: 15px;
+    font-size: 9px;
+  }
 `;
 
 const LButton = styled.button`
@@ -97,6 +119,12 @@ const LButton = styled.button`
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  @media screen and (max-width: 1300px), (max-height: 650px) {
+    width: 200px;
+    height: 26px;
+    border-radius: 15px;
+    font-size: 12px;
+  }
 `;
 
 const Sign = styled.button`
@@ -112,6 +140,9 @@ const Sign = styled.button`
   text-decoration-line: underline;
   margin-top: -0.4rem;
   cursor: pointer;
+  @media screen and (max-width: 1300px), (max-height: 650px) {
+    font-size: 12px;
+  }
 `;
 
 function Login() {
