@@ -24,9 +24,9 @@ const Circle = styled.div`
   flex-flow: column nowrap;
   gap: 0.8rem;
   @media screen and (max-width: 1300px), (max-height: 650px) {
-    width: 364px;
-    height: 364px;
-    gap: 0.53rem;
+    width: 420px;
+    height: 420px;
+    gap: 0.7rem;
   }
 `;
 
@@ -40,9 +40,9 @@ const SWord = styled.div`
   margin-bottom: 2.6rem;
   margin-top: -3rem;
   @media screen and (max-width: 1300px), (max-height: 650px) {
-    font-size: 19px;
-    margin-bottom: 1.5rem;
-    margin-top: -1rem;
+    font-size: 25px;
+    margin-bottom: 1.6rem;
+    margin-top: -2rem;
   }
 `;
 
@@ -66,10 +66,10 @@ const Id = styled.input`
     text-indent: 10px;
   }
   @media screen and (max-width: 1300px), (max-height: 650px) {
-    width: 200px;
-    height: 26px;
-    border-radius: 9px;
-    font-size: 9px;
+    width: 260px;
+    height: 35px;
+    border-radius: 12px;
+    font-size: 12px;
   }
 `;
 
@@ -93,10 +93,10 @@ const Pw = styled.input`
     text-indent: 10px;
   }
   @media screen and (max-width: 1300px), (max-height: 650px) {
-    width: 200px;
-    height: 26px;
-    border-radius: 9px;
-    font-size: 9px;
+    width: 260px;
+    height: 35px;
+    border-radius: 12px;
+    font-size: 12px;
   }
 `;
 
@@ -120,10 +120,10 @@ const ConfirmP = styled.input`
     text-indent: 10px;
   }
   @media screen and (max-width: 1300px), (max-height: 650px) {
-    width: 200px;
-    height: 26px;
-    border-radius: 9px;
-    font-size: 9px;
+    width: 260px;
+    height: 35px;
+    border-radius: 12px;
+    font-size: 12px;
   }
 `;
 
@@ -147,10 +147,10 @@ const Username = styled.input`
     text-indent: 10px;
   }
   @media screen and (max-width: 1300px), (max-height: 650px) {
-    width: 200px;
-    height: 26px;
-    border-radius: 9px;
-    font-size: 9px;
+    width: 260px;
+    height: 35px;
+    border-radius: 12px;
+    font-size: 12px;
   }
 `;
 
@@ -164,17 +164,17 @@ const SButton = styled.button`
   font-family: Inter;
   font-size: 19px;
   font-style: normal;
-  font-weight: 200;
+  font-weight: 400;
   line-height: normal;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   @media screen and (max-width: 1300px), (max-height: 650px) {
-    width: 200px;
-    height: 26px;
-    border-radius: 9px;
-    font-size: 12px;
+    width: 260px;
+    height: 35px;
+    border-radius: 12px;
+    font-size: 14px;
   }
 `;
 

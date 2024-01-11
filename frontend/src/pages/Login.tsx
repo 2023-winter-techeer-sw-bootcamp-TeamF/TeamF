@@ -26,9 +26,9 @@ const Circle = styled.div`
   gap: 1.73rem;
 
   @media screen and (max-width: 1300px), (max-height: 650px) {
-    width: 364px;
-    height: 364px;
-    gap: 0.9rem;
+    width: 420px;
+    height: 420px;
+    gap: 1.1rem;
   }
 `;
 
@@ -41,7 +41,7 @@ const LWord = styled.div`
   line-height: normal;
   margin-bottom: 1.9rem;
   @media screen and (max-width: 1300px), (max-height: 650px) {
-    font-size: 19px;
+    font-size: 30px;
     margin-bottom: 1.6rem;
   }
 `;
@@ -66,11 +66,10 @@ const Id = styled.input`
     text-indent: 10px;
   }
   @media screen and (max-width: 1300px), (max-height: 650px) {
-    width: 200px;
-    height: 26px;
-    border-radius: 15px;
-    font-size: 9px;
-    border-radius: 9px;
+    width: 270px;
+    height: 35px;
+    font-size: 12px;
+    border-radius: 12px;
   }
 `;
 
@@ -94,10 +93,10 @@ const Pw = styled.input`
     text-indent: 10px;
   }
   @media screen and (max-width: 1300px), (max-height: 650px) {
-    width: 200px;
-    height: 26px;
-    border-radius: 9px;
-    font-size: 9px;
+    width: 270px;
+    height: 35px;
+    border-radius: 12px;
+    font-size: 12px;
   }
 `;
 
@@ -111,17 +110,17 @@ const LButton = styled.button`
   font-family: Inter;
   font-size: 21px;
   font-style: normal;
-  font-weight: 200;
+  font-weight: 400;
   line-height: normal;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   @media screen and (max-width: 1300px), (max-height: 650px) {
-    width: 200px;
-    height: 26px;
-    border-radius: 9px;
-    font-size: 11px;
+    width: 270px;
+    height: 35px;
+    border-radius: 12px;
+    font-size: 14px;
   }
 `;
 
@@ -138,7 +137,7 @@ const Sign = styled.button`
   margin-top: -0.4rem;
   cursor: pointer;
   @media screen and (max-width: 1300px), (max-height: 650px) {
-    font-size: 9px;
+    font-size: 12px;
   }
 `;
 
