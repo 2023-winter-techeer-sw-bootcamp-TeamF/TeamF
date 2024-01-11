@@ -5,15 +5,17 @@ const router = express.Router();
 
 router.get('/detail', (req, res) => {
     // #swagger.tags = ['MyPage']
+    // #swagger.security = [{ "Bearer": [] }]
     // #swagger.summary = "결과 리스트에서 선택한 결과 상세 조회"
     // #swagger.description = '결과 리스트 중 선택한 결과(Poll_id)를 통해 해당 결과를 상세조회한다.'
-        /* #swagger.parameters['poll_id'] = { 
+    /* #swagger.parameters['poll_id'] = { 
         in: 'query',
         description: '사용자의 poll_id', 
         required: true,
         example: '12',
-    } */   
-    
+        value : '12',
+    } */
+
     const { poll_id } = req.query;
     const connection = db.getConnection();
 
