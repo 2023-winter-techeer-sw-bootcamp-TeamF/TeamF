@@ -28,7 +28,7 @@ const Circle = styled.div`
   @media screen and (max-width: 1300px), (max-height: 650px) {
     width: 364px;
     height: 364px;
-    gap: 1.13rem;
+    gap: 0.9rem;
   }
 `;
 
@@ -39,10 +39,10 @@ const LWord = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  text-transform: uppercase;
   margin-bottom: 1.9rem;
   @media screen and (max-width: 1300px), (max-height: 650px) {
     font-size: 19px;
+    margin-bottom: 1.6rem;
   }
 `;
 
@@ -59,7 +59,6 @@ const Id = styled.input`
   font-weight: 200;
   text-indent: 10px;
   line-height: normal;
-  text-transform: uppercase;
   display: flex;
   align-items: center;
   &::placeholder {
@@ -71,6 +70,7 @@ const Id = styled.input`
     height: 26px;
     border-radius: 15px;
     font-size: 9px;
+    border-radius: 9px;
   }
 `;
 
@@ -87,7 +87,6 @@ const Pw = styled.input`
   font-weight: 200;
   text-indent: 10px;
   line-height: normal;
-  text-transform: uppercase;
   display: flex;
   align-items: center;
   &::placeholder {
@@ -97,7 +96,7 @@ const Pw = styled.input`
   @media screen and (max-width: 1300px), (max-height: 650px) {
     width: 200px;
     height: 26px;
-    border-radius: 15px;
+    border-radius: 9px;
     font-size: 9px;
   }
 `;
@@ -114,7 +113,6 @@ const LButton = styled.button`
   font-style: normal;
   font-weight: 200;
   line-height: normal;
-  text-transform: uppercase;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -122,8 +120,8 @@ const LButton = styled.button`
   @media screen and (max-width: 1300px), (max-height: 650px) {
     width: 200px;
     height: 26px;
-    border-radius: 15px;
-    font-size: 12px;
+    border-radius: 9px;
+    font-size: 11px;
   }
 `;
 
@@ -136,12 +134,11 @@ const Sign = styled.button`
   font-style: normal;
   font-weight: 200;
   line-height: normal;
-  text-transform: uppercase;
   text-decoration-line: underline;
   margin-top: -0.4rem;
   cursor: pointer;
   @media screen and (max-width: 1300px), (max-height: 650px) {
-    font-size: 12px;
+    font-size: 9px;
   }
 `;
 
