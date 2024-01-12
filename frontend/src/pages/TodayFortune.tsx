@@ -35,7 +35,7 @@ const TitleBox = styled.div`
   flex-shrink: 0;
   position: absolute; // 부모 컨테이너인 BackgroundWrapper에 상대적인 위치
   top: 12%;
-  left: 34%;
+  left: 36%;
   text-align: center;
 `;
 
@@ -63,11 +63,11 @@ const Profile = styled.img`
 
 const ChatBox = styled.div`
   width: 39.625rem;
-  height: 16.25rem;
+  height: 20.25rem;
   flex-shrink: 0;
   border-radius: 0px 20px 20px 20px;
   border: 1px solid #ecb973;
-  transform: translate(32%, -246%);
+  transform: translate(32%, -198%);
   padding: 1.375rem;
 `;
 
@@ -104,7 +104,7 @@ const ReplyBox = styled.div`
   border: 0.0625rem solid #fff;
   padding: 0.9375rem;
   display: flex;
-  transform: translate(80%, -496%);
+  transform: translate(80%, -542%);
 `;
 
 const Reply = styled.textarea`
