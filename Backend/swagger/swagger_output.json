@@ -33,15 +33,17 @@
             "description": "운 종류",
             "required": true,
             "type": "string",
-            "example": "애정운"
+            "example": "애정운",
+            "value": "test_luck"
           },
           {
             "name": "luckOpt",
             "in": "query",
-            "description": "뽑는 사람 수",
+            "description": "멀티 여부",
             "required": true,
             "type": "integer",
-            "example": "1"
+            "example": "0",
+            "value": "0"
           }
         ],
         "responses": {
@@ -68,15 +70,8 @@
             "description": "사용자의 ID",
             "required": true,
             "type": "string",
-            "example": "12345"
-          },
-          {
-            "name": "partnerid",
-            "in": "query",
-            "description": "파트너의 ID (선택 사항)",
-            "required": false,
-            "type": "string",
-            "example": "67890"
+            "example": "Test ID = 1",
+            "value": "1"
           }
         ],
         "responses": {
@@ -135,6 +130,10 @@
                 "message": {
                   "type": "string",
                   "example": "DB 저장 오류"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "에러 내용"
                 }
               },
               "xml": {
@@ -385,7 +384,7 @@
                   "type": "string",
                   "example": "마스터 이름"
                 },
-                "luck_type": {
+                "luck": {
                   "type": "string",
                   "example": "운 종류"
                 },
@@ -396,19 +395,19 @@
                     "properties": {
                       "card_image_url": {
                         "type": "string",
-                        "example": "url2"
+                        "example": "url1"
                       },
                       "card_explanation": {
                         "type": "string",
-                        "example": "explanation2"
+                        "example": "explanation1"
                       },
                       "card_eng_name": {
                         "type": "string",
-                        "example": "eng2"
+                        "example": "eng1"
                       },
                       "card_kor_name": {
                         "type": "string",
-                        "example": "kor2"
+                        "example": "kor1"
                       }
                     }
                   }
@@ -419,13 +418,13 @@
         ],
         "responses": {
           "200": {
-            "description": "타로 결과, 뽑은 카드 정보 저장 성공",
+            "description": "타로 종합 결과, 뽑은 카드별 정보 저장 성공",
             "schema": {
               "type": "object",
               "properties": {
                 "message": {
                   "type": "string",
-                  "example": "타로 결과, 뽑은 카드 정보 저장 성공"
+                  "example": "타로 종합 결과, 뽑은 카드별 정보 저장 성공"
                 }
               },
               "xml": {
@@ -449,13 +448,13 @@
             }
           },
           "500": {
-            "description": "타로 결과 Table에 데이터 저장 중 오류가 발생했을 때의 응답",
+            "description": "타로 종합 결과 Table에 데이터 저장 중 오류가 발생했을 때의 응답",
             "schema": {
               "type": "object",
               "properties": {
                 "message": {
                   "type": "string",
-                  "example": "타로 결과 Table에 데이터 저장 중 오류 발생"
+                  "example": "타로 종합 결과 Table에 데이터 저장 중 오류 발생"
                 }
               },
               "xml": {
@@ -464,13 +463,13 @@
             }
           },
           "510": {
-            "description": "뽑은 카드 Table에 데이터 저장 중 오류가 발생했을 때의 응답",
+            "description": "뽑은 카드별 결과 Table에 데이터 저장 중 오류가 발생했을 때의 응답",
             "schema": {
               "type": "object",
               "properties": {
                 "message": {
                   "type": "string",
-                  "example": "뽑은 카드 Table에 데이터 저장 중 오류 발생"
+                  "example": "뽑은 카드별 결과 Table에 데이터 저장 중 오류 발생"
                 }
               },
               "xml": {

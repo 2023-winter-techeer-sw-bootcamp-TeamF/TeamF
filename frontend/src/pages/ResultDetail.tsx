@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../component/Navbar";
 import styled from "styled-components";
 import TaroEx1 from "../assets/TaroEx1.png";
 import TaroEx2 from "../assets/TaroEx2.png";
 import TaroEx3 from "../assets/TaroEx3.png";
+import FlipCard from "../assets/ResultFlipCard.png";
 
 const Background = styled.div`
   width: 100vw;
@@ -140,6 +141,8 @@ const Cards = styled.div`
   flex-direction: row;
   gap: 76px;
   margin-top: 2rem;
+  align-items: center;
+  width: 550px;
 `;
 
 const CardBackground = styled.div`
@@ -150,7 +153,10 @@ const CardBackground = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  @media screen and (max-width: 1300px), (max-height: 800px) {
+  position: absolute;
+  backface-visibility: hidden;
+  transform: rotateY(0deg);
+  @media screen and (max-width: 1300px), (max-height: 700px) {
     height: 180px;
   }
 `;
@@ -158,7 +164,7 @@ const CardBackground = styled.div`
 const TaroEx = styled.img`
   width: 125.135px;
   height: 225.243px;
-  @media screen and (max-width: 1300px), (max-height: 800px) {
+  @media screen and (max-width: 1300px), (max-height: 700px) {
     height: 150px;
   }
 `;
@@ -169,6 +175,9 @@ const Solutions = styled.div`
   gap: 14px;
   margin-top: 29px;
   align-items: center;
+  @media screen and (max-width: 1300px), (max-height: 800px) {
+    margin-top: 31px;
+  }
 `;
 
 const SolutionTitle = styled.p`
@@ -223,7 +232,105 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
+const FlipcardBackground = styled.div`
+  width: 141.75px;
+  height: 243px;
+  border-radius: 15px;
+  background: #b99e6f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  backface-visibility: hidden;
+  transform: rotateY(180deg);
+  @media screen and (max-width: 1300px), (max-height: 700px) {
+    height: 180px;
+  }
+`;
+
+const FlipcardImg = styled.img`
+  width: 125.135px;
+  height: 225.243px;
+
+  mix-blend-mode: screen;
+  @media screen and (max-width: 1300px), (max-height: 700px) {
+    height: 150px;
+  }
+`;
+
+const FlipcardInner = styled.div<FlipcardInnerProps>`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  cursor: pointer;
+  transform: rotateY(${(props) => (props.isFlipped ? "180deg" : "0")});
+`;
+
+const FlipcardContainer = styled.div`
+  position: relative;
+  width: 141.75px;
+  height: 243px;
+  border-radius: 15px;
+  perspective: 1000px;
+  @media screen and (max-width: 1300px), (max-height: 700px) {
+    height: 150px;
+  }
+`;
+
+interface FlipcardInnerProps {
+  isFlipped: boolean;
+}
+
+const CardTitle = styled.p`
+  color: #806838;
+  text-align: center;
+  font-family: Inter;
+  font-size: 8px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  width: 429px;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  @media screen and (max-width: 1300px), (max-height: 700px) {
+    height: 150px;
+    font-size: 6px;
+    top: 75%;
+  }
+`;
+
+const CardContent = styled.p`
+  color: #fbecc6;
+  font-family: Inter;
+  font-size: 8px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  position: absolute;
+  top: 60%; // CardTitle 아래에 위치
+  left: 50%;
+  transform: translate(-50%, -50%);
+  @media screen and (max-width: 1300px), (max-height: 700px) {
+    height: 150px;
+    font-size: 6px;
+    top: 85%; // CardTitle 아래에 위치
+  }
+`;
+
 function ResultDetail() {
+  const [flippedCards, setFlippedCards] = useState(Array(10).fill(false));
+
+  // 카드를 뒤집는 함수
+  const handleFlip = (flip: number) => {
+    const newFlippedCards = [...flippedCards];
+    newFlippedCards[flip] = !newFlippedCards[flip];
+    setFlippedCards(newFlippedCards);
+  };
   return (
     <>
       <Background>
@@ -241,15 +348,60 @@ function ResultDetail() {
                     해야할 지 알려주세요.
                   </Worry>
                   <Cards>
-                    <CardBackground>
-                      <TaroEx src={TaroEx1} />
-                    </CardBackground>
-                    <CardBackground>
-                      <TaroEx src={TaroEx2} />
-                    </CardBackground>
-                    <CardBackground>
-                      <TaroEx src={TaroEx3} />
-                    </CardBackground>
+                    <FlipcardContainer onClick={() => handleFlip(0)}>
+                      <FlipcardInner isFlipped={flippedCards[0]}>
+                        <CardBackground>
+                          <TaroEx src={TaroEx1} />
+                        </CardBackground>
+                        <FlipcardBackground>
+                          <FlipcardImg src={FlipCard}></FlipcardImg>
+                          <CardTitle>The Fool (바보)</CardTitle>
+                          <CardContent>
+                            새로운 시작과 모험을 상징. 지금 당신이 겪고 있는
+                            스트레스, 이 카드는 마치 새로운 길을 걸을 준비가
+                            되었다고 말하는 것 같아. 어쩌면 이것은 당신에게
+                            변화가 필요하다는 신호일 수도 있어. 새로운 가능성을
+                            열어주는 걸까?
+                          </CardContent>
+                        </FlipcardBackground>
+                      </FlipcardInner>
+                    </FlipcardContainer>
+                    <FlipcardContainer onClick={() => handleFlip(1)}>
+                      <FlipcardInner isFlipped={flippedCards[1]}>
+                        <CardBackground>
+                          <TaroEx src={TaroEx2} />
+                        </CardBackground>
+                        <FlipcardBackground>
+                          <FlipcardImg src={FlipCard}></FlipcardImg>
+                          <CardTitle>The Fool (바보)</CardTitle>
+                          <CardContent>
+                            새로운 시작과 모험을 상징. 지금 당신이 겪고 있는
+                            스트레스, 이 카드는 마치 새로운 길을 걸을 준비가
+                            되었다고 말하는 것 같아. 어쩌면 이것은 당신에게
+                            변화가 필요하다는 신호일 수도 있어. 새로운 가능성을
+                            열어주는 걸까?
+                          </CardContent>
+                        </FlipcardBackground>
+                      </FlipcardInner>
+                    </FlipcardContainer>
+                    <FlipcardContainer onClick={() => handleFlip(2)}>
+                      <FlipcardInner isFlipped={flippedCards[2]}>
+                        <CardBackground>
+                          <TaroEx src={TaroEx3} />
+                        </CardBackground>
+                        <FlipcardBackground>
+                          <FlipcardImg src={FlipCard}></FlipcardImg>
+                          <CardTitle>The Fool (바보)</CardTitle>
+                          <CardContent>
+                            새로운 시작과 모험을 상징. 지금 당신이 겪고 있는
+                            스트레스, 이 카드는 마치 새로운 길을 걸을 준비가
+                            되었다고 말하는 것 같아. 어쩌면 이것은 당신에게
+                            변화가 필요하다는 신호일 수도 있어. 새로운 가능성을
+                            열어주는 걸까?
+                          </CardContent>
+                        </FlipcardBackground>
+                      </FlipcardInner>
+                    </FlipcardContainer>
                   </Cards>
                   <Solutions>
                     <SolutionTitle>OOO 타로 마스터의 솔루션</SolutionTitle>
