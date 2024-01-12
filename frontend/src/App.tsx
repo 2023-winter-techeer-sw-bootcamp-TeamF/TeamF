@@ -83,7 +83,7 @@ a {
 }
 @media (max-width: 1500px) {
     html {
-      font-size: 14px;
+      font-size: 12px;
     }
   }
 `;
