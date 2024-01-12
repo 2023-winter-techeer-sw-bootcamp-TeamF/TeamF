@@ -5,7 +5,7 @@
     "description": "오늘도 화이팅",
     "version": "1.0.0"
   },
-  "host": "43.202.208.226:3001",
+  "host": "localhost:3000",
   "basePath": "/",
   "schemes": [
     "http"
@@ -358,7 +358,7 @@
           "Result"
         ],
         "summary": "종합 결과 저장",
-        "description": "종합 결과 저장",
+        "description": "사용자의 질문과 관련된 타로 종합 결과 및 뽑은 카드 정보를 저장합니다. 사용자의 운(luck)에 따라 카드의 수가 결정됩니다.",
         "parameters": [
           {
             "name": "body",
@@ -370,7 +370,7 @@
               "properties": {
                 "poll_id": {
                   "type": "string",
-                  "example": "12345"
+                  "example": "example"
                 },
                 "question": {
                   "type": "string",
@@ -386,7 +386,7 @@
                 },
                 "luck": {
                   "type": "string",
-                  "example": "운 종류"
+                  "example": "test_luck"
                 },
                 "cards": {
                   "type": "array",
@@ -395,87 +395,47 @@
                     "properties": {
                       "card_image_url": {
                         "type": "string",
-                        "example": "url1"
+                        "example": "url3"
                       },
                       "card_explanation": {
                         "type": "string",
-                        "example": "explanation1"
+                        "example": "explanation3"
                       },
                       "card_eng_name": {
                         "type": "string",
-                        "example": "eng1"
+                        "example": "eng3"
                       },
                       "card_kor_name": {
                         "type": "string",
-                        "example": "kor1"
+                        "example": "kor3"
                       }
                     }
                   }
                 }
-              }
+              },
+              "required": [
+                "poll_id",
+                "question",
+                "result_explanation",
+                "master_name",
+                "luck",
+                "cards"
+              ]
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "타로 종합 결과, 뽑은 카드별 정보 저장 성공",
+            "description": "타로 종합 결과와 카드 정보가 성공적으로 저장됨",
             "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "타로 종합 결과, 뽑은 카드별 정보 저장 성공"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
+              "$ref": "#/definitions/SaveResponse"
             }
           },
           "400": {
-            "description": "요청된 값이 누락되었을 때의 응답",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "missingParameter"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
+            "description": "잘못된 요청, 필수 파라미터 누락"
           },
           "500": {
-            "description": "타로 종합 결과 Table에 데이터 저장 중 오류가 발생했을 때의 응답",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "타로 종합 결과 Table에 데이터 저장 중 오류 발생"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "510": {
-            "description": "뽑은 카드별 결과 Table에 데이터 저장 중 오류가 발생했을 때의 응답",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "뽑은 카드별 결과 Table에 데이터 저장 중 오류 발생"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
+            "description": "서버 내부 오류"
           }
         }
       }
@@ -545,13 +505,13 @@
             "schema": {
               "type": "object",
               "properties": {
-                "log_in": {
+                "login_id": {
                   "type": "string",
-                  "example": " "
+                  "example": "123"
                 },
                 "password": {
                   "type": "string",
-                  "example": " "
+                  "example": "123"
                 }
               }
             }
@@ -599,6 +559,11 @@
         "description": "결과 리스트 중 선택한 결과(Poll_id)를 통해 해당 결과를 상세조회한다.",
         "parameters": [
           {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "poll_id",
             "in": "query",
             "description": "사용자의 poll_id",
@@ -642,7 +607,7 @@
                     }
                   }
                 },
-                "cards": {
+                "card": {
                   "type": "array",
                   "items": {
                     "type": "object",
@@ -725,7 +690,12 @@
           "500": {
             "description": "Internal Server Error"
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/test/user/info": {
