@@ -12,103 +12,81 @@ const Outside = styled.div`
 `;
 
 const Circle = styled.div`
-  width: 580px;
-  height: 580px;
+  width: 36.25rem;
+  height: 36.25rem;
   flex-shrink: 0;
-  border-radius: 501px;
-  border: 1px solid #ecb973;
+  border-radius: 31.3125rem;
+  border: 0.0625rem solid #ecb973;
   background: rgba(217, 217, 217, 0);
-  font-size: 24px;
+  font-size: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-flow: column nowrap;
   gap: 1.73rem;
-
-  @media screen and (max-width: 1300px), (max-height: 650px) {
-    width: 420px;
-    height: 420px;
-    gap: 1.1rem;
-  }
 `;
 
 const LWord = styled.div`
   color: #ecb973;
   font-family: Inter;
-  font-size: 38px;
+  font-size: 2.375rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
   margin-bottom: 1.9rem;
-  @media screen and (max-width: 1300px), (max-height: 650px) {
-    font-size: 30px;
-    margin-bottom: 1.6rem;
-  }
 `;
 
 const Id = styled.input`
-  width: 400px;
-  height: 52px;
-  border-radius: 17px;
-  border: 1px solid #ecb973;
+  width: 25rem;
+  height: 3.25rem;
+  border-radius: 1.0625rem;
+  border: 0.0625rem solid #ecb973;
   background: rgba(217, 217, 217, 0);
   color: #ecb973;
   font-family: Inter;
-  font-size: 18px;
+  font-size: 1.125rem;
   font-style: normal;
   font-weight: 200;
-  text-indent: 10px;
+  text-indent: 0.625rem;
   line-height: normal;
   display: flex;
   align-items: center;
   &::placeholder {
     color: #ecb973;
-    text-indent: 10px;
-  }
-  @media screen and (max-width: 1300px), (max-height: 650px) {
-    width: 270px;
-    height: 35px;
-    font-size: 12px;
-    border-radius: 12px;
+    text-indent: 0.625rem;
   }
 `;
 
 const Pw = styled.input`
-  width: 400px;
-  height: 52px;
-  border-radius: 17px;
-  border: 1px solid #ecb973;
+  width: 25rem;
+  height: 3.25rem;
+  border-radius: 1.0625rem;
+  border: 0.0625rem solid #ecb973;
   background: rgba(217, 217, 217, 0);
   color: #ecb973;
   font-family: Inter;
-  font-size: 18px;
+  font-size: 1.125rem;
   font-style: normal;
   font-weight: 200;
-  text-indent: 10px;
+  text-indent: 0.625rem;
   line-height: normal;
   display: flex;
   align-items: center;
   &::placeholder {
     color: #ecb973;
-    text-indent: 10px;
-  }
-  @media screen and (max-width: 1300px), (max-height: 650px) {
-    width: 270px;
-    height: 35px;
-    border-radius: 12px;
-    font-size: 12px;
+    text-indent: 0.625rem;
   }
 `;
 
 const LButton = styled.button`
-  width: 400px;
-  height: 52px;
-  border-radius: 17px;
-  border: 1px solid #ecb973;
+  width: 25rem;
+  height: 3.25rem;
+  border-radius: 1.0625rem;
+  border: 0.0625rem solid #ecb973;
   background: #c58122;
   color: #fff;
   font-family: Inter;
-  font-size: 21px;
+  font-size: 1.3125rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -116,12 +94,6 @@ const LButton = styled.button`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  @media screen and (max-width: 1300px), (max-height: 650px) {
-    width: 270px;
-    height: 35px;
-    border-radius: 12px;
-    font-size: 14px;
-  }
 `;
 
 const Sign = styled.button`
@@ -129,16 +101,13 @@ const Sign = styled.button`
   background: #000;
   border: none;
   font-family: Inter;
-  font-size: 18px;
+  font-size: 1.125rem;
   font-style: normal;
   font-weight: 200;
   line-height: normal;
   text-decoration-line: underline;
   margin-top: -0.4rem;
   cursor: pointer;
-  @media screen and (max-width: 1300px), (max-height: 650px) {
-    font-size: 12px;
-  }
 `;
 
 function Login() {
