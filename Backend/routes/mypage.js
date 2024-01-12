@@ -99,7 +99,7 @@ router.delete('/delete', verifyToken, (req, res, next) => {
             return res.status(500).send({ message: 'DB 쿼리 오류', error });
         }
 
-        if (parseInt(req.user.id) !== parseInt(result[0].user_id)) {
+        if (parseInt(req.user.id, 10) !== parseInt(result[0].user_id,10)) {
             return res.status(403).json({ error: '토큰과 폴 아이디가 일치하지 않습니다' });
         }
 
