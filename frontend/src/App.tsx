@@ -81,9 +81,14 @@ a {
   text-decoration:none;
   color:inherit;
 }
-@media (max-width: 1500px) {
+@media (max-width: 1500px) , (max-height : 850px) {
     html {
       font-size: 12px;
+    }
+  }
+  @media (max-width: 1200px) , (max-height: 700px) {
+    html {
+      font-size: 10px;
     }
   }
 `;

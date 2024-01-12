@@ -13,75 +13,65 @@ const Background = styled.div`
 `;
 
 const Inside = styled.div`
-  width: 1500px;
+  width: 81.75rem;
   margin-left: auto;
   margin-right: auto;
 `;
-
 const Details = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: 18px;
+  gap: 1.125rem;
 `;
 
 const DetailBackground = styled.div`
-  width: 965px;
-  height: 719px;
-  border-radius: 4px;
+  width: 60.3125rem;
+  height: 44.9375rem;
+  border-radius: 0.25rem;
   background: #e9e5da;
   margin-top: 2rem;
 
   display: flex;
   justify-content: center;
-  @media screen and (max-width: 1300px), (max-height: 800px) {
-    height: 500px;
-  }
 `;
 
 const DetailLine1 = styled.div`
-  width: 940px;
-  height: 680px;
-  border-radius: 10px;
-  border: 0.5px solid #b88150;
+  width: 58.75rem;
+  height: 42.5rem;
+  border-radius: 0.625rem;
+  border: 0.03125rem solid #b88150;
   background: rgba(217, 217, 217, 0);
 
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 24px;
+  margin-top: 1.5rem;
   flex-direction: column;
-  @media screen and (max-width: 1300px), (max-height: 800px) {
-    height: 450px;
-  }
 `;
 
 const DetailLine2 = styled.div`
-  width: 929px;
-  height: 634px;
-  border-radius: 8px 8px 0px 0px;
-  border: 0.5px solid #b88150;
+  width: 58.0625rem;
+  height: 39.625rem;
+  border-radius: 0.5rem 0.5rem 0rem 0rem;
+  border: 0.03125rem solid #b88150;
   background: rgba(217, 217, 217, 0);
-  margin-top: 5px;
+  margin-top: 0.3125rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  @media screen and (max-width: 1300px), (max-height: 800px) {
-    height: 400px;
-  }
 `;
 
 const Date = styled.p`
   display: flex;
-  width: 177px;
-  height: 41px;
+  width: 11.0625rem;
+  height: 2.5625rem;
   flex-direction: column;
   justify-content: center;
   color: #b88150;
   text-align: center;
   font-family: "Italiana", sans-serif;
-  font-size: 20px;
+  font-size: 1.25rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -92,63 +82,55 @@ const Title = styled.p`
   color: #b99e6f;
   text-align: center;
   font-family: Inter;
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-style: normal;
   font-weight: 600;
   width: 4.5rem;
-  margin-top: 15px;
+  margin-top: 0.9375rem;
   line-height: 1.5;
-
-  @media screen and (max-width: 1300px), (max-height: 800px) {
-    display: none;
-  }
 `;
 
 const Worry = styled.p`
-  width: 450px;
-  height: 50px;
+  width: 28.125rem;
+  height: 3.125rem;
   color: #b99e6f;
   text-align: center;
   font-family: Inter;
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  margin-top: 13px;
+  margin-top: 0.8125rem;
   overflow-y: scroll;
-  padding-right: 10px;
+  padding-right: 0.625rem;
 
   &::-webkit-scrollbar {
-    width: 3px; /* 스크롤바의 너비 */
+    width: 0.1875rem; /* 스크롤바의 너비 */
   }
 
   &::-webkit-scrollbar-thumb {
     background-color: #ecb973; /* 황금색 스크롤바 색상 */
-    border-radius: 5px; /* 스크롤바 모양 (둥근 모서리) */
+    border-radius: 0.3125rem; /* 스크롤바 모양 (둥근 모서리) */
   }
 
   &::-webkit-scrollbar-thumb:hover {
     background-color: #daa520; /* 호버시 색상 변경 (더 진한 황금색) */
-  }
-
-  @media screen and (max-width: 1300px), (max-height: 800px) {
-    display: none;
   }
 `;
 
 const Cards = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 76px;
+  gap: 4.75rem;
   margin-top: 2rem;
   align-items: center;
-  width: 550px;
+  width: 34.375rem;
 `;
 
 const CardBackground = styled.div`
-  width: 141.75px;
-  height: 243px;
-  border-radius: 15px;
+  width: 8.859375rem;
+  height: 15.1875rem;
+  border-radius: 0.9375rem;
   background: #b99e6f;
   display: flex;
   align-items: center;
@@ -156,64 +138,52 @@ const CardBackground = styled.div`
   position: absolute;
   backface-visibility: hidden;
   transform: rotateY(0deg);
-  @media screen and (max-width: 1300px), (max-height: 700px) {
-    height: 180px;
-  }
 `;
 
 const TaroEx = styled.img`
-  width: 125.135px;
-  height: 225.243px;
-  @media screen and (max-width: 1300px), (max-height: 700px) {
-    height: 150px;
-  }
+  width: 7.8209375rem;
+  height: 14.0776875rem;
 `;
 
 const Solutions = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  margin-top: 29px;
+  gap: 0.875rem;
+  margin-top: 1.8125rem;
   align-items: center;
-  @media screen and (max-width: 1300px), (max-height: 800px) {
-    margin-top: 31px;
-  }
 `;
 
 const SolutionTitle = styled.p`
   color: #806838;
   text-align: center;
   font-family: Inter;
-  font-size: 15px;
+  font-size: 0.9375rem;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  @media screen and (max-width: 1300px), (max-height: 800px) {
-    display: none;
-  }
 `;
 
 const SolutionDetail = styled.p`
-  width: 622px;
+  width: 38.875rem;
   color: #806838;
   text-align: center;
   font-family: Inter;
-  font-size: 15px;
+  font-size: 0.9375rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
   height: 5rem;
   overflow-y: scroll;
   overflow-x: hidden;
-  padding-right: 10px;
+  padding-right: 0.625rem;
 
   &::-webkit-scrollbar {
-    width: 3px; /* 스크롤바의 너비 */
+    width: 0.1875rem; /* 스크롤바의 너비 */
   }
 
   &::-webkit-scrollbar-thumb {
     background-color: #ecb973; /* 황금색 스크롤바 색상 */
-    border-radius: 5px; /* 스크롤바 모양 (둥근 모서리) */
+    border-radius: 0.3125rem; /* 스크롤바 모양 (둥근 모서리) */
   }
 
   &::-webkit-scrollbar-thumb:hover {
@@ -224,7 +194,7 @@ const SolutionDetail = styled.p`
 const Buttons = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 14px;
+  gap: 0.875rem;
 `;
 
 const Button = styled.button`
@@ -233,9 +203,9 @@ const Button = styled.button`
 `;
 
 const FlipcardBackground = styled.div`
-  width: 141.75px;
-  height: 243px;
-  border-radius: 15px;
+  width: 8.859375rem;
+  height: 15.1875rem;
+  border-radius: 0.9375rem;
   background: #b99e6f;
   display: flex;
   align-items: center;
@@ -243,19 +213,13 @@ const FlipcardBackground = styled.div`
   position: absolute;
   backface-visibility: hidden;
   transform: rotateY(180deg);
-  @media screen and (max-width: 1300px), (max-height: 700px) {
-    height: 180px;
-  }
 `;
 
 const FlipcardImg = styled.img`
-  width: 125.135px;
-  height: 225.243px;
+  width: 7.8209375rem;
+  height: 14.0776875rem;
 
   mix-blend-mode: screen;
-  @media screen and (max-width: 1300px), (max-height: 700px) {
-    height: 150px;
-  }
 `;
 
 const FlipcardInner = styled.div<FlipcardInnerProps>`
@@ -271,13 +235,10 @@ const FlipcardInner = styled.div<FlipcardInnerProps>`
 
 const FlipcardContainer = styled.div`
   position: relative;
-  width: 141.75px;
-  height: 243px;
-  border-radius: 15px;
-  perspective: 1000px;
-  @media screen and (max-width: 1300px), (max-height: 700px) {
-    height: 150px;
-  }
+  width: 8.859375rem;
+  height: 15.1875rem;
+  border-radius: 0.9375rem;
+  perspective: 62.5rem;
 `;
 
 interface FlipcardInnerProps {
@@ -288,26 +249,21 @@ const CardTitle = styled.p`
   color: #806838;
   text-align: center;
   font-family: Inter;
-  font-size: 8px;
+  font-size: 0.5rem;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  width: 429px;
+  width: 26.8125rem;
   position: absolute;
   top: 30%;
   left: 50%;
   transform: translate(-50%, -50%);
-  @media screen and (max-width: 1300px), (max-height: 700px) {
-    height: 150px;
-    font-size: 6px;
-    top: 75%;
-  }
 `;
 
 const CardContent = styled.p`
   color: #fbecc6;
   font-family: Inter;
-  font-size: 8px;
+  font-size: 0.5rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -315,11 +271,6 @@ const CardContent = styled.p`
   top: 60%; // CardTitle 아래에 위치
   left: 50%;
   transform: translate(-50%, -50%);
-  @media screen and (max-width: 1300px), (max-height: 700px) {
-    height: 150px;
-    font-size: 6px;
-    top: 85%; // CardTitle 아래에 위치
-  }
 `;
 
 function ResultDetail() {

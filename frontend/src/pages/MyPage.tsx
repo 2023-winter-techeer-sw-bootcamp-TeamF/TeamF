@@ -13,11 +13,10 @@ const Background = styled.div`
 `;
 
 const Inside = styled.div`
-  width: 1500px;
+  width: 81.75rem;
   margin-left: auto;
   margin-right: auto;
 `;
-
 const Folder = styled.div`
   display: flex;
   flex-direction: row;
@@ -29,7 +28,7 @@ const MyDrawer = styled.p`
   color: #ecb973;
 
   font-family: Inter;
-  font-size: 20px;
+  font-size: 1.25rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -39,14 +38,14 @@ const MyDrawer = styled.p`
 
 const Line = styled.div`
   width: 100%;
-  height: 2px;
+  height: 0.125rem;
   background: #ecb973;
   margin-top: 1rem;
 `;
 
 const Card = styled.div`
   width: 13.25rem;
-height: 22.80231rem;
+  height: 22.80231rem;
   border-radius: 0.25rem;
   background: #e9e5da;
   display: flex;
@@ -56,22 +55,22 @@ height: 22.80231rem;
 `;
 
 const CardLine1 = styled.div`
-  width: 189.321px;
-  height: 339.2px;
-  border-radius: 10px;
-  border: 0.5px solid #b88150;
+  width: 11.8269375rem;
+  height: 21.2rem;
+  border-radius: 0.625rem;
+  border: 0.03125rem solid #b88150;
   background: rgba(217, 217, 217, 0);
   margin-top: 1rem;
 `;
 
 const CardLine2 = styled.div`
-  width: 183.405px;
-  height: 302.716px;
-  border-radius: 8px 8px 0px 0px;
-  border: 0.5px solid #b88150;
+  width: 11.4628125rem;
+  height: 18.91975rem;
+  border-radius: 0.5rem 0.5rem 0rem 0rem;
+  border: 0.03125rem solid #b88150;
   background: rgba(217, 217, 217, 0);
-  margin-top: 5px;
-  margin-left: 2px;
+  margin-top: 0.3125rem;
+  margin-left: 0.125rem;
 `;
 
 const TaroExs = styled.div`
@@ -82,21 +81,21 @@ const TaroExs = styled.div`
 `;
 
 const TaroEx = styled.img`
-  width: 49.597px;
-  height: 89.274px;
+  width: 3.0998125rem;
+  height: 5.579625rem;
 `;
 
 const CardText = styled.p`
-  width: 160.005px;
-  height: 160.005px;
+  width: 10.0003125rem;
+  height: 10.0003125rem;
   color: #1d1d1d;
   text-align: center;
   font-family: "Italiana", sans-serif;
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  letter-spacing: -0.26px;
+  letter-spacing: -0.01625rem;
   text-transform: uppercase;
   margin-top: 1rem;
   margin-left: 0.7rem;
@@ -106,12 +105,12 @@ const UserName = styled.p`
   color: #b88150;
   text-align: center;
   font-family: "Italiana", sans-serif;
-  font-size: 18px;
+  font-size: 1.125rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
 
-  letter-spacing: 1.26px;
+  letter-spacing: 0.07875rem;
   text-transform: uppercase;
 `;
 
@@ -119,11 +118,11 @@ const Row = styled.div`
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(2, 1fr);
-  margin-top: 32px;
+  margin-top: 2rem;
 
-  margin-left: 28px;
+  margin-left: auto;
   margin-right: auto;
-  gap: 40px 55px;
+  gap: 2.5rem 2rem;
 `;
 
 function MyPage() {
@@ -148,7 +147,10 @@ function MyPage() {
             <MyDrawer>내 서랍</MyDrawer>
           </Folder>
           <Line />
-          <Link to="/resultdetail">
+          <Link
+            to="/resultdetail"
+            style={{ display: "flex", alignItems: "center" }}
+          >
             <Row>
               <Card>
                 <CardLine1>

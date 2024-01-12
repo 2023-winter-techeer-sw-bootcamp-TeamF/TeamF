@@ -12,12 +12,8 @@ import FlipCard from "../assets/FlipCard.png";
 
 const BackgroundWrapper = styled.div`
   position: relative; // 자식 요소를 절대 위치로 배치하기 위한 설정
-  width: 89%;
-  height: 89vh;
-  @media (max-width: 1300px), (max-height: 650px) {
-    width: 85%;
-    height: 89vh;
-  }
+  width: 79.4671675rem;
+  height: 52.94rem;
 `;
 
 const BackgroundImg = styled.img`
@@ -52,8 +48,8 @@ const TitleContainer = styled.div`
   font-weight: 500;
   line-height: normal;
   text-transform: uppercase;
-  font-size: 30px;
-  margin-bottom: 2.5rem;
+  font-size: 1.875rem;
+  margin-bottom: 3.5rem;
 `;
 
 const ContentContainer = styled.p`
@@ -61,21 +57,22 @@ const ContentContainer = styled.p`
   color: #ecb973;
   text-align: center;
   font-family: Inter;
-  font-size: 18px;
+  font-size: 1.125rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
   text-transform: uppercase;
-  margin-top: 20px;
+  margin-top: 1.25rem;
+  margin-bottom: 6rem;
 `;
 
 const CardBox = styled.div`
   //각 카드 박스
-  width: 198px;
-  height: 300px;
+  width: 12.375rem;
+  height: 20.75rem;
   flex-shrink: 0;
-  border-radius: 12px;
-  border: 2px solid #ecb973;
+  border-radius: 0.75rem;
+  border: 0.125rem solid #ecb973;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -84,33 +81,24 @@ const CardBox = styled.div`
   position: absolute;
   backface-visibility: hidden;
   transform: rotateY(0deg);
-
-  @media (max-width: 1300px), (max-height: 650px) {
-    width: 165px;
-    height: 256px;
-  }
 `;
 
 const CardsContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px;
-  margin-top: 40px;
+  gap: 1.25rem;
+  margin-top: 2.5rem;
 `;
 const ProfileImage = styled.img`
   // 프로필 이미지
   display: flex;
   justify-content: center;
   align-items: center;
-  width: auto;
-  height: auto;
+  width: 8rem;
+  height: 8rem;
   flex-direction: column;
-  margin-top: 20px;
-  @media (max-width: 1300px), (max-height: 650px) {
-    width: 6.5rem;
-    height: 6.5rem;
-  }
+  margin-top: 3.25rem;
 `;
 
 const Question = styled.span`
@@ -118,11 +106,11 @@ const Question = styled.span`
   color: #ecb973;
   text-align: center;
   font-family: Inter;
-  font-size: 16px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  margin-top: 50px;
+  margin-top: 3.125rem;
 `;
 
 const CardTitle = styled.span`
@@ -130,7 +118,7 @@ const CardTitle = styled.span`
   color: #ecb973;
   text-align: center;
   font-family: Inter;
-  font-size: 24px;
+  font-size: 1.5rem;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
@@ -138,28 +126,24 @@ const CardTitle = styled.span`
 `;
 
 const Inside = styled.div`
-  width: 1500px;
+  width: 81.75rem;
   margin-left: auto;
   margin-right: auto;
 `;
 const FlipCardImg = styled.img`
-  width: 198px;
-  height: 300px;
+  width: 12.375rem;
+  height: 20.75rem;
   flex-shrink: 0;
-  border-radius: 12px;
+  border-radius: 0.75rem;
   display: flex;
   position: relative; // 내부 절대 위치 요소를 위한 상대 위치 설정
   mix-blend-mode: darken;
-  @media (max-width: 1300px), (max-height: 650px) {
-    width: 165px;
-    height: 300px;
-  }
 `;
 
 const FlipcardBackground = styled.div`
-  width: 198px;
-  height: 300px;
-  border-radius: 12px;
+  width: 12.375rem;
+  height: 20.75rem;
+  border-radius: 0.75rem;
   background-color: rgba(255, 255, 255, 0);
   position: absolute;
   backface-visibility: hidden;
@@ -168,15 +152,15 @@ const FlipcardBackground = styled.div`
 
 const FlipcardContainer = styled.div`
   position: relative;
-  width: 198px;
-  height: 300px;
-  perspective: 1000px;
+  width: 12.375rem;
+  height: 20.75rem;
+  perspective: 62.5rem;
 `;
 
 const FlipcardInner = styled.div<FlipcardInnerProps>`
   position: relative;
-  width: 100%;
-  height: 100%;
+  width: 12.375rem;
+  height: 20.75rem;
   text-align: center;
   transition: transform 0.6s;
   transform-style: preserve-3d;
@@ -194,36 +178,28 @@ const CardText = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
-  flex-direction: column; // 가로 방향으로 아이템 정렬
+  flex-direction: column;
   color: #fffbf2;
   font-family: Inter;
-  font-size: 15px;
-  width: 80%; // 컨테이너 너비 조절
-  max-width: 300px; // 최대 너비 설정
-  @media (max-width: 1300px), (max-height: 650px) {
-    font-size: 13px;
-    top: 38%;
-    left: 42%;
-    width: 70%;
-  }
+  font-size: 0.9375rem;
+  width: 9rem;
+  line-height: 1.3;
+  margin-top: 0.6rem;
 `;
 
 const Bold = styled.p`
   color: #fffbf2;
   font-family: Inter;
-  font-size: 15px;
+  font-size: 0.9375rem;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  @media (max-width: 1300px), (max-height: 650px) {
-    font-size: 13px;
-  }
 `;
 const SoloBtn = styled.div`
-  width: 135px;
-  height: 24px;
+  width: 8.4375rem;
+  height: 1.5rem;
   flex-shrink: 0;
-  border-radius: 15px;
+  border-radius: 0.9375rem;
   background: #fbecc6;
   position: absolute;
   top: 80%;
@@ -233,18 +209,12 @@ const SoloBtn = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  @media (max-width: 1300px), (max-height: 650px) {
-    width: 120px;
-    height: 22px;
-    top: 77%;
-    left: 43%;
-  }
 `;
 const TogetherBtn = styled.div`
-  width: 135px;
-  height: 24px;
+  width: 8.4375rem;
+  height: 1.5rem;
   flex-shrink: 0;
-  border-radius: 15px;
+  border-radius: 0.9375rem;
   background: #806838;
   position: absolute;
   top: 90%;
@@ -254,19 +224,13 @@ const TogetherBtn = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  @media (max-width: 1300px), (max-height: 650px) {
-    width: 120px;
-    height: 22px;
-    top: 86%;
-    left: 43%;
-  }
 `;
 
 const SoloText = styled.p`
   color: #806838;
   text-align: center;
   font-family: Inter;
-  font-size: 10px;
+  font-size: 0.625rem;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
@@ -277,7 +241,7 @@ const TogetherText = styled.p`
   color: #fbecc6;
   text-align: center;
   font-family: Inter;
-  font-size: 10px;
+  font-size: 0.625rem;
   font-style: normal;
   font-weight: 600;
   line-height: normal;

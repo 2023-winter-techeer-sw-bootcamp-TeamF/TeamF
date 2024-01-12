@@ -19,12 +19,8 @@ const BackgroundColor = styled.div`
 
 const BackgroundWrapper = styled.div`
   position: relative; // 자식 요소를 절대 위치로 배치하기 위한 설정
-  width: 100%;
-  height: 89vh;
-  @media (max-width: 1300px), (max-height: 650px) {
-    width: 85%;
-    height: 89vh;
-  }
+  width: 79.4671675rem;
+  height: 52.94rem;
 `;
 
 const BackgroundImg = styled.img`
@@ -33,7 +29,7 @@ const BackgroundImg = styled.img`
 `;
 
 const Inside = styled.div`
-  width: 1500px;
+  width: 81.75rem;
   margin-left: auto;
   margin-right: auto;
 `;
@@ -46,21 +42,11 @@ const CardBackground = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-
-  @media (max-width: 1300px), (max-height: 650px) {
-    width: 8rem;
-    height: 14rem;
-  }
 `;
 
 const TaroEx = styled.img`
   width: 7.72438rem;
   height: 13.90388rem;
-
-  @media (max-width: 1300px), (max-height: 650px) {
-    width: 7rem;
-    height: 13rem;
-  }
 `;
 
 const Cards = styled.div`
@@ -70,45 +56,26 @@ const Cards = styled.div`
   gap: 6.5rem;
   top: 13%;
   left: 25%;
-
-  @media (max-width: 1300px), (max-height: 650px) {
-    gap: 4rem;
-    left: 30%;
-  }
 `;
 
 const BackcardBackground = styled(motion.div)`
-  width: 139.343px;
-  height: 238.254px;
-  border-radius: 15px;
+  width: 8.7089375rem;
+  height: 14.890875rem;
+  border-radius: 0.9375rem;
   background: #b99e6f;
   display: flex;
   align-items: center;
   justify-content: center;
   position: absolute;
   cursor: pointer;
-
-  @media (max-width: 1300px), (max-height: 650px) {
-    width: 7rem;
-    height: 11rem;
-
-    img {
-      width: 6.5rem;
-      height: 10.5rem;
-    }
-  }
 `;
 
 const StackedCardsContainer = styled(motion.div)`
   position: relative;
-  height: 238.254px; // 자식 컨테이너(BackcardBackground)와 같은 높이
-  width: 100%; // 또는 전체 카드가 겹치는 너비에 맞게 조정
+  height: 14.890875rem; // 자식 컨테이너(BackcardBackground)와 같은 높이
+  width: 6.25rem; // 또는 전체 카드가 겹치는 너비에 맞게 조정
   bottom: 45%;
-  left: 65%;
-  @media (max-width: 1300px), (max-height: 650px) {
-    bottom: 40%;
-    left: 72%;
-  }
+  left: 69.5%;
 `;
 
 const NextBtn = styled.button`
@@ -118,16 +85,9 @@ const NextBtn = styled.button`
   height: 3.75rem;
   background-image: url(${NextButton});
   position: absolute;
-  right: 8rem;
+  right: 7rem;
   bottom: 10.5rem;
   cursor: pointer;
-
-  @media (max-width: 1300px), (max-height: 650px) {
-    width: 3.5rem;
-    height: 4rem;
-    right: 5rem;
-    bottom: 10.5rem;
-  }
 `;
 
 const BeforeBtn = styled.button`
@@ -141,11 +101,6 @@ const BeforeBtn = styled.button`
   bottom: 10.5rem;
   cursor: pointer;
   transform: rotate(180deg);
-
-  @media (max-width: 1300px), (max-height: 650px) {
-    width: 3.5rem;
-    height: 4rem;
-  }
 `;
 
 const rowVariants = {
@@ -168,6 +123,11 @@ const rowVariants = {
     },
   }),
 };
+
+const BackOfCardImg = styled.img`
+  width: 95%;
+  height: 95%;
+`
 
 const CardSelect = () => {
   const [NumberOfCards1, setNumberOfCards1] = useState(22); // 1번째 줄 카드 수
@@ -251,7 +211,7 @@ const CardSelect = () => {
                       zIndex: NumberOfCardsDelete - index,
                     }}
                   >
-                    <img src={BackOfCard} alt="Card back" />
+                    <BackOfCardImg src={BackOfCard} alt="Card back" />
                   </BackcardBackground>
                 ))}
               </StackedCardsContainer>
@@ -274,7 +234,7 @@ const CardSelect = () => {
                       zIndex: NumberOfCards3 - index,
                     }}
                   >
-                    <img src={BackOfCard} alt="Card back" />
+                    <BackOfCardImg src={BackOfCard} alt="Card back" />
                   </BackcardBackground>
                 ))}
               </StackedCardsContainer>
@@ -297,7 +257,7 @@ const CardSelect = () => {
                       zIndex: NumberOfCards2 - index,
                     }}
                   >
-                    <img src={BackOfCard} alt="Card back" />
+                    <BackOfCardImg src={BackOfCard} alt="Card back" />
                   </BackcardBackground>
                 ))}
               </StackedCardsContainer>
@@ -320,7 +280,7 @@ const CardSelect = () => {
                       zIndex: NumberOfCards1 - index,
                     }}
                   >
-                    <img src={BackOfCard} alt="Card back" />
+                    <BackOfCardImg src={BackOfCard} alt="Card back" />
                   </BackcardBackground>
                 ))}
               </StackedCardsContainer>
