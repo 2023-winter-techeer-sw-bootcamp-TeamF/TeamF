@@ -4,16 +4,16 @@ const db = require('../mysql/database.js');
 const gptApi = require('../chatgpt/api.js');
 const router = express.Router();
 
-router.post('/', async (req, res, next) => {
+router.post('/stream', async (req, res, next) => {
     /*
     #swagger.tags = ['Result']
-    #swagger.summary = "Todo: 결과 리스트, 결과 상세조회, 결과 삭제"
-    #swagger.description = '/list /detail /deswaggerlete'
+    #swagger.summary = "타로 결과 GPT 요청"
+    #swagger.description = '타로 결과를 API에 요청하고 결과를 반환함'
     #swagger.tags = ['Result']
     #swagger.summary = "GPT 데이터 요청"
     #swagger.description = '카드 정보를 정수형으로 전달하면 해당 카드의 정보를 반환함'
     #swagger.responses[200] = {
-        description: 'GPT-3 API 요청 성공',
+        description: 'GPT API 요청 성공',
         schema: {
             json: {
                 card1: 'Ace of Wands',
@@ -25,22 +25,16 @@ router.post('/', async (req, res, next) => {
         }
     }
     #swagger.responses[400] = {
-        description: '유효하지않은 카드 정보',
+        description: '유효하지않은 데이터',
         schema: {
-            message: 'request is null or undefined'
-        }
-    }
-    #swagger.responses[400] = {
-        description: '유효하지않은 질문 정보',
-        schema: {
-            message: 'request is null or undefined'
+            message: '데이터가 유효하지 않습니다. (널값, 누락 등)'
         }
     }
     #swagger.responses[500] = {
-        description: 'GPT-3 API 요청 중 오류 발생',
+        description: 'GPT API 요청 중 오류 발생',
         schema: {
-            message: 'GPT-3 API 요청 중 오류 발생',
-            error: 'error'
+            message: 'GPT에서 오류가 발생해 데이터를 불러올 수 없습니다!',
+            error: ''
         }
     } 
     #swagger.parameters['cards'] = {
@@ -66,30 +60,38 @@ router.post('/', async (req, res, next) => {
     */
     // 변수 선언
     const cards = req.query.cards;
-    console.log(cards);
     const ask = req.query.ask;
     let messages = [];
     let gptAnswers = [];
+    let cardsArray = [];
     let answers = {};
     let cardNum = 1;
 
-    if(!cards) {
+    // 누락 여부 체크
+    if(!cards || !ask) {
         res.locals.status = 400;
-        res.locals.data = { message: '유효하지않은 카드 정보' };
+        res.locals.data = { message: '데이터가 유효하지 않습니다. (널값, 누락 등)' };
         return next();
     }
 
-    if(!ask) {
-        res.locals.status = 400;
-        res.locals.data = { message: '유효하지않은 질문 정보' };
-        return next();
+    // 문자열로 들어온 카드 정보를 배열로 만든다.
+    if(typeof cards === 'string') {
+        let buffer = cards.split(',');
+        for (let card of buffer) {
+            cardsArray.push(card);
+        }
+    }
+
+    // 객체형태의 카드 정보 가져온다. 현재 문제는 없지만 만약 문제가 생긴다면 수정 예정
+    if(typeof cards === 'object') {
+        cardsArray = cards;
     }
 
     // messages.push(prompt); - 프롬프팅된 메시지를 넣을 예정
     //answers['prompt'] = prompt;
     // 카드정보를 순차적으로 messages에 넣는다.
-    for (let card of cards) {
-        messages.push(card+'\n');
+    for (let card of cardsArray) {
+        messages.push(card);
         answers['card'+ cardNum] = card;
         cardNum++;
     }
@@ -98,115 +100,180 @@ router.post('/', async (req, res, next) => {
     messages.push(ask);
     answers['ask'] = ask;
 
-    console.log('answer : ', answers);
-    console.log('messages : ', messages.join(''));
-
     try {
         // gpt에게 메시지를 보내고 스트림 형태로 데이터를 받는다.
         const stream = await gptApi.getGptStream(gptApi.gptMessageForm('user', messages.join('')));
-
         // 스트림에서 데이터를 받는다.
         for await (const chunk of stream) {
-            if(chunk['choices'][0]['delta']['content']) {
-                console.log(chunk['choices'][0]['delta']['content']);
-                //res.write(chunk['choices'][0]['delta']['content']);
-                gptAnswers.push(chunk['choices'][0]['delta']['content']);
+            // 스트림 데이터의 형식에 따라 데이터를 추출한 형태
+            if(chunk) {
+                console.log(chunk.choices[0]?.delta?.content || '');
+                //res.write(chunk.choices[0]?.delta?.content || '');  //스트림을 사용할 경우 res.write()를 사용한다.
+                gptAnswers.push(chunk.choices[0]?.delta?.content || '');
             }
         }
+        // 스트림 데이터를 문자열로 변환하여 반환한다.
         answers['answer'] = await gptAnswers.join('');
+        //await res.end(); //스트림을 사용할 경우 res.end()를 사용한다.
         
-        res.locals.data = JSON.stringify(answers);
-        //res.end();
+        res.locals.data = JSON.stringify(answers); // 조회 결과 → res.locals.data에 저장
 
-    } catch (error) {
+    } catch (err) {
         res.locals.status = 500;
-        res.locals.data = { message: 'GPT-3 API 요청 중 오류 발생', error };
-        throw error;
-        return next(); // 오류 발생 → commonResponse 미들웨어로 이동
+        res.locals.data = { message: 'GPT API 요청 중 오류 발생', error: err.message };
+        return next(); // 오류 발생 → commonResponse 미들웨어로 이동 
     }
+
+    // 결과를 DB에 저장한다. (일단 보류)
+    // try {
+    //     const connection = db.getConnection();
+
+    //     const query = "INSERT INTO temp_result (user_id, json) VALUES (?, ?)";
+
+    //     connection.query(query, [user_id, JSON.stringify(answers)], (error, results, fields) => {
+    //         if (error) {
+    //             res.locals.status = 500;
+    //             res.locals.data = { message: '데이터 저장 중 오류 발생', error };
+    //             return next(); // 오류 발생 → commonResponse 미들웨어로 이동
+    //         }
+    //         else {
+    //             res.locals.data = { message: '데이터 저장 성공' };
+    //         }
+    //     });
+    // }
+    // catch (err) {
+    //     res.locals.status = 500;
+    //     res.locals.data = { message: '데이터 저장 중 오류 발생', error: err.message };
+    //     return next(); // 오류 발생 → commonResponse 미들웨어로 이동
+    // }
+
     next();
-});
+}, commonResponse); // commonResponse 미들웨어를 체인으로 추가
 
 router.post('/save', (req, res, next) => {
     // Swagger 문서화
-    // #swagger.summary = "총합 결과 저장"
-    // #swagger.description = '총합 결과 저장'
+    // #swagger.summary = "종합 결과 저장"
+    // #swagger.description = '종합 결과 저장'
     // #swagger.tags = ['Result']
-     /*  #swagger.responses[200] = {
-              description: '테스트 값 조회 성공',}
-      } */
-    /*  #swagger.responses[400] = {
-              description: '잘못된 요청',
-      } */
-    /* #swagger.parameters['user_id'] = {
-           in: 'query',
-           description: '유저 고유번호',
-           required: true,
-           type: 'string',
-           example: '12345'
-   } */
-    /* #swagger.parameters['poll_id'] = {
-            in: 'query',
-            description: '폴 아이디',
-            required: true,
-            type: 'string',
-            example: '56789'
+    /* #swagger.parameters['body'] = {
+        in: 'body',
+        description: '타로 결과 및 뽑은 카드 정보 저장을 위한 요청값',
+        required: true,
+        schema: {
+            poll_id : '12345',
+            question : '사용자 질문',
+            result_explanation : '종합 결과',
+            master_name : '마스터 이름',
+            luck_type : '운 종류',
+            cards : [
+                {
+                    "card_image_url": "url1",
+                    "card_explanation": "explanation1",
+                    "card_eng_name": "eng1",
+                    "card_kor_name": "kor1"
+                },
+                {
+                    "card_image_url": "url2",
+                    "card_explanation": "explanation2",
+                    "card_eng_name": "eng2",
+                    "card_kor_name": "kor2"
+                }
+            ],
+        }
     } */
     
-    const { user_id, poll_id } = req.query;
-    //const { question, result_explanation, master_name, luck_type, card_image_url, card_explanation, card_eng_name, card_kor_name } = req.body;
-    const { question, result_explanation, master_name, luck_type, cards } = req.body;
-    
-    /*
-    뽑은 카드 배열로 묶어서 받기
-    const cards = [
-        { card_image_url: 'url1', card_explanation: 'explanation1', card_eng_name: 'eng1', card_kor_name: 'kor1' },
-        { card_image_url: 'url2', card_explanation: 'explanation2', card_eng_name: 'eng2', card_kor_name: 'kor2' },
-        { card_image_url: 'url3', card_explanation: 'explanation3', card_eng_name: 'eng3', card_kor_name: 'kor3' }
-    ];
-    */
-
+    const { poll_id, question, result_explanation, master_name, luck_type, cards } = req.body;
+ 
     // 누락 여부 체크
-    if (!user_id) {
+    let missingParameter = null;
+
+    if (!poll_id) {
+        missingParameter = "Poll 아이디 누락";
+    } 
+    else if (!question) {
+        missingParameter = "사용자 질문 누락";
+    } 
+    else if (!result_explanation) {
+        missingParameter = "종합 결과 누락";
+    } 
+    else if (!master_name) {
+        missingParameter = "타로 마스터 이름 누락";
+    } 
+    else if (!luck_type) {
+        missingParameter = "운 종류 누락";
+    } 
+    else if (!cards || Object.keys(cards).length == 0) {
+        missingParameter = "뽑은 카드 정보 누락";
+    }
+
+    if (missingParameter) {
+        /* #swagger.responses[400] = {
+            description: '요청된 값이 누락되었을 때의 응답',
+            schema: { message: 'missingParameter' }
+        } */
         res.locals.status = 400;
-        res.locals.data = { message: "유저 아이디 누락" };
+        res.locals.data = { message: missingParameter };
         res.locals.success = false;
         return next();
     }
 
+    let resultsId = null;
+
     // 타로 결과 Table에 타로 결과 저장
     const connection = db.getConnection();
-    const results_query = "INSERT INTO results (poll_id, user_id, question, explanation, master_name, luck, created_at) "
-                + "VALUES(?, ?, ?, ?, ?, ?, NOW())";
-    connection.query(results_query, [poll_id, user_id, question, result_explanation, master_name, luck_type], (error, results, fields) => {
+    const results_query = "INSERT INTO results (poll_id, question, explanation, master_name, luck, created_at) "
+                + "VALUES(?, ?, ?, ?, ?, NOW())";
+    const results_params = [poll_id, question, result_explanation, master_name, luck_type];
+    connection.query(results_query, [results_params], (error, results, fields) => {
         if (error) {
+            /* #swagger.responses[500] = {
+                description: '타로 결과 Table에 데이터 저장 중 오류가 발생했을 때의 응답',
+                schema: { message: '타로 결과 Table에 데이터 저장 중 오류 발생' }
+                } */
             res.locals.status = 500;
-            res.locals.data = { message: ' 타로 결과 Table에 데이터 저장 중 오류 발생', error };
+            res.locals.data = { message: '타로 결과 Table에 데이터 저장 중 오류 발생', error };
             return next();
         }
         else {
-            res.locals.data = { message : '타로 결과 Table에 데이터 저장 성공', resultsId: results.insertId };
+            resultsId = results.insertId;
+            // res.locals.data = { message : '타로 결과 Table에 데이터 저장 성공', resultsId: results.insertId };
         }
     });
-    
-    for(const card of cards) {
+
+    let cardsId = [];
+
+    for(const card in cards) {
+        // 뽑은 순서
+        let ordered = 0;
+
         // 뽑은 카드 Table에 뽑은 카드 정보 저장
         const cards_query = "INSERT INTO cards (poll_id, image_url, explanation, eng_name, kor_name, ordered, created_at) "
-                + "VALUES(?, ?, ?, ?, ?, 0, NOW())";
-        connection.query(cards_query, [poll_id, card.card_image_url, card.card_explanation, card.card_eng_name, card.card_kor_name], (error, results, fields) => {
+                + "VALUES(?, ?, ?, ?, ?, ?, NOW())";
+        connection.query(cards_query, [poll_id, card.card_image_url, card.card_explanation, card.card_eng_name, card.card_kor_name, ordered], (error, results, fields) => {
             if (error) {
-                res.locals.status = 500;
-                res.locals.data = { message: ' 뽑은 카드 Table에 데이터 저장 중 오류 발생', error };
+                /* #swagger.responses[510] = {
+                    description: '뽑은 카드 Table에 데이터 저장 중 오류가 발생했을 때의 응답',
+                    schema: { message: '뽑은 카드 Table에 데이터 저장 중 오류 발생' }
+                    } */
+                res.locals.status = 510;
+                res.locals.data = { message: '뽑은 카드 Table에 데이터 저장 중 오류 발생', error };
                 return next();
             }
             else {
-                res.locals.data = { message : '뽑은 카드 Table에 데이터 저장 성공', cardsId: results.insertId };
+                cardsId.push(results.insertId);
+                // res.locals.data = { message : '뽑은 카드 Table에 데이터 저장 성공', cardsId: results.insertId };
             }
         });
 
+        ordered++;
+
     }
 
-    res.locals.data = { message: '타로 결과, 뽑은 카드 정보 저장 성공' };
+    /* #swagger.responses[200] = {
+            description: '타로 결과, 뽑은 카드 정보 저장 성공',
+            schema: { message: '타로 결과, 뽑은 카드 정보 저장 성공' },
+        } */
+    res.locals.data = { message: '타로 결과, 뽑은 카드 정보 저장 성공', resultsId, cardsId };
     next();
 });
 

@@ -13,6 +13,14 @@ const doc = {
   //host: 'localhost:3000',
   host: '43.202.208.226:3001',
   schemes: ['http'],
+  securityDefinitions: {
+    Bearer: {
+      type: 'apiKey',
+      in: 'header',
+      name: 'Authorization',
+      description: "JWT Access Token 입력 : 'Bearer {token}'"
+    }
+  },
 };
 
 const outputFile = './swagger_output.json';
