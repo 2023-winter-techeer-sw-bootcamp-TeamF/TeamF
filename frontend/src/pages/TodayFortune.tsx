@@ -30,12 +30,12 @@ const Inside = styled.div`
 const TitleBox = styled.div`
   border-radius: 1.875rem;
   background: rgba(51, 51, 51, 0.9);
-  width: 18.75rem;
+  width: 22.75rem;
   height: 3.125rem;
   flex-shrink: 0;
   position: absolute; // 부모 컨테이너인 BackgroundWrapper에 상대적인 위치
   top: 12%;
-  left: 39%;
+  left: 34%;
   text-align: center;
 `;
 
@@ -47,7 +47,7 @@ const TitleContent = styled.p`
   font-weight: 350;
   line-height: normal;
   text-transform: capitalize;
-  margin-top: 0.8125;
+  margin-top: 0.8125rem;
 `;
 
 const Profile = styled.img`
@@ -58,7 +58,7 @@ const Profile = styled.img`
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-950%, -250%);
+  transform: translate(-811%, -366%);
 `;
 
 const ChatBox = styled.div`
@@ -67,7 +67,7 @@ const ChatBox = styled.div`
   flex-shrink: 0;
   border-radius: 0px 20px 20px 20px;
   border: 1px solid #ecb973;
-  transform: translate(35%, -190%);
+  transform: translate(32%, -246%);
   padding: 1.375rem;
 `;
 
@@ -104,7 +104,7 @@ const ReplyBox = styled.div`
   border: 0.0625rem solid #fff;
   padding: 0.9375rem;
   display: flex;
-  transform: translate(110%, -420%);
+  transform: translate(80%, -496%);
 `;
 
 const Reply = styled.textarea`
@@ -150,7 +150,7 @@ const TodayFortune = () => {
         <BackgroundWrapper>
           <Profile src={TodayFortuneImg}></Profile>
           <TitleBox>
-            <TitleContent>OO운 타로 마스터와의 대화</TitleContent>
+            <TitleContent>오늘의 운세 타로 마스터와의 대화</TitleContent>
           </TitleBox>
           <BackgroundImg src={Background} alt="Background" />
           <ChatBox>
