@@ -120,9 +120,9 @@ const Row = styled.div`
   grid-template-rows: repeat(2, 1fr);
   margin-top: 2rem;
 
-  margin-left: 1.75rem;
+  margin-left: auto;
   margin-right: auto;
-  gap: 2.5rem 3.4375rem;
+  gap: 2.5rem 2rem;
 `;
 
 function MyPage() {
@@ -147,7 +147,10 @@ function MyPage() {
             <MyDrawer>내 서랍</MyDrawer>
           </Folder>
           <Line />
-          <Link to="/resultdetail">
+          <Link
+            to="/resultdetail"
+            style={{ display: "flex", alignItems: "center" }}
+          >
             <Row>
               <Card>
                 <CardLine1>
