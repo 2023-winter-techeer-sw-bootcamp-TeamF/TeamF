@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../component/Navbar";
 import styled from "styled-components";
 import Background from "../assets/Background.png";
@@ -8,6 +8,7 @@ import TaroEx3 from "../assets/TaroEx3.png";
 import BackOfCard from "../assets/BackOfCard.png";
 import NextButton from "../assets/NextButton.png";
 import { motion, AnimatePresence } from "framer-motion";
+import { chunkArray, shuffleArray } from "../component/ShuffleArray";
 
 const BackgroundColor = styled.div`
   background: #000;
@@ -170,23 +171,31 @@ const rowVariants = {
 
 const CardSelect = () => {
   const NumberOfCards = 22; // 겹칠 카드의 수
+  const [NumberOfCardsDelete, setNumberOfCardsDelete] = useState(12); // 4번째 줄 카드 수
   const Overlap = -30; // 카드 겹침 정도
   const [count, setCount] = useState(0); //몇번째 슬라이드인지
   const [back, setBack] = useState(false); //뒤로 갈지 앞으로 갈지
+  const [chunkNumber, setChunkNumber] = useState([]);
+
   const incraseIndex = () => {
     setCount((prev) => (prev === 3 ? 3 : prev + 1));
     setBack(false);
-    console.log(count);
   };
   const decraseIndex = () => {
     setCount((prev) => (prev === 0 ? 0 : prev - 1));
     setBack(true);
-    console.log(count);
   };
   const consoleIndex = (index: number, count: number) => {
-    console.log(count, index);
+    console.log(chunkNumber[count][index]);
+    chunkNumber[count].splice(index, 1);
+    setNumberOfCardsDelete((prev) => (prev === 9 ? prev : prev - 1));
   };
 
+  useEffect(() => {
+    const numbers = Array.from({ length: 78 }, (_, index) => index + 1);
+    shuffleArray(numbers);
+    setChunkNumber(chunkArray(numbers, 22));
+  }, []);
   return (
     <BackgroundColor>
       <Inside>
@@ -216,7 +225,7 @@ const CardSelect = () => {
                 transition={{ type: "tween", duration: 1 }}
                 key={count}
               >
-                {Array.from({ length: 18 }).map((_, index) => (
+                {Array.from({ length: NumberOfCardsDelete }).map((_, index) => (
                   <BackcardBackground
                     key={index}
                     onClick={() => consoleIndex(index, count)}
