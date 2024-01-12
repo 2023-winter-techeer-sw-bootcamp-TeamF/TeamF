@@ -3,11 +3,11 @@ import Navbar from "../component/Navbar";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Background from "../assets/Background.png";
-import Friendship from "../assets/Friendship.png";
-import LoveFortune from "../assets/LoveFortune.png";
-import MoneyFortune from "../assets/MoneyFortune.png";
-import TodayFortune from "../assets/TodayFortune.png";
-import WishFortune from "../assets/WishFortune.png";
+import FriendshipImg from "../assets/Friendship.png";
+import LoveFortuneImg from "../assets/LoveFortune.png";
+import MoneyFortuneImg from "../assets/MoneyFortune.png";
+import TodayFortuneImg from "../assets/TodayFortune.png";
+import WishFortuneImg from "../assets/WishFortune.png";
 import FlipCard from "../assets/FlipCard.png";
 
 const BackgroundWrapper = styled.div`
@@ -87,7 +87,7 @@ const CardBox = styled.div`
 
   @media (max-width: 1300px), (max-height: 650px) {
     width: 165px;
-    height: 300px;
+    height: 256px;
   }
 `;
 
@@ -319,7 +319,7 @@ const FortuneSelect = () => {
               <FlipcardContainer onClick={() => handleFlip(0)}>
                 <FlipcardInner isFlipped={flippedCards[0]}>
                   <CardBox>
-                    <ProfileImage src={TodayFortune} />
+                    <ProfileImage src={TodayFortuneImg} />
                     <Question>나의 오늘은 어떨까?</Question>
                     <CardTitle>오늘의 운세</CardTitle>
                   </CardBox>
@@ -332,7 +332,7 @@ const FortuneSelect = () => {
                       <Bold> 오늘의 운세</Bold>를 타로 카드와 함께 자세히
                       분석해드릴게요.
                     </CardText>
-                    <Link to="/beforechat">
+                    <Link to="/todayfortune">
                       <SoloBtn>
                         <SoloText>오늘의 운세 보러가기</SoloText>
                       </SoloBtn>
@@ -344,7 +344,7 @@ const FortuneSelect = () => {
               <FlipcardContainer onClick={() => handleFlip(1)}>
                 <FlipcardInner isFlipped={flippedCards[1]}>
                   <CardBox>
-                    <ProfileImage src={LoveFortune} />
+                    <ProfileImage src={LoveFortuneImg} />
                     <Question>우리 사이 애정은?</Question>
                     <CardTitle>연애운</CardTitle>
                   </CardBox>
@@ -357,12 +357,12 @@ const FortuneSelect = () => {
                       솔직하게 얘기해주신다면 타로 카드와 함께 자세히
                       분석해드릴게요.
                     </CardText>
-                    <Link to="/beforechat">
+                    <Link to="/lovefortune">
                       <SoloBtn>
                         <SoloText>혼자 카드 선택하기</SoloText>
                       </SoloBtn>
                     </Link>
-                    <Link to="/beforechat">
+                    <Link to="/lovefortune">
                       <TogetherBtn>
                         <TogetherText>함께 카드 선택하기</TogetherText>
                       </TogetherBtn>
@@ -374,7 +374,7 @@ const FortuneSelect = () => {
               <FlipcardContainer onClick={() => handleFlip(2)}>
                 <FlipcardInner isFlipped={flippedCards[2]}>
                   <CardBox>
-                    <ProfileImage src={Friendship} />
+                    <ProfileImage src={FriendshipImg} />
                     <Question>우리 사이 우정은?</Question>
                     <CardTitle>우정운</CardTitle>
                   </CardBox>
@@ -387,12 +387,12 @@ const FortuneSelect = () => {
                       솔직하게 얘기해주신다면 타로 카드와 함께 자세히
                       분석해드릴게요.
                     </CardText>
-                    <Link to="/beforechat">
+                    <Link to="/friendship">
                       <SoloBtn>
                         <SoloText>혼자 카드 선택하기</SoloText>
                       </SoloBtn>
                     </Link>
-                    <Link to="/beforechat">
+                    <Link to="/friendship">
                       <TogetherBtn>
                         <TogetherText>함께 카드 선택하기</TogetherText>
                       </TogetherBtn>
@@ -403,7 +403,7 @@ const FortuneSelect = () => {
               <FlipcardContainer onClick={() => handleFlip(3)}>
                 <FlipcardInner isFlipped={flippedCards[3]}>
                   <CardBox>
-                    <ProfileImage src={MoneyFortune} />
+                    <ProfileImage src={MoneyFortuneImg} />
                     <Question>나 부자될 수 있을까?</Question>
                     <CardTitle>재물운</CardTitle>
                   </CardBox>
@@ -416,7 +416,7 @@ const FortuneSelect = () => {
                       솔직하게 얘기해주신다면 타로 카드와 함께 자세히
                       분석해드릴게요.
                     </CardText>
-                    <Link to="/beforechat">
+                    <Link to="/moneyfortune">
                       <SoloBtn>
                         <SoloText>혼자 카드 선택하기</SoloText>
                       </SoloBtn>
@@ -427,7 +427,7 @@ const FortuneSelect = () => {
               <FlipcardContainer onClick={() => handleFlip(4)}>
                 <FlipcardInner isFlipped={flippedCards[4]}>
                   <CardBox>
-                    <ProfileImage src={WishFortune} />
+                    <ProfileImage src={WishFortuneImg} />
                     <Question>이룰 수 있을까?</Question>
                     <CardTitle>소망운</CardTitle>
                   </CardBox>
@@ -440,7 +440,7 @@ const FortuneSelect = () => {
                       솔직하게 얘기해주신다면 타로 카드와 함께 자세히
                       분석해드릴게요.
                     </CardText>
-                    <Link to="/beforechat">
+                    <Link to="/wishfortune">
                       <SoloBtn>
                         <SoloText>혼자 카드 선택하기</SoloText>
                       </SoloBtn>
