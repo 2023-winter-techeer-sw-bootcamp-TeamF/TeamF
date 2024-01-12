@@ -20,21 +20,24 @@ router.get('/guide', (req, res, next) => {
            description: '운 종류',
            required: true,
            type: 'string',
-           example: '애정운'
+           example: '애정운',
+           value: 'test_luck"
    } */
     /* #swagger.parameters['luckOpt'] = {
             in: 'query',
-            description: '뽑는 사람 수',
+            description: '멀티 여부',
             required: true,
             type: 'integer',
-            example: '1'
+            example: '0',
+            value: '0'
     } */
 
     const { luckType, luckOpt } = req.query;
 
     // 운 카테고리 Table에서 가이드라인 내용 조회
     const connection = db.getConnection();
-    const query = "SELECT * FROM luck_list WHERE type = ? AND opt = ?";
+    const query = "SELECT * FROM luck_list WHERE luck = ? AND opt = ?";
+    console.log(query);
     connection.query(query, [luckType, luckOpt], (error, guide_line_results, fields) => {
         if (error) {
             res.locals.status = 500;
@@ -56,16 +59,10 @@ router.get('/poll/create', (req, res, next) => {
            description: '사용자의 ID',
            required: true,
            type: 'string',
-           example: '12345'
+           example: 'Test ID = 1',
+           value: '1',
     } */
-    /* #swagger.parameters['partnerid'] = {
-            in: 'query',
-            description: '파트너의 ID (선택 사항)',
-            required: false,
-            type: 'string',
-            example: '67890'
-    } */
-    const { userid, partnerid } = req.query;
+    const { userid } = req.query;
 
     if (!userid) {
         /* #swagger.responses[400] = {
@@ -80,15 +77,16 @@ router.get('/poll/create', (req, res, next) => {
 
     // 데이터베이스 연결 및 쿼리 실행
     const connection = db.getConnection();
-    const query = 'INSERT INTO poll (userid, partnerid) VALUES (?, ?)';
+    const query = 'INSERT INTO poll (user_id) VALUES (?)';
 
-    connection.query(query, [userid, partnerid], (error, results, fields) => {
+    connection.query(query, [userid], (error, results, fields) => {
         if (error) {
             /* #swagger.responses[500] = {
                 description: 'DB 저장 과정에서 오류 발생 시의 응답',
-                schema: { message: 'DB 저장 오류' }
+                schema: { message: 'DB 저장 오류', error: '에러 내용' }
             } */
-            res.status(500).send({ message: 'DB 저장 오류' });
+            console.log(error);  // 오류의 상세한 내용을 로그로 출력
+        res.status(500).send({ message: 'DB 저장 오류', error: error.message });
         } else {
             res.locals.data = { message: 'Poll ID 생성 완료', pollId: results.insertId };
             next();
