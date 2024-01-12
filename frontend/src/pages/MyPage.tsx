@@ -10,6 +10,7 @@ const Background = styled.div`
   width: 100vw;
   height: 100vh;
   background: #000;
+  height: 200%;
 `;
 
 const Inside = styled.div`

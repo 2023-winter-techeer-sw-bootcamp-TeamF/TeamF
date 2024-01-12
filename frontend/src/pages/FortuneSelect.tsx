@@ -174,14 +174,14 @@ interface FlipcardInnerProps {
 
 const CardText = styled.div`
   position: absolute;
-  top: 40%;
+  top: 37%;
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   color: #fffbf2;
-  font-family: Inter;
-  font-size: 0.9375rem;
+  font-family: "맑은 고딕";
+  font-size: 0.86rem;
   width: 9rem;
   line-height: 1.3;
   margin-top: 0.6rem;
