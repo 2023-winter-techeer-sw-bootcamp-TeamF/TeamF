@@ -28,16 +28,16 @@ const LandingThings = styled.div`
 `;
 
 const BackofCardsLeft = styled.div`
-  width: 351.45px;
-  height: 424.71px;
+  width: 21.965625rem;
+  height: 26.544375rem;
   background: url(${BackOfCard});
   position: absolute;
   z-index: 3;
   left: 23%;
 `;
 const BackofCardsRight = styled.div`
-  width: 351.45px;
-  height: 424.71px;
+  width: 21.965625rem;
+  height: 26.544375rem;
   background: url(${BackOfCard});
   position: absolute;
   z-index: 3;
@@ -51,7 +51,7 @@ const Name = styled.p`
 
   text-align: center;
   font-family: "Cinzel", serif;
-  font-size: 74px;
+  font-size: 4.625rem;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
@@ -62,9 +62,9 @@ const Name = styled.p`
 `;
 
 const StartButton = styled.button`
-  width: 211px;
-  height: 54px;
-  border-radius: 120px;
+  width: 13.1875rem;
+  height: 3rem;
+  border-radius: 7.5rem;
   border: 2px solid #c38017;
   background: rgba(195, 128, 23, 0);
   margin-left: 9.5rem;
@@ -76,11 +76,11 @@ const StartButton = styled.button`
 const StartText = styled.p`
   color: #c38017;
   font-family: Inter;
-  font-size: 19px;
+  font-size: 1.1875rem;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
-  letter-spacing: 1.33px;
+  letter-spacing: 0.083125rem;
   text-transform: uppercase;
 `;
 

@@ -14,19 +14,15 @@ const Background = styled.div`
 `;
 
 const Inside = styled.div`
-  width: 1500px;
+  width: 81.75rem;
   margin-left: auto;
   margin-right: auto;
 `;
 
 const BackgroundWrapper = styled.div`
   position: relative;
-  width: 100%;
-  height: 89vh;
-  @media (max-width: 1300px), (max-height: 650px) {
-    width: 85%;
-    height: 89vh;
-  }
+  width: 79.4671675rem;
+  height: 52.94rem;
 `;
 
 const BackgroundImg = styled.img`
@@ -42,40 +38,25 @@ const Card = styled.div`
   display: flex;
   justify-content: center;
   cursor: pointer;
-
-  @media (max-width: 1300px), (max-height: 650px) {
-    width: 15rem;
-    height: 27rem;
-  }
 `;
 
 const CardLine1 = styled.div`
   width: 15.50738rem;
   height: 27.78406rem;
   border-radius: 0.625rem;
-  border: 0.5px solid #b88150;
+  border: 0.03rem solid #b88150;
   background: rgba(217, 217, 217, 0);
   margin-top: 0.97rem;
-  @media (max-width: 1300px), (max-height: 650px) {
-    width: 13rem;
-    height: 25rem;
-  }
 `;
 
 const CardLine2 = styled.div`
   width: 15.02281rem;
   height: 24.79569rem;
   border-radius: 0.5rem 0.5rem 0rem 0rem;
-  border: 0.5px solid #b88150;
+  border: 0.03125rem solid #b88150;
   background: rgba(217, 217, 217, 0);
-  margin-top: 5px;
-  margin-left: 2px;
-
-  @media (max-width: 1300px), (max-height: 650px) {
-    width: 12.5rem;
-    height: 22rem;
-    margin-left: 3.5px;
-  }
+  margin-top: 0.3125rem;
+  margin-left: 0.125rem;
 `;
 
 const TaroExs = styled.div`
@@ -88,10 +69,6 @@ const TaroExs = styled.div`
 const TaroEx = styled.img`
   width: 4.16306rem;
   height: 7.4935rem;
-  @media (max-width: 1300px), (max-height: 650px) {
-    width: 3.5rem;
-    height: 6.4rem;
-  }
 `;
 
 const CardText = styled.p`
@@ -109,21 +86,16 @@ const CardText = styled.p`
   overflow-y: scroll;
   overflow-x: hidden;
   &::-webkit-scrollbar {
-    width: 5px; /* 스크롤바의 너비 */
+    width: 0.3125rem; /* 스크롤바의 너비 */
   }
 
   &::-webkit-scrollbar-thumb {
     background-color: #e1ded9; /* 연한 흰색 */
-    border-radius: 4px; /* 스크롤바 모양 (둥근 모서리) */
+    border-radius: 0.25rem; /* 스크롤바 모양 (둥근 모서리) */
   }
 
   &::-webkit-scrollbar-thumb:hover {
     background-color: #ffffff; /* 호버시 색상 변경 (흰색) */
-  }
-  @media (max-width: 1300px), (max-height: 650px) {
-    letter-spacing: -0.01rem;
-    font-size: 1rem;
-    height: 14rem;
   }
 `;
 
@@ -139,11 +111,6 @@ const UserName = styled.p`
 
   letter-spacing: 0.08313rem;
   text-transform: uppercase;
-
-  @media (max-width: 1300px), (max-height: 650px) {
-    font-size: 0.9rem;
-    font-weight: 380;
-  }
 `;
 
 const Cards = styled.div`
@@ -153,27 +120,18 @@ const Cards = styled.div`
   gap: 6.5rem;
   top: 22%;
   left: 28%;
-
-  @media screen and (max-height: 900px) {
-    top: 15%;
-  }
 `;
 
 const RightBox = styled.div`
   width: 17.36506rem;
   height: 29.88406rem;
   border-radius: 0.25rem;
-  border: 2px solid #ecb973;
+  border: 0.125rem solid #ecb973;
   background: rgba(255, 255, 255, 0);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 4.5rem;
-
-  @media (max-width: 1300px), (max-height: 650px) {
-    width: 15rem;
-    height: 27rem;
-  }
 `;
 
 const ShareIcon = styled.svg`
@@ -198,7 +156,7 @@ const ShareButton = styled.button`
   width: 10.375rem;
   height: 2.1875rem;
   border-radius: 0.9375rem;
-  border: 1px solid #ecb973;
+  border: 0.0625rem solid #ecb973;
   background: rgba(217, 217, 217, 0);
   display: flex;
   align-items: center;
