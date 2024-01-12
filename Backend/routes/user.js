@@ -124,10 +124,9 @@ router.post('/login', async (req, res, next) => {
 
             if (results.length > 0) {
                 // 디비와 일치하는 사용자 정보가 있는 경우
-
                 // 로그인 성공 시, 액세스 토큰과 리프레시 토큰 발급
-                const accessToken = jwt.sign({ login_id, name: results[0].name }, 'your_secret_key_for_access_token', { expiresIn: '1h' });
-                const refreshToken = jwt.sign({ login_id, name: results[0].name }, 'your_secret_key_for_refresh_token', { expiresIn: '3d' });
+                const accessToken = jwt.sign({ id:results[0].id, name: results[0].name }, 'your_secret_key_for_access_token', { expiresIn: '1h' });
+                const refreshToken = jwt.sign({ id:results[0].id, name: results[0].name }, 'your_secret_key_for_refresh_token', { expiresIn: '3d' });
 
                 // 발급받은 리프레시 토큰을 디비에 저장
                 const updateRefreshTokenQuery = 'UPDATE user SET refresh_token = ? WHERE login_id = ?';

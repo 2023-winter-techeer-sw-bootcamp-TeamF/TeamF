@@ -12,7 +12,7 @@ router.get('/detail', verifyToken, (req, res, next) => {
     // #swagger.description = '결과 리스트 중 선택한 결과(Poll_id)를 통해 해당 결과를 상세조회한다.'
     /* #swagger.parameters['poll_id'] = {
         in: 'query',
-        description: '사용자의 poll_id',
+        description: 'poll_id',
         required: true,
         example: '12',
         value : '12',
@@ -24,14 +24,21 @@ router.get('/detail', verifyToken, (req, res, next) => {
     const searchQuery = 'SELECT user_id FROM poll WHERE id = ?';
     connection.query(searchQuery, [poll_id], (error, result) => {
 
+        console.log("user id1 " + req.user.id)
+         console.log("user id2 " + result[0].id)
+        // console.log("user id2 " + req.id)
+        // console.log("user id3 " + req.user.id)
+        // console.log("user id4 " + result[0].user_id)
+
         if (error) {
             console.error('DB 쿼리 오류1:', error);
             return res.status(500).send({ message: 'DB 쿼리 오류', error });
         }
 
-        if (parseInt(req.user.id) !== parseInt(result[0].user_id)) {
+        if (parseInt(req.user.id, 10) !== parseInt(result[0].user_id,10)) {
             return res.status(403).json({ error: 'JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다.' });
         }
+
 
         // 'results' 테이블에서 poll_id와 user_id를 사용하여 데이터 조회
         const resultQuery = 'SELECT question, explanation, luck, master_name FROM result WHERE poll_id = ?';

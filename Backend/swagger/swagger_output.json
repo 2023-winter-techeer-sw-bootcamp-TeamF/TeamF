@@ -566,7 +566,7 @@
           {
             "name": "poll_id",
             "in": "query",
-            "description": "사용자의 poll_id",
+            "description": "poll_id",
             "required": true,
             "example": "12",
             "value": "12",
