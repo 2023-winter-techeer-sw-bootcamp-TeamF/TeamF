@@ -45,9 +45,9 @@ const Line = styled.div`
 `;
 
 const Card = styled.div`
-  width: 212px;
-  height: 364.837px;
-  border-radius: 4px;
+  width: 13.25rem;
+height: 22.80231rem;
+  border-radius: 0.25rem;
   background: #e9e5da;
   display: flex;
   justify-content: center;

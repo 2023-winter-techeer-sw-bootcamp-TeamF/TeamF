@@ -21,10 +21,6 @@ const LandingBackground = styled.img`
   display: flex;
   align-items: center;
   justify-content: center;
-  @media screen and (max-width: 1500px) {
-    width: 60rem;
-    height: 40rem;
-  }
 `;
 
 const LandingThings = styled.div`

@@ -78,6 +78,11 @@ a {
   text-decoration:none;
   color:inherit;
 }
+@media (max-width: 1500px) {
+    html {
+      font-size: 14px;
+    }
+  }
 `;
 
 const router = createBrowserRouter([
