@@ -180,7 +180,7 @@ const CardText = styled.div`
   display: flex;
   flex-direction: column;
   color: #fffbf2;
-  font-family: Inter;
+  font-family: "맑은 고딕";
   font-size: 0.9375rem;
   width: 9rem;
   line-height: 1.3;
