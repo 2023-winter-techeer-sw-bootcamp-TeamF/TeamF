@@ -164,25 +164,19 @@ router.post('/save', (req, res, next) => {
             question : '사용자 질문',
             result_explanation : '종합 결과',
             master_name : '마스터 이름',
-            luck_type : '운 종류',
+            luck : '운 종류',
             cards : [
                 {
                     "card_image_url": "url1",
                     "card_explanation": "explanation1",
                     "card_eng_name": "eng1",
                     "card_kor_name": "kor1"
-                },
-                {
-                    "card_image_url": "url2",
-                    "card_explanation": "explanation2",
-                    "card_eng_name": "eng2",
-                    "card_kor_name": "kor2"
                 }
             ],
         }
     } */
     
-    const { poll_id, question, result_explanation, master_name, luck_type, cards } = req.body;
+    const { poll_id, question, result_explanation, master_name, luck, cards } = req.body;
  
     // 누락 여부 체크
     let missingParameter = null;
@@ -199,7 +193,7 @@ router.post('/save', (req, res, next) => {
     else if (!master_name) {
         missingParameter = "타로 마스터 이름 누락";
     } 
-    else if (!luck_type) {
+    else if (!luck) {
         missingParameter = "운 종류 누락";
     } 
     else if (!cards || Object.keys(cards).length == 0) {
@@ -217,63 +211,65 @@ router.post('/save', (req, res, next) => {
         return next();
     }
 
-    let resultsId = null;
+    // 타로 종합 결과 Table에 Insert 성공한 id
+    let resultId = null;
 
-    // 타로 결과 Table에 타로 결과 저장
+    // 타로 종합 결과 Table에 타로 결과 저장
     const connection = db.getConnection();
-    const results_query = "INSERT INTO results (poll_id, question, explanation, master_name, luck, created_at) "
+    const result_query = "INSERT INTO result (poll_id, question, explanation, master_name, luck, created_at) "
                 + "VALUES(?, ?, ?, ?, ?, NOW())";
-    const results_params = [poll_id, question, result_explanation, master_name, luck_type];
-    connection.query(results_query, [results_params], (error, results, fields) => {
+    const result_params = [poll_id, question, result_explanation, master_name, luck];
+    connection.query(result_query, [result_params], (error, results, fields) => {
         if (error) {
             /* #swagger.responses[500] = {
-                description: '타로 결과 Table에 데이터 저장 중 오류가 발생했을 때의 응답',
-                schema: { message: '타로 결과 Table에 데이터 저장 중 오류 발생' }
+                description: '타로 종합 결과 Table에 데이터 저장 중 오류가 발생했을 때의 응답',
+                schema: { message: '타로 종합 결과 Table에 데이터 저장 중 오류 발생' }
                 } */
             res.locals.status = 500;
-            res.locals.data = { message: '타로 결과 Table에 데이터 저장 중 오류 발생', error };
+            res.locals.data = { message: '타로 종합 결과 Table에 데이터 저장 중 오류 발생', error };
             return next();
         }
         else {
-            resultsId = results.insertId;
-            // res.locals.data = { message : '타로 결과 Table에 데이터 저장 성공', resultsId: results.insertId };
+            resultId = results.insertId;
+            // res.locals.data = { message : '타로 종합 결과 Table에 데이터 저장 성공', resultId: results.insertId };
         }
     });
 
-    let cardsId = [];
+    // 뽑은 카드별 결과 Table에 Insert 성공한 id 배열
+    let cardId = [];
 
     for(const card in cards) {
-        // 뽑은 순서
-        let ordered = 0;
+        
+        let ordered = 0; // 뽑은 순서
 
-        // 뽑은 카드 Table에 뽑은 카드 정보 저장
-        const cards_query = "INSERT INTO cards (poll_id, image_url, explanation, eng_name, kor_name, ordered, created_at) "
+        // 뽑은 카드별 결과 Table에 뽑은 카드 정보 저장
+        const cards_query = "INSERT INTO card (poll_id, image_url, explanation, eng_name, kor_name, ordered, created_at) "
                 + "VALUES(?, ?, ?, ?, ?, ?, NOW())";
         connection.query(cards_query, [poll_id, card.card_image_url, card.card_explanation, card.card_eng_name, card.card_kor_name, ordered], (error, results, fields) => {
             if (error) {
                 /* #swagger.responses[510] = {
-                    description: '뽑은 카드 Table에 데이터 저장 중 오류가 발생했을 때의 응답',
-                    schema: { message: '뽑은 카드 Table에 데이터 저장 중 오류 발생' }
+                    description: '뽑은 카드별 결과 Table에 데이터 저장 중 오류가 발생했을 때의 응답',
+                    schema: { message: '뽑은 카드별 결과 Table에 데이터 저장 중 오류 발생' }
                     } */
                 res.locals.status = 510;
-                res.locals.data = { message: '뽑은 카드 Table에 데이터 저장 중 오류 발생', error };
+                res.locals.data = { message: '뽑은 카드별 결과 Table에 데이터 저장 중 오류 발생', error };
                 return next();
             }
             else {
-                cardsId.push(results.insertId);
-                // res.locals.data = { message : '뽑은 카드 Table에 데이터 저장 성공', cardsId: results.insertId };
+                cardId.push(results.insertId);
+                // res.locals.data = { message : '뽑은 카드별 결과 Table에 데이터 저장 성공', cardId: results.insertId };
             }
         });
 
-        ordered++;
+        ordered++; // 뽑은 순서 증가
 
     }
 
     /* #swagger.responses[200] = {
-            description: '타로 결과, 뽑은 카드 정보 저장 성공',
-            schema: { message: '타로 결과, 뽑은 카드 정보 저장 성공' },
+            description: '타로 종합 결과, 뽑은 카드별 정보 저장 성공',
+            schema: { message: '타로 종합 결과, 뽑은 카드별 정보 저장 성공' },
         } */
-    res.locals.data = { message: '타로 결과, 뽑은 카드 정보 저장 성공', resultsId, cardsId };
+    res.locals.data = { message: '타로 종합 결과, 뽑은 카드별 정보 저장 성공', resultId, cardId };
     next();
 });
 
