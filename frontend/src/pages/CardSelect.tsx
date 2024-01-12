@@ -177,33 +177,33 @@ const CardSelect = () => {
   const Overlap = -30; // 카드 겹침 정도
   const [count, setCount] = useState(0); //몇번째 슬라이드인지
   const [back, setBack] = useState(false); //뒤로 갈지 앞으로 갈지
-  const [chunkNumber, setChunkNumber] = useState([]);
+  const [chunkNumber, setChunkNumber] = useState<number[][]>([]);
 
   const incraseIndex = () => {
-    setCount((prev) => (prev === 3 ? 3 : prev + 1));
+    setCount((prev) => (prev === 3 ? 0 : prev + 1));
     setBack(false);
   };
   const decraseIndex = () => {
-    setCount((prev) => (prev === 0 ? 0 : prev - 1));
+    setCount((prev) => (prev === 0 ? 3 : prev - 1));
     setBack(true);
   };
   const consoleIndex1 = (index: number, count: number) => {
-    console.log(chunkNumber[count][index]);
+    alert(chunkNumber[count][index]);
     chunkNumber[count].splice(index, 1);
     setNumberOfCards1((prev) => prev - 1);
   };
   const consoleIndex2 = (index: number, count: number) => {
-    console.log(chunkNumber[count][index]);
+    alert(chunkNumber[count][index]);
     chunkNumber[count].splice(index, 1);
     setNumberOfCards2((prev) => prev - 1);
   };
   const consoleIndex3 = (index: number, count: number) => {
-    console.log(chunkNumber[count][index]);
+    alert(chunkNumber[count][index]);
     chunkNumber[count].splice(index, 1);
     setNumberOfCards3((prev) => prev - 1);
   };
   const consoleIndex4 = (index: number, count: number) => {
-    console.log(chunkNumber[count][index]);
+    alert(chunkNumber[count][index]);
     chunkNumber[count].splice(index, 1);
     setNumberOfCardsDelete((prev) => prev - 1);
   };
