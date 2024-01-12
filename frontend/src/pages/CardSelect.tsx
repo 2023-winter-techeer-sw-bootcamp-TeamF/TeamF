@@ -75,7 +75,7 @@ const StackedCardsContainer = styled(motion.div)`
   height: 14.890875rem; // 자식 컨테이너(BackcardBackground)와 같은 높이
   width: 6.25rem; // 또는 전체 카드가 겹치는 너비에 맞게 조정
   bottom: 45%;
-  left: 65%;
+  left: 69.5%;
 `;
 
 const NextBtn = styled.button`
@@ -85,7 +85,7 @@ const NextBtn = styled.button`
   height: 3.75rem;
   background-image: url(${NextButton});
   position: absolute;
-  right: 8rem;
+  right: 7rem;
   bottom: 10.5rem;
   cursor: pointer;
 `;
@@ -123,6 +123,11 @@ const rowVariants = {
     },
   }),
 };
+
+const BackOfCardImg = styled.img`
+  width: 95%;
+  height: 95%;
+`
 
 const CardSelect = () => {
   const [NumberOfCards1, setNumberOfCards1] = useState(22); // 1번째 줄 카드 수
@@ -206,7 +211,7 @@ const CardSelect = () => {
                       zIndex: NumberOfCardsDelete - index,
                     }}
                   >
-                    <img src={BackOfCard} alt="Card back" />
+                    <BackOfCardImg src={BackOfCard} alt="Card back" />
                   </BackcardBackground>
                 ))}
               </StackedCardsContainer>
@@ -229,7 +234,7 @@ const CardSelect = () => {
                       zIndex: NumberOfCards3 - index,
                     }}
                   >
-                    <img src={BackOfCard} alt="Card back" />
+                    <BackOfCardImg src={BackOfCard} alt="Card back" />
                   </BackcardBackground>
                 ))}
               </StackedCardsContainer>
@@ -252,7 +257,7 @@ const CardSelect = () => {
                       zIndex: NumberOfCards2 - index,
                     }}
                   >
-                    <img src={BackOfCard} alt="Card back" />
+                    <BackOfCardImg src={BackOfCard} alt="Card back" />
                   </BackcardBackground>
                 ))}
               </StackedCardsContainer>
@@ -275,7 +280,7 @@ const CardSelect = () => {
                       zIndex: NumberOfCards1 - index,
                     }}
                   >
-                    <img src={BackOfCard} alt="Card back" />
+                    <BackOfCardImg src={BackOfCard} alt="Card back" />
                   </BackcardBackground>
                 ))}
               </StackedCardsContainer>
