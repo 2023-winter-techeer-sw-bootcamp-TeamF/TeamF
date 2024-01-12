@@ -103,14 +103,14 @@ router.post('/login', async (req, res, next) => {
         description: '사용자의 아이디', 
         required: true,
         schema: {
-            login_id: "123",
-            password: "123",
+            login_id: " ",
+            password: " ",
             
         }
     } */
 
     try {
-        const {login_id, password } = req.body;
+        const { login_id, password } = req.body;
 
         // 디비로부터 사용자 정보 조회
         const connection = db.getConnection();
@@ -125,13 +125,23 @@ router.post('/login', async (req, res, next) => {
             if (results.length > 0) {
                 // 디비와 일치하는 사용자 정보가 있는 경우
 
-                // 로그인 성공 시, 액세스 토큰과 리프레시 토큰 발급 및 응답
-                const accessToken = jwt.sign({ id:results[0].id, name: results[0].name }, 'your_secret_key_for_access_token', { expiresIn: '1h' });
-                const refreshToken = jwt.sign({ id:results[0].id, name: results[0].name }, 'your_secret_key_for_refresh_token', { expiresIn: '3d' });
+                // 로그인 성공 시, 액세스 토큰과 리프레시 토큰 발급
+                const accessToken = jwt.sign({ login_id, name: results[0].name }, 'your_secret_key_for_access_token', { expiresIn: '1h' });
+                const refreshToken = jwt.sign({ login_id, name: results[0].name }, 'your_secret_key_for_refresh_token', { expiresIn: '3d' });
 
-                // 발급받은 토큰을 응답에 담아 클라이언트로 전송
-                res.locals.data = { message: '성공적으로 로그인이 완료되었습니다!', accessToken, refreshToken };
-                next();
+                // 발급받은 리프레시 토큰을 디비에 저장
+                const updateRefreshTokenQuery = 'UPDATE user SET refresh_token = ? WHERE login_id = ?';
+                connection.query(updateRefreshTokenQuery, [refreshToken, login_id], (err) => {
+                    if (err) {
+                        console.error('Error updating refresh token:', err);
+                        res.status(500).json({ error: 'Internal Server Error' });
+                        return;
+                    }
+
+                    // 발급받은 토큰을 응답에 담아 클라이언트로 전송
+                    res.locals.data = { message: '성공적으로 로그인이 완료되었습니다!', accessToken, refreshToken };
+                    next();
+                });
             } else {
                 // 디비와 일치하는 사용자 정보가 없는 경우
                 res.status(401).json({ error: '유효하지 않은 아이디 또는 비밀번호 입니다.' });
