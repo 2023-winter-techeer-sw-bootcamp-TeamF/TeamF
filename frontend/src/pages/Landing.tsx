@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import LandingBackgroundImg from "../assets/LandingBackground3.png";
-import BackOfCard from "../assets/LandingCards.png";
+import BackOfCard from "../assets/LandingCard.png";
 import { Link } from "react-router-dom";
 
 const Background = styled.div`
