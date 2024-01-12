@@ -159,29 +159,90 @@
             "description": "카드 번호",
             "required": true,
             "type": "integer",
-            "example": "1"
+            "example": "1",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "card": {
+                  "type": "number",
+                  "example": 1
+                }
+              }
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "카드 정보 불러오기 성공 url 전송"
+            "description": "카드 정보 불러오기 성공 url 전송",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "creat image url successfully"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "카드 이름"
+                },
+                "english": {
+                  "type": "string",
+                  "example": "카드 영어 이름"
+                },
+                "mean": {
+                  "type": "string",
+                  "example": "카드 뜻"
+                },
+                "image_url": {
+                  "type": "string",
+                  "example": "카드 이미지 url"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "400": {
-            "description": "잘못된 카드 번호 요청"
+            "description": "잘못된 카드 번호 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "카드 번호가 없습니다."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "500": {
-            "description": "카드 정보 불러오기 실패"
+            "description": "카드 정보 불러오기 실패",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "카드 정보를 가져오는데 실패했습니다."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
-    "/result/": {
+    "/result/stream": {
       "post": {
         "tags": [
           "Result"
         ],
-        "summary": "Todo: 결과 리스트, 결과 상세조회, 결과 삭제",
-        "description": "/list /detail /deswaggerlete",
+        "summary": "타로 결과 GPT 요청",
+        "description": "타로 결과를 API에 요청하고 결과를 반환함",
         "parameters": [
           {
             "name": "cards",
@@ -220,7 +281,7 @@
         ],
         "responses": {
           "200": {
-            "description": "GPT-3 API 요청 성공",
+            "description": "GPT API 요청 성공",
             "schema": {
               "type": "object",
               "properties": {
@@ -256,13 +317,13 @@
             }
           },
           "400": {
-            "description": "유효하지않은 질문 정보",
+            "description": "유효하지않은 데이터",
             "schema": {
               "type": "object",
               "properties": {
                 "message": {
                   "type": "string",
-                  "example": "request is null or undefined"
+                  "example": "데이터가 유효하지 않습니다. (널값, 누락 등)"
                 }
               },
               "xml": {
@@ -271,17 +332,17 @@
             }
           },
           "500": {
-            "description": "GPT-3 API 요청 중 오류 발생",
+            "description": "GPT API 요청 중 오류 발생",
             "schema": {
               "type": "object",
               "properties": {
                 "message": {
                   "type": "string",
-                  "example": "GPT-3 API 요청 중 오류 발생"
+                  "example": "GPT에서 오류가 발생해 데이터를 불러올 수 없습니다!"
                 },
                 "error": {
                   "type": "string",
-                  "example": "error"
+                  "example": ""
                 }
               },
               "xml": {
@@ -297,48 +358,36 @@
         "tags": [
           "Result"
         ],
-        "summary": "총합 결과 저장",
-        "description": "총합 결과 저장",
+        "summary": "종합 결과 저장",
+        "description": "종합 결과 저장",
         "parameters": [
           {
-            "name": "user_id",
-            "in": "query",
-            "description": "유저 고유번호",
-            "required": true,
-            "type": "integer",
-            "example": "12345"
-          },
-          {
-            "name": "poll_id",
-            "in": "query",
-            "description": "폴 아이디",
-            "required": true,
-            "type": "integer",
-            "example": "56789"
-          },
-          {
-            "name": "requestData",
+            "name": "body",
             "in": "body",
             "description": "타로 결과 및 뽑은 카드 정보 저장을 위한 요청값",
             "required": true,
             "schema": {
               "type": "object",
               "properties": {
+                "poll_id": {
+                  "type": "string",
+                  "example": "12345"
+                },
                 "question": {
                   "type": "string",
-                  "example": "any"
+                  "example": "사용자 질문"
                 },
                 "result_explanation": {
                   "type": "string",
-                  "example": "any"
+                  "example": "종합 결과"
                 },
                 "master_name": {
                   "type": "string",
-                  "example": "any"
+                  "example": "마스터 이름"
                 },
                 "luck_type": {
                   "type": "string",
-                  "example": "any"
+                  "example": "운 종류"
                 },
                 "cards": {
                   "type": "array",
@@ -347,44 +396,24 @@
                     "properties": {
                       "card_image_url": {
                         "type": "string",
-                        "example": "url3"
+                        "example": "url2"
                       },
                       "card_explanation": {
                         "type": "string",
-                        "example": "explanation3"
+                        "example": "explanation2"
                       },
                       "card_eng_name": {
                         "type": "string",
-                        "example": "eng3"
+                        "example": "eng2"
                       },
                       "card_kor_name": {
                         "type": "string",
-                        "example": "kor3"
+                        "example": "kor2"
                       }
                     }
                   }
                 }
               }
-            },
-            "example": {
-              "question": "any",
-              "result_explanation": "any",
-              "master_name": "any",
-              "luck_type": "any",
-              "cards": [
-                {
-                  "card_image_url": "url3",
-                  "card_explanation": "explanation3",
-                  "card_eng_name": "eng3",
-                  "card_kor_name": "kor3"
-                },
-                {
-                  "card_image_url": "url3",
-                  "card_explanation": "explanation3",
-                  "card_eng_name": "eng3",
-                  "card_kor_name": "kor3"
-                }
-              ]
             }
           }
         ],
@@ -405,13 +434,13 @@
             }
           },
           "400": {
-            "description": "요청된 운 종류가 누락되었을 때의 응답",
+            "description": "요청된 값이 누락되었을 때의 응답",
             "schema": {
               "type": "object",
               "properties": {
                 "message": {
                   "type": "string",
-                  "example": "운 종류 누락"
+                  "example": "missingParameter"
                 }
               },
               "xml": {
@@ -420,6 +449,21 @@
             }
           },
           "500": {
+            "description": "타로 결과 Table에 데이터 저장 중 오류가 발생했을 때의 응답",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "타로 결과 Table에 데이터 저장 중 오류 발생"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "510": {
             "description": "뽑은 카드 Table에 데이터 저장 중 오류가 발생했을 때의 응답",
             "schema": {
               "type": "object",
@@ -772,7 +816,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/test/user/info": {
@@ -845,6 +894,29 @@
       }
     },
     "/test/testgpt": {
+      "get": {
+        "tags": [
+          "Test"
+        ],
+        "summary": "GPT-3 테스트",
+        "description": "GPT-3를 테스트 해봅시다 :>",
+        "responses": {
+          "200": {
+            "description": "테스트 값 조회 성공"
+          },
+          "400": {
+            "description": "잘못된 요청"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/test/testgpt2": {
       "get": {
         "tags": [
           "Test"
