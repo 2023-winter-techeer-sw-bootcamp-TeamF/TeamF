@@ -86,19 +86,11 @@ a {
       font-size: 12px;
     }
   }
-<<<<<<< HEAD
   @media (max-width: 1200px) , (max-height: 700px) {
-=======
-  @media (max-width: 1200px) , (max-height : 700px) {
->>>>>>> bbe5392bdf5349a0c498c6f7a67c00b7f8d14191
     html {
       font-size: 10px;
     }
   }
-<<<<<<< HEAD
-=======
-
->>>>>>> bbe5392bdf5349a0c498c6f7a67c00b7f8d14191
 `;
 
 const router = createBrowserRouter([
