@@ -53,8 +53,8 @@ router.post('/signup', async (req, res, next) => {
 
         // username과 아이디 중복 체크
         const connection = db.getConnection();
-        const checkQuery = 'SELECT * FROM user WHERE name = ? OR login_id = ?';
-        connection.query(checkQuery, [name, login_id], (checkError, checkResults) => {
+        const checkQuery = 'SELECT * FROM user WHERE login_id = ?';
+        connection.query(checkQuery, [login_id], (checkError, checkResults) => {
             if (checkError) {
                 console.error('Error during signup check:', checkError);
                 res.status(500).json({ error: 'Internal Server Error' });
@@ -103,8 +103,8 @@ router.post('/login', async (req, res, next) => {
         description: '사용자의 아이디', 
         required: true,
         schema: {
-            log_in: " ",
-            password: " ",
+            login_id: "123",
+            password: "123",
             
         }
     } */
@@ -126,8 +126,8 @@ router.post('/login', async (req, res, next) => {
                 // 디비와 일치하는 사용자 정보가 있는 경우
 
                 // 로그인 성공 시, 액세스 토큰과 리프레시 토큰 발급 및 응답
-                const accessToken = jwt.sign({ login_id, name: results[0].name }, 'your_secret_key_for_access_token', { expiresIn: '1h' });
-                const refreshToken = jwt.sign({ login_id, name: results[0].name }, 'your_secret_key_for_refresh_token', { expiresIn: '3d' });
+                const accessToken = jwt.sign({ id:results[0].id, name: results[0].name }, 'your_secret_key_for_access_token', { expiresIn: '1h' });
+                const refreshToken = jwt.sign({ id:results[0].id, name: results[0].name }, 'your_secret_key_for_refresh_token', { expiresIn: '3d' });
 
                 // 발급받은 토큰을 응답에 담아 클라이언트로 전송
                 res.locals.data = { message: '성공적으로 로그인이 완료되었습니다!', accessToken, refreshToken };
