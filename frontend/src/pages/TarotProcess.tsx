@@ -68,7 +68,7 @@ const ChatBox = styled.div`
 `;
 const Chat = styled.p`
   color: #ecb973;
-  font-family: Inter;
+  font-family: "맑은 고딕";
   font-size: 1.3375rem;
   font-style: normal;
   font-weight: 400;

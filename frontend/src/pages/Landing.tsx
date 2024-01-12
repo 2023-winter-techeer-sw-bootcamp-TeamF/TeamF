@@ -70,6 +70,7 @@ const StartButton = styled.button`
   border: 2px solid #c38017;
   background: rgba(195, 128, 23, 0);
   cursor: pointer;
+  position: sticky;
   z-index: 11;
 `;
 
