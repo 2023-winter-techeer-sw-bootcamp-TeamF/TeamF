@@ -49,7 +49,7 @@ const TitleContainer = styled.div`
   line-height: normal;
   text-transform: uppercase;
   font-size: 1.875rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: 3.5rem;
 `;
 
 const ContentContainer = styled.p`
@@ -63,12 +63,13 @@ const ContentContainer = styled.p`
   line-height: normal;
   text-transform: uppercase;
   margin-top: 1.25rem;
+  margin-bottom: 6rem;
 `;
 
 const CardBox = styled.div`
   //각 카드 박스
   width: 12.375rem;
-  height: 18.75rem;
+  height: 20.75rem;
   flex-shrink: 0;
   border-radius: 0.75rem;
   border: 0.125rem solid #ecb973;
@@ -97,7 +98,7 @@ const ProfileImage = styled.img`
   width: 8rem;
   height: 8rem;
   flex-direction: column;
-  margin-top: 1.25rem;
+  margin-top: 3.25rem;
 `;
 
 const Question = styled.span`
@@ -131,7 +132,7 @@ const Inside = styled.div`
 `;
 const FlipCardImg = styled.img`
   width: 12.375rem;
-  height: 18.75rem;
+  height: 20.75rem;
   flex-shrink: 0;
   border-radius: 0.75rem;
   display: flex;
@@ -141,7 +142,7 @@ const FlipCardImg = styled.img`
 
 const FlipcardBackground = styled.div`
   width: 12.375rem;
-  height: 18.75rem;
+  height: 20.75rem;
   border-radius: 0.75rem;
   background-color: rgba(255, 255, 255, 0);
   position: absolute;
@@ -152,14 +153,14 @@ const FlipcardBackground = styled.div`
 const FlipcardContainer = styled.div`
   position: relative;
   width: 12.375rem;
-  height: 18.75rem;
+  height: 20.75rem;
   perspective: 62.5rem;
 `;
 
 const FlipcardInner = styled.div<FlipcardInnerProps>`
   position: relative;
   width: 12.375rem;
-  height: 18.75rem;
+  height: 20.75rem;
   text-align: center;
   transition: transform 0.6s;
   transform-style: preserve-3d;
@@ -182,6 +183,8 @@ const CardText = styled.div`
   font-family: Inter;
   font-size: 0.9375rem;
   width: 9rem;
+  line-height: 1.3;
+  margin-top: 0.6rem;
 `;
 
 const Bold = styled.p`
