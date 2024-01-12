@@ -8,17 +8,12 @@ const BackgroundColor = styled.div`
   background: #000;
   width: 100vw;
   height: 100vh;
-  padding-top: 10px;
 `;
 
 const BackgroundWrapper = styled.div`
   position: relative; // 자식 요소를 절대 위치로 배치하기 위한 설정
-  width: 100%;
-  height: 89vh;
-  @media (max-width: 1300px), (max-height: 650px) {
-    width: 85%;
-    height: 89vh;
-  }
+  width: 79.4671675rem;
+  height: 52.94rem;
 `;
 
 const BackgroundImg = styled.img`
@@ -27,78 +22,59 @@ const BackgroundImg = styled.img`
 `;
 
 const Inside = styled.div`
-  width: 1500px;
+  width: 81.75rem;
   margin-left: auto;
   margin-right: auto;
 `;
 
 const TitleBox = styled.div`
-  border-radius: 30px;
+  border-radius: 1.875rem;
   background: rgba(51, 51, 51, 0.9);
-  width: 300px;
-  height: 50px;
+  width: 18.75rem;
+  height: 3.125rem;
   flex-shrink: 0;
   position: absolute; // 부모 컨테이너인 BackgroundWrapper에 상대적인 위치
   top: 12%;
   left: 39%;
   text-align: center;
-  @media screen and (max-width: 1300px), (max-height: 650px) {
-    display: none;
-  }
 `;
 
 const TitleContent = styled.p`
   color: #fff;
   font-family: Inter;
-  font-size: 20px;
+  font-size: 1.25rem;
   font-style: normal;
   font-weight: 350;
   line-height: normal;
   text-transform: capitalize;
-  margin-top: 13px;
-
-  @media screen and (max-width: 1300px), (max-height: 650px) {
-    font-size: 18px;
-  }
+  margin-top: 0.8125;
 `;
 
 const Profile = styled.img`
-  width: 64px;
-  height: 63px;
+  width: 4rem;
+  height: 3.9375rem;
   flex-shrink: 0;
-  border-radius: 150px;
-  background: url(<path-to-image>), lightgray 50% / contain no-repeat;
+  border-radius: 9.375rem;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-950%, -250%);
-  @media screen and (max-width: 1300px), (max-height: 650px) {
-    top: 43%;
-    left: 57%;
-    transform: translate(-1000%, -260%);
-  }
 `;
 
 const ChatBox = styled.div`
-  width: 634px;
-  height: 260px;
+  width: 39.625rem;
+  height: 16.25rem;
   flex-shrink: 0;
   border-radius: 0px 20px 20px 20px;
   border: 1px solid #ecb973;
   transform: translate(35%, -190%);
-  padding: 22px;
-  @media screen and (max-width: 1300px), (max-height: 650px) {
-    width: 611px;
-    height: 239px;
-    transform: translate(28%, -200%);
-    padding: 10px;
-  }
+  padding: 1.375rem;
 `;
 
 const Tellme = styled.p`
   color: #ecb973;
   font-family: Inter;
-  font-size: 23px;
+  font-size: 1.4375rem;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
@@ -106,44 +82,38 @@ const Tellme = styled.p`
   overflow-y: scroll;
   height: 13rem;
   padding-right: 1rem;
+  line-height: 1.5;
   &::-webkit-scrollbar {
-    width: 5px; /* 스크롤바의 너비 */
+    width: 0.3125rem; /* 스크롤바의 너비 */
   }
 
   &::-webkit-scrollbar-thumb {
     background-color: #ecb973; /* 황금색 스크롤바 색상 */
-    border-radius: 4px; /* 스크롤바 모양 (둥근 모서리) */
+    border-radius: 0.25rem; /* 스크롤바 모양 (둥근 모서리) */
   }
 
   &::-webkit-scrollbar-thumb:hover {
     background-color: #daa520; /* 호버시 색상 변경 (더 진한 황금색) */
   }
-  @media screen and (max-width: 1300px), (max-height: 650px) {
-    font-size: 20px;
-  }
 `;
 
 const ReplyBox = styled.div`
-  width: 634px;
-  height: 109px;
-  flex-shrink: 0;
-  border-radius: 20px 0px 20px 20px;
-  border: 1px solid #fff;
-  padding: 15px;
+  width: 39.625rem;
+  height: 6.8125rem;
+  border-radius: 1.25rem 0px 1.25rem 1.25rem;
+  border: 0.0625rem solid #fff;
+  padding: 0.9375rem;
   display: flex;
   transform: translate(110%, -420%);
-  @media screen and (max-width: 1300px), (max-height: 650px) {
-    transform: translate(85%, -420%);
-  }
 `;
 
 const Reply = styled.textarea`
   color: #fff;
   background-color: #000;
-  width: 600px;
+  width: 37.5rem;
   text-align: left;
   font-family: Inter;
-  font-size: 23px;
+  font-size: 1.4375rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -153,12 +123,12 @@ const Reply = styled.textarea`
   border: none;
   resize: none;
   &::-webkit-scrollbar {
-    width: 5px; /* 스크롤바의 너비 */
+    width: 0.3125rem; /* 스크롤바의 너비 */
   }
 
   &::-webkit-scrollbar-thumb {
     background-color: #e1ded9; /* 연한 흰색 */
-    border-radius: 4px; /* 스크롤바 모양 (둥근 모서리) */
+    border-radius: 0.25rem; /* 스크롤바 모양 (둥근 모서리) */
   }
 
   &::-webkit-scrollbar-thumb:hover {
@@ -167,12 +137,8 @@ const Reply = styled.textarea`
   &::placeholder {
     color: rgba(255, 255, 255, 0.5);
     background-color: #000;
-    font-size: 23px;
+    font-size: 1.4375rem;
     padding-right: 1rem;
-  }
-
-  @media screen and (max-width: 1300px), (max-height: 650px) {
-    font-size: 20px;
   }
 `;
 
@@ -208,4 +174,5 @@ const LoveFortune = () => {
     </BackgroundColor>
   );
 };
+
 export default LoveFortune;

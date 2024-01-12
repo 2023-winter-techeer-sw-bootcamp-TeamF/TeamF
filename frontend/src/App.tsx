@@ -81,9 +81,9 @@ a {
   text-decoration:none;
   color:inherit;
 }
-@media (max-width: 1500px) {
+@media (max-width: 1500px) , (max-height : 850px) {
     html {
-      font-size: 14px;
+      font-size: 12px;
     }
   }
 `;
