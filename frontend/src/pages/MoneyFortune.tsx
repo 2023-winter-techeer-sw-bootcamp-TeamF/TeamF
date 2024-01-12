@@ -141,7 +141,7 @@ const Reply = styled.textarea`
   color: #fff;
   background-color: #000;
   width: 600px;
-  text-align: right;
+  text-align: left;
   font-family: Inter;
   font-size: 23px;
   font-style: normal;
@@ -169,6 +169,7 @@ const Reply = styled.textarea`
     background-color: #000;
     font-size: 23px;
     padding-right: 1rem;
+    color: rgba(255, 255, 255, 0.5);
   }
 
   @media screen and (max-width: 1300px), (max-height: 650px) {
@@ -201,7 +202,7 @@ const MoneyFortune = () => {
             </Tellme>
           </ChatBox>
           <ReplyBox>
-            <Reply placeholder="자! 이제 네 고민을 말해봐."></Reply>
+            <Reply placeholder="이곳에 고민을 적어주세요"></Reply>
           </ReplyBox>
         </BackgroundWrapper>
       </Inside>

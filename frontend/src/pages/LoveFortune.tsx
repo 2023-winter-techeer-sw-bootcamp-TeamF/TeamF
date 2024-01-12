@@ -141,7 +141,7 @@ const Reply = styled.textarea`
   color: #fff;
   background-color: #000;
   width: 600px;
-  text-align: right;
+  text-align: left;
   font-family: Inter;
   font-size: 23px;
   font-style: normal;
@@ -165,7 +165,7 @@ const Reply = styled.textarea`
     background-color: #ffffff; /* 호버시 색상 변경 (흰색) */
   }
   &::placeholder {
-    color: #fff;
+    color: rgba(255, 255, 255, 0.5);
     background-color: #000;
     font-size: 23px;
     padding-right: 1rem;
@@ -201,7 +201,7 @@ const LoveFortune = () => {
             </Tellme>
           </ChatBox>
           <ReplyBox>
-            <Reply placeholder="자! 이제 네 고민을 말해봐."></Reply>
+            <Reply placeholder="이곳에 고민을 적어주세요"></Reply>
           </ReplyBox>
         </BackgroundWrapper>
       </Inside>
