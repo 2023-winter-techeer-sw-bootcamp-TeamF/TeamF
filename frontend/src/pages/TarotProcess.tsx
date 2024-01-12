@@ -15,25 +15,21 @@ const Background = styled.div`
   background: #000;
 `;
 
-const Inside = styled.div`
-  width: 1500px;
-  margin-left: auto;
-  margin-right: auto;
-`;
-
 const BackgroundWrapper = styled.div`
-  position: relative;
-  width: 100%;
-  height: 89vh;
-  @media (max-width: 1300px), (max-height: 650px) {
-    width: 85%;
-    height: 89vh;
-  }
+  position: relative; // 자식 요소를 절대 위치로 배치하기 위한 설정
+  width: 79.4671675rem;
+  height: 52.94rem;
 `;
 
 const BackgroundImg = styled.img`
   width: 100%;
   height: 100%;
+`;
+
+const Inside = styled.div`
+  width: 81.75rem;
+  margin-left: auto;
+  margin-right: auto;
 `;
 
 const CardBackground = styled.div`
@@ -44,20 +40,11 @@ const CardBackground = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  @media screen and (max-width: 1300px), (max-height: 650px) {
-    width: 7rem;
-    height: 11.5rem;
-  }
 `;
 
 const TaroEx = styled.img`
   width: 7.72438rem;
   height: 13.90388rem;
-  @media screen and (max-width: 1300px), (max-height: 650px) {
-    width: 6.22438rem;
-    height: auto;
-    max-width: 100%;
-  }
 `;
 
 const Cards = styled.div`
@@ -67,11 +54,6 @@ const Cards = styled.div`
   gap: 6.5rem;
   top: 13%;
   left: 28%;
-  @media screen and (max-width: 1300px), (max-height: 650px) {
-    top: 9%;
-    left: 25%;
-    gap: 5.5rem;
-  }
 `;
 
 const TaroMaster = styled.img`
@@ -81,10 +63,6 @@ const TaroMaster = styled.img`
   position: absolute;
   top: 46%;
   left: 9%;
-  @media screen and (max-width: 1300px), (max-height: 650px) {
-    top: 46%;
-    left: 7%;
-  }
 `;
 
 const ChatBox = styled.div`
@@ -96,11 +74,6 @@ const ChatBox = styled.div`
   position: absolute;
   top: 47%;
   left: 16%;
-  @media screen and (max-width: 1300px), (max-height: 650px) {
-    height: 14.9375rem;
-    top: 47%;
-    left: 13%;
-  }
 `;
 
 const Chat = styled.p`
@@ -111,41 +84,39 @@ const Chat = styled.p`
   font-weight: 400;
   line-height: normal;
   text-transform: capitalize;
-  margin: 25px;
+  margin: 1.5625rem;
   overflow-y: scroll;
-  padding-right: 15px;
+  padding-right: 0.9375rem;
   height: 18rem;
 
   &::-webkit-scrollbar {
-    width: 3px; /* 스크롤바의 너비 */
+    width: 0.1875rem; /* 스크롤바의 너비 */
   }
 
   &::-webkit-scrollbar-thumb {
     background-color: #ecb973; /* 황금색 스크롤바 색상 */
-    border-radius: 5px; /* 스크롤바 모양 (둥근 모서리) */
+    border-radius: 0.3125rem; /* 스크롤바 모양 (둥근 모서리) */
   }
 
   &::-webkit-scrollbar-thumb:hover {
     background-color: #daa520; /* 호버시 색상 변경 (더 진한 황금색) */
-  }
-  @media screen and (max-width: 1300px), (max-height: 650px) {
-    font-size: 1.1375rem;
-    margin: 19px;
-    padding-right: 13px;
-    height: 12rem;
   }
 `;
 
 const NextBtn = styled.button`
   border: none;
   background: none;
-  width: 3.75rem;
+  width: 4.25rem;
   height: 3.75rem;
-  background-image: url(${NextButton});
   position: absolute;
   right: 8rem;
   bottom: 7rem;
   cursor: pointer;
+`;
+
+const NextBtnImg = styled.img`
+  width: 100%;
+  height: 100%;
 `;
 
 function TarotProcess() {
@@ -186,8 +157,10 @@ function TarotProcess() {
                 스크롤 생성용으로 만든 말이야
               </Chat>
             </ChatBox>
-            <Link to="/savepage">
-              <NextBtn />
+            <Link to="/cardsave">
+              <NextBtn>
+                <NextBtnImg src={NextButton} />
+              </NextBtn>
             </Link>
           </BackgroundWrapper>
         </Inside>

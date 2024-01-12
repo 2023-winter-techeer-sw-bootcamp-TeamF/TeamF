@@ -81,7 +81,7 @@ a {
   text-decoration:none;
   color:inherit;
 }
-@media (max-width: 1500px),(max-height: 850px) {
+@media (max-width: 1500px) , (max-height : 850px) {
     html {
       font-size: 12px;
     }
