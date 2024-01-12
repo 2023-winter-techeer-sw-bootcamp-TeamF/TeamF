@@ -8,30 +8,25 @@ import TaroEx3 from "../assets/TaroEx3.png";
 import TodayFortune from "../assets/TodayFortune.png";
 import NextButton from "../assets/NextButton.png";
 import { Link } from "react-router-dom";
-
 const Background = styled.div`
   width: 100vw;
   height: 100vh;
   background: #000;
 `;
-
 const BackgroundWrapper = styled.div`
   position: relative; // 자식 요소를 절대 위치로 배치하기 위한 설정
   width: 79.4671675rem;
   height: 52.94rem;
 `;
-
 const BackgroundImg = styled.img`
   width: 100%;
   height: 100%;
 `;
-
 const Inside = styled.div`
   width: 81.75rem;
   margin-left: auto;
   margin-right: auto;
 `;
-
 const CardBackground = styled.div`
   width: 8.75rem;
   height: 15rem;
@@ -41,12 +36,10 @@ const CardBackground = styled.div`
   align-items: center;
   justify-content: center;
 `;
-
 const TaroEx = styled.img`
   width: 7.72438rem;
   height: 13.90388rem;
 `;
-
 const Cards = styled.div`
   display: flex;
   flex-direction: row;
@@ -55,7 +48,6 @@ const Cards = styled.div`
   top: 13%;
   left: 28%;
 `;
-
 const TaroMaster = styled.img`
   width: 4rem;
   height: 3.9375rem;
@@ -64,7 +56,6 @@ const TaroMaster = styled.img`
   top: 46%;
   left: 9%;
 `;
-
 const ChatBox = styled.div`
   width: 52rem;
   height: 21.9375rem;
@@ -75,7 +66,6 @@ const ChatBox = styled.div`
   top: 47%;
   left: 16%;
 `;
-
 const Chat = styled.p`
   color: #ecb973;
   font-family: Inter;
@@ -88,21 +78,17 @@ const Chat = styled.p`
   overflow-y: scroll;
   padding-right: 0.9375rem;
   height: 18rem;
-
   &::-webkit-scrollbar {
     width: 0.1875rem; /* 스크롤바의 너비 */
   }
-
   &::-webkit-scrollbar-thumb {
     background-color: #ecb973; /* 황금색 스크롤바 색상 */
     border-radius: 0.3125rem; /* 스크롤바 모양 (둥근 모서리) */
   }
-
   &::-webkit-scrollbar-thumb:hover {
     background-color: #daa520; /* 호버시 색상 변경 (더 진한 황금색) */
   }
 `;
-
 const NextBtn = styled.button`
   border: none;
   background: none;
@@ -113,12 +99,10 @@ const NextBtn = styled.button`
   bottom: 7rem;
   cursor: pointer;
 `;
-
 const NextBtnImg = styled.img`
   width: 100%;
   height: 100%;
 `;
-
 function TarotProcess() {
   return (
     <>
@@ -168,5 +152,4 @@ function TarotProcess() {
     </>
   );
 }
-
 export default TarotProcess;
