@@ -137,17 +137,6 @@ const CardTitle = styled.span`
   text-transform: uppercase;
 `;
 
-const CardLink = styled(Link)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  text-decoration: none;
-  color: inherit;
-`;
-
 const Inside = styled.div`
   width: 1500px;
   margin-left: auto;
@@ -184,7 +173,7 @@ const FlipcardContainer = styled.div`
   perspective: 1000px;
 `;
 
-const FlipcardInner = styled.div`
+const FlipcardInner = styled.div<FlipcardInnerProps>`
   position: relative;
   width: 100%;
   height: 100%;
@@ -194,6 +183,10 @@ const FlipcardInner = styled.div`
   cursor: pointer;
   transform: rotateY(${(props) => (props.isFlipped ? "180deg" : "0")});
 `;
+
+interface FlipcardInnerProps {
+  isFlipped: boolean;
+}
 
 const CardText = styled.div`
   position: absolute;
@@ -295,7 +288,7 @@ const FortuneSelect = () => {
   const [flippedCards, setFlippedCards] = useState(Array(10).fill(false));
 
   // 카드를 뒤집는 함수
-  const handleFlip = (flip) => {
+  const handleFlip = (flip: number) => {
     const newFlippedCards = [...flippedCards];
     newFlippedCards[flip] = !newFlippedCards[flip];
     setFlippedCards(newFlippedCards);
