@@ -86,7 +86,7 @@ a {
       font-size: 12px;
     }
   }
-  @media (max-width: 1200px) , (max-height : 700px) {
+  @media (max-width: 1200px) , (max-height: 700px) {
     html {
       font-size: 10px;
     }

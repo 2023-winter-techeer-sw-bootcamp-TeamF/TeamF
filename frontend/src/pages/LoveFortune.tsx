@@ -30,12 +30,12 @@ const Inside = styled.div`
 const TitleBox = styled.div`
   border-radius: 1.875rem;
   background: rgba(51, 51, 51, 0.9);
-  width: 18.75rem;
+  width: 19.45rem;
   height: 3.125rem;
   flex-shrink: 0;
   position: absolute; // 부모 컨테이너인 BackgroundWrapper에 상대적인 위치
   top: 12%;
-  left: 39%;
+  left: 37%;
   text-align: center;
 `;
 
@@ -47,7 +47,7 @@ const TitleContent = styled.p`
   font-weight: 350;
   line-height: normal;
   text-transform: capitalize;
-  margin-top: 0.8125;
+  margin-top: 0.6125rem;
 `;
 
 const Profile = styled.img`
@@ -58,16 +58,16 @@ const Profile = styled.img`
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-950%, -250%);
+  transform: translate(-811%, -366%);
 `;
 
 const ChatBox = styled.div`
   width: 39.625rem;
-  height: 16.25rem;
+  height: 20.25rem;
   flex-shrink: 0;
-  border-radius: 0px 20px 20px 20px;
-  border: 1px solid #ecb973;
-  transform: translate(35%, -190%);
+  border-radius: 0rem 1.25rem 1.25rem 1.25rem;
+  border: 0.0625rem solid #ecb973;
+  transform: translate(32%, -198%);
   padding: 1.375rem;
 `;
 
@@ -80,7 +80,7 @@ const Tellme = styled.p`
   line-height: normal;
   text-align: left;
   overflow-y: scroll;
-  height: 13rem;
+  height: 17rem;
   padding-right: 1rem;
   line-height: 1.5;
   &::-webkit-scrollbar {
@@ -100,11 +100,11 @@ const Tellme = styled.p`
 const ReplyBox = styled.div`
   width: 39.625rem;
   height: 6.8125rem;
-  border-radius: 1.25rem 0px 1.25rem 1.25rem;
+  border-radius: 1.25rem 0rem 1.25rem 1.25rem;
   border: 0.0625rem solid #fff;
   padding: 0.9375rem;
   display: flex;
-  transform: translate(110%, -420%);
+  transform: translate(80%, -542%);
 `;
 
 const Reply = styled.textarea`
@@ -116,7 +116,7 @@ const Reply = styled.textarea`
   font-size: 1.4375rem;
   font-style: normal;
   font-weight: 400;
-  line-height: normal;
+  line-height: 1.4;
   overflow-y: scroll;
   padding-right: 1rem;
   outline: none;
@@ -150,7 +150,7 @@ const LoveFortune = () => {
         <BackgroundWrapper>
           <Profile src={LoveFortuneImg}></Profile>
           <TitleBox>
-            <TitleContent>OO운 타로 마스터와의 대화</TitleContent>
+            <TitleContent>연애운 타로 마스터와의 대화</TitleContent>
           </TitleBox>
           <BackgroundImg src={Background} alt="Background" />
           <ChatBox>
