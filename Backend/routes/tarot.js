@@ -75,7 +75,7 @@ router.get('/poll/create', verifyToken, (req, res, next) => {
                 schema: { message: 'DB 저장 오류', error: '에러 내용' }
             } */
             console.log(error);  // 오류의 상세한 내용을 로그로 출력
-        res.status(500).send({ message: 'DB 저장 오류', error: error.message });
+            return res.status(500).send({ message: 'DB 저장 오류', error: error.message });
         } else {
             res.locals.data = { message: 'Poll ID 생성 완료', pollId: results.insertId };
             next();
@@ -92,7 +92,7 @@ router.get('/poll/create', verifyToken, (req, res, next) => {
             }
         }
     } */
-});
+}, commonResponse); // commonResponse 미들웨어를 체인으로 추가
 
 
 router.post('/card/info', async (req, res, next) => {
