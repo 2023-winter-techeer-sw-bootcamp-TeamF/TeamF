@@ -60,7 +60,7 @@ const ChatBox = styled.div`
   width: 52rem;
   height: 21.9375rem;
   border-radius: 0rem 1.25rem 1.25rem 1.25rem;
-  border: 1px solid #ecb973;
+  border: 0.0625rem solid #ecb973;
   background: rgba(208, 179, 179, 0);
   position: absolute;
   top: 47%;
