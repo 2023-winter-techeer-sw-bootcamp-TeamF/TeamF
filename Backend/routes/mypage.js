@@ -14,7 +14,7 @@ router.get('/detail', (req, res, next) => {
         in: 'query',
         description: '폴 아이디 입력',
         required: true,
-        example: 'number',
+        example: 'Poll_ID',
         value: '',
     } */
     const { poll_id } = req.query;
@@ -26,18 +26,30 @@ router.get('/detail', (req, res, next) => {
             console.error('DB 쿼리 오류:', error);
             res.locals.error = 'DB 쿼리 오류';
             res.locals.errorStatus = 500;
+            /* #swagger.responses[500] = {
+                description: '내부 서버 오류로 인한 DB 쿼리 실패.',
+                schema: { message: 'DB 쿼리 오류' }
+            } */
             return next();
         }
 
         if (result.length === 0) {
             res.locals.error = '해당 ID를 가진 폴이 존재하지 않습니다.';
             res.locals.errorStatus = 404;
+            /* #swagger.responses[404] = {
+                description: '해당 ID를 가진 폴이 존재하지 않습니다.',
+                schema: { error: '해당 ID를 가진 폴이 존재하지 않습니다.' }
+            } */
             return next();
         }
 
         if (parseInt(req.user.id, 10) !== parseInt(result[0].user_id, 10)) {
             res.locals.error = 'JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다.';
             res.locals.errorStatus = 403;
+            /* #swagger.responses[403] = {
+                description: 'JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다.',
+                schema: { error: 'JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다.' }
+            } */
             return next();
         }
 
@@ -63,8 +75,8 @@ router.get('/detail', (req, res, next) => {
                 /* #swagger.responses[200] = {
                     description: '총합 결과와 카드별 해석 및 링크 데이터 성공적으로 조회됨.',
                     schema: {
-                        result: [{ question: '테스트 질문', explanation: '테스트 종합 해석', luck: '테스트 럭 리스트', master_name: '테스트 마스터', created_at: '2024-01-11' }],
-                        card: [{ image_url: '테스트url', explanation: '카드해석' }]
+                        result: 'result 결과 조회 성공',
+                        card: 'card 결과 조회 성공'
                     }
                 } */
                 res.locals.data = {
@@ -83,7 +95,14 @@ router.delete('/delete', (req, res, next) => {
     // #swagger.tags = ['MyPage']
     // #swagger.security = [{ "Bearer": [] }]
     // #swagger.summary = "결과 리스트에서 선택한 결과 및 카드 삭제"
-    // #swagger.description = '결과 리스트 중 선택한 결과(Poll_id) 및 해당 결과에 대한 카드를 삭제한다.'
+    // #swagger.description = '결과 리스트 중 선택한 결과(Poll_id)가 삭제된다. -> CASCADE로 result, card 테이블의 관련 데이터도 삭제'
+    /* #swagger.parameters['poll_id'] = {
+        in: 'query',
+        description: '폴 아이디 입력',
+        required: true,
+        example: 'Poll_ID',
+        value: '',
+    } */
     const { poll_id } = req.query;
     const connection = db.getConnection();
 
@@ -93,18 +112,30 @@ router.delete('/delete', (req, res, next) => {
             console.error('DB쿼리 오류: ', error);
             res.locals.error = 'DB 쿼리 오류';
             res.locals.errorStatus = 500;
+            /* #swagger.responses[500] = {
+                description: '내부 서버 오류로 인한 데이터 삭제 실패.',
+                schema: { message: 'DB 쿼리 오류' }
+            } */
             return next();
         }
 
         if (result.length === 0) {
             res.locals.error = '해당 ID를 가진 폴이 존재하지 않습니다.';
             res.locals.errorStatus = 404;
+            /* #swagger.responses[404] = {
+                description: '해당 ID를 가진 폴이 존재하지 않습니다.',
+                schema: { error: '해당 ID를 가진 폴이 존재하지 않습니다.' }
+            } */
             return next();
         }
 
         if (parseInt(req.user.id, 10) !== parseInt(result[0].user_id, 10)) {
             res.locals.error = '토큰과 폴 아이디가 일치하지 않습니다';
             res.locals.errorStatus = 403;
+            /* #swagger.responses[403] = {
+                description: 'JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다.',
+                schema: { error: 'JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다.' }
+            } */
             return next();
         }
 
@@ -114,6 +145,10 @@ router.delete('/delete', (req, res, next) => {
                 console.error('DB 쿼리 오류:', error);
                 res.locals.error = 'DB 쿼리 오류';
                 res.locals.errorStatus = 500;
+                /* #swagger.responses[500] = {
+                    description: '내부 서버 오류로 인한 데이터 삭제 실패.',
+                    schema: { message: 'DB 쿼리 오류' }
+                } */
                 return next();
             }
 
@@ -123,10 +158,18 @@ router.delete('/delete', (req, res, next) => {
                     console.error('DB 쿼리 오류:', error);
                     res.locals.error = 'DB 쿼리 오류';
                     res.locals.errorStatus = 500;
+                    /* #swagger.responses[500] = {
+                        description: '내부 서버 오류로 인한 데이터 삭제 실패.',
+                        schema: { message: 'DB 쿼리 오류' }
+                    } */
                     return next();
                 }
 
                 res.locals.data = { message: '삭제 성공' };
+                /* #swagger.responses[200] = {
+                    description: 'poll id에 매칭되는 column삭제 -> result, card 연쇄 삭제',
+                    schema: { message: 'poll 삭제 완료' }
+                } */
                 next();
             });
         });
