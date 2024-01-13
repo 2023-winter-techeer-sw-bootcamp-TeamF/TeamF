@@ -102,7 +102,7 @@ const CardText = styled.p`
 const UserName = styled.p`
   color: #b88150;
   text-align: center;
-  font-family: "Italiana", sans-serif;
+  font-family: "맑은 고딕";
   font-size: 1.1875rem;
   font-style: normal;
   font-weight: 400;
