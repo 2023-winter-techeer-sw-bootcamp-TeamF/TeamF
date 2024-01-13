@@ -53,92 +53,10 @@
           "400": {
             "description": "잘못된 요청"
           },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
           "404": {
             "description": "Not Found"
           }
         }
-      }
-    },
-    "/tarot/poll/create": {
-      "get": {
-        "tags": [
-          "Tarot"
-        ],
-        "summary": "타로 시작 시 Poll(임시저장) → 타로 시작 할 경우 뽑은 카드와 결과 저장을 구별할 Poll Table",
-        "description": "뽑은 카드 결과 저장 및 총 결과 저장 시 사용됨",
-        "responses": {
-          "200": {
-            "description": "Poll ID가 성공적으로 생성되었을 때의 응답",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "success"
-                },
-                "statusCode": {
-                  "type": "number",
-                  "example": 200
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Poll ID 생성 완료"
-                    },
-                    "pollId": {
-                      "type": "number",
-                      "example": 0
-                    }
-                  }
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "DB 저장 과정에서 오류 발생 시의 응답",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "DB 저장 오류"
-                },
-                "error": {
-                  "type": "string",
-                  "example": "에러 내용"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "Bearer": []
-          }
-        ]
       }
     },
     "/tarot/card/info": {
@@ -214,12 +132,6 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
           "404": {
             "description": "Not Found"
           },
@@ -239,6 +151,98 @@
             }
           }
         }
+      }
+    },
+    "/poll/create": {
+      "get": {
+        "tags": [
+          "Tarot"
+        ],
+        "summary": "타로 시작 시 Poll(임시저장) → 타로 시작 할 경우 뽑은 카드와 결과 저장을 구별할 Poll Table",
+        "description": "뽑은 카드 결과 저장 및 총 결과 저장 시 사용됨",
+        "responses": {
+          "200": {
+            "description": "Poll ID가 성공적으로 생성되었을 때의 응답",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "statusCode": {
+                  "type": "number",
+                  "example": 200
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Poll ID 생성 완료"
+                    },
+                    "pollId": {
+                      "type": "number",
+                      "example": 0
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "DB 저장 과정에서 오류 발생 시의 응답",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "엑세스 토큰이 없습니다."
+                },
+                "error": {
+                  "type": "string",
+                  "example": "엑세스 토큰이 필요합니다"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "DB 저장 과정에서 오류 발생 시의 응답",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "DB 저장 오류"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "에러 내용"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/result/stream": {
@@ -784,84 +788,6 @@
             "Bearer": []
           }
         ]
-      }
-    },
-    "/test/user/info": {
-      "get": {
-        "tags": [
-          "Test"
-        ],
-        "summary": "유저 조회 테스트",
-        "description": "유저 조회 테스트",
-        "responses": {
-          "200": {
-            "description": "유저 조회 테스트 성공"
-          },
-          "400": {
-            "description": "잘못된 요청"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/test/page": {
-      "get": {
-        "tags": [
-          "Test"
-        ],
-        "summary": "페이지 이동 테스트",
-        "description": "페이지 이동 테스트",
-        "responses": {
-          "200": {
-            "description": "페이지 이동 테스트 성공"
-          },
-          "400": {
-            "description": "잘못된 요청"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/test/testdb": {
-      "get": {
-        "tags": [
-          "Test"
-        ],
-        "summary": "DB 테스트",
-        "description": "DB를 테스트 해봅시다 :>",
-        "responses": {
-          "200": {
-            "description": "테스트 값 조회 성공"
-          },
-          "400": {
-            "description": "잘못된 요청"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
       }
     },
     "/test/testgpt": {
