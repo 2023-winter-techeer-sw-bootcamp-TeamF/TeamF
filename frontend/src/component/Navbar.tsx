@@ -33,7 +33,7 @@ const LoginButton = styled.button`
   width: 5.5rem;
   height: 1.875rem;
   border-radius: 1.875rem;
-  border: 1px solid #ecb973;
+  border: 0.0625rem solid #ecb973;
   background: rgba(236, 185, 115, 0);
   color: #ecb973;
   font-family: Inter;

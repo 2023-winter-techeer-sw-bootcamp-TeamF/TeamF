@@ -34,7 +34,7 @@ const BackgroundColor = styled.div`
   background: #000;
   width: 100vw;
   height: 100vh;
-  padding-top: 10px;
+  padding-top: 0.625rem;
 `;
 
 const TitleContainer = styled.div`
