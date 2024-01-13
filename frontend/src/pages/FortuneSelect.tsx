@@ -161,7 +161,7 @@ const FlipcardInner = styled.div<FlipcardInnerProps>`
   position: relative;
   width: 12.375rem;
   height: 20.75rem;
-  text-align: center;
+  text-align: left;
   transition: transform 0.6s;
   transform-style: preserve-3d;
   cursor: pointer;
@@ -172,7 +172,7 @@ interface FlipcardInnerProps {
   isFlipped: boolean;
 }
 
-const CardText = styled.div`
+const CardText = styled.span`
   position: absolute;
   top: 37%;
   left: 50%;
@@ -185,9 +185,10 @@ const CardText = styled.div`
   width: 9rem;
   line-height: 1.3;
   margin-top: 0.6rem;
+  display: inline;
 `;
 
-const Bold = styled.p`
+const Bold = styled.span`
   color: #fffbf2;
   font-family: Inter;
   font-size: 0.9375rem;
@@ -202,7 +203,7 @@ const SoloBtn = styled.div`
   border-radius: 0.9375rem;
   background: #fbecc6;
   position: absolute;
-  top: 90%;
+  top: 85%;
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
