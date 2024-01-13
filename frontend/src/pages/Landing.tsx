@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import LandingBackgroundImg from "../assets/LandingBackground3.png";
 import BackOfCard from "../assets/LandingCard.png";
@@ -48,7 +47,7 @@ const BackofCardsRight = styled.div`
 `;
 
 const Name = styled.p`
-  width: 527px;
+  width: 32.9375rem;
   color: #ecb973;
 
   text-align: center;
@@ -67,7 +66,7 @@ const StartButton = styled.button`
   width: 13.1875rem;
   height: 3rem;
   border-radius: 7.5rem;
-  border: 2px solid #c38017;
+  border: 0.125rem solid #c38017;
   background: rgba(195, 128, 23, 0);
   cursor: pointer;
   position: sticky;
@@ -88,7 +87,7 @@ const StartText = styled.p`
 const LandingBackgroundImage = styled.img`
   width: 100%;
   height: 100%;
-`
+`;
 
 const CardImg = styled.img`
   height: 100%;

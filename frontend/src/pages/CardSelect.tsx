@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../component/Navbar";
 import styled from "styled-components";
 import Background from "../assets/Background.png";
@@ -14,7 +14,7 @@ const BackgroundColor = styled.div`
   background: #000;
   width: 100vw;
   height: 100vh;
-  padding-top: 10px;
+  padding-top: 0.625rem;
 `;
 
 const BackgroundWrapper = styled.div`
