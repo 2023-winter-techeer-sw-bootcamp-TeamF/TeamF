@@ -187,7 +187,21 @@ const CardText = styled.span`
   margin-top: 0.6rem;
   display: inline;
 `;
-
+const CardTextToday = styled.span`
+  position: absolute;
+  top: 34.5%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  color: #fffbf2;
+  font-family: "맑은 고딕";
+  font-size: 0.86rem;
+  width: 9rem;
+  line-height: 1.3;
+  margin-top: 0.6rem;
+  display: inline;
+`;
 const Bold = styled.span`
   color: #fffbf2;
   font-family: Inter;
@@ -298,13 +312,15 @@ const FortuneSelect = () => {
                   </CardBox>
                   <FlipcardBackground>
                     <FlipCardImg src={FlipCard} />
-                    <CardText>
+                    <CardTextToday>
                       킹왕짱 마스터는 어쩌구, 저쩌구, 요따구 능력을 지닌 타로
                       마스터에요. <Bold>오늘의 운세</Bold>는 타로 마스터와의
-                      고민 상담없이 바로 카드 선택이 진행돼요. 여러분의
+                      고민 상담없이 바로 카드 선택이 진행돼요.
+                      <br />
+                      여러분의
                       <Bold> 오늘의 운세</Bold>를 타로 카드와 함께 자세히
-                      분석해드릴게요.
-                    </CardText>
+                      분석해드릴게요
+                    </CardTextToday>
                     <Link to="/todayfortune">
                       <SoloBtn>
                         <SoloText>오늘의 운세 보러가기</SoloText>
