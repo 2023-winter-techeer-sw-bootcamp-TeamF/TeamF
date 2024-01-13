@@ -160,12 +160,12 @@ router.post('/save', async (req, res, next) => {
         description: '타로 결과 및 뽑은 카드 정보 저장을 위한 요청값',
         required: true,
         schema: {
-            $poll_id: 'example',
-            $question: '사용자 질문',
-            $result_explanation: '종합 결과',
-            $master_name: '마스터 이름',
-            $luck: 'test_luck',
-            $cards: [
+            poll_id: 'example',
+            question: '사용자 질문',
+            result_explanation: '종합 결과',
+            master_name: '마스터 이름',
+            luck: 'test_luck',
+            cards: [
                 {
                     'card_image_url': 'url1',
                     'card_explanation': 'explanation1',
@@ -187,10 +187,9 @@ router.post('/save', async (req, res, next) => {
             ]
         }
     } */
-    // #swagger.responses[200] = { description: "타로 종합 결과와 카드 정보가 성공적으로 저장됨", schema: { $ref: "#/definitions/SaveResponse" } }
-    // #swagger.responses[400] = { description: "잘못된 요청, 필수 파라미터 누락" }
-    // #swagger.responses[500] = { description: "서버 내부 오류" }
-
+// #swagger.responses[200] = { description: "타로 종합 결과, 뽑은 카드별 정보 저장 성공", schema: {message: "타로 종합 결과, 뽑은 카드별 정보 저장 성공", resultId: 26,cardIds: [5,26,7]}}
+// #swagger.responses[400] = { description: "잘못된 요청, 필수 파라미터 누락" }
+// #swagger.responses[500] = { description: "서버 내부 오류" }
     const { poll_id, question, result_explanation, master_name, luck, cards } = req.body;
 
     // 누락 여부 체크

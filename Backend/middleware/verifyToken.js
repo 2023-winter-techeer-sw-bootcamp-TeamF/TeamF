@@ -17,7 +17,6 @@ const verifyToken = (req, res, next) => {
 
         // 사용자 정보를 req.user에 추가
         req.user = decoded;
-        console.log('Decoded user info:', req.user);
 
         next();
     } catch (error) {

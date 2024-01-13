@@ -103,8 +103,8 @@ router.post('/login', async (req, res, next) => {
         description: '사용자의 아이디', 
         required: true,
         schema: {
-            login_id: " ",
-            password: " ",
+            login_id: "test",
+            password: "test",
             
         }
     } */

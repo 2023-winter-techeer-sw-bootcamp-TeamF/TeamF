@@ -14,7 +14,7 @@
     "Bearer": {
       "type": "apiKey",
       "in": "header",
-      "name": "Authorization",
+      "name": "authorization",
       "description": "JWT Access Token 입력 : 'Bearer {token}'"
     }
   },
@@ -39,10 +39,10 @@
           {
             "name": "luckOpt",
             "in": "query",
-            "description": "멀티 여부",
+            "description": "카드를 뽑는 사람의 수",
             "required": true,
             "type": "integer",
-            "example": "0",
+            "example": "혼자 보는 경우 : 0, 같이 보는 경우 : 1",
             "value": "0"
           }
         ],
@@ -52,94 +52,9 @@
           },
           "400": {
             "description": "잘못된 요청"
-          }
-        }
-      }
-    },
-    "/tarot/poll/create": {
-      "get": {
-        "tags": [
-          "Tarot"
-        ],
-        "summary": "타로 시작 시 Poll(임시저장) → 타로 시작 할 경우 뽑은 카드와 결과 저장을 구별할 Poll Table",
-        "description": "뽑은 카드 결과 저장 및 총 결과 저장 시 사용됨",
-        "parameters": [
-          {
-            "name": "userid",
-            "in": "query",
-            "description": "사용자의 ID",
-            "required": true,
-            "type": "string",
-            "example": "Test ID = 1",
-            "value": "1"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Poll ID가 성공적으로 생성되었을 때의 응답",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "success"
-                },
-                "statusCode": {
-                  "type": "number",
-                  "example": 200
-                },
-                "data": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Poll ID 생성 완료"
-                    },
-                    "pollId": {
-                      "type": "number",
-                      "example": 0
-                    }
-                  }
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
           },
-          "400": {
-            "description": "요청된 사용자 ID가 누락되었을 때의 응답",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "유저 아이디 누락"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "500": {
-            "description": "DB 저장 과정에서 오류 발생 시의 응답",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "DB 저장 오류"
-                },
-                "error": {
-                  "type": "string",
-                  "example": "에러 내용"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
+          "404": {
+            "description": "Not Found"
           }
         }
       }
@@ -217,6 +132,9 @@
               }
             }
           },
+          "404": {
+            "description": "Not Found"
+          },
           "500": {
             "description": "카드 정보 불러오기 실패",
             "schema": {
@@ -233,6 +151,98 @@
             }
           }
         }
+      }
+    },
+    "/poll/create": {
+      "get": {
+        "tags": [
+          "Tarot"
+        ],
+        "summary": "타로 시작 시 Poll(임시저장) → 타로 시작 할 경우 뽑은 카드와 결과 저장을 구별할 Poll Table",
+        "description": "뽑은 카드 결과 저장 및 총 결과 저장 시 사용됨",
+        "responses": {
+          "200": {
+            "description": "Poll ID가 성공적으로 생성되었을 때의 응답",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "statusCode": {
+                  "type": "number",
+                  "example": 200
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Poll ID 생성 완료"
+                    },
+                    "pollId": {
+                      "type": "number",
+                      "example": 0
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "DB 저장 과정에서 오류 발생 시의 응답",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "엑세스 토큰이 없습니다."
+                },
+                "error": {
+                  "type": "string",
+                  "example": "엑세스 토큰이 필요합니다"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "DB 저장 과정에서 오류 발생 시의 응답",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "DB 저장 오류"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "에러 내용"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/result/stream": {
@@ -330,6 +340,15 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
           "500": {
             "description": "GPT API 요청 중 오류 발생",
             "schema": {
@@ -412,27 +431,49 @@
                     }
                   }
                 }
-              },
-              "required": [
-                "poll_id",
-                "question",
-                "result_explanation",
-                "master_name",
-                "luck",
-                "cards"
-              ]
+              }
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "타로 종합 결과와 카드 정보가 성공적으로 저장됨",
+            "description": "타로 종합 결과, 뽑은 카드별 정보 저장 성공",
             "schema": {
-              "$ref": "#/definitions/SaveResponse"
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "타로 종합 결과, 뽑은 카드별 정보 저장 성공"
+                },
+                "resultId": {
+                  "type": "number",
+                  "example": 26
+                },
+                "cardIds": {
+                  "type": "array",
+                  "example": [
+                    5,
+                    26,
+                    7
+                  ],
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
             }
           },
           "400": {
             "description": "잘못된 요청, 필수 파라미터 누락"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "500": {
             "description": "서버 내부 오류"
@@ -480,6 +521,12 @@
           "400": {
             "description": "접근 방식 오류"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
           "409": {
             "description": "이미 존재하는 아이디나 username"
           },
@@ -507,11 +554,11 @@
               "properties": {
                 "login_id": {
                   "type": "string",
-                  "example": " "
+                  "example": "test"
                 },
                 "password": {
                   "type": "string",
-                  "example": " "
+                  "example": "test"
                 }
               }
             }
@@ -526,6 +573,9 @@
           },
           "401": {
             "description": "유효하지 않은 아이디 또는 비밀번호"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "500": {
             "description": "로그인 정보 불러오기 실패"
@@ -544,6 +594,12 @@
           "200": {
             "description": "OK"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
           "500": {
             "description": "로그아웃 정보 불러오기 실패"
           }
@@ -555,21 +611,16 @@
         "tags": [
           "MyPage"
         ],
-        "summary": "결과 리스트에서 선택한 결과 상세 조회",
+        "summary": "결과 리스트에서 선택한 결과(poll_id) 상세 조회",
         "description": "결과 리스트 중 선택한 결과(Poll_id)를 통해 해당 결과를 상세조회한다.",
         "parameters": [
           {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
             "name": "poll_id",
             "in": "query",
-            "description": "poll_id",
+            "description": "폴 아이디 입력",
             "required": true,
-            "example": "12",
-            "value": "12",
+            "example": "Poll_ID",
+            "value": "",
             "type": "string"
           }
         ],
@@ -580,48 +631,12 @@
               "type": "object",
               "properties": {
                 "result": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "question": {
-                        "type": "string",
-                        "example": "테스트 질문"
-                      },
-                      "explanation": {
-                        "type": "string",
-                        "example": "테스트 종합 해석"
-                      },
-                      "luck": {
-                        "type": "string",
-                        "example": "테스트 럭 리스트"
-                      },
-                      "master_name": {
-                        "type": "string",
-                        "example": "테스트 마스터"
-                      },
-                      "created_at": {
-                        "type": "string",
-                        "example": "2024-01-11"
-                      }
-                    }
-                  }
+                  "type": "string",
+                  "example": "result 결과 조회 성공"
                 },
                 "card": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "image_url": {
-                        "type": "string",
-                        "example": "테스트url"
-                      },
-                      "explanation": {
-                        "type": "string",
-                        "example": "카드해석"
-                      }
-                    }
-                  }
+                  "type": "string",
+                  "example": "card 결과 조회 성공"
                 }
               },
               "xml": {
@@ -633,7 +648,34 @@
             "description": "Unauthorized"
           },
           "403": {
-            "description": "Forbidden"
+            "description": "JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "해당 ID를 가진 폴이 존재하지 않습니다.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "해당 ID를 가진 폴이 존재하지 않습니다."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "500": {
             "description": "내부 서버 오류로 인한 DB 쿼리 실패.",
@@ -664,31 +706,81 @@
           "MyPage"
         ],
         "summary": "결과 리스트에서 선택한 결과 및 카드 삭제",
-        "description": "결과 리스트 중 선택한 결과(Poll_id) 및 해당 결과에 대한 카드를 삭제한다.",
+        "description": "결과 리스트 중 선택한 결과(Poll_id)가 삭제된다. -> CASCADE로 result, card 테이블의 관련 데이터도 삭제",
         "parameters": [
           {
             "name": "poll_id",
             "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
+            "description": "폴 아이디 입력",
+            "required": true,
+            "example": "Poll_ID",
+            "value": "",
             "type": "string"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "poll id에 매칭되는 column삭제 -> result, card 연쇄 삭제",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "poll 삭제 완료"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
-            "description": "Forbidden"
+            "description": "JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "해당 ID를 가진 폴이 존재하지 않습니다.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "해당 ID를 가진 폴이 존재하지 않습니다."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "내부 서버 오류로 인한 데이터 삭제 실패.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "DB 쿼리 오류"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         },
         "security": [
@@ -696,75 +788,6 @@
             "Bearer": []
           }
         ]
-      }
-    },
-    "/test/user/info": {
-      "get": {
-        "tags": [
-          "Test"
-        ],
-        "summary": "유저 조회 테스트",
-        "description": "유저 조회 테스트",
-        "responses": {
-          "200": {
-            "description": "유저 조회 테스트 성공"
-          },
-          "400": {
-            "description": "잘못된 요청"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          }
-        }
-      }
-    },
-    "/test/page": {
-      "get": {
-        "tags": [
-          "Test"
-        ],
-        "summary": "페이지 이동 테스트",
-        "description": "페이지 이동 테스트",
-        "responses": {
-          "200": {
-            "description": "페이지 이동 테스트 성공"
-          },
-          "400": {
-            "description": "잘못된 요청"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          }
-        }
-      }
-    },
-    "/test/testdb": {
-      "get": {
-        "tags": [
-          "Test"
-        ],
-        "summary": "DB 테스트",
-        "description": "DB를 테스트 해봅시다 :>",
-        "responses": {
-          "200": {
-            "description": "테스트 값 조회 성공"
-          },
-          "400": {
-            "description": "잘못된 요청"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          }
-        }
       }
     },
     "/test/testgpt": {
@@ -786,6 +809,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
