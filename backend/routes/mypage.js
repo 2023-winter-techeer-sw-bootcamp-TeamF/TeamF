@@ -52,7 +52,6 @@ router.get('/detail', (req, res, next) => {
             } */
             return next();
         }
-
         const resultQuery = 'SELECT question, explanation, luck, master_name FROM result WHERE poll_id = ?';
         connection.query(resultQuery, [poll_id], (error, resultData) => {
             if (error) {
@@ -65,8 +64,8 @@ router.get('/detail', (req, res, next) => {
             connection.query(cardsQuery, [poll_id], (error, cardData) => {
                 if (error) {
                     /* #swagger.responses[500] = {
-                        description: '내부 서버 오류로 인한 DB 쿼리 실패.',
-                        schema: { message: 'DB 쿼리 오류' }
+                        description: '내부 서버 오류로 인한 DB 쿼리 실패',
+                        schema: { message: '내부 서버 오류로 인한 DB 쿼리 실패', error: '내부 서버 오류로 인한 DB 쿼리 실패'}
                     } */
                     res.locals.error = 'DB 쿼리 오류';
                     res.locals.errorStatus = 500;
@@ -114,7 +113,7 @@ router.delete('/delete', (req, res, next) => {
             res.locals.errorStatus = 500;
             /* #swagger.responses[500] = {
                 description: '내부 서버 오류로 인한 데이터 삭제 실패.',
-                schema: { message: 'DB 쿼리 오류' }
+                schema: { message: 'DB 쿼리 오류', error: 'DB 쿼리 오류'}
             } */
             return next();
         }
@@ -124,7 +123,7 @@ router.delete('/delete', (req, res, next) => {
             res.locals.errorStatus = 404;
             /* #swagger.responses[404] = {
                 description: '해당 ID를 가진 폴이 존재하지 않습니다.',
-                schema: { error: '해당 ID를 가진 폴이 존재하지 않습니다.' }
+                schema: { message: '해당 ID를 가진 폴이 존재하지 않습니다.', error: '해당 ID를 가진 폴이 존재하지 않습니다.' }
             } */
             return next();
         }
@@ -134,7 +133,7 @@ router.delete('/delete', (req, res, next) => {
             res.locals.errorStatus = 403;
             /* #swagger.responses[403] = {
                 description: 'JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다.',
-                schema: { error: 'JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다.' }
+                schema: { message: 'JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다.', error: 'JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다.' }
             } */
             return next();
         }
@@ -147,7 +146,7 @@ router.delete('/delete', (req, res, next) => {
                 res.locals.errorStatus = 500;
                 /* #swagger.responses[500] = {
                     description: '내부 서버 오류로 인한 데이터 삭제 실패.',
-                    schema: { message: 'DB 쿼리 오류' }
+                    schema: { message: 'DB 쿼리 오류', error: 'DB 쿼리 오류' }
                 } */
                 return next();
             }
@@ -160,7 +159,7 @@ router.delete('/delete', (req, res, next) => {
                     res.locals.errorStatus = 500;
                     /* #swagger.responses[500] = {
                         description: '내부 서버 오류로 인한 데이터 삭제 실패.',
-                        schema: { message: 'DB 쿼리 오류' }
+                        schema: { message: 'DB 쿼리 오류', error: 'DB 쿼리 오류'}
                     } */
                     return next();
                 }
@@ -168,7 +167,7 @@ router.delete('/delete', (req, res, next) => {
                 res.locals.data = { message: '삭제 성공' };
                 /* #swagger.responses[200] = {
                     description: 'poll id에 매칭되는 column삭제 -> result, card 연쇄 삭제',
-                    schema: { message: 'poll 삭제 완료' }
+                    schema: { message: 'poll 삭제 완료'}
                 } */
                 next();
             });

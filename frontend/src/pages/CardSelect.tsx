@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../component/Navbar";
 import styled from "styled-components";
 import Background from "../assets/Background.png";
