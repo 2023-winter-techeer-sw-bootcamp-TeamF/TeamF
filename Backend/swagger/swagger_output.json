@@ -5,7 +5,7 @@
     "description": "오늘도 화이팅",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "43.202.208.226:3001",
   "basePath": "/",
   "schemes": [
     "http"
@@ -39,10 +39,10 @@
           {
             "name": "luckOpt",
             "in": "query",
-            "description": "멀티 여부",
+            "description": "카드를 뽑는 사람의 수",
             "required": true,
             "type": "integer",
-            "example": "0",
+            "example": "혼자 보는 경우 : 0, 같이 보는 경우 : 1",
             "value": "0"
           }
         ],
@@ -67,6 +67,11 @@
         "summary": "타로 시작 시 Poll(임시저장) → 타로 시작 할 경우 뽑은 카드와 결과 저장을 구별할 Poll Table",
         "description": "뽑은 카드 결과 저장 및 총 결과 저장 시 사용됨",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "userid",
             "in": "query",
@@ -110,20 +115,11 @@
               }
             }
           },
-          "400": {
-            "description": "요청된 사용자 ID가 누락되었을 때의 응답",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "유저 아이디 누락"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "500": {
             "description": "DB 저장 과정에서 오류 발생 시의 응답",

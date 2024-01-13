@@ -1,5 +1,6 @@
 const express = require('express');
 const commonResponse = require('../middleware/commonResponse');
+const verifyToken = require('../middleware/verifyToken');
 const db = require('../mysql/database.js');
 const s3 = require('../aws/awsS3');
 const router = express.Router();
@@ -25,10 +26,10 @@ router.get('/guide', (req, res, next) => {
    } */
     /* #swagger.parameters['luckOpt'] = {
             in: 'query',
-            description: '멀티 여부',
+            description: '카드를 뽑는 사람의 수',
             required: true,
             type: 'integer',
-            example: '0',
+            example: '혼자 보는 경우 : 0, 같이 보는 경우 : 1',
             value: '0'
     } */
 
@@ -37,7 +38,6 @@ router.get('/guide', (req, res, next) => {
     // 운 카테고리 Table에서 가이드라인 내용 조회
     const connection = db.getConnection();
     const query = "SELECT * FROM luck_list WHERE luck = ? AND opt = ?";
-    console.log(query);
     connection.query(query, [luckType, luckOpt], (error, guide_line_results, fields) => {
         if (error) {
             res.locals.status = 500;
@@ -45,12 +45,12 @@ router.get('/guide', (req, res, next) => {
             return next();
         }
 
-        res.locals.data = { guide_line_results };
+        res.locals.data = { guide_line_results : guide_line_results[0] };
         next();
     });
 }, commonResponse); // commonResponse 미들웨어를 체인으로 추가
 
-router.get('/poll/create', (req, res, next) => {
+router.get('/poll/create', verifyToken, (req, res, next) => {
     // #swagger.tags = ['Tarot']
     // #swagger.summary = "타로 시작 시 Poll(임시저장) → 타로 시작 할 경우 뽑은 카드와 결과 저장을 구별할 Poll Table"
     // #swagger.description = '뽑은 카드 결과 저장 및 총 결과 저장 시 사용됨'
@@ -62,24 +62,13 @@ router.get('/poll/create', (req, res, next) => {
            example: 'Test ID = 1',
            value: '1',
     } */
-    const { userid } = req.query;
 
-    if (!userid) {
-        /* #swagger.responses[400] = {
-            description: '요청된 사용자 ID가 누락되었을 때의 응답',
-            schema: { message: '유저 아이디 누락' }
-        } */
-        res.locals.status = 400;
-        res.locals.data = { message: "유저 아이디 누락" };
-        res.locals.success = false;
-        return next();
-    }
+    const user_id = req.user.id;
 
     // 데이터베이스 연결 및 쿼리 실행
     const connection = db.getConnection();
     const query = 'INSERT INTO poll (user_id) VALUES (?)';
-
-    connection.query(query, [userid], (error, results, fields) => {
+    connection.query(query, [user_id], (error, results, fields) => {
         if (error) {
             /* #swagger.responses[500] = {
                 description: 'DB 저장 과정에서 오류 발생 시의 응답',
