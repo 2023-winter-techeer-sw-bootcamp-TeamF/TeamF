@@ -427,23 +427,39 @@
                     }
                   }
                 }
-              },
-              "required": [
-                "poll_id",
-                "question",
-                "result_explanation",
-                "master_name",
-                "luck",
-                "cards"
-              ]
+              }
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "타로 종합 결과와 카드 정보가 성공적으로 저장됨",
+            "description": "타로 종합 결과, 뽑은 카드별 정보 저장 성공",
             "schema": {
-              "$ref": "#/definitions/SaveResponse"
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "타로 종합 결과, 뽑은 카드별 정보 저장 성공"
+                },
+                "resultId": {
+                  "type": "number",
+                  "example": 26
+                },
+                "cardIds": {
+                  "type": "array",
+                  "example": [
+                    5,
+                    26,
+                    7
+                  ],
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
             }
           },
           "400": {
