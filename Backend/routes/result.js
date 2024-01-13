@@ -158,7 +158,7 @@ router.post('/save', async (req, res, next) => {
     // #swagger.description = '사용자의 질문과 관련된 타로 종합 결과 및 뽑은 카드 정보를 저장합니다. 사용자의 운(luck)에 따라 카드의 수가 결정됩니다.'
     /* #swagger.parameters['body'] = {
         in: 'body',
-        description: '타로 결과 및 뽑은 카드 정보 저장을 위한 요청값',
+        description: '타로 결과 및 뽑은 카드 정보 저장을 위한 요청값 cards를 뽑을 카드의 개수에 맞게 반복해줘야 합니다.',
         required: true,
         schema: {
             poll_id: '1',
@@ -188,6 +188,8 @@ router.post('/save', async (req, res, next) => {
             ]
         }
     } */
+
+
     const { poll_id, question, result_explanation, master_name, luck, cards } = req.body;
 
     // 누락 여부 체크
@@ -270,14 +272,14 @@ router.post('/save', async (req, res, next) => {
         });
     });
 
-        /* #swagger.responses[200] = {
-        description: "타로 종합 결과, 뽑은 카드별 정보 저장 성공",
-        schema: {
-            message: "타로 종합 결과, 뽑은 카드별 정보 저장 성공",
-            resultId: 26,
-            cardIds: [1, 2, 3]
-        }
-    } */
+    /* #swagger.responses[200] = {
+    description: "타로 종합 결과, 뽑은 카드별 정보 저장 성공",
+    schema: {
+        message: "타로 종합 결과, 뽑은 카드별 정보 저장 성공",
+        resultId: 26,
+        cardIds: [1, 2, 3]
+    }
+} */
 
     /* #swagger.responses[400] = {
         description: '잘못된 요청',

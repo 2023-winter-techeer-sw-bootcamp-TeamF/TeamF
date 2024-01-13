@@ -5,7 +5,7 @@
     "description": "오늘도 화이팅",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "43.202.208.226:3001",
   "basePath": "/",
   "schemes": [
     "http"
@@ -382,7 +382,7 @@
           {
             "name": "body",
             "in": "body",
-            "description": "타로 결과 및 뽑은 카드 정보 저장을 위한 요청값",
+            "description": "타로 결과 및 뽑은 카드 정보 저장을 위한 요청값 cards를 뽑을 카드의 개수에 맞게 반복해줘야 합니다.",
             "required": true,
             "schema": {
               "type": "object",
