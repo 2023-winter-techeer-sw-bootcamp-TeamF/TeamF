@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import LandingBackgroundImg from "../assets/LandingBackground3.png";
 import BackOfCard from "../assets/LandingCard.png";

@@ -1,4 +1,3 @@
-import React from "react";
 import Navbar from "../component/Navbar";
 import styled from "styled-components";
 import TaroEx1 from "../assets/TaroEx1.png";
