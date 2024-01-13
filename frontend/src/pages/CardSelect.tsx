@@ -14,7 +14,6 @@ const BackgroundColor = styled.div`
   background: #000;
   width: 100vw;
   height: 100vh;
-  padding-top: 0.625rem;
 `;
 
 const BackgroundWrapper = styled.div`
