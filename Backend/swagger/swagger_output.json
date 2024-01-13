@@ -52,6 +52,9 @@
           },
           "400": {
             "description": "잘못된 요청"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
@@ -213,6 +216,9 @@
               }
             }
           },
+          "404": {
+            "description": "Not Found"
+          },
           "500": {
             "description": "카드 정보 불러오기 실패",
             "schema": {
@@ -325,6 +331,9 @@
                 "name": "main"
               }
             }
+          },
+          "404": {
+            "description": "Not Found"
           },
           "500": {
             "description": "GPT API 요청 중 오류 발생",
@@ -551,16 +560,16 @@
         "tags": [
           "MyPage"
         ],
-        "summary": "결과 리스트에서 선택한 결과 상세 조회",
+        "summary": "결과 리스트에서 선택한 결과(poll_id) 상세 조회",
         "description": "결과 리스트 중 선택한 결과(Poll_id)를 통해 해당 결과를 상세조회한다.",
         "parameters": [
           {
             "name": "poll_id",
             "in": "query",
-            "description": "poll_id",
+            "description": "폴 아이디 입력",
             "required": true,
-            "example": "12",
-            "value": "12",
+            "example": "Poll_ID",
+            "value": "",
             "type": "string"
           }
         ],
@@ -571,48 +580,12 @@
               "type": "object",
               "properties": {
                 "result": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "question": {
-                        "type": "string",
-                        "example": "테스트 질문"
-                      },
-                      "explanation": {
-                        "type": "string",
-                        "example": "테스트 종합 해석"
-                      },
-                      "luck": {
-                        "type": "string",
-                        "example": "테스트 럭 리스트"
-                      },
-                      "master_name": {
-                        "type": "string",
-                        "example": "테스트 마스터"
-                      },
-                      "created_at": {
-                        "type": "string",
-                        "example": "2024-01-11"
-                      }
-                    }
-                  }
+                  "type": "string",
+                  "example": "result 결과 조회 성공"
                 },
                 "card": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "image_url": {
-                        "type": "string",
-                        "example": "테스트url"
-                      },
-                      "explanation": {
-                        "type": "string",
-                        "example": "카드해석"
-                      }
-                    }
-                  }
+                  "type": "string",
+                  "example": "card 결과 조회 성공"
                 }
               },
               "xml": {
@@ -624,10 +597,34 @@
             "description": "Unauthorized"
           },
           "403": {
-            "description": "Forbidden"
+            "description": "JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "해당 ID를 가진 폴이 존재하지 않습니다.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "해당 ID를 가진 폴이 존재하지 않습니다."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "500": {
             "description": "내부 서버 오류로 인한 DB 쿼리 실패.",
@@ -658,29 +655,81 @@
           "MyPage"
         ],
         "summary": "결과 리스트에서 선택한 결과 및 카드 삭제",
-        "description": "결과 리스트 중 선택한 결과(Poll_id) 및 해당 결과에 대한 카드를 삭제한다.",
+        "description": "결과 리스트 중 선택한 결과(Poll_id)가 삭제된다. -> CASCADE로 result, card 테이블의 관련 데이터도 삭제",
         "parameters": [
           {
             "name": "poll_id",
             "in": "query",
+            "description": "폴 아이디 입력",
+            "required": true,
+            "example": "Poll_ID",
+            "value": "",
             "type": "string"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "poll id에 매칭되는 column삭제 -> result, card 연쇄 삭제",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "poll 삭제 완료"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
-            "description": "Forbidden"
+            "description": "JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "해당 ID를 가진 폴이 존재하지 않습니다.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "해당 ID를 가진 폴이 존재하지 않습니다."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "내부 서버 오류로 인한 데이터 삭제 실패.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "DB 쿼리 오류"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         },
         "security": [
@@ -709,6 +758,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
@@ -732,6 +784,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
@@ -755,6 +810,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
@@ -778,6 +836,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
