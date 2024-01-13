@@ -9,6 +9,15 @@ router.get('/create', (req, res, next) => {
     // #swagger.summary = "타로 시작 시 Poll(임시저장) → 타로 시작 할 경우 뽑은 카드와 결과 저장을 구별할 Poll Table"
     // #swagger.description = '뽑은 카드 결과 저장 및 총 결과 저장 시 사용됨'
     const user_id = req.user.id;
+    if(!user_id) {
+        /* #swagger.responses[401] = {
+            description: 'Unauthorized: 엑세스 토큰을 복호화한 정보(user_id)가 없을 시의 응답',
+            schema: { message: '엑세스 토큰이 없습니다.', error: '엑세스 토큰이 필요합니다' }
+        } */ 
+        res.locals.status = 401;
+        res.locals.data = { message: '엑세스 토큰이 없습니다.', error: '엑세스 토큰이 필요합니다' };
+        return next();
+    }
 
     // 데이터베이스 연결 및 쿼리 실행
     const connection = db.getConnection();
@@ -17,7 +26,7 @@ router.get('/create', (req, res, next) => {
         if (error) {
             /* #swagger.responses[500] = {
                 description: 'DB 저장 과정에서 오류 발생 시의 응답',
-                schema: { message: 'DB 저장 오류', error: '에러 내용' }
+                schema: { message: 'DB 저장 오류', error: '타로 결과(poll) Table에 데이터 저장 중 오류 발생' }
             } */
             console.log(error);  // 오류의 상세한 내용을 로그로 출력
             return res.status(500).send({ message: 'DB 저장 오류', error: error.message });
@@ -36,10 +45,6 @@ router.get('/create', (req, res, next) => {
                 pollId: 0 
             }
         }
-    } */
-    /* #swagger.responses[401] = {
-        description: 'DB 저장 과정에서 오류 발생 시의 응답',
-        schema: { message: '엑세스 토큰이 없습니다.', error: '엑세스 토큰이 필요합니다' }
     } */
 }, commonResponse); // commonResponse 미들웨어를 체인으로 추가
 
