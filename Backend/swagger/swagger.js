@@ -17,7 +17,7 @@ const doc = {
     Bearer: {
       type: 'apiKey',
       in: 'header',
-      name: 'Authorization',
+      name: 'authorization',
       description: "JWT Access Token 입력 : 'Bearer {token}'"
     }
   },

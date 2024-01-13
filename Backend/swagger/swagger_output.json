@@ -14,7 +14,7 @@
     "Bearer": {
       "type": "apiKey",
       "in": "header",
-      "name": "Authorization",
+      "name": "authorization",
       "description": "JWT Access Token 입력 : 'Bearer {token}'"
     }
   },
@@ -507,11 +507,11 @@
               "properties": {
                 "login_id": {
                   "type": "string",
-                  "example": " "
+                  "example": "test"
                 },
                 "password": {
                   "type": "string",
-                  "example": " "
+                  "example": "test"
                 }
               }
             }
@@ -558,11 +558,6 @@
         "summary": "결과 리스트에서 선택한 결과 상세 조회",
         "description": "결과 리스트 중 선택한 결과(Poll_id)를 통해 해당 결과를 상세조회한다.",
         "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
           {
             "name": "poll_id",
             "in": "query",
@@ -635,6 +630,9 @@
           "403": {
             "description": "Forbidden"
           },
+          "404": {
+            "description": "Not Found"
+          },
           "500": {
             "description": "내부 서버 오류로 인한 DB 쿼리 실패.",
             "schema": {
@@ -670,11 +668,6 @@
             "name": "poll_id",
             "in": "query",
             "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
           }
         ],
         "responses": {
@@ -686,6 +679,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
           },
           "500": {
             "description": "Internal Server Error"

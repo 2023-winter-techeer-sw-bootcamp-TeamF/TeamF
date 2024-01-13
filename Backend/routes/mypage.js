@@ -5,7 +5,7 @@ const router = express.Router();
 const verifyToken = require('../middleware/verifyToken');
 const jwt = require('jsonwebtoken')
 
-router.get('/detail', verifyToken, (req, res, next) => {
+router.get('/detail', (req, res, next) => {
     // #swagger.tags = ['MyPage']
     // #swagger.security = [{ "Bearer": [] }]
     // #swagger.summary = "결과 리스트에서 선택한 결과 상세 조회"
@@ -18,24 +18,23 @@ router.get('/detail', verifyToken, (req, res, next) => {
         value : '12',
     } */
     const { poll_id } = req.query;
-
     const connection = db.getConnection();
 
     const searchQuery = 'SELECT user_id FROM poll WHERE id = ?';
     connection.query(searchQuery, [poll_id], (error, result) => {
-
-        console.log("user id1 " + req.user.id)
-         console.log("user id2 " + result[0].id)
-        // console.log("user id2 " + req.id)
-        // console.log("user id3 " + req.user.id)
-        // console.log("user id4 " + result[0].user_id)
 
         if (error) {
             console.error('DB 쿼리 오류1:', error);
             return res.status(500).send({ message: 'DB 쿼리 오류', error });
         }
 
-        if (parseInt(req.user.id, 10) !== parseInt(result[0].user_id,10)) {
+        // result가 비어있는 경우 검사
+        if (result.length === 0) {
+            return res.status(404).json({ error: '해당 ID를 가진 폴이 존재하지 않습니다.' });
+        }
+
+
+        if (parseInt(req.user.id, 10) !== parseInt(result[0].user_id, 10)) {
             return res.status(403).json({ error: 'JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다.' });
         }
 
@@ -80,7 +79,7 @@ router.get('/detail', verifyToken, (req, res, next) => {
 });
 
 // 결과 삭제 API
-router.delete('/delete', verifyToken, (req, res, next) => {
+router.delete('/delete', (req, res, next) => {
     // #swagger.tags = ['MyPage']
     // #swagger.security = [{ "Bearer": [] }]
     // #swagger.summary = "결과 리스트에서 선택한 결과 및 카드 삭제"
@@ -94,12 +93,17 @@ router.delete('/delete', verifyToken, (req, res, next) => {
     const searchQuery = 'SELECT user_id FROM poll WHERE id = ?';
     connection.query(searchQuery, [poll_id], (error, result) => {
 
+        // result가 비어있는 경우 검사
+        if (result.length === 0) {
+            return res.status(404).json({ error: '해당 ID를 가진 폴이 존재하지 않습니다.' });
+        }
+
         if (error) {
             console.error('DB 쿼리 오류:', error);
             return res.status(500).send({ message: 'DB 쿼리 오류', error });
         }
 
-        if (parseInt(req.user.id, 10) !== parseInt(result[0].user_id,10)) {
+        if (parseInt(req.user.id, 10) !== parseInt(result[0].user_id, 10)) {
             return res.status(403).json({ error: '토큰과 폴 아이디가 일치하지 않습니다' });
         }
 
