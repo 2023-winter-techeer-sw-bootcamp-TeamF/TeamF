@@ -52,6 +52,9 @@
           },
           "400": {
             "description": "잘못된 요청"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
@@ -217,6 +220,9 @@
               }
             }
           },
+          "404": {
+            "description": "Not Found"
+          },
           "500": {
             "description": "카드 정보 불러오기 실패",
             "schema": {
@@ -329,6 +335,9 @@
                 "name": "main"
               }
             }
+          },
+          "404": {
+            "description": "Not Found"
           },
           "500": {
             "description": "GPT API 요청 중 오류 발생",
@@ -561,10 +570,10 @@
           {
             "name": "poll_id",
             "in": "query",
-            "description": "poll_id",
+            "description": "폴 아이디 입력",
             "required": true,
-            "example": "12",
-            "value": "12",
+            "example": "number",
+            "value": "",
             "type": "string"
           }
         ],
@@ -682,9 +691,6 @@
           },
           "404": {
             "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
           }
         },
         "security": [
@@ -713,6 +719,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
@@ -736,6 +745,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
@@ -759,6 +771,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
@@ -782,6 +797,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
