@@ -202,6 +202,21 @@ const SoloBtn = styled.div`
   border-radius: 0.9375rem;
   background: #fbecc6;
   position: absolute;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+`;
+const SoloAboveBtn = styled.div`
+  width: 8.4375rem;
+  height: 1.5rem;
+  flex-shrink: 0;
+  border-radius: 0.9375rem;
+  background: #fbecc6;
+  position: absolute;
   top: 80%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -315,9 +330,9 @@ const FortuneSelect = () => {
                       분석해드릴게요.
                     </CardText>
                     <Link to="/lovefortune">
-                      <SoloBtn>
+                      <SoloAboveBtn>
                         <SoloText>혼자 카드 선택하기</SoloText>
-                      </SoloBtn>
+                      </SoloAboveBtn>
                     </Link>
                     <Link to="/lovefortune">
                       <TogetherBtn>
@@ -345,9 +360,9 @@ const FortuneSelect = () => {
                       분석해드릴게요.
                     </CardText>
                     <Link to="/friendship">
-                      <SoloBtn>
+                      <SoloAboveBtn>
                         <SoloText>혼자 카드 선택하기</SoloText>
-                      </SoloBtn>
+                      </SoloAboveBtn>
                     </Link>
                     <Link to="/friendship">
                       <TogetherBtn>

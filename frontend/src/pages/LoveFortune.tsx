@@ -41,7 +41,7 @@ const TitleBox = styled.div`
 
 const TitleContent = styled.p`
   color: #fff;
-  font-family: Inter;
+  font-family: 맑은 고딕;
   font-size: 1.25rem;
   font-style: normal;
   font-weight: 350;
