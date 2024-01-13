@@ -77,7 +77,6 @@ router.get('/poll/create', verifyToken, (req, res, next) => {
             console.log(error);  // 오류의 상세한 내용을 로그로 출력
         res.status(500).send({ message: 'DB 저장 오류', error: error.message });
         } else {
-            console.log("/poll/create pollId  " + results.insertId);
             res.locals.data = { message: 'Poll ID 생성 완료', pollId: results.insertId };
             next();
         }
