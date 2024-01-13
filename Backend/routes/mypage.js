@@ -18,7 +18,6 @@ router.get('/detail', verifyToken, (req, res, next) => {
         value : '12',
     } */
     const { poll_id } = req.query;
-
     const connection = db.getConnection();
 
     const searchQuery = 'SELECT user_id FROM poll WHERE id = ?';
