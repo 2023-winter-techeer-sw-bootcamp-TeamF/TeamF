@@ -50,7 +50,7 @@ app.use((req, res, next) => {
 // Swagger UI 설정
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // 라우팅 설정
-app.use('/tarot', require('./routes/tarot'));
+app.use('/tarot', verifyToken, require('./routes/tarot'));
 app.use('/result', require('./routes/result'));
 app.use('/user', require('./routes/user'));
 app.use('/mypage', verifyToken, require('./routes/mypage'));

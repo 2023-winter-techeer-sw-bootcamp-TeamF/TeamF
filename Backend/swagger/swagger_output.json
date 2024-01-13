@@ -53,6 +53,12 @@
           "400": {
             "description": "잘못된 요청"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
           "404": {
             "description": "Not Found"
           }
@@ -66,22 +72,6 @@
         ],
         "summary": "타로 시작 시 Poll(임시저장) → 타로 시작 할 경우 뽑은 카드와 결과 저장을 구별할 Poll Table",
         "description": "뽑은 카드 결과 저장 및 총 결과 저장 시 사용됨",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "userid",
-            "in": "query",
-            "description": "사용자의 ID",
-            "required": true,
-            "type": "string",
-            "example": "Test ID = 1",
-            "value": "1"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Poll ID가 성공적으로 생성되었을 때의 응답",
@@ -121,6 +111,9 @@
           "403": {
             "description": "Forbidden"
           },
+          "404": {
+            "description": "Not Found"
+          },
           "500": {
             "description": "DB 저장 과정에서 오류 발생 시의 응답",
             "schema": {
@@ -140,7 +133,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/tarot/card/info": {
@@ -215,6 +213,12 @@
                 "name": "main"
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "404": {
             "description": "Not Found"
@@ -332,6 +336,12 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
           "404": {
             "description": "Not Found"
           },
@@ -439,6 +449,12 @@
           "400": {
             "description": "잘못된 요청, 필수 파라미터 누락"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
           "500": {
             "description": "서버 내부 오류"
           }
@@ -484,6 +500,12 @@
           },
           "400": {
             "description": "접근 방식 오류"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "409": {
             "description": "이미 존재하는 아이디나 username"
@@ -532,6 +554,9 @@
           "401": {
             "description": "유효하지 않은 아이디 또는 비밀번호"
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "500": {
             "description": "로그인 정보 불러오기 실패"
           }
@@ -548,6 +573,12 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "500": {
             "description": "로그아웃 정보 불러오기 실패"

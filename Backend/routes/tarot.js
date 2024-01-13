@@ -1,6 +1,5 @@
 const express = require('express');
 const commonResponse = require('../middleware/commonResponse');
-const verifyToken = require('../middleware/verifyToken');
 const db = require('../mysql/database.js');
 const s3 = require('../aws/awsS3');
 const router = express.Router();
@@ -50,18 +49,11 @@ router.get('/guide', (req, res, next) => {
     });
 }, commonResponse); // commonResponse 미들웨어를 체인으로 추가
 
-router.get('/poll/create', verifyToken, (req, res, next) => {
+router.get('/poll/create', (req, res, next) => {
     // #swagger.tags = ['Tarot']
+    // #swagger.security = [{ "Bearer": [] }]
     // #swagger.summary = "타로 시작 시 Poll(임시저장) → 타로 시작 할 경우 뽑은 카드와 결과 저장을 구별할 Poll Table"
     // #swagger.description = '뽑은 카드 결과 저장 및 총 결과 저장 시 사용됨'
-    /* #swagger.parameters['userid'] = {
-           in: 'query',
-           description: '사용자의 ID',
-           required: true,
-           type: 'string',
-           example: 'Test ID = 1',
-           value: '1',
-    } */
 
     const user_id = req.user.id;
 

@@ -2,7 +2,7 @@ const express = require('express');
 const commonResponse = require('../middleware/commonResponse');
 const db = require('../mysql/database.js');
 const router = express.Router();
-const jwt = require('jsonwebtoken')
+
 
 // '/detail' 라우트
 router.get('/detail', (req, res, next) => {
