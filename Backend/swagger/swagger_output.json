@@ -516,7 +516,7 @@
           "User"
         ],
         "summary": "회원가입",
-        "description": "회원가입 하는 유저의 아이디, username 중복검사 및 가입 하는 유저의 정보를 데이터베이스에 저장",
+        "description": "회원가입 하는 유저의 아이디 중복검사 및 가입 하는 유저의 정보를 데이터베이스에 저장",
         "parameters": [
           {
             "name": "login_id",
@@ -548,7 +548,23 @@
             "description": "OK"
           },
           "400": {
-            "description": "접근 방식 오류"
+            "description": "접근 방식 오류",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "모두 입력해주세요!"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "접근 방식 오류"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "401": {
             "description": "Unauthorized"
@@ -557,10 +573,42 @@
             "description": "Forbidden"
           },
           "409": {
-            "description": "이미 존재하는 아이디나 username"
+            "description": "이미 존재하는 아이디",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "이미 존재하는 아이디 입니다."
+                },
+                "error": {
+                  "type": "string",
+                  "example": "중복 에러"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "500": {
-            "description": "회원가입 정보 불러오기 실패"
+            "description": "회원가입 정보 불러오기 실패",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "회원가입 정보 불러오기 실패"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "회원가입 정보 불러오기 실패"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
@@ -598,16 +646,64 @@
             "description": "OK"
           },
           "400": {
-            "description": "접근 방식 오류"
+            "description": "접근 방식 오류",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "접근 방식 오류"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "접근 방식 오류"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "401": {
-            "description": "유효하지 않은 아이디 또는 비밀번호"
+            "description": "유효하지 않은 아이디 또는 비밀번호",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "존재하지 않는 아이디 또는 비밀번호가 일치하지 않습니다."
+                },
+                "error": {
+                  "type": "string",
+                  "example": "Invalid ID or Password"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "403": {
             "description": "Forbidden"
           },
           "500": {
-            "description": "로그인 정보 불러오기 실패"
+            "description": "로그인 정보 불러오기 실패",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "로그인에 실패 했습니다"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "로그인 정보 불러오기 실패"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
@@ -630,7 +726,23 @@
             "description": "Forbidden"
           },
           "500": {
-            "description": "로그아웃 정보 불러오기 실패"
+            "description": "로그아웃 정보 불러오기 실패",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "로그아웃 정보 불러오기 실패"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "로그아웃 정보 불러오기 실패"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
@@ -707,13 +819,17 @@
             }
           },
           "500": {
-            "description": "내부 서버 오류로 인한 DB 쿼리 실패.",
+            "description": "내부 서버 오류로 인한 DB 쿼리 실패",
             "schema": {
               "type": "object",
               "properties": {
                 "message": {
                   "type": "string",
-                  "example": "DB 쿼리 오류"
+                  "example": "내부 서버 오류로 인한 DB 쿼리 실패"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "내부 서버 오류로 인한 DB 쿼리 실패"
                 }
               },
               "xml": {
@@ -771,6 +887,10 @@
             "schema": {
               "type": "object",
               "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다."
+                },
                 "error": {
                   "type": "string",
                   "example": "JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다."
@@ -786,6 +906,10 @@
             "schema": {
               "type": "object",
               "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "해당 ID를 가진 폴이 존재하지 않습니다."
+                },
                 "error": {
                   "type": "string",
                   "example": "해당 ID를 가진 폴이 존재하지 않습니다."
@@ -802,6 +926,10 @@
               "type": "object",
               "properties": {
                 "message": {
+                  "type": "string",
+                  "example": "DB 쿼리 오류"
+                },
+                "error": {
                   "type": "string",
                   "example": "DB 쿼리 오류"
                 }
