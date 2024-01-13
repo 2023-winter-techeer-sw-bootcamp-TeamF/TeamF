@@ -52,7 +52,6 @@ router.get('/detail', (req, res, next) => {
             } */
             return next();
         }
-
         const resultQuery = 'SELECT question, explanation, luck, master_name FROM result WHERE poll_id = ?';
         connection.query(resultQuery, [poll_id], (error, resultData) => {
             if (error) {
