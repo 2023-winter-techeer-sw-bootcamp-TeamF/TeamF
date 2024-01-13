@@ -5,7 +5,7 @@
     "description": "오늘도 화이팅",
     "version": "1.0.0"
   },
-  "host": "43.202.208.226:3001",
+  "host": "localhost:3000",
   "basePath": "/",
   "schemes": [
     "http"
@@ -389,7 +389,7 @@
               "properties": {
                 "poll_id": {
                   "type": "string",
-                  "example": "example"
+                  "example": "1"
                 },
                 "question": {
                   "type": "string",
@@ -452,9 +452,9 @@
                 "cardIds": {
                   "type": "array",
                   "example": [
-                    5,
-                    26,
-                    7
+                    1,
+                    2,
+                    3
                   ],
                   "items": {
                     "type": "number"
@@ -467,7 +467,19 @@
             }
           },
           "400": {
-            "description": "잘못된 요청, 필수 파라미터 누락"
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "데이터가 유효하지 않습니다. (널값, 누락 등)"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "401": {
             "description": "Unauthorized"
@@ -476,9 +488,26 @@
             "description": "Forbidden"
           },
           "500": {
-            "description": "서버 내부 오류"
+            "description": "내부 서버 오류로 인한 데이터 처리 실패.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "DB 오류"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     },
     "/user/signup": {
