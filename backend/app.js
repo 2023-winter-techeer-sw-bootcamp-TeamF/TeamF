@@ -53,6 +53,7 @@ app.use((req, res, next) => {
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // 라우팅 설정
 app.use('/tarot', require('./routes/tarot'));
+app.use('/poll', verifyToken, require('./routes/poll'));
 app.use('/result', require('./routes/result'));
 app.use('/user', require('./routes/user'));
 app.use('/mypage', verifyToken, require('./routes/mypage'));

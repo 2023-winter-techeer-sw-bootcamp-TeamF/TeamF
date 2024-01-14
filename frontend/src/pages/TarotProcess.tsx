@@ -1,4 +1,3 @@
-import React from "react";
 import Navbar from "../component/Navbar";
 import styled from "styled-components";
 import BackgroundImg1 from "../assets/Background.png";
@@ -6,7 +5,7 @@ import TaroEx1 from "../assets/TaroEx1.png";
 import TaroEx2 from "../assets/TaroEx2.png";
 import TaroEx3 from "../assets/TaroEx3.png";
 import TodayFortune from "../assets/TodayFortune.png";
-import NextButton from "../assets/NextButton.png";
+import NextButton from "../assets/NextBtn.png";
 import { Link } from "react-router-dom";
 const Background = styled.div`
   width: 100vw;
@@ -60,7 +59,7 @@ const ChatBox = styled.div`
   width: 52rem;
   height: 21.9375rem;
   border-radius: 0rem 1.25rem 1.25rem 1.25rem;
-  border: 1px solid #ecb973;
+  border: 0.0625rem solid #ecb973;
   background: rgba(208, 179, 179, 0);
   position: absolute;
   top: 47%;
@@ -92,10 +91,10 @@ const Chat = styled.p`
 const NextBtn = styled.button`
   border: none;
   background: none;
-  width: 4.25rem;
-  height: 3.75rem;
+  width: 5.625rem;
+  height: 5.125rem;
   position: absolute;
-  right: 8rem;
+  right: 6rem;
   bottom: 7rem;
   cursor: pointer;
 `;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../component/Navbar";
 import styled from "styled-components";
 import Background from "../assets/Background.png";
@@ -6,7 +6,7 @@ import TaroEx1 from "../assets/TaroEx1.png";
 import TaroEx2 from "../assets/TaroEx2.png";
 import TaroEx3 from "../assets/TaroEx3.png";
 import BackOfCard from "../assets/BackOfCard.png";
-import NextButton from "../assets/NextButton.png";
+import NextButton from "../assets/NextBtn.png";
 import { motion, AnimatePresence } from "framer-motion";
 import { chunkArray, shuffleArray } from "../component/ShuffleArray";
 
@@ -14,7 +14,7 @@ const BackgroundColor = styled.div`
   background: #000;
   width: 100vw;
   height: 100vh;
-  padding-top: 10px;
+  padding-top: 0.625rem;
 `;
 
 const BackgroundWrapper = styled.div`
@@ -76,22 +76,22 @@ const StackedCardsContainer = styled(motion.div)`
 const NextBtn = styled.button`
   border: none;
   background: none;
-  width: 4.25rem;
-  height: 3.75rem;
+  width: 5.625rem;
+  height: 5.125rem;
   position: absolute;
-  right: 7rem;
-  bottom: 10.5rem;
+  right: 6.5rem;
+  bottom: 13.5rem;
   cursor: pointer;
 `;
 
 const BeforeBtn = styled.button`
   border: none;
   background: none;
-  width: 4.25rem;
-  height: 3.75rem;
+  width: 5.625rem;
+  height: 5.125rem;
   position: absolute;
   left: 8%;
-  bottom: 10.5rem;
+  bottom: 13.5rem;
   cursor: pointer;
   transform: rotate(180deg);
 `;

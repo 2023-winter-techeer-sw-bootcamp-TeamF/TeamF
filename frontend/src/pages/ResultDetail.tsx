@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Navbar from "../component/Navbar";
 import styled from "styled-components";
 import TaroEx1 from "../assets/TaroEx1.png";
 import TaroEx2 from "../assets/TaroEx2.png";
 import TaroEx3 from "../assets/TaroEx3.png";
 import FlipCard from "../assets/ResultFlipCard.png";
+import { useNavigate } from "react-router-dom";
 
 const Background = styled.div`
   width: 100vw;
@@ -76,6 +77,7 @@ const Date = styled.p`
   font-weight: 400;
   line-height: normal;
   text-transform: uppercase;
+  padding-bottom: 0.4rem;
 `;
 
 const Title = styled.p`
@@ -275,6 +277,7 @@ const CardContent = styled.p`
 
 function ResultDetail() {
   const [flippedCards, setFlippedCards] = useState(Array(10).fill(false));
+  const navigate = useNavigate();
 
   // 카드를 뒤집는 함수
   const handleFlip = (flip: number) => {
@@ -282,6 +285,10 @@ function ResultDetail() {
     newFlippedCards[flip] = !newFlippedCards[flip];
     setFlippedCards(newFlippedCards);
   };
+  const goBack = () => {
+    navigate(-1);
+  };
+
   return (
     <>
       <Background>
@@ -415,7 +422,7 @@ function ResultDetail() {
                   />
                 </svg>
               </Button>
-              <Button>
+              <Button onClick={goBack}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="40"

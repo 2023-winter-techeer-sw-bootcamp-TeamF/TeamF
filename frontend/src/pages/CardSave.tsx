@@ -1,4 +1,3 @@
-import React from "react";
 import Navbar from "../component/Navbar";
 import styled from "styled-components";
 import TaroEx1 from "../assets/TaroEx1.png";
@@ -6,7 +5,7 @@ import TaroEx2 from "../assets/TaroEx2.png";
 import TaroEx3 from "../assets/TaroEx3.png";
 import BackgroundImg1 from "../assets/Background.png";
 import { Link } from "react-router-dom";
-import LinkBtn from "../assets/Linkbutton.png";
+import LinkBtn from "../assets/LinkButton.png";
 import ShareBtn from "../assets/ShareButton.png";
 const Background = styled.div`
   width: 100vw;
@@ -38,7 +37,6 @@ const Card = styled.div`
   background: #e9e5da;
   display: flex;
   justify-content: center;
-  cursor: pointer;
 `;
 
 const CardLine1 = styled.div`
@@ -112,6 +110,7 @@ const UserName = styled.p`
 
   letter-spacing: 0.08313rem;
   text-transform: uppercase;
+  margin-top: 0.4rem;
 `;
 
 const Cards = styled.div`
