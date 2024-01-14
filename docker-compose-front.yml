@@ -6,9 +6,7 @@ services:
     ports:
       - "3001:3000"
     environment:
-      - AWS_ACCESS_KEY_ID=AKIA4VFKZCU33SOXB4XC
-      - AWS_SECRET_ACCESS_KEY=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
-      - AWS_REGION=ap-northeast-2
+
     # volumes:
     #   - ./backend:/usr/src/app
 
