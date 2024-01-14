@@ -4,6 +4,7 @@ const db = require("../mysql/database.js");
 const gptApi = require("../chatgpt/api.js");
 const router = express.Router();
 
+<<<<<<< HEAD
 router.post(
   "/stream",
   async (req, res, next) => {
@@ -166,6 +167,14 @@ router.post("/save", async (req, res, next) => {
   // #swagger.summary = "종합 결과 저장"
   // #swagger.description = '사용자의 질문과 관련된 타로 종합 결과 및 뽑은 카드 정보를 저장합니다. 사용자의 운(luck)에 따라 카드의 수가 결정됩니다.'
   /* #swagger.parameters['body'] = {
+=======
+router.post('/save', async (req, res, next) => {
+    // #swagger.tags = ['Result']
+    // #swagger.security = [{ "Bearer": [] }]
+    // #swagger.summary = "종합 결과 저장"
+    // #swagger.description = '사용자의 질문과 관련된 타로 종합 결과 및 뽑은 카드 정보를 저장합니다. 사용자의 운(luck)에 따라 카드의 수가 결정됩니다.'
+    /* #swagger.parameters['body'] = {
+>>>>>>> 6011c84 (feat: json stream 구현 및 데이터 정렬)
         in: 'body',
         description: '타로 결과 및 뽑은 카드 정보 저장을 위한 요청값',
         required: true,
