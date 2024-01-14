@@ -148,6 +148,7 @@ const CardSelect = () => {
   const [count, setCount] = useState(0); //몇번째 슬라이드인지
   const [back, setBack] = useState(false); //뒤로 갈지 앞으로 갈지
   const [chunkNumber, setChunkNumber] = useState<number[][]>([]);
+  const [clicknumber, setClicknumber] = useState(-1);
 
   const incraseIndex = () => {
     setCount((prev) => (prev === 3 ? 0 : prev + 1));
@@ -160,8 +161,21 @@ const CardSelect = () => {
   const getImage = async (card: number) => {
     console.log(card);
     try {
-      const response = await axios.post("/tarot/card/info/", {
+      const response = await axios.post("/tarot/card/info", {
         card,
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getImage2 = async (card: number) => {
+    console.log(card);
+    try {
+      const response = await axios.post("/user/signup", {
+        login_id: card,
+        password: card,
+        name: card,
       });
       console.log(response);
     } catch (error) {
@@ -170,7 +184,7 @@ const CardSelect = () => {
   };
   const consoleIndex1 = (index: number, count: number) => {
     console.log(chunkNumber[count][index]);
-    getImage(chunkNumber[count][index]);
+    getImage2(chunkNumber[count][index]);
     chunkNumber[count].splice(index, 1);
     setNumberOfCards1((prev) => prev - 1);
   };
@@ -185,6 +199,7 @@ const CardSelect = () => {
     getImage(chunkNumber[count][index]);
     chunkNumber[count].splice(index, 1);
     setNumberOfCards3((prev) => prev - 1);
+    setClicknumber(index);
   };
   const consoleIndex4 = (index: number, count: number) => {
     console.log(chunkNumber[count][index]);
@@ -254,16 +269,24 @@ const CardSelect = () => {
                   key={count}
                 >
                   {Array.from({ length: NumberOfCards3 }).map((_, index) => (
-                    <BackcardBackground
-                      key={index}
-                      onClick={() => consoleIndex3(index, count)}
-                      style={{
-                        left: `${index * Overlap}rem`,
-                        zIndex: NumberOfCards3 - index,
-                      }}
-                    >
-                      <BackOfCardImg src={BackOfCard} alt="Card back" />
-                    </BackcardBackground>
+                    <AnimatePresence mode="wait">
+                      <BackcardBackground
+                        key={index}
+                        initial={{ y: 0 }}
+                        animate={{
+                          y: clicknumber === index ? -300 : 0, // 클릭 시 카드가 상승
+                          opacity: clicknumber === index ? 0 : 1, // 상승 후 사라짐
+                        }}
+                        exit={{ scale: 0 }}
+                        onClick={() => consoleIndex3(index, count)}
+                        style={{
+                          left: `${index * Overlap}rem`,
+                          zIndex: NumberOfCards3 - index,
+                        }}
+                      >
+                        <BackOfCardImg src={BackOfCard} alt="Card back" />
+                      </BackcardBackground>
+                    </AnimatePresence>
                   ))}
                 </StackedCardsContainer>
               ) : count === 1 ? (
