@@ -74,6 +74,27 @@ class GptMessage {
     if (this.userMessages != '') this.TotalMessages.push(gpt.gptMessageForm('system', this.systemMessages));
     if (this.systemMessages != '') this.TotalMessages.push(gpt.gptMessageForm('user', this.userMessages));
     if (this.assistantMessages != '') this.TotalMessages.push(gpt.gptMessageForm('assistant', this.assistantMessages));
+=======
+    this.systemMessages.push(message);
+  }
+
+  addAssistantMessage(message) {
+    this.assistantMessages.push(message);
+  }
+
+  getMessages() {
+    if (this.userMessages != [])
+      this.TotalMessages.push(
+        gpt.gptMessageForm("system", this.systemMessages.join(""))
+      );
+    if (this.systemMessages != [])
+      this.TotalMessages.push(
+        gpt.gptMessageForm("user", this.userMessages.join(""))
+      );
+    if (this.assistantMessages != [])
+      this.TotalMessages.push(
+        gpt.gptMessageForm("assistant", this.assistantMessages.join(""))
+      );
     return this.TotalMessages;
   }
 }
