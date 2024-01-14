@@ -1,0 +1,1295 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Tarot API Test",
+    "description": "오늘도 화이팅",
+    "version": "1.0.0"
+  },
+  "host": "43.202.208.226:3001",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "authorization",
+      "description": "JWT Access Token 입력 : 'Bearer {token}'"
+    }
+  },
+  "paths": {
+    "/tarot/guide": {
+      "get": {
+        "tags": [
+          "Tarot"
+        ],
+        "summary": "가이드라인 불러오기",
+        "description": "운 종류와 뽑는 사람 수를 전달하면 가이드라인(content)과 타로 마스터 이름(master_name)을 반환함",
+        "parameters": [
+          {
+            "name": "luckType",
+            "in": "query",
+            "description": "운 종류",
+            "required": true,
+            "type": "string",
+            "example": "오늘의 운세, 애정운, 우정운, 재물운, 소망운",
+            "value": "test_luck"
+          },
+          {
+            "name": "luckOpt",
+            "in": "query",
+            "description": "카드를 뽑는 사람의 수",
+            "required": true,
+            "type": "integer",
+            "example": "0(혼자 보는 경우), 1(같이 보는 경우)",
+            "value": "0"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "테스트 값 조회 성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "가이드라인과 타로 마스터 이름 불러오기 성공"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "master_name": {
+                      "type": "string",
+                      "example": "test_master_name"
+                    },
+                    "content": {
+                      "type": "string",
+                      "example": "test_content"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "운 종류나 뽑는 사람 수가 없습니다."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "DB 조회 과정에서 오류 발생 시의 응답",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "DB 조회 오류"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "운 카테고리 Table에서 데이터 조회 중 오류 발생"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tarot/card/info": {
+      "post": {
+        "tags": [
+          "Tarot"
+        ],
+        "summary": "카드 정보 조회",
+        "description": "카드 정보를 정수형으로 전달하면 해당 카드의 정보를 반환함",
+        "parameters": [
+          {
+            "name": "card",
+            "in": "query",
+            "description": "카드 번호",
+            "required": true,
+            "type": "integer",
+            "example": "1",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "card": {
+                  "type": "number",
+                  "example": 1
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "카드 정보 불러오기 성공 url 전송",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "creat image url successfully"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "카드 이름"
+                },
+                "english": {
+                  "type": "string",
+                  "example": "카드 영어 이름"
+                },
+                "mean": {
+                  "type": "string",
+                  "example": "카드 뜻"
+                },
+                "image_url": {
+                  "type": "string",
+                  "example": "카드 이미지 url"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "잘못된 카드 번호 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "카드 번호가 없습니다."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "S3 관련 오류 발생 시의 응답",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "카드 정보를 가져오는데 실패했습니다."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/poll/create": {
+      "get": {
+        "tags": [
+          "Tarot"
+        ],
+        "summary": "타로 시작 시 Poll(임시저장) → 타로 시작 할 경우 뽑은 카드와 결과 저장을 구별할 Poll Table",
+        "description": "뽑은 카드 결과 저장 및 총 결과 저장 시 사용됨",
+        "responses": {
+          "200": {
+            "description": "Poll ID가 성공적으로 생성되었을 때의 응답",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "statusCode": {
+                  "type": "number",
+                  "example": 200
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Poll ID 생성 완료"
+                    },
+                    "pollId": {
+                      "type": "number",
+                      "example": 0
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized: 엑세스 토큰을 복호화한 정보(user_id)가 없을 시의 응답",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "엑세스 토큰이 없습니다."
+                },
+                "error": {
+                  "type": "string",
+                  "example": "엑세스 토큰이 필요합니다"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "DB 저장 과정에서 오류 발생 시의 응답",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "DB 저장 오류"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "타로 결과(poll) Table에 데이터 저장 중 오류 발생"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/result/stream": {
+      "post": {
+        "tags": [
+          "Result"
+        ],
+        "summary": "타로 결과 GPT 요청",
+        "description": "타로 결과를 API에 요청하고 결과를 반환함",
+        "parameters": [
+          {
+            "name": "cards",
+            "in": "query",
+            "description": "카드 배열",
+            "required": true,
+            "type": "array",
+            "example": "[Ace of Wands, Ace of Cups, Ace of Swords]",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "cards": {
+                  "type": "string",
+                  "example": "[Ace of Wands, Ace of Cups, Ace of Swords]"
+                }
+              }
+            }
+          },
+          {
+            "name": "ask",
+            "in": "query",
+            "description": "질문",
+            "required": true,
+            "type": "string",
+            "example": "오늘의 운세는 어떤가요?",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "ask": {
+                  "type": "string",
+                  "example": "오늘의 운세는 어떤가요?"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "GPT API 요청 성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "json": {
+                  "type": "object",
+                  "properties": {
+                    "card1": {
+                      "type": "string",
+                      "example": "Ace of Wands"
+                    },
+                    "card2": {
+                      "type": "string",
+                      "example": "Ace of Cups"
+                    },
+                    "card3": {
+                      "type": "string",
+                      "example": "Ace of Swords"
+                    },
+                    "ask": {
+                      "type": "string",
+                      "example": "오늘의 운세는 어떤가요?"
+                    },
+                    "answer": {
+                      "type": "string",
+                      "example": "오늘은 행운이 가득할 거예요!"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "유효하지않은 데이터",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "데이터가 유효하지 않습니다. (널값, 누락 등)"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "GPT API 요청 중 오류 발생",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "GPT에서 오류가 발생해 데이터를 불러올 수 없습니다!"
+                },
+                "error": {
+                  "type": "string",
+                  "example": ""
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/result/save": {
+      "post": {
+        "tags": [
+          "Result"
+        ],
+        "summary": "종합 결과 저장",
+        "description": "사용자의 질문과 관련된 타로 종합 결과 및 뽑은 카드 정보를 저장합니다. 사용자의 운(luck)에 따라 카드의 수가 결정됩니다.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "타로 결과 및 뽑은 카드 정보 저장을 위한 요청값",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "poll_id": {
+                  "type": "string",
+                  "example": "1"
+                },
+                "question": {
+                  "type": "string",
+                  "example": "사용자 질문"
+                },
+                "result_explanation": {
+                  "type": "string",
+                  "example": "종합 결과"
+                },
+                "master_name": {
+                  "type": "string",
+                  "example": "마스터 이름"
+                },
+                "luck": {
+                  "type": "string",
+                  "example": "test_luck"
+                },
+                "cards": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "card_image_url": {
+                        "type": "string",
+                        "example": "url3"
+                      },
+                      "card_explanation": {
+                        "type": "string",
+                        "example": "explanation3"
+                      },
+                      "card_eng_name": {
+                        "type": "string",
+                        "example": "eng3"
+                      },
+                      "card_kor_name": {
+                        "type": "string",
+                        "example": "kor3"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "타로 종합 결과, 뽑은 카드별 정보 저장 성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "타로 종합 결과, 뽑은 카드별 정보 저장 성공"
+                },
+                "resultId": {
+                  "type": "number",
+                  "example": 26
+                },
+                "cardIds": {
+                  "type": "array",
+                  "example": [
+                    1,
+                    2,
+                    3
+                  ],
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "데이터가 유효하지 않습니다. (널값, 누락 등)"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "내부 서버 오류로 인한 데이터 처리 실패.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "DB 오류"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/user/signup": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "회원가입",
+        "description": "회원가입 하는 유저의 아이디 중복검사 및 가입 하는 유저의 정보를 데이터베이스에 저장",
+        "parameters": [
+          {
+            "name": "login_id",
+            "in": "query",
+            "description": "사용자의 아이디",
+            "required": true,
+            "type": "string",
+            "example": "minki"
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "description": "비밀번호",
+            "required": true,
+            "type": "string",
+            "example": "0000"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "닉네임",
+            "required": true,
+            "type": "string",
+            "example": "타로마스터"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "접근 방식 오류",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "모두 입력해주세요!"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "접근 방식 오류"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "409": {
+            "description": "이미 존재하는 아이디",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "이미 존재하는 아이디 입니다."
+                },
+                "error": {
+                  "type": "string",
+                  "example": "중복 에러"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "회원가입 정보 불러오기 실패",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "회원가입 정보 불러오기 실패"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "회원가입 정보 불러오기 실패"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/login": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "로그인",
+        "description": "아이디와 비밀번호를 이용하여 로그인을 수행하고, 성공 시 액세스 토큰과 리프레시 토큰을 발급",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "사용자의 아이디",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "login_id": {
+                  "type": "string",
+                  "example": "test"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "test"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "접근 방식 오류",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "접근 방식 오류"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "접근 방식 오류"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "유효하지 않은 아이디 또는 비밀번호",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "존재하지 않는 아이디 또는 비밀번호가 일치하지 않습니다."
+                },
+                "error": {
+                  "type": "string",
+                  "example": "Invalid ID or Password"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "로그인 정보 불러오기 실패",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "로그인에 실패 했습니다"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "로그인 정보 불러오기 실패"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/logout": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "로그아웃",
+        "description": "현재 로그인된 사용자의 로그아웃을 수행",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "로그아웃 정보 불러오기 실패",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "로그아웃 정보 불러오기 실패"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "로그아웃 정보 불러오기 실패"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mypage/detail": {
+      "get": {
+        "tags": [
+          "MyPage"
+        ],
+        "summary": "결과 리스트에서 선택한 결과(poll_id) 상세 조회",
+        "description": "결과 리스트 중 선택한 결과(Poll_id)를 통해 해당 결과를 상세조회한다.",
+        "parameters": [
+          {
+            "name": "poll_id",
+            "in": "query",
+            "description": "폴 아이디 입력",
+            "required": true,
+            "example": "Poll_ID",
+            "value": "",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "총합 결과와 카드별 해석 및 링크 데이터 성공적으로 조회됨.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "string",
+                  "example": "result 결과 조회 성공"
+                },
+                "card": {
+                  "type": "string",
+                  "example": "card 결과 조회 성공"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "해당 ID를 가진 폴이 존재하지 않습니다.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "해당 ID를 가진 폴이 존재하지 않습니다."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "내부 서버 오류로 인한 DB 쿼리 실패",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "내부 서버 오류로 인한 DB 쿼리 실패"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "내부 서버 오류로 인한 DB 쿼리 실패"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/mypage/delete": {
+      "delete": {
+        "tags": [
+          "MyPage"
+        ],
+        "summary": "결과 리스트에서 선택한 결과 및 카드 삭제",
+        "description": "결과 리스트 중 선택한 결과(Poll_id)가 삭제된다. -> CASCADE로 result, card 테이블의 관련 데이터도 삭제",
+        "parameters": [
+          {
+            "name": "poll_id",
+            "in": "query",
+            "description": "폴 아이디 입력",
+            "required": true,
+            "example": "Poll_ID",
+            "value": "",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "poll id에 매칭되는 column삭제 -> result, card 연쇄 삭제",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "poll 삭제 완료"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다."
+                },
+                "error": {
+                  "type": "string",
+                  "example": "JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "해당 ID를 가진 폴이 존재하지 않습니다.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "해당 ID를 가진 폴이 존재하지 않습니다."
+                },
+                "error": {
+                  "type": "string",
+                  "example": "해당 ID를 가진 폴이 존재하지 않습니다."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "내부 서버 오류로 인한 데이터 삭제 실패.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "DB 쿼리 오류"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "DB 쿼리 오류"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/test/testgpt": {
+      "get": {
+        "tags": [
+          "Test"
+        ],
+        "summary": "GPT-3 테스트",
+        "description": "GPT-3를 테스트 해봅시다 :>",
+        "responses": {
+          "200": {
+            "description": "테스트 값 조회 성공"
+          },
+          "400": {
+            "description": "잘못된 요청"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/test/testgpt2": {
+      "get": {
+        "tags": [
+          "Test"
+        ],
+        "summary": "GPT-3 테스트",
+        "description": "GPT-3를 테스트 해봅시다 :>",
+        "responses": {
+          "200": {
+            "description": "테스트 값 조회 성공"
+          },
+          "400": {
+            "description": "잘못된 요청"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/test/testgptsplit": {
+      "get": {
+        "tags": [
+          "Test"
+        ],
+        "summary": "GPT-3 테스트",
+        "description": "GPT-3를 테스트 해봅시다 :>",
+        "responses": {
+          "200": {
+            "description": "테스트 값 조회 성공"
+          },
+          "400": {
+            "description": "잘못된 요청"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/secret/MySQL": {
+      "get": {
+        "tags": [
+          "Test"
+        ],
+        "summary": "시크릿 매니저를 통한 MySQL 정보 조회",
+        "description": "SecretsManager Router Test -> MySQL",
+        "responses": {
+          "200": {
+            "description": "MySQL 정보 조회 성공"
+          },
+          "400": {
+            "description": "잘못된 요청"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/token/refresh": {
+      "post": {
+        "tags": [
+          "Token"
+        ],
+        "summary": "리프레시 토큰을 사용하여 새로운 엑세스 토큰과 리프레시 토큰 발급",
+        "description": "유효한 리프레시 토큰을 제공받아 새로운 엑세스 토큰과 리프레시 토큰을 발급합니다.",
+        "parameters": [
+          {
+            "name": "refreshToken",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "refreshToken": {
+                  "example": "any"
+                }
+              }
+            },
+            "description": "리프레시 토큰",
+            "required": true,
+            "example": "리프래시 토큰 입력"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "리프레시 토큰 누락 시의 응답",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "리프레시 토큰이 필요합니다."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "403": {
+            "description": "유효하지 않은 리프레시 토큰의 응답",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "유효하지 않은 리프레시 토큰입니다."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/stream/": {
+      "post": {
+        "tags": [
+          "Stream"
+        ],
+        "summary": "타로 결과 GPT 요청",
+        "description": "타로 결과를 API에 요청하고 결과를 반환함",
+        "parameters": [
+          {
+            "name": "cards",
+            "in": "query",
+            "description": "카드 배열",
+            "required": true,
+            "type": "array",
+            "example": "[Ace of Wands, Ace of Cups, Ace of Swords]",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "cards": {
+                  "type": "string",
+                  "example": "[Ace of Wands, Ace of Cups, Ace of Swords]"
+                }
+              }
+            }
+          },
+          {
+            "name": "ask",
+            "in": "query",
+            "description": "질문",
+            "required": true,
+            "type": "string",
+            "example": "오늘의 운세는 어떤가요?",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "ask": {
+                  "type": "string",
+                  "example": "오늘의 운세는 어떤가요?"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "GPT API 요청 성공",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "json": {
+                  "type": "object",
+                  "properties": {
+                    "card1": {
+                      "type": "string",
+                      "example": "Ace of Wands"
+                    },
+                    "card2": {
+                      "type": "string",
+                      "example": "Ace of Cups"
+                    },
+                    "card3": {
+                      "type": "string",
+                      "example": "Ace of Swords"
+                    },
+                    "ask": {
+                      "type": "string",
+                      "example": "오늘의 운세는 어떤가요?"
+                    },
+                    "answer": {
+                      "type": "string",
+                      "example": "오늘은 행운이 가득할 거예요!"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "유효하지않은 데이터",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "데이터가 유효하지 않습니다. (널값, 누락 등)"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "GPT API 요청 중 오류 발생",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "GPT에서 오류가 발생해 데이터를 불러올 수 없습니다!"
+                },
+                "error": {
+                  "type": "string",
+                  "example": ""
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
