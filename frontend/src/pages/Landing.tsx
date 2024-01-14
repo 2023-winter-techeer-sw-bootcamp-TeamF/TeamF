@@ -27,7 +27,7 @@ const LandingThings = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5rem;
+  gap: 3rem;
 `;
 
 const BackofCardsLeft = styled.div`
@@ -59,7 +59,7 @@ const Name = styled.p`
   text-transform: capitalize;
   position: relative;
   z-index: 4;
-  margin-bottom: 12rem;
+  margin-bottom: 16rem;
 `;
 
 const StartButton = styled.button`
