@@ -3,6 +3,8 @@ import styled from "styled-components";
 import Background from "../assets/Background.png";
 import FriendshipImg from "../assets/Friendship.png";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 const BackgroundColor = styled.div`
   background: #000;
@@ -179,6 +181,30 @@ const NextText = styled.a`
 `;
 
 const FriendShip = () => {
+  const [tellMeText, setTellMeText] = useState(""); //useState TellMeText를 빈칸으로 선언
+  // const로 선언했을 때 불변값이라 값을 변화하면 에러 생김
+  const getText = (): void => {
+    axios
+      .get("/tarot/guide", {
+        params: {
+          //await: 비동기 함수 안에서 promise 객체가 처리될 때까지 기다림
+          luckType: "test_luck",
+          luckOpt: 0,
+        },
+      })
+      .then((res) => {
+        console.log(res.data.data.content);
+        setTellMeText(res.data.data.content); //set@=텍스트 값 바꿈
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    getText();
+  }, []);
+
   return (
     <BackgroundColor>
       <Inside>
@@ -190,22 +216,7 @@ const FriendShip = () => {
           </TitleBox>
           <BackgroundImg src={Background} alt="Background" />
           <ChatBox>
-            <Tellme>
-              제가 오랜 지혜와 경험을 바탕으로 타로 리딩의 세계로 여러분을
-              안내해 드리겠습니다. 우선, 타로는 단순한 운세를 넘어서 개인의
-              상황과 내면의 감정을 세심하게 반영하는 도구라는 것을 기억하세요.
-              때로는 카드의 메시지가 모호하거나 추상적일 수 있지만, 그 안에서
-              여러분만의 명확한 해석을 찾는 것이 중요해요. 리딩을 시작하기 전에,
-              여러분은 자신의 마음에 집중하고, 깊은 내면의 탐색을 통해
-              정신적으로 준비를 하는 것이 좋습니다. 우정에 관한 리딩을 위해서는,
-              사용자가 5장의 카드를 뽑게 됩니다. 이때, 여러분이 고민을 말씀하신
-              후에, 그에 맞춰 카드를 선택합니다. 타로 카드를 해석할 때는 그림,
-              숫자, 글자 등의 다양한 요소를 사용해 여러분의 상황과 연결지어
-              의미를 찾아냅니다. 해석은 언제나 주관적이기 때문에, 다양한
-              관점에서의 해석이 중요하다는 것을 잊지 마세요. 여러분의 고민에
-              대해 이야기해주시면, 저는 그것을 바탕으로 카드가 전하는 메시지를
-              찾아낼 것입니다.
-            </Tellme>
+            <Tellme>{tellMeText}</Tellme>
           </ChatBox>
           <ReplyBox>
             <Reply placeholder="이곳에 고민을 적어주세요"></Reply>

@@ -3,6 +3,8 @@ import styled from "styled-components";
 import Background from "../assets/Background.png";
 import Moneyfortuneimg from "../assets/MoneyFortune.png";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 const BackgroundColor = styled.div`
   background: #000;
@@ -142,7 +144,8 @@ const Reply = styled.textarea`
   }
 `;
 
-const Profile2 = styled.img` // 왜 얘만 여깄음
+const Profile2 = styled.img`
+  // 왜 얘만 여깄음
   width: 4rem;
   height: 3.9375rem;
   flex-shrink: 0;
@@ -179,6 +182,29 @@ const NextText = styled.a`
 `;
 
 const MoneyFortune = () => {
+  const [tellMeText, setTellMeText] = useState(""); //useState TellMeText를 빈칸으로 선언
+  // const로 선언했을 때 불변값이라 값을 변화하면 에러 생김
+  const getText = (): void => {
+    axios
+      .get("/tarot/guide", {
+        params: {
+          //await: 비동기 함수 안에서 promise 객체가 처리될 때까지 기다림
+          luckType: "test_luck",
+          luckOpt: 0,
+        },
+      })
+      .then((res) => {
+        console.log(res.data.data.content);
+        setTellMeText(res.data.data.content); //set@=텍스트 값 바꿈
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    getText();
+  }, []);
   return (
     <BackgroundColor>
       <Inside>
@@ -190,17 +216,7 @@ const MoneyFortune = () => {
           </TitleBox>
           <BackgroundImg src={Background} alt="Background" />
           <ChatBox>
-            <Tellme>
-              타로점을 볼 때 주의할 점 자! 이제 너의 고민을 말해봐. 타로점을 볼
-              때 주의할 점 자! 이제 너의 고민을 말해봐. 타로점을 볼 때 주의할 점
-              자! 이제 너의 고민을 말해봐. 타로점을 볼 때 주의할 점 자! 이제
-              너의 고민을 말해봐. 타로점을 볼 때 주의할 점 자! 이제 너의 고민을
-              말해봐.타로점을 볼 때 주의할 점 자! 이제 너의 고민을 말해봐.
-              타로점을 볼 때 주의할 점 자! 이제 너의 고민을 말해봐.타로점을 볼
-              때 주의할 점 자! 이제 너의 고민을 말해봐.타로점을 볼 때 주의할 점
-              자! 이제 너의 고민을 말해봐.타로점을 볼 때 주의할 점 자! 이제 너의
-              고민을 말해봐.
-            </Tellme>
+            <Tellme>{tellMeText}</Tellme>
           </ChatBox>
           <ReplyBox>
             <Reply placeholder="이곳에 고민을 적어주세요"></Reply>
