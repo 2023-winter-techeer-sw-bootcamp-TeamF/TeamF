@@ -3,6 +3,12 @@ const savePrompt = (req, res, next) => {
   // 데이터가 없으면 다음 미들웨어로 넘김
   if (!res.locals.data) return next();
 
+  const { userId, cardArray, ask, cardAnswerArray, answer } = res.locals.data;
+
+
+
+
+}
   
 
 module.exports = savePrompt;
