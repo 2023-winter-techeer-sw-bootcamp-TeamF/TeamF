@@ -2,6 +2,7 @@ import Navbar from "../component/Navbar";
 import styled from "styled-components";
 import Background from "../assets/Background.png";
 import Moneyfortuneimg from "../assets/MoneyFortune.png";
+import { Link } from "react-router-dom";
 
 const BackgroundColor = styled.div`
   background: #000;
@@ -62,11 +63,11 @@ const Profile = styled.img`
 
 const ChatBox = styled.div`
   width: 39.625rem;
-  height: 20.25rem;
+  height: 13.25rem;
   flex-shrink: 0;
   border-radius: 0rem 1.25rem 1.25rem 1.25rem;
   border: 0.0625rem solid #ecb973;
-  transform: translate(32%, -198%);
+  transform: translate(32%, -300%);
   padding: 1.375rem;
 `;
 
@@ -79,7 +80,7 @@ const Tellme = styled.p`
   line-height: normal;
   text-align: left;
   overflow-y: scroll;
-  height: 17rem;
+  height: 96%;
   padding-right: 1rem;
   line-height: 1.5;
   &::-webkit-scrollbar {
@@ -141,6 +142,42 @@ const Reply = styled.textarea`
   }
 `;
 
+const Profile2 = styled.img` // 왜 얘만 여깄음
+  width: 4rem;
+  height: 3.9375rem;
+  flex-shrink: 0;
+  border-radius: 9.375rem;
+  position: absolute;
+  top: 104%;
+  left: 50%;
+  transform: translate(-811%, -441%);
+`;
+
+const NextBox = styled.div`
+  width: 14.6875rem;
+  height: 5rem;
+  border-radius: 0rem 1.25rem 1.25rem 1.25rem;
+  border: 1px solid #ecb973;
+  background: rgba(236, 185, 115, 0);
+  transform: translate(85%, -689%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const NextText = styled.a`
+  color: #ecb973;
+  text-align: center;
+  font-family: Inter;
+  font-size: 1.4375rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  text-decoration-line: underline;
+  text-transform: capitalize;
+  cursor: pointer;
+`;
+
 const MoneyFortune = () => {
   return (
     <BackgroundColor>
@@ -168,6 +205,12 @@ const MoneyFortune = () => {
           <ReplyBox>
             <Reply placeholder="이곳에 고민을 적어주세요"></Reply>
           </ReplyBox>
+          <Profile2 src={Moneyfortuneimg}></Profile2>
+          <NextBox>
+            <Link to="/cardselect">
+              <NextText>카드 뽑으러 가기</NextText>
+            </Link>
+          </NextBox>
         </BackgroundWrapper>
       </Inside>
     </BackgroundColor>

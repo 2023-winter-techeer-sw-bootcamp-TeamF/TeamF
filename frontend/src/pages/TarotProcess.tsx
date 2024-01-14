@@ -5,7 +5,7 @@ import TaroEx1 from "../assets/TaroEx1.png";
 import TaroEx2 from "../assets/TaroEx2.png";
 import TaroEx3 from "../assets/TaroEx3.png";
 import TodayFortune from "../assets/TodayFortune.png";
-import NextButton from "../assets/NextButton.png";
+import NextButton from "../assets/NextBtn.png";
 import { Link } from "react-router-dom";
 const Background = styled.div`
   width: 100vw;
@@ -91,10 +91,10 @@ const Chat = styled.p`
 const NextBtn = styled.button`
   border: none;
   background: none;
-  width: 4.25rem;
-  height: 3.75rem;
+  width: 5.625rem;
+  height: 5.125rem;
   position: absolute;
-  right: 8rem;
+  right: 6rem;
   bottom: 7rem;
   cursor: pointer;
 `;
