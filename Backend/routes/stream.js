@@ -102,7 +102,8 @@ router.post('/', async (req, res, next) => {
       if (chunk['choices'][0]['delta']['content']) {
         console.log(chunk['choices'][0]['delta']['content']);
         receivedMessage.push(chunk.choices[0]?.delta?.content || '');
-        const message = streamJson.parse(chunk.choices[0]?.delta?.content || '')
+        //const message = streamJson.parse(chunk.choices[0]?.delta?.content || '')
+        const message = streamJson.parseByIndex(chunk.choices[0]?.delta?.content || '', 3)
         recv.push(message);
         if(message != '')
             io.to(socketId).emit('message', message);
@@ -126,6 +127,7 @@ router.post('/', async (req, res, next) => {
     console.log(error);
   }
 
+    next();
 
 },commonResponse);
 

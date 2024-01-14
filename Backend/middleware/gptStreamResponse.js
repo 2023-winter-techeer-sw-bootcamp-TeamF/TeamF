@@ -42,8 +42,6 @@ const gptClientDisconnectHandler = async (socket, next) => {
     gptclientConnectionList.delete(userId)
 
     console.log('client disconnected:', userId);
-
-    next();
 }
 
 const gptClientConnectedHandler = async (socket, next) => {
