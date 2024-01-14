@@ -37,7 +37,6 @@ const Card = styled.div`
   background: #e9e5da;
   display: flex;
   justify-content: center;
-  cursor: pointer;
 `;
 
 const CardLine1 = styled.div`
@@ -102,7 +101,7 @@ const CardText = styled.p`
 const UserName = styled.p`
   color: #b88150;
   text-align: center;
-  font-family: "맑은 고딕";
+  font-family: "Italiana", sans-serif;
   font-size: 1.1875rem;
   font-style: normal;
   font-weight: 400;
@@ -111,6 +110,7 @@ const UserName = styled.p`
 
   letter-spacing: 0.08313rem;
   text-transform: uppercase;
+  margin-top: 0.4rem;
 `;
 
 const Cards = styled.div`
