@@ -16,7 +16,7 @@ router.post('/', async (req, res, next) => {
         description: 'GPT API 요청 성공',
         schema: {
             json: {
-
+                userId: 'yunki',
                 card1: 'Ace of Wands',
                 card2: 'Ace of Cups',
                 card3: 'Ace of Swords',
@@ -38,6 +38,16 @@ router.post('/', async (req, res, next) => {
             error: ''
         }
     } 
+    # swagger.parameters['userId'] = {
+        in: 'query',
+        description: '유저 아이디',
+        required: true,
+        type: 'string',
+        example: 'yunki',
+        schema: {
+            userId: 'yunki'
+        }
+    }
     #swagger.parameters['cards'] = {
         in: 'query',
         description: '카드 배열',
@@ -59,9 +69,8 @@ router.post('/', async (req, res, next) => {
         }
     }
     */
-    const { cards, ask } = req.query;
+    const { userId, cards, ask } = req.query;
     const io = req.app.get('io'); // app 객체에 저장된 io 객체를 가져옴
-    const userId = '123'; // 임시로 사용자 ID를 지정
     const socketId = await gptStreamResponse.getSocketId(userId);
     console.log('socketId : ' + socketId);
 
@@ -78,11 +87,9 @@ router.post('/', async (req, res, next) => {
     let recv = [];
     let messages = new GptMessage();
 
-    const fs = require('fs');
-    const text = fs.readFileSync('./routes/test/test.txt', 'utf8');
-
     messages.addSystemMessage('JSON 형태로 데이터를 보내줘.');
-    messages.addUserMessage(text);
+    //messages.addUserMessage();
+    messages.addUserMessage(ask);
     //messages.addUserMessage(cardsArray.join('\n'));
 
     // socket.io를 연결
