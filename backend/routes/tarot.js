@@ -58,15 +58,17 @@ router.get('/guide', async (req, res, next) => {
         return next();
     }
 
-    // 운 카테고리 Table에서 가이드라인 내용 조회
+    // DB 연결
+    const connection = db.getConnection();
 
     // 쿼리가 성공하면 resolve를 호출하여 결과를 반환하고, 실패하면 reject를 호출하여 에러를 반환
     const getLuckList = (luckType, luckOpt) => {
         return new Promise((resolve, reject) => {
+            // 운 카테고리 Table에서 가이드라인 내용 조회
             const query = "SELECT * FROM luck_list WHERE luck = ? AND opt = ?";
             connection.query(query, [luckType, luckOpt], (error, results, fields) => {
                 if (error) {
-                    reject({ message: 'DB 조회 오류', error: '운 카테고리 Table에서 데이터 조회 중 오류 발생' });
+                    reject(error);
                 } else {
                     resolve(results);
                 }
@@ -87,11 +89,9 @@ router.get('/guide', async (req, res, next) => {
             next();
         } else {
             res.status(500).json({ message: 'DB 조회 오류', error: '운 카테고리 Table에서 데이터 조회 중 오류 발생' });
-            return next();
         }
     } catch (error) {
-        res.status(500).json({ message: 'DB 조회 오류', error: '운 카테고리 Table에서 데이터 조회 중 오류 발생' });
-        return next();
+        res.status(500).json({ message: 'DB 연결 오류', error: '쿼리 실행 실패' });
     }
 
 }, commonResponse); // commonResponse 미들웨어를 체인으로 추가
