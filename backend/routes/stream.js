@@ -12,11 +12,11 @@ router.post('/', async (req, res, next) => {
     #swagger.tags = ['Stream']
     #swagger.summary = "타로 결과 GPT 요청"
     #swagger.description = '타로 결과를 API에 요청하고 결과를 반환함'
-    #swagger.responses[200] = {
+    #swagger.responses[200] = { 
         description: 'GPT API 요청 성공',
         schema: {
             json: {
-                
+
                 card1: 'Ace of Wands',
                 card2: 'Ace of Cups',
                 card3: 'Ace of Swords',
