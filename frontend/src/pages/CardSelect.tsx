@@ -9,6 +9,7 @@ import BackOfCard from "../assets/BackOfCard.png";
 import NextButton from "../assets/NextBtn.png";
 import { motion, AnimatePresence } from "framer-motion";
 import { chunkArray, shuffleArray } from "../component/ShuffleArray";
+import axios from "axios";
 
 const BackgroundColor = styled.div`
   background: #000;
@@ -156,23 +157,38 @@ const CardSelect = () => {
     setCount((prev) => (prev === 0 ? 3 : prev - 1));
     setBack(true);
   };
+  const getImage = async (card: number) => {
+    console.log(card);
+    try {
+      const response = await axios.post("/tarot/card/info/", {
+        card,
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const consoleIndex1 = (index: number, count: number) => {
-    alert(chunkNumber[count][index]);
+    console.log(chunkNumber[count][index]);
+    getImage(chunkNumber[count][index]);
     chunkNumber[count].splice(index, 1);
     setNumberOfCards1((prev) => prev - 1);
   };
   const consoleIndex2 = (index: number, count: number) => {
-    alert(chunkNumber[count][index]);
+    console.log(chunkNumber[count][index]);
+    getImage(chunkNumber[count][index]);
     chunkNumber[count].splice(index, 1);
     setNumberOfCards2((prev) => prev - 1);
   };
   const consoleIndex3 = (index: number, count: number) => {
-    alert(chunkNumber[count][index]);
+    console.log(chunkNumber[count][index]);
+    getImage(chunkNumber[count][index]);
     chunkNumber[count].splice(index, 1);
     setNumberOfCards3((prev) => prev - 1);
   };
   const consoleIndex4 = (index: number, count: number) => {
-    alert(chunkNumber[count][index]);
+    console.log(chunkNumber[count][index]);
+    getImage(chunkNumber[count][index]);
     chunkNumber[count].splice(index, 1);
     setNumberOfCardsDelete((prev) => prev - 1);
   };

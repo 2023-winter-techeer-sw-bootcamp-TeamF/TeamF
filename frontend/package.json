@@ -11,7 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "axois": "^0.0.1-security",
+    "axios": "^1.6.5",
     "framer-motion": "^10.18.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
