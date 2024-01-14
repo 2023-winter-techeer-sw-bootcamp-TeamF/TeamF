@@ -25,7 +25,7 @@
           "Tarot"
         ],
         "summary": "가이드라인 불러오기",
-        "description": "운 종류와 뽑는 사람 수를 전달하면 가이드라인과 타로 마스터 이름을 반환함",
+        "description": "운 종류와 뽑는 사람 수를 전달하면 가이드라인(content)과 타로 마스터 이름(master_name)을 반환함",
         "parameters": [
           {
             "name": "luckType",
@@ -94,13 +94,13 @@
             "description": "Not Found"
           },
           "500": {
-            "description": "DB 저장 과정에서 오류 발생 시의 응답",
+            "description": "DB 조회 과정에서 오류 발생 시의 응답",
             "schema": {
               "type": "object",
               "properties": {
                 "message": {
                   "type": "string",
-                  "example": "DB 저장 오류"
+                  "example": "DB 조회 오류"
                 },
                 "error": {
                   "type": "string",
