@@ -6,105 +6,76 @@ const router = express.Router();
 
 router.get('/guide', (req, res, next) => {
     // Swagger 문서화
-    // #swagger.summary = "가이드라인 불러오기"
-    // #swagger.description = '가이드라인 불러오기'
+    // #swagger.summary = '가이드라인 불러오기'
+    // #swagger.description = '운 종류와 뽑는 사람 수를 전달하면 가이드라인과 타로 마스터 이름을 반환함'
     // #swagger.tags = ['Tarot']
-    /*  #swagger.responses[200] = {
-             description: '테스트 값 조회 성공',}
-     } */
-    /*  #swagger.responses[400] = {
-              description: '잘못된 요청',
-      } */
     /* #swagger.parameters['luckType'] = {
            in: 'query',
            description: '운 종류',
            required: true,
            type: 'string',
-           example: '애정운',
+           example: '오늘의 운세, 애정운, 우정운, 재물운, 소망운',
            value: 'test_luck"
-   } */
+        } */
     /* #swagger.parameters['luckOpt'] = {
             in: 'query',
-            description: '멀티 여부',
+            description: '카드를 뽑는 사람의 수',
             required: true,
             type: 'integer',
-            example: '0',
+            example: '0(혼자 보는 경우), 1(같이 보는 경우)',
             value: '0'
+        } */
+    /*  #swagger.responses[200] = {
+            description: '테스트 값 조회 성공',
+            schema: {
+            message: "가이드라인과 타로 마스터 이름 불러오기 성공",
+            data: {
+                "master_name": "test_master_name",
+                "content": "test_content"
+                }
+            }
+        } */
+    /*  #swagger.responses[400] = {
+            description: '잘못된 요청',
+            schema: {
+            message: '운 종류나 뽑는 사람 수가 없습니다.'
+            }
     } */
+    /*  #swagger.responses[500] = {
+             description: 'DB 저장 과정에서 오류 발생 시의 응답',
+             schema: {
+                "message": "DB 저장 오류",
+                "error": "운 카테고리 Table에서 데이터 조회 중 오류 발생"
+                }
+        } */
+    
 
     const { luckType, luckOpt } = req.query;
+
+    if( !luckType || !luckOpt) {
+        res.locals.status = 400;
+        res.locals.data = { message: '운 종류나 뽑는 사람 수가 없습니다.' };
+        return next();
+    }
 
     // 운 카테고리 Table에서 가이드라인 내용 조회
     const connection = db.getConnection();
     const query = "SELECT * FROM luck_list WHERE luck = ? AND opt = ?";
-    console.log(query);
-    connection.query(query, [luckType, luckOpt], (error, guide_line_results, fields) => {
+    connection.query(query, [luckType, luckOpt], (error, results, fields) => {
         if (error) {
             res.locals.status = 500;
-            res.locals.data = { message: '운 카테고리 Table에서 데이터 조회 중 오류 발생', error };
+            res.locals.data = { message: 'DB 저장 오류', error };
             return next();
         }
 
-        res.locals.data = { guide_line_results };
+        // 조회 성공 시, 마스터 이름과 가이드라인 내용 전달
+        res.locals.data = { 
+            master_name : results[0].master_name,
+            content : results[0].content
+        };
         next();
     });
 }, commonResponse); // commonResponse 미들웨어를 체인으로 추가
-
-router.get('/poll/create', (req, res, next) => {
-    // #swagger.tags = ['Tarot']
-    // #swagger.summary = "타로 시작 시 Poll(임시저장) → 타로 시작 할 경우 뽑은 카드와 결과 저장을 구별할 Poll Table"
-    // #swagger.description = '뽑은 카드 결과 저장 및 총 결과 저장 시 사용됨'
-    /* #swagger.parameters['userid'] = {
-           in: 'query',
-           description: '사용자의 ID',
-           required: true,
-           type: 'string',
-           example: 'Test ID = 1',
-           value: '1',
-    } */
-    const { userid } = req.query;
-
-    if (!userid) {
-        /* #swagger.responses[400] = {
-            description: '요청된 사용자 ID가 누락되었을 때의 응답',
-            schema: { message: '유저 아이디 누락' }
-        } */
-        res.locals.status = 400;
-        res.locals.data = { message: "유저 아이디 누락" };
-        res.locals.success = false;
-        return next();
-    }
-
-    // 데이터베이스 연결 및 쿼리 실행
-    const connection = db.getConnection();
-    const query = 'INSERT INTO poll (user_id) VALUES (?)';
-
-    connection.query(query, [userid], (error, results, fields) => {
-        if (error) {
-            /* #swagger.responses[500] = {
-                description: 'DB 저장 과정에서 오류 발생 시의 응답',
-                schema: { message: 'DB 저장 오류', error: '에러 내용' }
-            } */
-            console.log(error);  // 오류의 상세한 내용을 로그로 출력
-        res.status(500).send({ message: 'DB 저장 오류', error: error.message });
-        } else {
-            res.locals.data = { message: 'Poll ID 생성 완료', pollId: results.insertId };
-            next();
-        }
-    });
-    /* #swagger.responses[200] = {
-        description: 'Poll ID가 성공적으로 생성되었을 때의 응답',
-        schema: {
-            status: "success",
-            statusCode: 200,
-            data: {
-                message: 'Poll ID 생성 완료',
-                pollId: 0 
-            }
-        }
-    } */
-});
-
 
 router.post('/card/info', async (req, res, next) => {
     // #swagger.tags = ['Tarot']
@@ -125,9 +96,9 @@ router.post('/card/info', async (req, res, next) => {
             schema: { message: '카드 번호가 없습니다.' }
         } */
     /*  #swagger.responses[500] = {
-            description: '카드 정보 불러오기 실패',
+            description: 'S3 관련 오류 발생 시의 응답',
             schema: { message: '카드 정보를 가져오는데 실패했습니다.' }
-    } */
+        } */
     /* #swagger.parameters['card'] = { 
         in: 'query',
         description: '카드 번호', 

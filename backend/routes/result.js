@@ -150,47 +150,44 @@ router.post('/stream', async (req, res, next) => {
     next();
 }, commonResponse); // commonResponse 미들웨어를 체인으로 추가
 
+
 router.post('/save', async (req, res, next) => {
-    // Swagger 문서화
+    // #swagger.tags = ['Result']
+    // #swagger.security = [{ "Bearer": [] }]
     // #swagger.summary = "종합 결과 저장"
     // #swagger.description = '사용자의 질문과 관련된 타로 종합 결과 및 뽑은 카드 정보를 저장합니다. 사용자의 운(luck)에 따라 카드의 수가 결정됩니다.'
-    // #swagger.tags = ['Result']
     /* #swagger.parameters['body'] = {
         in: 'body',
         description: '타로 결과 및 뽑은 카드 정보 저장을 위한 요청값',
         required: true,
         schema: {
-            $poll_id: 'example',
-            $question: '사용자 질문',
-            $result_explanation: '종합 결과',
-            $master_name: '마스터 이름',
-            $luck: 'test_luck',
-            $cards: [
+            poll_id: '1',
+            question: '사용자 질문',
+            result_explanation: '종합 결과',
+            master_name: '마스터 이름',
+            luck: 'test_luck',
+            cards: [
                 {
-                    'card_image_url': 'url1',
-                    'card_explanation': 'explanation1',
-                    'card_eng_name': 'eng1',
-                    'card_kor_name': 'kor1'
-                },
-                 {
-                    'card_image_url': "url2",
-                    'card_explanation': "explanation2",
-                    'card_eng_name': "eng2",
-                    'card_kor_name': "kor2"
+                    card_image_url: 'url1',
+                    card_explanation: 'explanation1',
+                    card_eng_name: 'eng1',
+                    card_kor_name: 'kor1'
                 },
                 {
-                    'card_image_url': "url3",
-                    'card_explanation': "explanation3",
-                    'card_eng_name': "eng3",
-                    'card_kor_name': "kor3"
+                    card_image_url: 'url2',
+                    card_explanation: 'explanation2',
+                    card_eng_name: 'eng2',
+                    card_kor_name: 'kor2'
+                },
+                {
+                    card_image_url: 'url3',
+                    card_explanation: 'explanation3',
+                    card_eng_name: 'eng3',
+                    card_kor_name: 'kor3'
                 }
             ]
         }
     } */
-    // #swagger.responses[200] = { description: "타로 종합 결과와 카드 정보가 성공적으로 저장됨", schema: { $ref: "#/definitions/SaveResponse" } }
-    // #swagger.responses[400] = { description: "잘못된 요청, 필수 파라미터 누락" }
-    // #swagger.responses[500] = { description: "서버 내부 오류" }
-
     const { poll_id, question, result_explanation, master_name, luck, cards } = req.body;
 
     // 누락 여부 체크
@@ -210,6 +207,10 @@ router.post('/save', async (req, res, next) => {
 
     if (missingParameter) {
         res.status(400).json({ message: missingParameter });
+        /*  #swagger.responses[400] = {
+            description: '잘못된 요청',
+            schema: { message: '데이터가 유효하지 않습니다. (널값, 누락 등)' }
+        } */
         return;
     }
 
@@ -231,8 +232,11 @@ router.post('/save', async (req, res, next) => {
     let cardNum = 0;
     try {
         cardNum = await getCardNum;
+        if (cards.length !== cardNum) {
+            throw new Error(`카드 수가 일치하지 않습니다. 기대되는 카드 수: ${cardNum}, 요청된 카드 수: ${cards.length}`);
+        }
     } catch (error) {
-        res.status(500).json({ message: '데이터베이스 오류', error });
+        res.status(400).json({ message: error.message });
         return;
     }
 
@@ -266,6 +270,25 @@ router.post('/save', async (req, res, next) => {
         });
     });
 
+        /* #swagger.responses[200] = {
+        description: "타로 종합 결과, 뽑은 카드별 정보 저장 성공",
+        schema: {
+            message: "타로 종합 결과, 뽑은 카드별 정보 저장 성공",
+            resultId: 26,
+            cardIds: [1, 2, 3]
+        }
+    } */
+
+    /* #swagger.responses[400] = {
+        description: '잘못된 요청',
+        schema: { message: '데이터가 유효하지 않습니다. (널값, 누락 등)' }
+    } */
+
+    /* #swagger.responses[500] = {
+        description: '내부 서버 오류로 인한 데이터 처리 실패.',
+        schema: { message: 'DB 오류' }
+    } */
+
     // 모든 프로미스 처리
     try {
         let resultId = await insertResult;
@@ -280,5 +303,6 @@ router.post('/save', async (req, res, next) => {
         res.status(500).json({ message: '데이터베이스 오류', error });
     }
 });
+
 
 module.exports = router;

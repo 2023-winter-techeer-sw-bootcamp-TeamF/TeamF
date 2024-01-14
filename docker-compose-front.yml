@@ -6,15 +6,13 @@ services:
     ports:
       - "3001:3000"
     environment:
-      - AWS_ACCESS_KEY_ID=AKIA4VFKZCU3VLHZKPVJ
-
-      - AWS_SECRET_ACCESS_KEY=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
-
+      - AWS_ACCESS_KEY_ID=AKIA4VFKZCU33SOXB4XC
+      - AWS_SECRET_ACCESS_KEY=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
       - AWS_REGION=ap-northeast-2
     # volumes:
     #   - ./backend:/usr/src/app
 
-  frontend:
-    build: ./frontend
-    ports:
-      - "5000:5000"
+  # frontend:
+  #   build: ./frontend
+  #   ports:
+  #     - "5000:5000"
