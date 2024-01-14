@@ -1,10 +1,12 @@
-const express = require('express');
-const commonResponse = require('../middleware/commonResponse');
-const db = require('../mysql/database.js');
-const s3 = require('../aws/awsS3');
+const express = require("express");
+const commonResponse = require("../middleware/commonResponse.js");
+const db = require("../mysql/database.js");
+const s3 = require("../aws/awsS3.js");
 const router = express.Router();
 
-router.get('/guide', async (req, res, next) => {
+router.get(
+  "/guide",
+  async (req, res, next) => {
     // Swagger 문서화
     // #swagger.summary = '가이드라인 불러오기'
     // #swagger.description = '운 종류와 뽑는 사람 수를 전달하면 가이드라인(content)과 타로 마스터 이름(master_name)을 반환함'
@@ -48,14 +50,13 @@ router.get('/guide', async (req, res, next) => {
                 "error": "운 카테고리 Table에서 데이터 조회 중 오류 발생"
                 }
         } */
-    
 
     const { luckType, luckOpt } = req.query;
 
-    if( !luckType || !luckOpt) {
-        res.locals.status = 400;
-        res.locals.data = { message: '운 종류나 뽑는 사람 수가 없습니다.' };
-        return next();
+    if (!luckType || !luckOpt) {
+      res.locals.status = 400;
+      res.locals.data = { message: "운 종류나 뽑는 사람 수가 없습니다." };
+      return next();
     }
 
     // DB 연결
@@ -63,40 +64,54 @@ router.get('/guide', async (req, res, next) => {
 
     // 쿼리가 성공하면 resolve를 호출하여 결과를 반환하고, 실패하면 reject를 호출하여 에러를 반환
     const getLuckList = (luckType, luckOpt) => {
-        return new Promise((resolve, reject) => {
-            // 운 카테고리 Table에서 가이드라인 내용 조회
-            const query = "SELECT * FROM luck_list WHERE luck = ? AND opt = ?";
-            connection.query(query, [luckType, luckOpt], (error, results, fields) => {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve(results);
-                }
-            });
-        });
+      return new Promise((resolve, reject) => {
+        // 운 카테고리 Table에서 가이드라인 내용 조회
+        const query = "SELECT * FROM luck_list WHERE luck = ? AND opt = ?";
+        connection.query(
+          query,
+          [luckType, luckOpt],
+          (error, results, fields) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(results);
+            }
+          }
+        );
+      });
     };
-    
+
     // async/await을 사용하여 비동기 처리
     try {
-        const results = await getLuckList(luckType, luckOpt);
-        
-        if (results.length > 0) {
-            // 조회 성공 시, 타로 마스터 이름과 가이드라인 내용 전달
-            res.locals.data = { 
-                master_name: results[0].master_name,
-                content: results[0].content
-            };
-            next();
-        } else {
-            res.status(500).json({ message: 'DB 조회 오류', error: '운 카테고리 Table에서 데이터 조회 중 오류 발생' });
-        }
+      const results = await getLuckList(luckType, luckOpt);
+
+      if (results.length > 0) {
+        // 조회 성공 시, 타로 마스터 이름과 가이드라인 내용 전달
+        res.locals.data = {
+          master_name: results[0].master_name,
+          content: results[0].content,
+        };
+        next();
+      } else {
+        res
+          .status(500)
+          .json({
+            message: "DB 조회 오류",
+            error: "운 카테고리 Table에서 데이터 조회 중 오류 발생",
+          });
+      }
     } catch (error) {
-        res.status(500).json({ message: 'DB 연결 오류', error: '쿼리 실행 실패' });
+      res
+        .status(500)
+        .json({ message: "DB 연결 오류", error: "쿼리 실행 실패" });
     }
+  },
+  commonResponse
+); // commonResponse 미들웨어를 체인으로 추가
 
-}, commonResponse); // commonResponse 미들웨어를 체인으로 추가
-
-router.post('/card/info', async (req, res, next) => {
+router.post(
+  "/card/info",
+  async (req, res, next) => {
     // #swagger.tags = ['Tarot']
     // #swagger.summary = "카드 정보 조회"
     // #swagger.description = '카드 정보를 정수형으로 전달하면 해당 카드의 정보를 반환함'
@@ -133,15 +148,15 @@ router.post('/card/info', async (req, res, next) => {
     let dataObject = null;
     const cardNum = req.query.card; // 카드 번호 저장
     if (!cardNum) {
-        res.locals.status = 400;
-        res.locals.data = { message: '카드 넘버가 없습니다.' };
-        return next(); // 오류 발생 → commonResponse 미들웨어로 이동
+      res.locals.status = 400;
+      res.locals.data = { message: "카드 넘버가 없습니다." };
+      return next(); // 오류 발생 → commonResponse 미들웨어로 이동
     }
 
     if (cardNum < 1 || cardNum > 78) {
-        res.locals.status = 400;
-        res.locals.data = { message: '카드 넘버가 잘못되었습니다.' };
-        return next(); // 오류 발생 → commonResponse 미들웨어로 이동
+      res.locals.status = 400;
+      res.locals.data = { message: "카드 넘버가 잘못되었습니다." };
+      return next(); // 오류 발생 → commonResponse 미들웨어로 이동
     }
     try {
         const cardIndex = await s3.findIndex(cardNum); // 카드 번호를 통해 S3에서 파일의 인덱스를 가져옴
@@ -151,19 +166,21 @@ router.post('/card/info', async (req, res, next) => {
         console.log(result);
 
     } catch (error) {
-        console.log(error);
-        res.locals.status = 500;
-        res.locals.data = { message: '카드 정보를 가져오는데 실패했습니다.' };
-        return next(); // 오류 발생 → commonResponse 미들웨어로 이동
+      console.log(error);
+      res.locals.status = 500;
+      res.locals.data = { message: "카드 정보를 가져오는데 실패했습니다." };
+      return next(); // 오류 발생 → commonResponse 미들웨어로 이동
     }
     res.locals.data = {
-        message: 'create image url successfully',
-        name: dataObject.name,
-        english: dataObject.english,
-        mean: dataObject.mean,
-        image_url: result
+      message: "create image url successfully",
+      name: dataObject.name,
+      english: dataObject.english,
+      mean: dataObject.mean,
+      image_url: result,
     };
     next();
-}, commonResponse); // commonResponse 미들웨어를 체인으로 추가
+  },
+  commonResponse
+); // commonResponse 미들웨어를 체인으로 추가
 
 module.exports = router;
