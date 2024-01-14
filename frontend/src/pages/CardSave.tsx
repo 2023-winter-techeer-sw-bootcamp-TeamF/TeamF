@@ -37,7 +37,6 @@ const Card = styled.div`
   background: #e9e5da;
   display: flex;
   justify-content: center;
-  cursor: pointer;
 `;
 
 const CardLine1 = styled.div`
@@ -111,6 +110,7 @@ const UserName = styled.p`
 
   letter-spacing: 0.08313rem;
   text-transform: uppercase;
+  margin-top: 0.4rem;
 `;
 
 const Cards = styled.div`

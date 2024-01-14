@@ -4,10 +4,10 @@ const db = require('../mysql/database.js');
 const s3 = require('../aws/awsS3');
 const router = express.Router();
 
-router.get('/guide', (req, res, next) => {
+router.get('/guide', async (req, res, next) => {
     // Swagger 문서화
     // #swagger.summary = '가이드라인 불러오기'
-    // #swagger.description = '운 종류와 뽑는 사람 수를 전달하면 가이드라인과 타로 마스터 이름을 반환함'
+    // #swagger.description = '운 종류와 뽑는 사람 수를 전달하면 가이드라인(content)과 타로 마스터 이름(master_name)을 반환함'
     // #swagger.tags = ['Tarot']
     /* #swagger.parameters['luckType'] = {
            in: 'query',
@@ -42,9 +42,9 @@ router.get('/guide', (req, res, next) => {
             }
     } */
     /*  #swagger.responses[500] = {
-             description: 'DB 저장 과정에서 오류 발생 시의 응답',
+             description: 'DB 조회 과정에서 오류 발생 시의 응답',
              schema: {
-                "message": "DB 저장 오류",
+                "message": "DB 조회 오류",
                 "error": "운 카테고리 Table에서 데이터 조회 중 오류 발생"
                 }
         } */
@@ -58,23 +58,42 @@ router.get('/guide', (req, res, next) => {
         return next();
     }
 
-    // 운 카테고리 Table에서 가이드라인 내용 조회
+    // DB 연결
     const connection = db.getConnection();
-    const query = "SELECT * FROM luck_list WHERE luck = ? AND opt = ?";
-    connection.query(query, [luckType, luckOpt], (error, results, fields) => {
-        if (error) {
-            res.locals.status = 500;
-            res.locals.data = { message: 'DB 저장 오류', error };
-            return next();
-        }
 
-        // 조회 성공 시, 마스터 이름과 가이드라인 내용 전달
-        res.locals.data = { 
-            master_name : results[0].master_name,
-            content : results[0].content
-        };
-        next();
-    });
+    // 쿼리가 성공하면 resolve를 호출하여 결과를 반환하고, 실패하면 reject를 호출하여 에러를 반환
+    const getLuckList = (luckType, luckOpt) => {
+        return new Promise((resolve, reject) => {
+            // 운 카테고리 Table에서 가이드라인 내용 조회
+            const query = "SELECT * FROM luck_list WHERE luck = ? AND opt = ?";
+            connection.query(query, [luckType, luckOpt], (error, results, fields) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(results);
+                }
+            });
+        });
+    };
+    
+    // async/await을 사용하여 비동기 처리
+    try {
+        const results = await getLuckList(luckType, luckOpt);
+        
+        if (results.length > 0) {
+            // 조회 성공 시, 타로 마스터 이름과 가이드라인 내용 전달
+            res.locals.data = { 
+                master_name: results[0].master_name,
+                content: results[0].content
+            };
+            next();
+        } else {
+            res.status(500).json({ message: 'DB 조회 오류', error: '운 카테고리 Table에서 데이터 조회 중 오류 발생' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'DB 연결 오류', error: '쿼리 실행 실패' });
+    }
+
 }, commonResponse); // commonResponse 미들웨어를 체인으로 추가
 
 router.post('/card/info', async (req, res, next) => {
@@ -125,12 +144,11 @@ router.post('/card/info', async (req, res, next) => {
         return next(); // 오류 발생 → commonResponse 미들웨어로 이동
     }
     try {
-        const bucketList = await s3.getbucketList(); // 연결된 S3에서 파일을 리스트로 가져옴
-        const index = await s3.findIndex(bucketList, cardNum); // 카드 번호를 통해 S3에서 파일의 인덱스를 가져옴
-        const fileName = await s3.getObjectName(index); // 파일명을 가져옴
-        const onlyFileName = await s3.getObjectNames(bucketList, index); // 파일명을 가져옴
-        dataObject = s3.getDataObject(onlyFileName); // 파일명을 통해 데이터를 가져옴
-        result = await s3.getS3ImageURL(fileName); // 파일명을 통해 S3에서 이미지 주소를 가져옴
+        const index = await s3.findIndex(cardNum); // 카드 번호를 통해 S3에서 파일의 인덱스를 가져옴
+        console.log('index : ' + index); // '0
+        result = await s3.getS3ImageURL(index); // 파일명을 통해 S3에서 이미지 주소를 가져옴
+        dataObject = await s3.getDataObject(index); // 파일명을 통해 데이터를 가져옴
+        console.log(result);
 
     } catch (error) {
         console.log(error);
@@ -139,7 +157,7 @@ router.post('/card/info', async (req, res, next) => {
         return next(); // 오류 발생 → commonResponse 미들웨어로 이동
     }
     res.locals.data = {
-        message: 'creat image url successfully',
+        message: 'create image url successfully',
         name: dataObject.name,
         english: dataObject.english,
         mean: dataObject.mean,
