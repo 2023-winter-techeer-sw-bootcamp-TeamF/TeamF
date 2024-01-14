@@ -161,7 +161,7 @@ const FlipcardInner = styled.div<FlipcardInnerProps>`
   position: relative;
   width: 12.375rem;
   height: 20.75rem;
-  text-align: center;
+  text-align: left;
   transition: transform 0.6s;
   transform-style: preserve-3d;
   cursor: pointer;
@@ -172,7 +172,7 @@ interface FlipcardInnerProps {
   isFlipped: boolean;
 }
 
-const CardText = styled.div`
+const CardText = styled.span`
   position: absolute;
   top: 37%;
   left: 50%;
@@ -185,9 +185,24 @@ const CardText = styled.div`
   width: 9rem;
   line-height: 1.3;
   margin-top: 0.6rem;
+  display: inline;
 `;
-
-const Bold = styled.p`
+const CardTextToday = styled.span`
+  position: absolute;
+  top: 34.5%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  color: #fffbf2;
+  font-family: "맑은 고딕";
+  font-size: 0.86rem;
+  width: 9rem;
+  line-height: 1.3;
+  margin-top: 0.6rem;
+  display: inline;
+`;
+const Bold = styled.span`
   color: #fffbf2;
   font-family: Inter;
   font-size: 0.9375rem;
@@ -196,6 +211,21 @@ const Bold = styled.p`
   line-height: normal;
 `;
 const SoloBtn = styled.div`
+  width: 8.4375rem;
+  height: 1.5rem;
+  flex-shrink: 0;
+  border-radius: 0.9375rem;
+  background: #fbecc6;
+  position: absolute;
+  top: 85%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+`;
+const SoloAboveBtn = styled.div`
   width: 8.4375rem;
   height: 1.5rem;
   flex-shrink: 0;
@@ -282,13 +312,17 @@ const FortuneSelect = () => {
                   </CardBox>
                   <FlipcardBackground>
                     <FlipCardImg src={FlipCard} />
-                    <CardText>
+                    <CardTextToday>
                       킹왕짱 마스터는 어쩌구, 저쩌구, 요따구 능력을 지닌 타로
-                      마스터에요. <Bold>오늘의 운세</Bold>는 타로 마스터와의
-                      고민 상담없이 바로 카드 선택이 진행돼요. 여러분의
+                      마스터에요.
+                      <br />
+                      <Bold>오늘의 운세</Bold>는 타로 마스터와의 고민 상담없이
+                      바로 카드 선택이 진행돼요.
+                      <br />
+                      여러분의
                       <Bold> 오늘의 운세</Bold>를 타로 카드와 함께 자세히
-                      분석해드릴게요.
-                    </CardText>
+                      분석해드릴게요
+                    </CardTextToday>
                     <Link to="/todayfortune">
                       <SoloBtn>
                         <SoloText>오늘의 운세 보러가기</SoloText>
@@ -309,15 +343,16 @@ const FortuneSelect = () => {
                     <FlipCardImg src={FlipCard} />
                     <CardText>
                       퀸왕짱 마스터는 어쩌구, 저쩌구, 요따구 능력을 지닌 타로
-                      마스터에요. <Bold>연애운</Bold>은 혼자 또는 두명이 함께
-                      카드를 선택할 수 있어요. 퀸왕짱 마스터에게 여러분의 고민을
-                      솔직하게 얘기해주신다면 타로 카드와 함께 자세히
-                      분석해드릴게요.
+                      마스터에요.
+                      <br />
+                      <Bold>연애운</Bold>은 혼자 또는 두명이 함께 카드를 선택할
+                      수 있어요. 퀸왕짱 마스터에게 여러분의 고민을 솔직하게
+                      얘기해주신다면 타로 카드와 함께 자세히 분석해드릴게요.
                     </CardText>
                     <Link to="/lovefortune">
-                      <SoloBtn>
+                      <SoloAboveBtn>
                         <SoloText>혼자 카드 선택하기</SoloText>
-                      </SoloBtn>
+                      </SoloAboveBtn>
                     </Link>
                     <Link to="/lovefortune">
                       <TogetherBtn>
@@ -339,15 +374,16 @@ const FortuneSelect = () => {
                     <FlipCardImg src={FlipCard} />
                     <CardText>
                       할매짱 마스터는 어쩌구, 저쩌구, 요따구 능력을 지닌 타로
-                      마스터에요. <Bold>우정운</Bold>은 혼자 또는 두명이 함께
-                      카드를 선택할 수 있어요. 퀸왕짱 마스터에게 여러분의 고민을
-                      솔직하게 얘기해주신다면 타로 카드와 함께 자세히
-                      분석해드릴게요.
+                      마스터에요.
+                      <br />
+                      <Bold>우정운</Bold>은 혼자 또는 두명이 함께 카드를 선택할
+                      수 있어요. 퀸왕짱 마스터에게 여러분의 고민을 솔직하게
+                      얘기해주신다면 타로 카드와 함께 자세히 분석해드릴게요.
                     </CardText>
                     <Link to="/friendship">
-                      <SoloBtn>
+                      <SoloAboveBtn>
                         <SoloText>혼자 카드 선택하기</SoloText>
-                      </SoloBtn>
+                      </SoloAboveBtn>
                     </Link>
                     <Link to="/friendship">
                       <TogetherBtn>
@@ -368,10 +404,11 @@ const FortuneSelect = () => {
                     <FlipCardImg src={FlipCard} />
                     <CardText>
                       할배짱 마스터는 어쩌구, 저쩌구, 요따구 능력을 지닌 타로
-                      마스터에요. <Bold>재물운</Bold>은 혼자 또는 두명이 함께
-                      카드를 선택할 수 있어요. 퀸왕짱 마스터에게 여러분의 고민을
-                      솔직하게 얘기해주신다면 타로 카드와 함께 자세히
-                      분석해드릴게요.
+                      마스터에요.
+                      <br />
+                      <Bold>재물운</Bold>은 혼자 또는 두명이 함께 카드를 선택할
+                      수 있어요. 퀸왕짱 마스터에게 여러분의 고민을 솔직하게
+                      얘기해주신다면 타로 카드와 함께 자세히 분석해드릴게요.
                     </CardText>
                     <Link to="/moneyfortune">
                       <SoloBtn>
@@ -392,10 +429,11 @@ const FortuneSelect = () => {
                     <FlipCardImg src={FlipCard} />
                     <CardText>
                       개굴짱 마스터는 어쩌구, 저쩌구, 요따구 능력을 지닌 타로
-                      마스터에요. <Bold>소망운</Bold>은 혼자 또는 두명이 함께
-                      카드를 선택할 수 있어요. 퀸왕짱 마스터에게 여러분의 고민을
-                      솔직하게 얘기해주신다면 타로 카드와 함께 자세히
-                      분석해드릴게요.
+                      마스터에요.
+                      <br />
+                      <Bold>소망운</Bold>은 혼자 또는 두명이 함께 카드를 선택할
+                      수 있어요. 퀸왕짱 마스터에게 여러분의 고민을 솔직하게
+                      얘기해주신다면 타로 카드와 함께 자세히 분석해드릴게요.
                     </CardText>
                     <Link to="/wishfortune">
                       <SoloBtn>
