@@ -1,7 +1,7 @@
 const express = require('express');
 const gptStreamResponse = require('../middleware/gptStreamResponse');
 const gpt = require('../chatgpt/api');
-const {toCardArray, toVerifyCardArray} = require('../card/toCardVaild');
+const {toVerifyCardArray} = require('../card/toCardVaild');
 const GptMessage = require('../chatgpt/message');
 const StreamJson = require('../chatgpt/streamJson');
 const commonResponse = require('../middleware/commonResponse');
