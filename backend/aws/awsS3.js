@@ -1,29 +1,37 @@
 const {
   S3Client,
-  ListObjectsV2Command,
-  GetObjectCommand,
+  ListObjectsV2Command
 } = require('@aws-sdk/client-s3');
-const { Console } = require('console');
-const { get } = require('http');
 
 const buckName = 'buckettarot';
-let bucketListStore = [];
+const fileNameListStore = new Array(78);
+const cardUrlList = new Array(78);
 let client = null;
 
 /**
  * s3Api 초기 설정을 위한 함수
+ * s3Client를 초기화하고 버킷안에 있는 객체의 리스트를 가져온다.
+ * 리스트를 가져오면서 파일명을 저장한다.
+ * @returns {void}
  */
 async function initializeS3() {
   if (client) throw new Error('이미 s3Api가 초기화 되어있습니다.');
   client = new S3Client();
   const commend = new ListObjectsV2Command({ Bucket: buckName, MaxKeys: 78 });
   const response = await client.send(commend);
+  let urlBuffer = new String();
+  let count = 0;
 
   for await (const object of response.Contents) {
-    bucketListStore.push(object.Key);
+    const fileName = object.Key; // 파일명 저장
+    fileNameListStore[count] = fileName.split('/')[1]; // 폴더명 제외 파일명 저장
+    urlBuffer = encodeURI(`https://${buckName}.s3.ap-northeast-2.amazonaws.com/${fileName}`); // url 인코딩
+    cardUrlList[count] = urlBuffer; // url 저장
+    count++;    
   }
 
-  if (bucketListStore.length === 0)
+  // 배열이 비어있으면 오류
+  if (fileNameListStore.length === 0)
     throw new Error('bucketList를 가져오지 못했습니다.');
 
   console.log('s3Api 초기화 완료');
@@ -46,30 +54,13 @@ function comfirmS3Client() {
 }
 
 /**
- * bucketList를 S3에서 가져오는 함수
- * @returns {string} bucketList - 버킷 리스트
- */
-async function getbucketList() {
-  comfirmS3Client();
-  let bucketList = [];
-  const commend = new ListObjectsV2Command({ Bucket: buckName, MaxKeys: 78 });
-  const response = await client.send(commend);
-
-  for await (const object of response.Contents) {
-    bucketList.push(object.Key.split('/')[1]);
-  }
-  return await bucketList;
-}
-
-/**
  * 카드의 번호를 가지고 인덱스를 찾는 함수
- * @param {list} bucketList - 버킷안 카드의 리스트
- * @param {int} number - 찾을 카드의 번호
+ * @param {int} cardNum - 찾을 카드의 번호
  * @returns 가장 먼저 찾은 인덱스 번호
  */
-async function findIndex(bucketList, number) {
-  return await bucketList.findIndex(
-    (element) => Number(element.split(',')[0]) === Number(number)
+function findIndex(cardNum) {
+  return  fileNameListStore.findIndex(
+    (element) => Number(element.split(',')[0]) === Number(cardNum)
   );
 }
 
@@ -79,43 +70,31 @@ async function findIndex(bucketList, number) {
  * @param {int} index - 찾을 카드의 인덱스
  * @returns 버킷안 파일명
  */
-function getObjectName(index) {
-  return bucketListStore[index];
-}
-
-/**
- * 버킷안에 있는 카드의 원래 파일명을 가져오는 함수 ex) 폴더명/파일명, 파일명
- * 폴더명이 제외된 파일명을 가져오는 함수
- * @param {int} index - 찾을 카드의 인덱스
- * @param {list} bucketList - 버킷안 카드의 리스트
- * @returns 버킷안 파일명
- */
-function getObjectNames(bucketList, index) {
-  return bucketList[index];
+function getOlnyFileName(index) {
+  comfirmS3Client();
+  return fileNameListStore[index];
 }
 
 /**
  * 버킷안에 있는 정보를 파일이름을 통해 가져와 파일의 주소를 반환하는 함수
- * @param {string} fileName - 파일이름
+ * @param {intger} index - 파일의 인덱스
  * @returns 파일의 주소
  */
-async function getS3ImageURL(fileName) {
+function getS3ImageURL(index) {
   comfirmS3Client();
-  let stringBuffer = '';
-  const commend = new GetObjectCommand({ Bucket: buckName, Key: fileName });
-  const response = await client.send(commend);
-  stringBuffer += await String(response.Body.socket.servername);
-  stringBuffer += await String(response.Body.req.path).split('?')[0];
-  return stringBuffer;
+  return cardUrlList[index];
 }
 
 /**
  * 파일명을 통해 데이터를 가져오는 함수
- * @param {string} fileName - 파일명만 있는 문자열
+ * @param {intger} index - 파일의 인덱스
  * @returns - 데이터를 담은 객체
  */
-function getDataObject(fileName) {
-  let data = [];
+function getDataObject(index) {
+  comfirmS3Client();
+  const data = [];
+  let fileName = getOlnyFileName(index);
+  console.log('fileName : ' + fileName);
   for (let str of fileName.split(',')) {
     data.push(str);
   }
@@ -130,10 +109,8 @@ function getDataObject(fileName) {
 module.exports = {
   initializeS3,
   getS3Client,
-  getbucketList,
   findIndex,
-  getObjectName,
-  getObjectNames,
+  getOlnyFileName,
   getS3ImageURL,
   getDataObject,
 };

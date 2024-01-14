@@ -34,7 +34,6 @@ const BackgroundColor = styled.div`
   background: #000;
   width: 100vw;
   height: 100vh;
-  padding-top: 0.625rem;
 `;
 
 const TitleContainer = styled.div`
@@ -279,14 +278,14 @@ const TogetherText = styled.p`
 `;
 
 const FortuneSelect = () => {
-  const [flippedCards, setFlippedCards] = useState(Array(10).fill(false));
+  const [flippedCards, setFlippedCards] = useState(Array(5).fill(false));
 
   // 카드를 뒤집는 함수
-  const handleFlip = (flip: number) => {
-    const newFlippedCards = [...flippedCards];
-    newFlippedCards[flip] = !newFlippedCards[flip];
+  const handleFlip = (flipIndex: number) => {
+    const newFlippedCards = flippedCards.map((_, index) => index === flipIndex);
     setFlippedCards(newFlippedCards);
   };
+
   return (
     <BackgroundColor>
       <Inside>
