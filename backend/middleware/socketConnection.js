@@ -26,7 +26,7 @@ const clientAuthor = (socket, next) => {
 
 const newClientHandler = (socket, next) => {
   const socketId = socket.id;
-  const userId = socket.user.id;
+  const userId = socket.user.name;
 
   gptclientConnectionList.set(userId, socketId);
 
@@ -37,7 +37,7 @@ const newClientHandler = (socket, next) => {
 };
 
 const clientDisconnectHandler = (socket) => {
-  const userId = socket.user.id;
+  const userId = socket.user.name;
 
   gptclientConnectionList.delete(userId);
 
@@ -45,7 +45,7 @@ const clientDisconnectHandler = (socket) => {
 };
 
 const clientConnectedHandler = (socket) => {
-  const userId = socket.user.id;
+  const userId = socket.user.name;
   for (const [key, value] of gptclientConnectionList) {
     console.log(`key: ${key}, value: ${value}`);
   }
@@ -55,7 +55,7 @@ const clientConnectedHandler = (socket) => {
 const getSocketId = (userId) => {
     console.log('getSocketId : ' + userId);
     console.log('getSocketId : ' + gptclientConnectionList.get(userId));
-  return gptclientConnectionList.get(Number(userId));
+  return gptclientConnectionList.get(userId);
 };
 
 module.exports = {
