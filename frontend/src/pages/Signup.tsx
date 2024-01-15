@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import axios from "axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Outside = styled.div`
   background-color: #000;
@@ -140,9 +141,11 @@ const SButton = styled.button`
 `;
 
 function Signup() {
+  const navigate = useNavigate();
   const [loginId, setLoginId] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const loginIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLoginId(event.target.value);
@@ -156,14 +159,30 @@ function Signup() {
     setName(event.target.value);
   };
 
+  const confirmPasswordChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setConfirmPassword(event.target.value);
+  };
+
   const handleSignup = async () => {
+    if (!loginId || !name || !password || !confirmPassword) {
+      alert("모두 입력해주세요!");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      alert("비밀번호가 일치하지 않습니다.");
+      return;
+    }
     try {
       const response = await axios.post(
-        `http://localhost:3001/user/signup?login_id=${loginId}&name=${name}&password=${password}`
+        `/user/signup?login_id=${loginId}&name=${name}&password=${password}`
       );
 
       console.log(response.data);
       alert("성공");
+      navigate("/login");
     } catch (error) {
       console.error("실패", error);
       alert("실패");
@@ -177,7 +196,11 @@ function Signup() {
         <Id placeholder="ID" value={loginId} onChange={loginIdChange} />
         <Pw placeholder="PASSWORD" value={password} onChange={passwordChange} />
 
-        <ConfirmP placeholder="CONFIRM PASSWORD" />
+        <ConfirmP
+          placeholder="CONFIRM PASSWORD"
+          value={confirmPassword}
+          onChange={confirmPasswordChange}
+        />
         <Username placeholder="USERNAME" value={name} onChange={nameChange} />
         <SButton onClick={handleSignup}>SIGN UP</SButton>
       </Circle>
