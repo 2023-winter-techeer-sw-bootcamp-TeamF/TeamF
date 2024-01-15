@@ -9,6 +9,7 @@ import BackOfCard from "../assets/BackOfCard.png";
 import NextButton from "../assets/NextBtn.png";
 import { motion, AnimatePresence } from "framer-motion";
 import { chunkArray, shuffleArray } from "../component/ShuffleArray";
+import axios from "axios";
 
 const BackgroundColor = styled.div`
   background: #000;
@@ -116,16 +117,6 @@ const rowVariants = {
   }),
 };
 
-const Variants = {
-  clicked: {
-    y: -50,
-    opacity: 0,
-    transition: {
-      duration: 0.5,
-    },
-  },
-};
-
 const BackOfCardImg = styled.img`
   width: 95%;
   height: 95%;
@@ -156,6 +147,9 @@ const CardSelect = () => {
   const [count, setCount] = useState(0); //몇번째 슬라이드인지
   const [back, setBack] = useState(false); //뒤로 갈지 앞으로 갈지
   const [chunkNumber, setChunkNumber] = useState<number[][]>([]);
+  const [card1, setCard1] = useState("");
+  //const [card2, setCard2] = useState("");
+  //const [card3, setCard3] = useState("");
   const [clicknumber, setClickNumber] = useState(-1);
 
   const incraseIndex = () => {
@@ -166,26 +160,41 @@ const CardSelect = () => {
     setCount((prev) => (prev === 0 ? 3 : prev - 1));
     setBack(true);
   };
+  const getImage = async (card: number) => {
+    console.log(card);
+    try {
+      const response = await axios.post("/tarot/card/info", null, {
+        params: { card },
+      });
+      setCard1(response.data.data.image_url);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const consoleIndex1 = (index: number, count: number) => {
-    alert(chunkNumber[count][index]);
+    console.log(chunkNumber[count][index]);
+    getImage(chunkNumber[count][index]);
     chunkNumber[count].splice(index, 1);
     setNumberOfCards1((prev) => prev - 1);
     setClickNumber(index);
   };
   const consoleIndex2 = (index: number, count: number) => {
-    alert(chunkNumber[count][index]);
+    console.log(chunkNumber[count][index]);
+    getImage(chunkNumber[count][index]);
     chunkNumber[count].splice(index, 1);
     setNumberOfCards2((prev) => prev - 1);
     setClickNumber(index);
   };
   const consoleIndex3 = (index: number, count: number) => {
-    alert(chunkNumber[count][index]);
+    console.log(chunkNumber[count][index]);
+    getImage(chunkNumber[count][index]);
     chunkNumber[count].splice(index, 1);
     setNumberOfCards3((prev) => prev - 1);
     setClickNumber(index);
   };
   const consoleIndex4 = (index: number, count: number) => {
-    alert(chunkNumber[count][index]);
+    console.log(chunkNumber[count][index]);
+    getImage(chunkNumber[count][index]);
     chunkNumber[count].splice(index, 1);
 
     setClickNumber(index);
@@ -205,7 +214,7 @@ const CardSelect = () => {
           <CardsWrapper>
             <Cards>
               <CardBackground>
-                <TaroEx src={TaroEx1} />
+                <TaroEx src={card1} />
               </CardBackground>
 
               <CardBackground>

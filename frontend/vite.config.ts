@@ -9,6 +9,7 @@ export default defineConfig({
     host: true,
     proxy: {
       "/tarot": "http://localhost:3001/",
+      "/user": "http://localhost:3001",
     },
   },
 });
