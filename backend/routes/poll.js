@@ -3,9 +3,7 @@ const commonResponse = require("../middleware/commonResponse.js");
 const db = require("../mysql/database.js");
 const router = express.Router();
 
-router.get(
-  "/create",
-  (req, res, next) => {
+router.get( "/create", (req, res, next) => {
     // #swagger.tags = ['Tarot']
     // #swagger.security = [{ "Bearer": [] }]
     // #swagger.summary = "타로 시작 시 Poll(임시저장) → 타로 시작 할 경우 뽑은 카드와 결과 저장을 구별할 Poll Table"
@@ -56,8 +54,6 @@ router.get(
             }
         }
     } */
-  },
-  commonResponse
-); // commonResponse 미들웨어를 체인으로 추가
+  }, commonResponse); // commonResponse 미들웨어를 체인으로 추가
 
 module.exports = router;
