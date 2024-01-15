@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import axios from "axios";
+import React, { useState } from "react";
 
 const Outside = styled.div`
   background-color: #000;
@@ -138,19 +140,48 @@ const SButton = styled.button`
 `;
 
 function Signup() {
+  const [loginId, setLoginId] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+
+  const loginIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setLoginId(event.target.value);
+  };
+
+  const passwordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+  };
+
+  const nameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setName(event.target.value);
+  };
+
+  const handleSignup = async () => {
+    try {
+      const response = await axios.post(
+        `http://localhost:3001/user/signup?login_id=${loginId}&name=${name}&password=${password}`
+      );
+
+      console.log(response.data);
+      alert("성공");
+    } catch (error) {
+      console.error("실패", error);
+      alert("실패");
+    }
+  };
+
   return (
-    <>
-      <Outside>
-        <Circle>
-          <SWord>SIGN UP</SWord>
-          <Id placeholder="ID"></Id>
-          <Pw placeholder="PASSWORD"></Pw>
-          <ConfirmP placeholder="CONFIRM PASSWORD"></ConfirmP>
-          <Username placeholder="USERNAME"></Username>
-          <SButton>SIGN UP</SButton>
-        </Circle>
-      </Outside>
-    </>
+    <Outside>
+      <Circle>
+        <SWord>SIGN UP</SWord>
+        <Id placeholder="ID" value={loginId} onChange={loginIdChange} />
+        <Pw placeholder="PASSWORD" value={password} onChange={passwordChange} />
+
+        <ConfirmP placeholder="CONFIRM PASSWORD" />
+        <Username placeholder="USERNAME" value={name} onChange={nameChange} />
+        <SButton onClick={handleSignup}>SIGN UP</SButton>
+      </Circle>
+    </Outside>
   );
 }
 
