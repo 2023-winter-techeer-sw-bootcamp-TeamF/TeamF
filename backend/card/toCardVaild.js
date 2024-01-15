@@ -5,6 +5,11 @@ function toCardArray(cards) {
     let buffer = cards.split(',');
     
     for (let card of buffer) {
+
+        if('undefined' === card || null === card || '' === card) {
+            break;
+        }
+
         cardsArray.push(card);
     }
     return cardsArray;

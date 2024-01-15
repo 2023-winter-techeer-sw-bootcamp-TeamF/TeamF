@@ -74,6 +74,7 @@ router.post('/',  async (req, res, next) => {
     // 변수 선언
     const { userId, cards, ask } = req.query; // 사용자 아이디, 카드 배열, 질문 저장
     console.log('req.query.userId : ' + userId);
+    console.log('req.query.cards : ' + cards);
     const sendExplainIndex = 3; // 보낼 카드 번호
     let cardsArray = []; // 카드 배열
     let numOfExplain = 1; // 해석의 수
@@ -114,8 +115,7 @@ router.post('/',  async (req, res, next) => {
       }
     }
 
-    //cardsArray = toVerifyCardArray(cards); // 카드 데이터를 유효한 데이터 형태인 배열로 정리 - 쿼리문으로 받아오는 경우
-    for (const card of cards) {
+    for (const card of toVerifyCardArray(cards)) {
       const cardIndex = s3.findIndex(card); // 카드 번호를 통해 S3에서 파일의 인덱스를 가져옴
       const cardData = await s3.getDataObject(cardIndex); // 파일명을 통해 데이터를 가져옴
       cardsArray.push(cardData.english);
