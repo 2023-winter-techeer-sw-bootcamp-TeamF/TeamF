@@ -13,6 +13,7 @@ router.post('/',  async (req, res, next) => {
     #swagger.tags = ['Stream']
     #swagger.summary = "타로 결과 GPT 요청"
     #swagger.description = '타로 결과를 API에 요청하고 결과를 반환함'
+    #swagger.security = [{ "Bearer": [] }]
     #swagger.responses[200] = { 
         description: 'GPT API 요청 성공',
         schema: {
@@ -38,16 +39,6 @@ router.post('/',  async (req, res, next) => {
             message: 'GPT에서 오류가 발생해 데이터를 불러올 수 없습니다!',
             error: ''
         }
-    } 
-    # swagger.parameters['userId'] = {
-        in: 'query',
-        description: '유저 아이디',
-        required: true,
-        type: 'string',
-        example: 'yunki',
-        schema: {
-            userId: 'yunki'
-        }
     }
     #swagger.parameters['cards'] = {
         in: 'query',
@@ -72,7 +63,8 @@ router.post('/',  async (req, res, next) => {
     */
 
     // 변수 선언
-    const { userId, cards, ask } = req.query; // 사용자 아이디, 카드 배열, 질문 저장
+    const { cards, ask } = req.query; // 사용자 아이디, 카드 배열, 질문 저장
+    const userId = req.user.name; // 사용자 아이디
     console.log('req.query.userId : ' + userId);
     console.log('req.query.cards : ' + cards);
     const sendExplainIndex = 3; // 보낼 카드 번호

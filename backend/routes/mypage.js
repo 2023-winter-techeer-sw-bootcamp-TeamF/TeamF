@@ -4,9 +4,7 @@ const db = require("../mysql/database.js");
 const router = express.Router();
 
 // '/detail' 라우트
-router.get(
-  "/detail",
-  (req, res, next) => {
+router.get( "/detail", (req, res, next) => {
     // #swagger.tags = ['MyPage']
     // #swagger.security = [{ "Bearer": [] }]
     // #swagger.summary = "결과 리스트에서 선택한 결과(poll_id) 상세 조회"
