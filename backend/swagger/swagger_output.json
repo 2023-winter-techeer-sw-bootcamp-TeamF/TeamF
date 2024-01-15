@@ -5,7 +5,7 @@
     "description": "오늘도 화이팅",
     "version": "1.0.0"
   },
-  "host": "43.202.208.226:3001",
+  "host": "localhost:3000",
   "basePath": "/",
   "schemes": [
     "http"
@@ -1009,8 +1009,15 @@
               "type": "object",
               "properties": {
                 "cards": {
-                  "type": "string",
-                  "example": "[1,2,3]"
+                  "type": "array",
+                  "example": [
+                    1,
+                    2,
+                    3
+                  ],
+                  "items": {
+                    "type": "number"
+                  }
                 }
               }
             }
@@ -1028,6 +1035,40 @@
                 "ask": {
                   "type": "string",
                   "example": "오늘의 운세는 어떤가요?"
+                }
+              }
+            }
+          },
+          {
+            "name": "luckType",
+            "in": "query",
+            "description": "운 종류",
+            "required": true,
+            "type": "integer",
+            "example": "1: 오늘의 운세, 2: 애정운, 3: 우정운, 4: 재물운, 5: 소망운",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "luckType": {
+                  "type": "number",
+                  "example": 1
+                }
+              }
+            }
+          },
+          {
+            "name": "poll_id",
+            "in": "query",
+            "description": "폴 아이디",
+            "required": true,
+            "type": "integer",
+            "example": "1",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "poll_id": {
+                  "type": "number",
+                  "example": 1
                 }
               }
             }
@@ -1094,6 +1135,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
           },
           "500": {
             "description": "GPT API 요청 중 오류 발생",

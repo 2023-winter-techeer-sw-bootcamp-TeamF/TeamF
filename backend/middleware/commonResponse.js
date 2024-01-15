@@ -1,4 +1,6 @@
 const commonResponse = (req, res, next) => {
+    if(res.locals.ignore == true) return next();
+
     // 오류 처리
     if (res.locals.error) {
         const statusCode = res.locals.errorStatus || 500;
