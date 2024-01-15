@@ -4,9 +4,7 @@ const db = require("../mysql/database.js");
 const s3 = require("../aws/awsS3.js");
 const router = express.Router();
 
-router.get(
-  "/guide",
-  async (req, res, next) => {
+router.get( "/guide", async (req, res, next) => {
     // Swagger 문서화
     // #swagger.summary = '가이드라인 불러오기'
     // #swagger.description = '운 종류와 뽑는 사람 수를 전달하면 가이드라인(content)과 타로 마스터 이름(master_name)을 반환함'
@@ -105,13 +103,9 @@ router.get(
         .status(500)
         .json({ message: "DB 연결 오류", error: "쿼리 실행 실패" });
     }
-  },
-  commonResponse
-); // commonResponse 미들웨어를 체인으로 추가
+  },  commonResponse); // commonResponse 미들웨어를 체인으로 추가
 
-router.post(
-  "/card/info",
-  async (req, res, next) => {
+router.post("/card/info",  async (req, res, next) => {
     // #swagger.tags = ['Tarot']
     // #swagger.summary = "카드 정보 조회"
     // #swagger.description = '카드 정보를 정수형으로 전달하면 해당 카드의 정보를 반환함'
@@ -147,6 +141,7 @@ router.post(
     let result = null;
     let dataObject = null;
     const cardNum = req.query.card; // 카드 번호 저장
+
     if (!cardNum) {
       res.locals.status = 400;
       res.locals.data = { message: "카드 넘버가 없습니다." };
@@ -158,12 +153,13 @@ router.post(
       res.locals.data = { message: "카드 넘버가 잘못되었습니다." };
       return next(); // 오류 발생 → commonResponse 미들웨어로 이동
     }
+
     try {
-      const index = await s3.findIndex(cardNum); // 카드 번호를 통해 S3에서 파일의 인덱스를 가져옴
-      console.log("index : " + index); // '0
-      result = await s3.getS3ImageURL(index); // 파일명을 통해 S3에서 이미지 주소를 가져옴
-      dataObject = await s3.getDataObject(index); // 파일명을 통해 데이터를 가져옴
-      console.log(result);
+        const cardIndex = await s3.findIndex(cardNum); // 카드 번호를 통해 S3에서 파일의 인덱스를 가져옴
+        console.log('cardIndex : ' + cardIndex); // '0
+        result = await s3.getS3ImageURL(cardIndex); // 파일명을 통해 S3에서 이미지 주소를 가져옴
+        dataObject = await s3.getDataObject(cardIndex); // 파일명을 통해 데이터를 가져옴
+        console.log(result);
     } catch (error) {
       console.log(error);
       res.locals.status = 500;
@@ -178,8 +174,6 @@ router.post(
       image_url: result,
     };
     next();
-  },
-  commonResponse
-); // commonResponse 미들웨어를 체인으로 추가
+  }, commonResponse); // commonResponse 미들웨어를 체인으로 추가
 
 module.exports = router;

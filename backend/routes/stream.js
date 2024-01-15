@@ -1,17 +1,19 @@
 const express = require('express');
-const gptStreamResponse = require('../middleware/gptStreamResponse');
-const gpt = require('../chatgpt/api');
+const socketConnection = require('../middleware/socketConnection');
 const { toVerifyCardArray } = require('../card/toCardVaild');
 const GptMessage = require('../chatgpt/message');
 const StreamJson = require('../chatgpt/streamJson');
+const gpt = require('../chatgpt/api');
 const commonResponse = require('../middleware/commonResponse');
+const s3 = require('../aws/awsS3');
 const router = express.Router();
 
-router.post('/', async (req, res, next) => {
+router.post('/',  async (req, res, next) => {
     /*
     #swagger.tags = ['Stream']
     #swagger.summary = "타로 결과 GPT 요청"
     #swagger.description = '타로 결과를 API에 요청하고 결과를 반환함'
+    #swagger.security = [{ "Bearer": [] }]
     #swagger.responses[200] = { 
         description: 'GPT API 요청 성공',
         schema: {
@@ -37,25 +39,15 @@ router.post('/', async (req, res, next) => {
             message: 'GPT에서 오류가 발생해 데이터를 불러올 수 없습니다!',
             error: ''
         }
-    } 
-    # swagger.parameters['userId'] = {
-        in: 'query',
-        description: '유저 아이디',
-        required: true,
-        type: 'string',
-        example: 'yunki',
-        schema: {
-            userId: 'yunki'
-        }
     }
     #swagger.parameters['cards'] = {
         in: 'query',
         description: '카드 배열',
         required: true,
         type: 'array',
-        example: '[Ace of Wands, Ace of Cups, Ace of Swords]',
+        example: '[1,2,3]',
         schema: {
-            cards: '[Ace of Wands, Ace of Cups, Ace of Swords]'
+            cards: '[1,2,3]'
         }
     }
     #swagger.parameters['ask'] = {
@@ -69,71 +61,107 @@ router.post('/', async (req, res, next) => {
         }
     }
     */
-    const { userId, cards, ask } = req.query;
+
+    // 변수 선언
+    const { cards, ask } = req.query; // 사용자 아이디, 카드 배열, 질문 저장
+    const userId = req.user.name; // 사용자 아이디
+    console.log('req.query.userId : ' + userId);
+    console.log('req.query.cards : ' + cards);
+    const sendExplainIndex = 3; // 보낼 카드 번호
+    let cardsArray = []; // 카드 배열
+    let numOfExplain = 1; // 해석의 수
+    let clientRecv = new String(); // 사용자가 받은 메시지 저장
+    let messages = new GptMessage(); // gpt 메시지 객체
+    const streamJson = new StreamJson(); // 스트림 json 객체 생성
+    let resultArray; // 결과 배열
+    let resultAnswer = new String(); // 결과 메시지
+    let cardAnswerArray = new Array(); // 결과 배열
+
+    // socket.io 연결
     const io = req.app.get('io'); // app 객체에 저장된 io 객체를 가져옴
-    const socketId = await gptStreamResponse.getSocketId(userId);
+    const socketId = socketConnection.getSocketId(userId); // 사용자 아이디를 통해 소켓 아이디를 가져옴
     console.log('socketId : ' + socketId);
 
     // 유효한 정보인지 검사하는 기능
     if (!cards || !ask) {
       res.status(400).json({ error: '유효하지 않은 데이터입니다. (널 값, 누락 등)' });
-      return;
+      return next();
     }
 
-    // 카드 정보를 받아옴
-    let cardsArray = toVerifyCardArray(cards);
-    console.log('cardArray : ' + cardsArray);
-    let receivedMessage = [];
-    let recv = [];
-    let messages = new GptMessage();
+    try {
+      for (const card of toVerifyCardArray(cards)) {
+        const cardIndex = s3.findIndex(card); // 카드 번호를 통해 S3에서 파일의 인덱스를 가져옴
+        const cardData = await s3.getDataObject(cardIndex); // 파일명을 통해 데이터를 가져옴
+        cardsArray.push(cardData.english);
+        numOfExplain++;
+      }
+    } catch (error) {
+      res.locals.status = 500;
+      res.locals.data = { message: '데이터 조회 중 오류 발생 : ', error: error.message };
+      return next(); // 오류 발생 → commonResponse 미들웨어로 이동
+    }
 
-    messages.addSystemMessage('JSON 형태로 데이터를 보내줘.');
-    //messages.addUserMessage();
+    // 결과 배열 생성
+    resultArray = Array.from({length: numOfExplain}, () => ''); // 결과 배열 생성
+
+    // gpt 메시지 생성
+    messages.addUserTestMessage();
     messages.addUserMessage(ask);
-    //messages.addUserMessage(cardsArray.join('\n'));
+    messages.addUserCardsArrayMessage(cardsArray);
+    messages.addUserJsonFormMessage();
 
     // socket.io를 연결
-    try {
-      io.to(socketId).emit('success', '연결 성공');
-      console.log('유저(' + userId + '): 연결 성공');
-    } catch (error) {
-      console.log(error);
-    }
+    io.to(socketId).emit('start', '데이터 전송 시작');
+    console.log('유저(' + userId + '): 연결 성공');
 
     try {
-      const streamJson = new StreamJson();
-      console.log('messages : ' + messages.getMessages());
+      console.log('Send To GPT : ' + messages.getMessages().join(''));
       const gptStream = await gpt.getGptJsonStream(messages.getMessages());
 
+      // gpt 스트림 데이터를 받는다.
       for await (const chunk of gptStream) {
-        if (chunk['choices'][0]['delta']['content']) {
-          console.log(chunk['choices'][0]['delta']['content']);
-          receivedMessage.push(chunk.choices[0]?.delta?.content || '');
-          //const message = streamJson.parse(chunk.choices[0]?.delta?.content || '')
-          const message = streamJson.parseByIndex(chunk.choices[0]?.delta?.content || '', 3);
-          recv.push(message);
-          if (message != '') io.to(socketId).emit('message', message);
+        const gptChunkMessage = chunk.choices[0]?.delta?.content || '';
+
+        if (gptChunkMessage) {
+          const resultIndex = streamJson.getIndex();
+          const streamMessage = streamJson.parse(gptChunkMessage); // 스트림 데이터를 파싱
+
+          resultArray[resultIndex] += streamMessage; // 파싱한 데이터를 배열에 저장
+          clientRecv += streamMessage; // 사용자가 받은 메시지 저장
+
+          if(resultIndex == sendExplainIndex && streamMessage != '') 
+            io.to(socketId).emit('message', streamMessage); // 소켓으로 메시지 전송
         }
       }
-
-      console.log(receivedMessage.join(''));
-      console.log('recv :' + recv.join(''));
-      res.locals.data = receivedMessage.join(''); // 조회 결과 → res.locals.data에 저장
-    } catch (error) {
-      if (error) {
-        res.locals.status = 500;
-        res.locals.data = { message: '데이터 조회 중 오류 발생 : ', error: error.message };
-        return next(); // 오류 발생 → commonResponse 미들웨어로 이동
+    
+      // 카드 해석 배열 생성
+      for (let i = 0; i < numOfExplain - 1; i++) {
+        cardAnswerArray[i] = resultArray[i];
       }
-    }
 
-    try {
-      io.to(socketId).emit('finish', '연결 종료');
+      // 결과 
+      resultAnswer += resultArray[numOfExplain-1];
+
+      console.log('Client Recv : ' + clientRecv);
+      io.to(socketId).emit('finish', '데이터 전송 완료');
+
+      res.locals.data = {
+        userId: userId,
+        cardArray: cardsArray,
+        ask: ask,
+        cardAnswerArray: cardAnswerArray,
+        answer: resultAnswer
+      }; // 조회 결과 → res.locals.data에 저장
+
+      next();
+
     } catch (error) {
-      console.log(error);
+      res.locals.status = 500;
+      res.locals.data = { message: '스트리밍 중 오류 발생 : ', error: error.message };
+      return next(); // 오류 발생 → commonResponse 미들웨어로 이동
     }
-
-    next();
-  }, commonResponse);
+    
+  }
+);
 
 module.exports = router;

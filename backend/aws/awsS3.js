@@ -95,9 +95,11 @@ function getDataObject(index) {
   const data = [];
   let fileName = getOlnyFileName(index);
   console.log('fileName : ' + fileName);
+
   for (let str of fileName.split(',')) {
     data.push(str);
   }
+  
   return {
     number: data[0],
     name: data[1],
