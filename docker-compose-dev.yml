@@ -12,7 +12,7 @@ services:
     # volumes:
     #   - ./backend:/usr/src/app
 
-  frontend:
-    build: ./frontend
-    ports:
-      - "5000:5000"
+  # frontend:
+  #   build: ./frontend
+  #   ports:
+  #     - "5000:5000"

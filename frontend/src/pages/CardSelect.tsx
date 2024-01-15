@@ -149,6 +149,9 @@ const CardSelect = () => {
   const [back, setBack] = useState(false); //뒤로 갈지 앞으로 갈지
   const [chunkNumber, setChunkNumber] = useState<number[][]>([]);
   const [clicknumber, setClicknumber] = useState(-1);
+  const [card1, setCard1] = useState("");
+  const [card2, setCard2] = useState("");
+  const [card3, setCard3] = useState("");
 
   const incraseIndex = () => {
     setCount((prev) => (prev === 3 ? 0 : prev + 1));
@@ -161,30 +164,17 @@ const CardSelect = () => {
   const getImage = async (card: number) => {
     console.log(card);
     try {
-      const response = await axios.post("/tarot/card/info", {
-        card,
+      const response = await axios.post("/tarot/card/info", null, {
+        params: { card },
       });
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const getImage2 = async (card: number) => {
-    console.log(card);
-    try {
-      const response = await axios.post("/user/signup", {
-        login_id: card,
-        password: card,
-        name: card,
-      });
-      console.log(response);
+      setCard1(response.data.data.image_url);
     } catch (error) {
       console.log(error);
     }
   };
   const consoleIndex1 = (index: number, count: number) => {
     console.log(chunkNumber[count][index]);
-    getImage2(chunkNumber[count][index]);
+    getImage(chunkNumber[count][index]);
     chunkNumber[count].splice(index, 1);
     setNumberOfCards1((prev) => prev - 1);
   };
@@ -222,7 +212,7 @@ const CardSelect = () => {
           <CardsWrapper>
             <Cards>
               <CardBackground>
-                <TaroEx src={TaroEx1} />
+                <TaroEx src={card1} />
               </CardBackground>
 
               <CardBackground>
