@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import Navbar from "../component/Navbar";
 import styled from "styled-components";
 import Background from "../assets/Background.png";
+/*
 import TaroEx1 from "../assets/TaroEx1.png";
 import TaroEx2 from "../assets/TaroEx2.png";
 import TaroEx3 from "../assets/TaroEx3.png";
+*/
 import BackOfCard from "../assets/BackOfCard.png";
 import NextButton from "../assets/NextBtn.png";
 import { motion, AnimatePresence } from "framer-motion";
@@ -145,11 +147,12 @@ const CardSelect = () => {
   const [numberOfCardsDelete, setNumberOfCardsDelete] = useState(12); // 4번째 줄 카드 수
   const Overlap = 1.875; // 카드 겹침 정도
   const [count, setCount] = useState(0); //몇번째 슬라이드인지
+  const [holdCount, setHoldCount] = useState(0);
   const [back, setBack] = useState(false); //뒤로 갈지 앞으로 갈지
   const [chunkNumber, setChunkNumber] = useState<number[][]>([]);
   const [card1, setCard1] = useState("");
-  //const [card2, setCard2] = useState("");
-  //const [card3, setCard3] = useState("");
+  const [card2, setCard2] = useState("");
+  const [card3, setCard3] = useState("");
   const [clicknumber, setClickNumber] = useState(-1);
 
   const incraseIndex = () => {
@@ -160,20 +163,31 @@ const CardSelect = () => {
     setCount((prev) => (prev === 0 ? 3 : prev - 1));
     setBack(true);
   };
+
   const getImage = async (card: number) => {
     console.log(card);
     try {
+      console.log(holdCount);
       const response = await axios.post("/tarot/card/info", null, {
-        params: { card },
+        params: { card }, // {이름/카드 번호}
       });
-      setCard1(response.data.data.image_url);
+
+      if (holdCount === 0) {
+        setCard1(response.data.data.image_url);
+      } else if (holdCount === 1) {
+        setCard2(response.data.data.image_url);
+      } else if (holdCount === 2) {
+        setCard3(response.data.data.image_url);
+      }
+
+      setHoldCount((prev) => (prev === 2 ? 3 : prev + 1));
     } catch (error) {
       console.log(error);
     }
   };
   const consoleIndex1 = (index: number, count: number) => {
     console.log(chunkNumber[count][index]);
-    getImage(chunkNumber[count][index]);
+    getImage(chunkNumber[count][index]); // 현재 사용자가 클릭한 번호
     chunkNumber[count].splice(index, 1);
     setNumberOfCards1((prev) => prev - 1);
     setClickNumber(index);
@@ -218,10 +232,10 @@ const CardSelect = () => {
               </CardBackground>
 
               <CardBackground>
-                <TaroEx src={TaroEx2} />
+                <TaroEx src={card2} />
               </CardBackground>
               <CardBackground>
-                <TaroEx src={TaroEx3} />
+                <TaroEx src={card3} />
               </CardBackground>
             </Cards>
             <AnimatePresence mode="wait" custom={back}>
