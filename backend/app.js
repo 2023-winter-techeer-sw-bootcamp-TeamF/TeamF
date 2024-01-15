@@ -60,7 +60,7 @@ app.use('/mypage', verifyToken, require('./routes/mypage'));
 app.use('/test', require('./routes/test/test'));
 app.use('/secret', require('./routes/test/secretsManager'));
 app.use('/token', require('./routes/token'));
-app.use('/stream', require('./routes/stream'));
+app.use('/stream', verifyToken, require('./routes/stream'));
 // 공통 응답 미들웨어
 app.use(require('./middleware/commonResponse'));
 // 404 핸들러
