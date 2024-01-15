@@ -177,7 +177,7 @@ function Signup() {
     }
     try {
       const response = await axios.post(
-        `http://localhost:3001/user/signup?login_id=${loginId}&name=${name}&password=${password}`
+        `/user/signup?login_id=${loginId}&name=${name}&password=${password}`
       );
 
       console.log(response.data);

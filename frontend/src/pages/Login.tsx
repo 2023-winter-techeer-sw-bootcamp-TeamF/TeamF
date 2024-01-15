@@ -4,7 +4,7 @@ import { useSetRecoilState } from "recoil";
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import { accessTokenState, refreshTokenState } from "../state/atom";
 const Outside = styled.div`
   background-color: #000;
   display: flex;
@@ -117,6 +117,8 @@ function Login() {
   const navigate = useNavigate();
   const [loginId, setLoginId] = useState("");
   const [password, setPassword] = useState("");
+  const setAccessToken = useSetRecoilState(accessTokenState);
+  const setRefreshToken = useSetRecoilState(refreshTokenState);
 
   const loginIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLoginId(event.target.value);
@@ -128,12 +130,14 @@ function Login() {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post("http://localhost:3001/user/login", {
+      const response = await axios.post("/user/login", {
         login_id: loginId,
         password: password,
       });
 
-      console.log(response.data);
+      setAccessToken(response.data.data.accessToken);
+      setRefreshToken(response.data.data.refreshToken);
+
       alert("성공");
       navigate("/fortuneselect");
     } catch (error) {
