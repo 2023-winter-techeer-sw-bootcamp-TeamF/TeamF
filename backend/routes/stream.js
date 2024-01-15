@@ -54,9 +54,9 @@ router.post('/',  async (req, res, next) => {
         description: '카드 배열',
         required: true,
         type: 'array',
-        example: '[Ace of Wands, Ace of Cups, Ace of Swords]',
+        example: '[1,2,3]',
         schema: {
-            cards: '[Ace of Wands, Ace of Cups, Ace of Swords]'
+            cards: '[1,2,3]'
         }
     }
     #swagger.parameters['ask'] = {
@@ -104,7 +104,7 @@ router.post('/',  async (req, res, next) => {
 
     // 카드 배열의 값이 유효한지 확인
     for (const card of cards) {
-      if (card.length === 0) {
+      if (card == null) {
         res.status(400).json({ error: '카드 배열에 유효하지 않은 값이 있습니다.' });
         return next();
       }
