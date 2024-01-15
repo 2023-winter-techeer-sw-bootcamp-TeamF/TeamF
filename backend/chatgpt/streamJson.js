@@ -47,21 +47,22 @@ class StreamJson {
     }
 
     parseByIndex(chunck, index) {
-        let result = [];
-    
-        
+        let result = '';
+
           for (let char of chunck) {
             if (this.status(char) === 3) {
               if(this.index >= index)
                 {
-                  result.push(char);
+                  result += char;
                   console.log('char : ' + char);
                 }
             } 
         }
-        
-    
-        return result.join('');
+        return result;
+    }
+
+    getIndex() {
+      return this.index;
     }
 }
 
