@@ -4,7 +4,7 @@ import { useSetRecoilState } from "recoil";
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { accessTokenState, refreshTokenState } from "../state/atom";
+import { accessTokenState, refreshTokenState } from "../state/atom.ts";
 const Outside = styled.div`
   background-color: #000;
   display: flex;

@@ -13,7 +13,7 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger/swagger_output.json');
 const s3 = require('./aws/awsS3');
 const verifyToken = require('./middleware/verifyToken');
-const gptStreamResponse = require('./middleware/gptStreamResponse'); // GPT API 요청 응답 미들웨어
+const socketConnection = require('./middleware/socketConnection');
 const app = express();
 const secretName = "MySQL_Info";
 const secretGptApiKey = "GPT_KEY";
@@ -23,14 +23,14 @@ const server = http.createServer(app); // http 서버 생성
 const io = socketIo(server); // socket.io와 서버 연결
 app.use(express.urlencoded({ extended: false }));
 // 소켓 이벤트 설정
-io.use((socket, next) => {
-  gptStreamResponse.newGptClientHandler(socket,next);
-});
+io.use(socketConnection.clientAuthor);
+io.use(socketConnection.newClientHandler);
 io.on('connection', (socket) => {
-  
-    socket.on('disconnect', () => {
-        gptStreamResponse.gptClientDisconnectHandler(socket);
-    });
+  socketConnection.clientConnectedHandler(socket);
+});
+io.on('disconnect', (socket) => {
+  console.log('소켓 연결 해제');
+  socketConnection.clientDisconnectHandler(socket);
 });
 app.set('io', io); // app 객체에 io 객체를 저장
 const corsOptions = {
@@ -60,7 +60,7 @@ app.use('/mypage', verifyToken, require('./routes/mypage'));
 app.use('/test', require('./routes/test/test'));
 app.use('/secret', require('./routes/test/secretsManager'));
 app.use('/token', require('./routes/token'));
-app.use('/stream', require('./routes/stream'));
+app.use('/stream', verifyToken, require('./routes/stream'));
 // 공통 응답 미들웨어
 app.use(require('./middleware/commonResponse'));
 // 404 핸들러

@@ -301,132 +301,6 @@
         ]
       }
     },
-    "/result/stream": {
-      "post": {
-        "tags": [
-          "Result"
-        ],
-        "summary": "타로 결과 GPT 요청",
-        "description": "타로 결과를 API에 요청하고 결과를 반환함",
-        "parameters": [
-          {
-            "name": "cards",
-            "in": "query",
-            "description": "카드 배열",
-            "required": true,
-            "type": "array",
-            "example": "[Ace of Wands, Ace of Cups, Ace of Swords]",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "cards": {
-                  "type": "string",
-                  "example": "[Ace of Wands, Ace of Cups, Ace of Swords]"
-                }
-              }
-            }
-          },
-          {
-            "name": "ask",
-            "in": "query",
-            "description": "질문",
-            "required": true,
-            "type": "string",
-            "example": "오늘의 운세는 어떤가요?",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "ask": {
-                  "type": "string",
-                  "example": "오늘의 운세는 어떤가요?"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "GPT API 요청 성공",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "json": {
-                  "type": "object",
-                  "properties": {
-                    "card1": {
-                      "type": "string",
-                      "example": "Ace of Wands"
-                    },
-                    "card2": {
-                      "type": "string",
-                      "example": "Ace of Cups"
-                    },
-                    "card3": {
-                      "type": "string",
-                      "example": "Ace of Swords"
-                    },
-                    "ask": {
-                      "type": "string",
-                      "example": "오늘의 운세는 어떤가요?"
-                    },
-                    "answer": {
-                      "type": "string",
-                      "example": "오늘은 행운이 가득할 거예요!"
-                    }
-                  }
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "400": {
-            "description": "유효하지않은 데이터",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "데이터가 유효하지 않습니다. (널값, 누락 등)"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "GPT API 요청 중 오류 발생",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "GPT에서 오류가 발생해 데이터를 불러올 수 없습니다!"
-                },
-                "error": {
-                  "type": "string",
-                  "example": ""
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        }
-      }
-    },
     "/result/save": {
       "post": {
         "tags": [
@@ -1003,55 +877,6 @@
         ]
       }
     },
-    "/test/testgpt": {
-      "get": {
-        "tags": [
-          "Test"
-        ],
-        "summary": "GPT-3 테스트",
-        "description": "GPT-3를 테스트 해봅시다 :>",
-        "responses": {
-          "200": {
-            "description": "테스트 값 조회 성공"
-          },
-          "400": {
-            "description": "잘못된 요청"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/test/testgpt2": {
-      "get": {
-        "tags": [
-          "Test"
-        ],
-        "summary": "GPT-3 테스트",
-        "description": "GPT-3를 테스트 해봅시다 :>",
-        "responses": {
-          "200": {
-            "description": "테스트 값 조회 성공"
-          },
-          "400": {
-            "description": "잘못된 요청"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          }
-        }
-      }
-    },
     "/test/testgptsplit": {
       "get": {
         "tags": [
@@ -1179,13 +1004,13 @@
             "description": "카드 배열",
             "required": true,
             "type": "array",
-            "example": "[Ace of Wands, Ace of Cups, Ace of Swords]",
+            "example": "[1,2,3]",
             "schema": {
               "type": "object",
               "properties": {
                 "cards": {
                   "type": "string",
-                  "example": "[Ace of Wands, Ace of Cups, Ace of Swords]"
+                  "example": "[1,2,3]"
                 }
               }
             }
@@ -1217,6 +1042,10 @@
                 "json": {
                   "type": "object",
                   "properties": {
+                    "userId": {
+                      "type": "string",
+                      "example": "yunki"
+                    },
                     "card1": {
                       "type": "string",
                       "example": "Ace of Wands"
@@ -1266,9 +1095,6 @@
           "403": {
             "description": "Forbidden"
           },
-          "404": {
-            "description": "Not Found"
-          },
           "500": {
             "description": "GPT API 요청 중 오류 발생",
             "schema": {
@@ -1288,7 +1114,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
       }
     }
   }
