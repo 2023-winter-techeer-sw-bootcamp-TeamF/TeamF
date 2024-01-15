@@ -1009,13 +1009,13 @@
             "description": "카드 배열",
             "required": true,
             "type": "array",
-            "example": "[Ace of Wands, Ace of Cups, Ace of Swords]",
+            "example": "[1,2,3]",
             "schema": {
               "type": "object",
               "properties": {
                 "cards": {
                   "type": "string",
-                  "example": "[Ace of Wands, Ace of Cups, Ace of Swords]"
+                  "example": "[1,2,3]"
                 }
               }
             }
