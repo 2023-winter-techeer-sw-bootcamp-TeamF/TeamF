@@ -1,59 +1,60 @@
+function isNotCardValid(card) {
+    let result = false;
+    if (card === 'undefined' || card === null || card === '') // 값이 없는 경우
+        result = true;
+    if (Number(card) < 1 || Number(card) > 78) // 카드 번호가 1~78이 아닌 경우
+        result =  true;
+
+    return result;
+}
 
 function toCardArray(cards) {
-    let cardsArray = [];
-    // 문자열로 들어온 카드 정보를 배열로 만든다.
-    let buffer = cards.split(',');
-    
-    for (let card of buffer) {
+    if (typeof cards !== 'string') {
+        throw new InvalidDataError();
+    }
+    let cardsArray = cards.split(',');
+    console.log(cardsArray);
 
-        if('undefined' === card || null === card || '' === card) {
-            break;
-        }
-
-        cardsArray.push(card);
+    for (let card of cardsArray) {
+        if (isNotCardValid(card)) 
+            throw new InvalidCardNumberError()
     }
     return cardsArray;
 }
 
 function toCardMessage(cardsArray) { 
-    let messages = [];
-    let cardNum = 1;
     let answers = {};
-
-    for (let card of cardsArray) {
-        messages.push(card);
-        answers['card' + cardNum] = card;
-        cardNum++;
-    }
+    cardsArray.forEach((card, index) => {
+        answers['card' + (index + 1)] = card;
+    });
     return answers;
 }
 
-function toVerifyCardObj(cards) {
-    let cardsArray = [];
-    if (typeof cards === 'string') {
-        cardsArray = toCardArray(cards);
-    }
-    if (typeof cards === 'object') {
-        cardsArray = cards;
-    }
-    
-    return toCardMessage(cardsArray);
-}
-
 function toVerifyCardArray(cards) {
-    let cardsArray = [];
-    if (typeof cards === 'string') {
-        cardsArray = toCardArray(cards);
+    let cardsArray = typeof cards === 'string' ? toCardArray(cards) : cards;
+
+    if (!Array.isArray(cardsArray)) {
+        throw new InvalidDataError();
     }
-    if (typeof cards === 'object') {
-        cardsArray = cards;
-    }
+
     return cardsArray;
 }
+
+class InvalidDataError extends Error {
+    constructor() {
+        super('유효하지 않은 데이터입니다. (널 값, 누락 등)');
+    }
+}
+
+class InvalidCardNumberError extends Error {
+    constructor() {
+        super('카드 번호가 유효하지 않습니다.');
+    }
+}
+
 
 module.exports = {
     toCardArray,
     toCardMessage,
-    toVerifyCardObj,
     toVerifyCardArray
 };

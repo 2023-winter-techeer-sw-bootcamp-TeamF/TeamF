@@ -96,30 +96,17 @@ router.post('/',  async (req, res, next) => {
       return next();
     }
 
-    // 카드 배열을 유효한지 확인
-    if (cards.length === 0) {
-      res.status(400).json({ error: '카드 배열이 비어있습니다.' });
-      return next();
-    }
-
-    // 카드 배열의 값이 유효한지 확인
-    for (const card of cards) {
-      if (card == null) {
-        res.status(400).json({ error: '카드 배열에 유효하지 않은 값이 있습니다.' });
-        return next();
+    try {
+      for (const card of toVerifyCardArray(cards)) {
+        const cardIndex = s3.findIndex(card); // 카드 번호를 통해 S3에서 파일의 인덱스를 가져옴
+        const cardData = await s3.getDataObject(cardIndex); // 파일명을 통해 데이터를 가져옴
+        cardsArray.push(cardData.english);
+        numOfExplain++;
       }
-
-      if (card < 1 || card > 78) {
-        res.status(400).json({ error: '카드 배열에 유효하지 않은 값이 있습니다.' });
-        return next();
-      }
-    }
-
-    for (const card of toVerifyCardArray(cards)) {
-      const cardIndex = s3.findIndex(card); // 카드 번호를 통해 S3에서 파일의 인덱스를 가져옴
-      const cardData = await s3.getDataObject(cardIndex); // 파일명을 통해 데이터를 가져옴
-      cardsArray.push(cardData.english);
-      numOfExplain++;
+    } catch (error) {
+      res.locals.status = 500;
+      res.locals.data = { message: '데이터 조회 중 오류 발생 : ', error: error.message };
+      return next(); // 오류 발생 → commonResponse 미들웨어로 이동
     }
 
     // 결과 배열 생성
