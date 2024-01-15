@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Navbar from "../component/Navbar";
 import styled from "styled-components";
 import Background from "../assets/Background.png";
-import TaroEx1 from "../assets/TaroEx1.png";
+// import TaroEx1 from "../assets/TaroEx1.png";
 import TaroEx2 from "../assets/TaroEx2.png";
 import TaroEx3 from "../assets/TaroEx3.png";
 import BackOfCard from "../assets/BackOfCard.png";
@@ -10,6 +10,7 @@ import NextButton from "../assets/NextBtn.png";
 import { motion, AnimatePresence } from "framer-motion";
 import { chunkArray, shuffleArray } from "../component/ShuffleArray";
 import axios from "axios";
+import { io } from "socket.io-client";
 
 const BackgroundColor = styled.div`
   background: #000;
@@ -151,7 +152,42 @@ const CardSelect = () => {
   //const [card2, setCard2] = useState("");
   //const [card3, setCard3] = useState("");
   const [clicknumber, setClickNumber] = useState(-1);
+  const [streamData, setStreamData] = useState("");
+  const [streamArray, setStreamArray] = useState("");
 
+  const socket = io(`http://localhost:3000/stream/?cards=1,3,5&ask=hi`, {
+    auth: {
+      token:
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6InRlc3QiLCJpYXQiOjE3MDUzMzc3MDgsImV4cCI6MTcwNTM0MTMwOH0.O6ucZTI5KwkxcfIZGA1ZpWGIWFWOh22Oj4NEY_69f-I",
+    },
+  });
+  const webSocketStreaming = () => {
+    socket.on("chat message", (msg) => {
+      console.log(msg);
+      //promptInput();
+    });
+
+    socket.on("message", (msg) => {
+      console.log(`받은 메시지 :" + ${msg}`);
+      setStreamArray((prev) => prev + msg);
+    });
+
+    socket.on("connect", () => {
+      console.log("서버에 연결되었습니다.");
+    });
+    socket.on("disconnect", () => {
+      console.log("서버와의 연결이 끊어졌습니다.");
+    });
+
+    socket.on("success", () => {
+      console.log("연결 작업 성공");
+    });
+
+    socket.on("finish", async () => {
+      console.log("연결 작업 종료");
+      socket.disconnect();
+    });
+  };
   const incraseIndex = () => {
     setCount((prev) => (prev === 3 ? 0 : prev + 1));
     setBack(false);
@@ -196,7 +232,7 @@ const CardSelect = () => {
     console.log(chunkNumber[count][index]);
     getImage(chunkNumber[count][index]);
     chunkNumber[count].splice(index, 1);
-
+    setNumberOfCardsDelete((prev) => prev - 1);
     setClickNumber(index);
   };
 
@@ -204,12 +240,14 @@ const CardSelect = () => {
     const numbers = Array.from({ length: 78 }, (_, index) => index + 1);
     shuffleArray(numbers);
     setChunkNumber(chunkArray(numbers, 22));
+    webSocketStreaming();
   }, []);
   return (
     <BackgroundColor>
       <Inside>
         <Navbar />
         <BackgroundWrapper>
+          <p style={{ color: "white" }}>{streamArray}</p>
           <BackgroundImg src={Background} alt="Background" />
           <CardsWrapper>
             <Cards>
