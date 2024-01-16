@@ -1,4 +1,5 @@
 const commonResponse = (req, res, next) => {
+    // ignore가 true면 무시하고 다음 미들웨어로 넘어감
     if(res.locals.ignore == true) return next();
 
     // 오류 처리

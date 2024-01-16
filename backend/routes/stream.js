@@ -10,7 +10,7 @@ const { socketFinishHandler } = require('../middleware/socketHandle');
 const savePrompt = require('../middleware/savePrompt');
 const router = express.Router();
 
-router.post('/',  async (req, res, next) => {
+router.post('/', async (req, res, next) => {
     /*
     #swagger.tags = ['Stream']
     #swagger.summary = "타로 결과 GPT 요청"
@@ -85,13 +85,12 @@ router.post('/',  async (req, res, next) => {
     */
 
     // 변수 선언
-    const { cards, ask, luckType, poll_id } = req.query; // 카드 배열, 질문 저장, 운 종류, poll_id
+    const { cards, ask, luckType } = req.query; // 카드 배열, 질문 저장, 운 종류, poll_id
+    const poll_id = res.locals.poll; // poll_id
     const luckTypeArray = ['오늘의 운세', '애정운', '우정운', '재물운', '소망운']; // 운 종류 배열
     const masterName = ['세레나', '샤를린', '마틸드', '루크', '굴이']; // 마스터 이름 배열
-    const userId = req.user.name; // 사용자 아이디
     const socketId = req.socketId; // 소켓 아이디
     const io = req.app.get('io'); // 소켓 io 객체
-    const sendExplainIndex = 0; // 보낼 카드 번호
     let cardsArray = []; // 카드 배열
     let intCardArray = []; // 카드 번호 배열
     let numOfExplain = 0; // 해석의 수
@@ -99,19 +98,20 @@ router.post('/',  async (req, res, next) => {
     let messages = new GptMessage(); // gpt 메시지 객체
     const streamJson = new StreamJson(); // 스트림 json 객체 생성
     let resultArray; // 결과 배열
-    let resultAnswer = new String(); // 결과 메시지
+    let resultAnswer = ''; // 결과 메시지
     let cardAnswerArray = new Array(); // 결과 배열
     res.locals.ignore = true; // commonResponse 미들웨어에서 응답을 보내지 않음
 
     // 유효한 정보인지 검사하는 기능
     if (!cards || !ask) {
       res.locals.status = 400;
-      res.locals.data ={ error: '유효하지 않은 데이터입니다. (널 값, 누락 등)' };
+      res.locals.data = { error: '유효하지 않은 데이터입니다. (널 값, 누락 등)' };
       return next();
     }
 
+
     try {
-      intCardArray = toVerifyCardArray(cards)
+      intCardArray = toVerifyCardArray(cards);
       for (const card of intCardArray) {
         const cardIndex = s3.findIndex(card); // 카드 번호를 통해 S3에서 파일의 인덱스를 가져옴
         const cardData = await s3.getDataObject(cardIndex); // 파일명을 통해 데이터를 가져옴
@@ -125,7 +125,7 @@ router.post('/',  async (req, res, next) => {
     }
 
     // 결과 배열 생성
-    resultArray = Array.from({length: numOfExplain}, () => ''); // 결과 배열 생성
+    resultArray = Array.from({ length: numOfExplain }, () => ''); // 결과 배열 생성
 
     // gpt 메시지 생성
     messages.addUserTestMessage();
@@ -148,17 +148,16 @@ router.post('/',  async (req, res, next) => {
           resultArray[resultIndex] += streamMessage; // 파싱한 데이터를 배열에 저장
           clientRecv += streamMessage; // 사용자가 받은 메시지 저장
 
-          if(resultIndex == numOfExplain && streamMessage != '') 
-            io.to(socketId).emit('message', streamMessage); // 소켓으로 메시지 전송
+          if (resultIndex == numOfExplain && streamMessage != '') io.to(socketId).emit('message', streamMessage); // 소켓으로 메시지 전송
         }
       }
-    
+
       // 카드 해석 배열 생성
       for (let i = 0; i < numOfExplain; i++) {
         cardAnswerArray[i] = resultArray[i];
       }
 
-      // 결과 
+      // 결과
       resultAnswer += resultArray[numOfExplain];
 
       console.log('Client Recv : ' + clientRecv);
@@ -171,8 +170,10 @@ router.post('/',  async (req, res, next) => {
         answer: resultAnswer,
         socketId: socketId,
         poll_id: poll_id,
-        luckType: luckTypeArray[luckType - 1] // 운 종류
+        luckType: luckTypeArray[luckType - 1], // 운 종류
       }; // 조회 결과 → res.locals.data에 저장
+
+      console.log('Result : ' + JSON.stringify(res.locals.store));
 
       next(); // 다음 미들웨어로 이동
     } catch (error) {
@@ -180,6 +181,10 @@ router.post('/',  async (req, res, next) => {
       res.locals.data = { message: '스트리밍 중 오류 발생 : ', error: error.message };
       return next(); // 오류 발생 → commonResponse 미들웨어로 이동
     }
-  }, socketFinishHandler, savePrompt, commonResponse);
+  },
+  socketFinishHandler,
+  savePrompt,
+  commonResponse
+);
 
 module.exports = router;
