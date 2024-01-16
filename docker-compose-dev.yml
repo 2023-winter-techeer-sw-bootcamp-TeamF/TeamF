@@ -25,7 +25,7 @@ services:
       - "443:443"
     # restart: always # 인증서 재발급 실패 제한 요청을 줄이기 위한 주석
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      # - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./certbot/data:/var/www/certbot:ro
       - ./certbot/conf:/etc/nginx/ssl:ro
     depends_on:
