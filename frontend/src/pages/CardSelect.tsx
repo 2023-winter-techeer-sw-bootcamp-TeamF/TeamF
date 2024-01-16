@@ -7,6 +7,7 @@ import TaroEx1 from "../assets/TaroEx1.png";
 import TaroEx2 from "../assets/TaroEx2.png";
 import TaroEx3 from "../assets/TaroEx3.png";
 */
+import { useNavigate } from "react-router-dom";
 import BackOfCard from "../assets/BackOfCard.png";
 import NextButton from "../assets/NextBtn.png";
 import { motion, AnimatePresence } from "framer-motion";
@@ -140,7 +141,7 @@ const NextBtnImg = styled.img`
   height: 100%;
 `;
 
-const CardSelect = () => {
+const CardSelect: React.FC = () => {
   const [numberOfCards1, setNumberOfCards1] = useState(22); // 1번째 줄 카드 수
   const [numberOfCards2, setNumberOfCards2] = useState(22); // 2번째 줄 카드 수
   const [numberOfCards3, setNumberOfCards3] = useState(22); // 3번째 줄 카드 수
@@ -154,6 +155,7 @@ const CardSelect = () => {
   const [card2, setCard2] = useState("");
   const [card3, setCard3] = useState("");
   const [clicknumber, setClickNumber] = useState(-1);
+  const navigate = useNavigate();
 
   const incraseIndex = () => {
     setCount((prev) => (prev === 3 ? 0 : prev + 1));
@@ -178,6 +180,8 @@ const CardSelect = () => {
         setCard2(response.data.data.image_url);
       } else if (holdCount === 2) {
         setCard3(response.data.data.image_url);
+
+        navigate("/tarotprocess");
       }
 
       setHoldCount((prev) => (prev === 2 ? 3 : prev + 1));
