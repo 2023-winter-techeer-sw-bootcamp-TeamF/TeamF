@@ -23,6 +23,7 @@ router.post('/refresh', async (req, res, next) => {
     #swagger.responses[403] = {
         description: '유효하지 않은 리프레시 토큰의 응답',
         schema: { error: '유효하지 않은 리프레시 토큰입니다.' }
+    }
     */
     const { refreshToken } = req.body;
 
