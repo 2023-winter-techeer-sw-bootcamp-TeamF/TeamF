@@ -5,7 +5,7 @@ if ! [ -x "$(command -v docker-compose)" ]; then
   exit 1
 fi
 
-compose_file='docker-compose-backend.yml'
+compose_file='docker-compose-dev.yml'
 
 domains=(tairot.online)
 rsa_key_size=4096
