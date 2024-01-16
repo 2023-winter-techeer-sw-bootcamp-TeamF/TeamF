@@ -2,6 +2,7 @@ const express = require("express");
 const commonResponse = require("../middleware/commonResponse.js");
 const db = require("../mysql/database.js");
 const { resolve } = require("path");
+const { rejects } = require("assert");
 const router = express.Router();
 
 // '/detail' 라우트
@@ -45,45 +46,55 @@ router.get('/detail', async (req, res, next) => {
   const connection = db.getConnection();
 
   try {
-
     const searchQuery = 'SELECT user_id FROM poll WHERE id = ?';
-    await connection.query(searchQuery, [poll_id], (error, result) => {
-      if (error) {
-        console.error('DB 쿼리 오류:', error);
-        res.locals.error = 'DB 쿼리 오류';
-        res.locals.errorStatus = 500;
-        throw new Error('DB 오류: poll에서 user_id 조회 중 오류 발생');
-      }
-
-      if (result.length === 0) {
-        res.locals.error = '해당 ID를 가진 폴이 존재하지 않습니다.';
-        res.locals.errorStatus = 404;
-        throw new Error('DB 오류: 해당 ID를 가진 폴이 존재하지 않습니다.');
-      }
-
-      if (parseInt(req.user.id, 10) !== parseInt(result[0].user_id, 10)) {
-        res.locals.error = 'JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다.';
-        res.locals.errorStatus = 403;
-        throw new Error('DB 오류: JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다.');
-      }
+    const result = await new Promise((resolve, reject) => {
+      connection.query(searchQuery, [poll_id], (error, result) => {
+        if (error) {
+          console.error('DB 쿼리 오류:', error);
+          res.locals.status = 500;
+          res.locals.data = { message: 'DB 쿼리 오류', error: error.message };
+          reject(new Error('DB 오류: poll에서 user_id 조회 중 오류 발생'));
+        }
+        resolve(result);
+      });
     });
 
+    console.log(result);
+
+    if (result.length === 0) {
+      res.locals.status = 404;
+      res.locals.data = { message: '해당 ID를 가진 폴이 존재하지 않습니다.' };
+      throw new Error('DB 오류: 해당 ID를 가진 폴이 존재하지 않습니다.');
+    }
+
+    if (parseInt(req.user.id, 10) !== parseInt(result[0].user_id, 10)) {
+      res.locals.status = 403;
+      res.locals.data = { message: 'JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다.' };
+      throw new Error('DB 오류: JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다.');
+    }
+
     const resultQuery = 'SELECT question, explanation, luck, master_name FROM result WHERE poll_id = ?';
-    await connection.query(resultQuery, [poll_id], (error, resultData) => {
-      if (error) {
-        res.locals.error = 'DB 쿼리 오류';
-        res.locals.errorStatus = 500;
-        throw new Error('DB 오류: result에서 데이터 조회 중 오류 발생');
-      }
+    const resultData = await new Promise((resolve, rejects) => {
+      connection.query(resultQuery, [poll_id], (error, result) => {
+        if (error) {
+          res.locals.status = 500;
+          res.locals.data = { message: 'DB 쿼리 오류', error: error.message };
+          rejects(new Error('DB 오류: result에서 데이터 조회 중 오류 발생'));
+        }
+        resolve(result);
+      });
     });
 
     const cardsQuery = 'SELECT image_url, explanation FROM card WHERE poll_id = ?';
-    await connection.query(cardsQuery, [poll_id], (error, cardData) => {
-      if (error) {
-        res.locals.error = 'DB 쿼리 오류';
-        res.locals.errorStatus = 500;
-        throw new Error('DB 오류: card에서 데이터 조회 중 오류 발생');
-      }
+    const cardData = await new Promise((resolve, rejects) => {
+      connection.query(cardsQuery, [poll_id], (error, cardData) => {
+        if (error) {
+          res.locals.status = 500;
+          res.locals.data = { message: 'DB 쿼리 오류', error: error.message };
+          rejects(new Error('DB 오류: card에서 데이터 조회 중 오류 발생'));
+        }
+        resolve(cardData);
+      });
     });
 
     res.locals.data = {
@@ -91,13 +102,13 @@ router.get('/detail', async (req, res, next) => {
       card: cardData.length > 0 ? cardData : '데이터가 없음',
     };
 
-    next();
+    return next();
 
   } catch (error) {
     console.error(error);
-    res.locals.error = error.message;
-    res.locals.errorStatus = 500;
-    next();
+    res.locals.data = { message: error.message };
+    res.locals.status = 500;
+    return next();
   }
 }, commonResponse);
 
