@@ -13,9 +13,6 @@ import NextButton from "../assets/NextBtn.png";
 import { motion, AnimatePresence } from "framer-motion";
 import { chunkArray, shuffleArray } from "../component/ShuffleArray";
 import axios from "axios";
-import { io } from "socket.io-client";
-import { useRecoilValue } from "recoil";
-import { accessTokenState } from "../state/atom";
 
 const BackgroundColor = styled.div`
   background: #000;
@@ -158,42 +155,7 @@ const CardSelect = () => {
   const [card2, setCard2] = useState("");
   const [card3, setCard3] = useState("");
   const [clicknumber, setClickNumber] = useState(-1);
-  //const [streamData, setStreamData] = useState("");
-  const [streamArray, setStreamArray] = useState("");
-  const accesstoken = useRecoilValue(accessTokenState);
 
-  const socket = io(`http://localhost:3000/?cards=1,3,5&ask=hi`, {
-    auth: {
-      token: accesstoken,
-    },
-  });
-  const webSocketStreaming = () => {
-    socket.on("chat message", (msg) => {
-      console.log(msg);
-      //promptInput();
-    });
-
-    socket.on("message", (msg) => {
-      console.log(`받은 메시지 :" + ${msg}`);
-      setStreamArray((prev) => prev + msg);
-    });
-
-    socket.on("connect", () => {
-      console.log("서버에 연결되었습니다.");
-    });
-    socket.on("disconnect", () => {
-      console.log("서버와의 연결이 끊어졌습니다.");
-    });
-
-    socket.on("success", () => {
-      console.log("연결 작업 성공");
-    });
-
-    socket.on("finish", async () => {
-      console.log("연결 작업 종료");
-      socket.disconnect();
-    });
-  };
   const incraseIndex = () => {
     setCount((prev) => (prev === 3 ? 0 : prev + 1));
     setBack(false);
@@ -257,14 +219,12 @@ const CardSelect = () => {
     const numbers = Array.from({ length: 78 }, (_, index) => index + 1);
     shuffleArray(numbers);
     setChunkNumber(chunkArray(numbers, 22));
-    webSocketStreaming();
   }, []);
   return (
     <BackgroundColor>
       <Inside>
         <Navbar />
         <BackgroundWrapper>
-          <p style={{ color: "white" }}>{streamArray}</p>
           <BackgroundImg src={Background} alt="Background" />
           <CardsWrapper>
             <Cards>
