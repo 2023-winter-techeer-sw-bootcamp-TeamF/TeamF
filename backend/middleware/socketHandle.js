@@ -9,6 +9,11 @@ const socketSendHandler = (req, res, next) => {
     const socketId = socketConnection.getSocketId(userId); // 사용자 아이디를 통해 소켓 아이디를 가져옴
     console.log('socketId : ' + socketId);
 
+    if(socketId == null || socketId == 'undefined') {
+        res.status(500).json({ message: '소켓 연결 오류', error: '소켓 연결이 되어있지 않습니다' });
+        return;
+    }
+
     req.socketId = socketId;
 
     // socket.io를 연결

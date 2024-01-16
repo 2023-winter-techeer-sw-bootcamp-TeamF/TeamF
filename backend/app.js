@@ -15,6 +15,7 @@ const s3 = require('./aws/awsS3');
 const verifyToken = require('./middleware/verifyToken');
 const socketConnection = require('./middleware/socketConnection');
 const { socketSendHandler } = require('./middleware/socketHandle');
+const checkPoll = require('./middleware/checkPoll');
 const app = express();
 const secretName = "MySQL_Info";
 const secretGptApiKey = "GPT_KEY";
@@ -61,7 +62,7 @@ app.use('/mypage', verifyToken, require('./routes/mypage'));
 app.use('/test', require('./routes/test/test'));
 app.use('/secret', require('./routes/test/secretsManager'));
 app.use('/token', require('./routes/token'));
-app.use('/stream', verifyToken, socketSendHandler, require('./routes/stream'));
+app.use('/stream', verifyToken, checkPoll, socketSendHandler, require('./routes/stream'));
 // 공통 응답 미들웨어
 app.use(require('./middleware/commonResponse'));
 // 404 핸들러
