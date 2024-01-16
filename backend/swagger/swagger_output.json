@@ -990,7 +990,7 @@
         }
       }
     },
-    "/stream/": {
+    "/stream/act": {
       "post": {
         "tags": [
           "Stream"

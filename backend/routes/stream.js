@@ -10,7 +10,7 @@ const { socketFinishHandler } = require('../middleware/socketHandle');
 const savePrompt = require('../middleware/savePrompt');
 const router = express.Router();
 
-router.post('/', async (req, res, next) => {
+router.post('/act', async (req, res, next) => {
     /*
     #swagger.tags = ['Stream']
     #swagger.summary = "타로 결과 GPT 요청"
@@ -148,7 +148,8 @@ router.post('/', async (req, res, next) => {
           resultArray[resultIndex] += streamMessage; // 파싱한 데이터를 배열에 저장
           clientRecv += streamMessage; // 사용자가 받은 메시지 저장
 
-          if (resultIndex == numOfExplain && streamMessage != '') io.to(socketId).emit('message', streamMessage); // 소켓으로 메시지 전송
+          // resultIndex == numOfExplain
+          if ( streamMessage != '') io.to(socketId).emit('message', streamMessage); // 소켓으로 메시지 전송
         }
       }
 
