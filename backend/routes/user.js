@@ -8,43 +8,44 @@ const router = express.Router();
 
 // 회원가입 API
 router.post("/signup", async (req, res, next) => {
-  // #swagger.tags = ['User']
-  // #swagger.summary = "회원가입"
-  // #swagger.description = '회원가입 하는 유저의 아이디 중복검사 및 가입 하는 유저의 정보를 데이터베이스에 저장'
-  /*  #swagger.responses[400] = {
-            description: '접근 방식 오류',
-            schema: { message: '모두 입력해주세요!', error:'접근 방식 오류'}
-        } */
-  /*  #swagger.responses[409] = {
-            description: '이미 존재하는 아이디',
-            schema: { message: '이미 존재하는 아이디 입니다.', error:'중복 에러'}
-        } */
-  /*  #swagger.responses[500] = {
-            description: '회원가입 정보 불러오기 실패',
-            schema: { message: '회원가입 정보 불러오기 실패', error: '회원가입 정보 불러오기 실패'}
-    } */
-  /* #swagger.parameters['login_id'] = { 
-        in: 'query',
-        description: '사용자의 아이디', 
-        required: true,
-        type: 'string',
-        example: 'minki',
-    } */
-  /* #swagger.parameters['password'] = {
-        in: 'query',
-        description: '비밀번호',
-        required: true,
-        type: 'string',
-        example: '0000'
-    } */
-  /* #swagger.parameters['name'] = {
-        in: 'query',
-        description: '닉네임',
-        required: true,
-        type: 'string',
-        example: '타로마스터'
-    }*/
-
+  /*
+  #swagger.tags = ['User']
+  #swagger.summary = "회원가입"
+  #swagger.description = '회원가입 하는 유저의 아이디 중복검사 및 가입 하는 유저의 정보를 데이터베이스에 저장'
+  #swagger.responses[400] = {
+    description: '접근 방식 오류',
+    schema: { message: '모두 입력해주세요!', error:'접근 방식 오류'}
+  } 
+  #swagger.responses[409] = {
+    description: '이미 존재하는 아이디',
+    schema: { message: '이미 존재하는 아이디 입니다.', error:'중복 에러'}
+  } 
+  #swagger.responses[500] = {
+    description: '회원가입 정보 불러오기 실패',
+    schema: { message: '회원가입 정보 불러오기 실패', error: '회원가입 정보 불러오기 실패'}
+  } 
+  #swagger.parameters['login_id'] = { 
+    in: 'query',
+    description: '사용자의 아이디', 
+    required: true,
+    type: 'string',
+    example: 'minki',
+  } 
+  #swagger.parameters['password'] = {
+    in: 'query',
+    description: '비밀번호',
+    required: true,
+    type: 'string',
+    example: '0000'
+  } 
+  #swagger.parameters['name'] = {
+    in: 'query',
+    description: '닉네임',
+    required: true,
+    type: 'string',
+    example: '타로마스터'
+  }
+  */
   try {
     const { login_id, password, name } = req.query;
 

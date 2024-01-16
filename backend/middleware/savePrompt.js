@@ -9,8 +9,6 @@ const savePrompt = async (req, res, next) => {
   const connection = db.getConnection();
 
   try {
-    // DB에 저장
-    
     // 타로 종합 결과 저장 (Promise 사용)
     const insertResult = new Promise((resolve, reject) => {
       // 타로 종합 결과 저장 쿼리

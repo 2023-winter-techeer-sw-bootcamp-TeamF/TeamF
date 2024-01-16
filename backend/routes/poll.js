@@ -3,7 +3,7 @@ const commonResponse = require("../middleware/commonResponse.js");
 const db = require("../mysql/database.js");
 const router = express.Router();
 
-router.get("/create", (req, res, next) => {
+router.get("/create", async (req, res, next) => {
   /*
    #swagger.tags = ['Tarot']
    #swagger.security = [{ "Bearer": [] }]
@@ -28,7 +28,6 @@ router.get("/create", (req, res, next) => {
           }
       }
   } */
-
   const user_id = req.user.id;
 
   try {
@@ -43,25 +42,30 @@ router.get("/create", (req, res, next) => {
 
     // 데이터베이스 연결 및 쿼리 실행
     const connection = db.getConnection();
+
     const query = "INSERT INTO poll (user_id) VALUES (?)";
-    connection.query(query, [user_id], (error, results, fields) => {
-      if (error) {
-        res.locals.status = 500;
-        res.locals.data = { message: "DB 저장 오류", error: error.message };
-        throw new Error("poll 생성 실패: DB 저장 오류");
-      }
+    await new Promise((resolve, reject) => {
+      connection.query(query, [user_id], (error, results, fields) => {
+        if (error) {
+          res.locals.status = 500;
+          res.locals.data = { message: "DB 저장 오류", error: error.message };
+          reject(new Error("poll 생성 실패: DB 저장 오류"));
+        }
+        resolve(results);
+      });
     });
 
     res.locals.data = {
       message: "Poll ID 생성 완료",
-      pollId: results.insertId,
+      pollId: result.insertId,
     };
+
     next();
 
   } catch (error) {
-    console.error(error);
-    res.locals.error = error.message;
-    res.locals.errorStatus = 500;
+    console.error(error.message);
+    res.locals.status = 500;
+    res.locals.data = { message: error.message };
     next();
   }
 }, commonResponse); // commonResponse 미들웨어를 체인으로 추가

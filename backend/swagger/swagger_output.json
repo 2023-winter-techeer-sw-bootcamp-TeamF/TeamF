@@ -970,19 +970,7 @@
             }
           },
           "403": {
-            "description": "유효하지 않은 리프레시 토큰의 응답",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "error": {
-                  "type": "string",
-                  "example": "유효하지 않은 리프레시 토큰입니다."
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
+            "description": "Forbidden"
           },
           "500": {
             "description": "Internal Server Error"

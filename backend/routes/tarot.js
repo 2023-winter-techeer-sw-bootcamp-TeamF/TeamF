@@ -65,18 +65,17 @@ router.get("/guide", async (req, res, next) => {
 
     // 쿼리가 성공하면 resolve를 호출하여 결과를 반환하고, 실패하면 reject를 호출하여 에러를 반환
     const getLuckList = (luckType, luckOpt) => {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         // 운 카테고리 Table에서 가이드라인 내용 조회
         const query = "SELECT * FROM luck_list WHERE luck = ? AND opt = ?";
         connection.query(query, [luckType, luckOpt], (error, results, fields) => {
           if (error) {
-            reject(error);
             res.locals.status = 500;
             res.locals.data = { message: "DB 조회 오류", error };
             throw new Error("운 카테고리 Table에서 데이터 조회 중 오류 발생");
-          } else {
-            resolve(results);
-          }
+          } 
+          
+          resolve(results);
         }
         );
       });
