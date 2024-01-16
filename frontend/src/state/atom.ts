@@ -16,3 +16,13 @@ export const refreshTokenState = atom({
   default: "",
   effects_UNSTABLE: [persistAtom],
 });
+
+export const pollIdState = atom({
+  key: "pollIdState",
+  default: "",
+});
+
+export const replyState = atom({
+  key: "replyState",
+  default: "",
+});

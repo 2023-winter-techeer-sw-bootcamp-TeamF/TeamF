@@ -8,6 +8,7 @@ COPY nginx.conf /etc/nginx/nginx.conf
 
 # Nginx가 사용할 포트를 지정합니다 (옵션)
 EXPOSE 80
+EXPOSE 443
 
 # Nginx 서버를 시작합니다
 CMD ["nginx", "-g", "daemon off;"]

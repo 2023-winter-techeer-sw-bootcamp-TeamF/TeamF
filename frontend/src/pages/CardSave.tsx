@@ -7,9 +7,6 @@ import BackgroundImg1 from "../assets/Background.png";
 import { Link } from "react-router-dom";
 import LinkBtn from "../assets/LinkButton.png";
 import ShareBtn from "../assets/ShareButton.png";
-import axios from "axios";
-import { useRecoilValue } from "recoil";
-import { accessTokenState } from "../state/atom";
 const Background = styled.div`
   width: 100vw;
   height: 100vh;
@@ -220,30 +217,6 @@ const ShareButtonIcon1 = styled.img`
   height: 100%;
 `;
 function CardSave() {
-  const accesstoken = useRecoilValue(accessTokenState);
-  const getStream = async () => {
-    try {
-      const response = await axios.post(
-        "/stream/",
-        {},
-        {
-          headers: {
-            Authorization: accesstoken,
-          },
-          params: {
-            cards: 15,
-            ask: "안녕하세요",
-            luckType: 5,
-            poll_id: 11,
-          },
-        }
-      );
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  getStream();
   return (
     <>
       <Background>
