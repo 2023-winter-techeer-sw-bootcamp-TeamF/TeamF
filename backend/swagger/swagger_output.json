@@ -5,7 +5,7 @@
     "description": "오늘도 화이팅",
     "version": "1.0.0"
   },
-  "host": "43.202.208.226:3001",
+  "host": "localhost:3000",
   "basePath": "/",
   "schemes": [
     "http"
@@ -292,6 +292,53 @@
                 "name": "main"
               }
             }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/poll/list": {
+      "get": {
+        "tags": [
+          "MyPage"
+        ],
+        "summary": "마이 페이지에서 결과 리스트들을 조회하기",
+        "description": "JWT토큰에서 사용자의 poll 리스트를 조회",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized: 엑세스 토큰을 복호화한 정보(user_id)가 없을 시의 응답",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "엑세스 토큰이 없습니다."
+                },
+                "error": {
+                  "type": "string",
+                  "example": "엑세스 토큰이 필요합니다"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "security": [
