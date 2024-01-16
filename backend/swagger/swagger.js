@@ -12,7 +12,7 @@ const doc = {
    */
   //host: 'localhost:3000',
   host: '43.202.208.226:3001',
-  schemes: ['http'],
+    schemes: ['http'],
   securityDefinitions: {
     Bearer: {
       type: 'apiKey',
