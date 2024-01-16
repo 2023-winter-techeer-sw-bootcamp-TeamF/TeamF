@@ -110,6 +110,7 @@ const NextBtnImg = styled.img`
 function TarotProcess() {
   const [streamArray, setStreamArray] = useState("");
   const accesstoken = useRecoilValue(accessTokenState);
+  const [trigger, setTrigger] = useState(true);
 
   const getStream = async () => {
     try {
@@ -121,10 +122,10 @@ function TarotProcess() {
             Authorization: accesstoken,
           },
           params: {
-            cards: 15,
-            ask: "안녕하세요",
-            luckType: 5,
-            poll_id: 11,
+            cards: "1,16,20",
+            ask: "요즘 조금 외롭네요",
+            luckType: 2,
+            poll_id: 94,
           },
         }
       );
@@ -150,7 +151,8 @@ function TarotProcess() {
 
   socket.on("connect", () => {
     console.log("서버에 연결되었습니다.");
-    getStream();
+    if (trigger) getStream();
+    setTrigger(false);
   });
   socket.on("disconnect", () => {
     console.log("서버와의 연결이 끊어졌습니다.");

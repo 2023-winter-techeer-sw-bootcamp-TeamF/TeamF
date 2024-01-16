@@ -106,11 +106,7 @@ router.post(
     let messages = new GptMessage(); // gpt 메시지 객체
     const streamJson = new StreamJson(); // 스트림 json 객체 생성
     let resultArray; // 결과 배열
-<<<<<<< HEAD
-    let resultAnswer = ""; // 결과 메시지
-=======
     let resultAnswer = new String(); // 결과 메시지
->>>>>>> 57f303f59cc9b4772e79d138eff2885fc7558949
     let cardAnswerArray = new Array(); // 결과 배열
     res.locals.ignore = true; // commonResponse 미들웨어에서 응답을 보내지 않음
 
@@ -141,11 +137,7 @@ router.post(
     }
 
     // 결과 배열 생성
-<<<<<<< HEAD
-    resultArray = Array.from({ length: numOfExplain }, () => ""); // 결과 배열 생성
-=======
     resultArray = Array.from({ length: numOfExplain + 1 }, () => ''); // 결과 배열 생성
->>>>>>> 57f303f59cc9b4772e79d138eff2885fc7558949
 
     // gpt 메시지 생성
     messages.addUserTestMessage();
