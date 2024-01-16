@@ -14,6 +14,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { chunkArray, shuffleArray } from "../component/ShuffleArray";
 import axios from "axios";
 import { io } from "socket.io-client";
+import { useRecoilValue } from "recoil";
+import { accessTokenState } from "../state/atom";
 
 const BackgroundColor = styled.div`
   background: #000;
@@ -158,11 +160,11 @@ const CardSelect = () => {
   const [clicknumber, setClickNumber] = useState(-1);
   //const [streamData, setStreamData] = useState("");
   const [streamArray, setStreamArray] = useState("");
+  const accesstoken = useRecoilValue(accessTokenState);
 
-  const socket = io(`http://localhost:3000/stream/?cards=1,3,5&ask=hi`, {
+  const socket = io(`http://localhost:3000/?cards=1,3,5&ask=hi`, {
     auth: {
-      token:
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6InRlc3QiLCJpYXQiOjE3MDUzMzc3MDgsImV4cCI6MTcwNTM0MTMwOH0.O6ucZTI5KwkxcfIZGA1ZpWGIWFWOh22Oj4NEY_69f-I",
+      token: accesstoken,
     },
   });
   const webSocketStreaming = () => {
@@ -223,6 +225,7 @@ const CardSelect = () => {
     }
   };
   const consoleIndex1 = (index: number, count: number) => {
+    webSocketStreaming();
     console.log(chunkNumber[count][index]);
     getImage(chunkNumber[count][index]); // 현재 사용자가 클릭한 번호
     chunkNumber[count].splice(index, 1);
@@ -255,7 +258,6 @@ const CardSelect = () => {
     const numbers = Array.from({ length: 78 }, (_, index) => index + 1);
     shuffleArray(numbers);
     setChunkNumber(chunkArray(numbers, 22));
-    webSocketStreaming();
   }, []);
   return (
     <BackgroundColor>
