@@ -147,36 +147,38 @@ router.delete('/delete', async (req, res, next) => {
   try {
 
     const searchQuery = 'SELECT user_id FROM poll WHERE id = ?';
-    await new Promise((resolve, reject) => {
+    const result = await new Promise((resolve, reject) => {
       connection.query(searchQuery, [poll_id], (error, result) => {
         if (error) {
-          res.locals.error = 'DB 쿼리 오류';
-          res.locals.errorStatus = 500;
+          res.locals.status = 500;
+          res.locals.data = { message: 'DB 쿼리 오류', error: error.message };
           reject(new Error('DB 오류: poll에서 user_id 조회 중 오류 발생'));
         }
-
-        if (result.length === 0) {
-          res.locals.error = '해당 ID를 가진 폴이 존재하지 않습니다.';
-          res.locals.errorStatus = 404;
-          reject(new Error('DB 오류: 해당 유저 ID를 가진 폴이 존재하지 않습니다.'));
-        }
-
-        if (parseInt(req.user.id, 10) !== parseInt(result[0].user_id, 10)) {
-          res.locals.error = '토큰과 폴 아이디가 일치하지 않습니다';
-          res.locals.errorStatus = 403;
-          reject(new Error('DB 오류: 토큰과 폴 아이디가 일치하지 않습니다'));
-        }
+        resolve(result);
       });
     });
+
+    if (result.length == 0) {
+      res.locals.status = 404;
+      res.locals.data = { message: '해당 ID를 가진 폴이 존재하지 않습니다.' };
+      throw new Error('DB 오류: 해당 유저 ID를 가진 폴이 존재하지 않습니다.');
+    }
+
+    if (parseInt(req.user.id, 10) !== parseInt(result[0].user_id, 10)) {
+      res.locals.status = 403;
+      res.locals.data = { message: 'JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다.' };
+      throw new Error('DB 오류: 토큰과 폴 아이디가 일치하지 않습니다');
+    }
 
     const deleteResultQuery = 'DELETE FROM poll WHERE id = ?';
     await new Promise((resolve, reject) => {
       connection.query(deleteResultQuery, [poll_id], (error) => {
         if (error) {
-          res.locals.error = 'DB 쿼리 오류';
-          res.locals.errorStatus = 500;
+          res.locals.status = 500;
+          res.locals.data = { message: 'DB 쿼리 오류', error: error.message };
           reject(new Error('DB 오류: poll에서 id 삭제 중 오류 발생'));
         }
+        resolve();
       });
     });
 

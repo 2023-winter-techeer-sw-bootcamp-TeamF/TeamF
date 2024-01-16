@@ -28,6 +28,7 @@ router.get("/create", async (req, res, next) => {
           }
       }
   } */
+  let result;
   const user_id = req.user.id;
 
   try {
@@ -44,7 +45,7 @@ router.get("/create", async (req, res, next) => {
     const connection = db.getConnection();
 
     const query = "INSERT INTO poll (user_id) VALUES (?)";
-    await new Promise((resolve, reject) => {
+    result = await new Promise((resolve, reject) => {
       connection.query(query, [user_id], (error, results, fields) => {
         if (error) {
           res.locals.status = 500;
@@ -60,13 +61,13 @@ router.get("/create", async (req, res, next) => {
       pollId: result.insertId,
     };
 
-    next();
+    return next();
 
   } catch (error) {
     console.error(error.message);
     res.locals.status = 500;
     res.locals.data = { message: error.message };
-    next();
+    return next();
   }
 }, commonResponse); // commonResponse 미들웨어를 체인으로 추가
 
