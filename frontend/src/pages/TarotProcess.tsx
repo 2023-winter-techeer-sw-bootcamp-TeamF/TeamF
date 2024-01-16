@@ -115,16 +115,16 @@ function TarotProcess() {
     try {
       const response = await axios.post(
         "/stream/",
-        {}, // POST 요청 본문에 보낼 데이터가 없으므로 빈 객체 사용
+        {},
         {
           headers: {
             Authorization: accesstoken,
           },
           params: {
-            cards: "15,20,7",
+            cards: 15,
             ask: "안녕하세요",
             luckType: 5,
-            poll_id: 6,
+            poll_id: 11,
           },
         }
       );

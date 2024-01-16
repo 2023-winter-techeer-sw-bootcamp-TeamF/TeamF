@@ -11,7 +11,7 @@ export default defineConfig({
     proxy: {
       "/tarot": "http://localhost:3001/",
       "/user": "http://localhost:3001/",
-      "/stream/": "http://localhost:3001/",
+      "/stream": "http://localhost:3001/",
       "/result": "http://localhost:3001/",
     },
   },
