@@ -225,7 +225,6 @@ const CardSelect = () => {
     }
   };
   const consoleIndex1 = (index: number, count: number) => {
-    webSocketStreaming();
     console.log(chunkNumber[count][index]);
     getImage(chunkNumber[count][index]); // 현재 사용자가 클릭한 번호
     chunkNumber[count].splice(index, 1);
@@ -258,6 +257,7 @@ const CardSelect = () => {
     const numbers = Array.from({ length: 78 }, (_, index) => index + 1);
     shuffleArray(numbers);
     setChunkNumber(chunkArray(numbers, 22));
+    webSocketStreaming();
   }, []);
   return (
     <BackgroundColor>
