@@ -98,7 +98,7 @@ router.post('/', async (req, res, next) => {
     let messages = new GptMessage(); // gpt 메시지 객체
     const streamJson = new StreamJson(); // 스트림 json 객체 생성
     let resultArray; // 결과 배열
-    let resultAnswer = ''; // 결과 메시지
+    let resultAnswer = new String(); // 결과 메시지
     let cardAnswerArray = new Array(); // 결과 배열
     res.locals.ignore = true; // commonResponse 미들웨어에서 응답을 보내지 않음
 
@@ -125,7 +125,7 @@ router.post('/', async (req, res, next) => {
     }
 
     // 결과 배열 생성
-    resultArray = Array.from({ length: numOfExplain }, () => ''); // 결과 배열 생성
+    resultArray = Array.from({ length: numOfExplain + 1 }, () => ''); // 결과 배열 생성
 
     // gpt 메시지 생성
     messages.addUserTestMessage();
