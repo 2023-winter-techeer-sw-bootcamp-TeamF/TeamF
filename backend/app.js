@@ -22,7 +22,12 @@ const secretGptApiKey = "GPT_KEY";
 // Express 미들웨어 설정
 app.use(express.json());
 const server = http.createServer(app); // http 서버 생성
-const io = socketIo(server); // socket.io와 서버 연결
+const io = socketIo(server, { // socket.io 서버 생성
+  cors: {
+    origin: "*", // 모든 오리진 허용
+    credentials: true // 쿠키 허용
+  }
+}); // socket.io와 서버 연결
 app.use(express.urlencoded({ extended: false }));
 // 소켓 이벤트 설정
 io.use(socketConnection.clientAuthor);
