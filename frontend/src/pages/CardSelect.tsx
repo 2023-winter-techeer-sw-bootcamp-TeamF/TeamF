@@ -12,6 +12,9 @@ import NextButton from "../assets/NextBtn.png";
 import { motion, AnimatePresence } from "framer-motion";
 import { chunkArray, shuffleArray } from "../component/ShuffleArray";
 import axios from "axios";
+import { useRecoilState } from "recoil";
+// import { cardNumberAtom } from "../state/atom"; // atoms.ts에서 정의한 Atom을 불러온다
+import { cardInfoAtom } from "../state/atom";
 
 const BackgroundColor = styled.div`
   background: #000;
@@ -150,10 +153,14 @@ const CardSelect = () => {
   const [holdCount, setHoldCount] = useState(0);
   const [back, setBack] = useState(false); //뒤로 갈지 앞으로 갈지
   const [chunkNumber, setChunkNumber] = useState<number[][]>([]);
+  /*
   const [card1, setCard1] = useState("");
   const [card2, setCard2] = useState("");
   const [card3, setCard3] = useState("");
+  */
   const [clicknumber, setClickNumber] = useState(-1);
+  // const [cardNumber, setCardNumber] = useRecoilState(cardNumberAtom);
+  const [cardInfo, setCardInfo] = useRecoilState<CardInfo>(cardInfoAtom);
 
   const incraseIndex = () => {
     setCount((prev) => (prev === 3 ? 0 : prev + 1));
@@ -164,6 +171,12 @@ const CardSelect = () => {
     setBack(true);
   };
 
+  interface CardInfo {
+    card1: string;
+    card2: string;
+    card3: string;
+  }
+
   const getImage = async (card: number) => {
     console.log(card);
     try {
@@ -173,18 +186,38 @@ const CardSelect = () => {
       });
 
       if (holdCount === 0) {
+        setCardInfo((prev) => ({
+          ...prev,
+          card1: response.data.data.image_url,
+        }));
+      } else if (holdCount === 1) {
+        setCardInfo((prev) => ({
+          ...prev,
+          card2: response.data.data.image_url,
+        }));
+      } else if (holdCount === 2) {
+        setCardInfo((prev) => ({
+          ...prev,
+          card3: response.data.data.image_url,
+        }));
+      }
+
+      /*
+      if (holdCount === 0) {
         setCard1(response.data.data.image_url);
       } else if (holdCount === 1) {
         setCard2(response.data.data.image_url);
       } else if (holdCount === 2) {
         setCard3(response.data.data.image_url);
       }
-
+*/
       setHoldCount((prev) => (prev === 2 ? 3 : prev + 1));
+      // setCardNumber(card);
     } catch (error) {
       console.log(error);
     }
   };
+
   const consoleIndex1 = (index: number, count: number) => {
     console.log(chunkNumber[count][index]);
     getImage(chunkNumber[count][index]); // 현재 사용자가 클릭한 번호
@@ -219,6 +252,7 @@ const CardSelect = () => {
     shuffleArray(numbers);
     setChunkNumber(chunkArray(numbers, 22));
   }, []);
+
   return (
     <BackgroundColor>
       <Inside>
@@ -228,14 +262,14 @@ const CardSelect = () => {
           <CardsWrapper>
             <Cards>
               <CardBackground>
-                <TaroEx src={card1} />
+                <TaroEx src={cardInfo.card1} />
               </CardBackground>
 
               <CardBackground>
-                <TaroEx src={card2} />
+                <TaroEx src={cardInfo.card2} />
               </CardBackground>
               <CardBackground>
-                <TaroEx src={card3} />
+                <TaroEx src={cardInfo.card3} />
               </CardBackground>
             </Cards>
             <AnimatePresence mode="wait" custom={back}>

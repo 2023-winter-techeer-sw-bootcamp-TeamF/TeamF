@@ -4,6 +4,7 @@ import TaroEx1 from "../assets/TaroEx1.png";
 import TaroEx2 from "../assets/TaroEx2.png";
 import TaroEx3 from "../assets/TaroEx3.png";
 import { Link } from "react-router-dom";
+import { cardInfoAtom } from "../state/atom";
 
 const Background = styled.div`
   width: 100vw;
@@ -126,6 +127,7 @@ const Row = styled.div`
 `;
 
 function MyPage() {
+  console.log(cardInfoAtom);
   return (
     <>
       <Background>
