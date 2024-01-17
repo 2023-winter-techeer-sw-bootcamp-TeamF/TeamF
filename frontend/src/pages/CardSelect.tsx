@@ -7,14 +7,18 @@ import TaroEx1 from "../assets/TaroEx1.png";
 import TaroEx2 from "../assets/TaroEx2.png";
 import TaroEx3 from "../assets/TaroEx3.png";
 */
+import { useNavigate } from "react-router-dom";
 import BackOfCard from "../assets/BackOfCard.png";
 import NextButton from "../assets/NextBtn.png";
 import { motion, AnimatePresence } from "framer-motion";
 import { chunkArray, shuffleArray } from "../component/ShuffleArray";
 import axios from "axios";
-import { useRecoilState } from "recoil";
-// import { cardNumberAtom } from "../state/atom"; // atoms.ts에서 정의한 Atom을 불러온다
-import { cardInfoAtom } from "../state/atom";
+import { useSetRecoilState } from "recoil";
+import {
+  cardNumberAtom1,
+  cardNumberAtom2,
+  cardNumberAtom3,
+} from "../state/atom";
 
 const BackgroundColor = styled.div`
   background: #000;
@@ -143,7 +147,7 @@ const NextBtnImg = styled.img`
   height: 100%;
 `;
 
-const CardSelect = () => {
+const CardSelect: React.FC = () => {
   const [numberOfCards1, setNumberOfCards1] = useState(22); // 1번째 줄 카드 수
   const [numberOfCards2, setNumberOfCards2] = useState(22); // 2번째 줄 카드 수
   const [numberOfCards3, setNumberOfCards3] = useState(22); // 3번째 줄 카드 수
@@ -153,14 +157,16 @@ const CardSelect = () => {
   const [holdCount, setHoldCount] = useState(0);
   const [back, setBack] = useState(false); //뒤로 갈지 앞으로 갈지
   const [chunkNumber, setChunkNumber] = useState<number[][]>([]);
-  /*
+
   const [card1, setCard1] = useState("");
   const [card2, setCard2] = useState("");
   const [card3, setCard3] = useState("");
-  */
+
   const [clicknumber, setClickNumber] = useState(-1);
-  // const [cardNumber, setCardNumber] = useRecoilState(cardNumberAtom);
-  const [cardInfo, setCardInfo] = useRecoilState<CardInfo>(cardInfoAtom);
+  const setCardNumber1 = useSetRecoilState(cardNumberAtom1);
+  const setCardNumber2 = useSetRecoilState(cardNumberAtom2);
+  const setCardNumber3 = useSetRecoilState(cardNumberAtom3);
+  const navigate = useNavigate();
 
   const incraseIndex = () => {
     setCount((prev) => (prev === 3 ? 0 : prev + 1));
@@ -171,46 +177,25 @@ const CardSelect = () => {
     setBack(true);
   };
 
-  interface CardInfo {
-    card1: string;
-    card2: string;
-    card3: string;
-  }
-
   const getImage = async (card: number) => {
-    console.log(card);
     try {
       console.log(holdCount);
       const response = await axios.post("/tarot/card/info", null, {
         params: { card }, // {이름/카드 번호}
       });
-
-      if (holdCount === 0) {
-        setCardInfo((prev) => ({
-          ...prev,
-          card1: response.data.data.image_url,
-        }));
-      } else if (holdCount === 1) {
-        setCardInfo((prev) => ({
-          ...prev,
-          card2: response.data.data.image_url,
-        }));
-      } else if (holdCount === 2) {
-        setCardInfo((prev) => ({
-          ...prev,
-          card3: response.data.data.image_url,
-        }));
-      }
-
-      /*
       if (holdCount === 0) {
         setCard1(response.data.data.image_url);
+        setCardNumber1(card);
       } else if (holdCount === 1) {
         setCard2(response.data.data.image_url);
+        setCardNumber2(card);
       } else if (holdCount === 2) {
         setCard3(response.data.data.image_url);
+        setCardNumber3(card);
+
+        navigate("/tarotprocess");
       }
-*/
+
       setHoldCount((prev) => (prev === 2 ? 3 : prev + 1));
       // setCardNumber(card);
     } catch (error) {
@@ -262,14 +247,14 @@ const CardSelect = () => {
           <CardsWrapper>
             <Cards>
               <CardBackground>
-                <TaroEx src={cardInfo.card1} />
+                {card1 ? <TaroEx src={card1} /> : null}
               </CardBackground>
 
               <CardBackground>
-                <TaroEx src={cardInfo.card2} />
+                {card2 ? <TaroEx src={card2} /> : null}
               </CardBackground>
               <CardBackground>
-                <TaroEx src={cardInfo.card3} />
+                {card3 ? <TaroEx src={card3} /> : null}
               </CardBackground>
             </Cards>
             <AnimatePresence mode="wait" custom={back}>
