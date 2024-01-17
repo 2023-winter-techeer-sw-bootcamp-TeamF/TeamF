@@ -21,9 +21,9 @@ services:
       - "80:80"
       - "443:443"
     # restart: always
-    volumes:
-      - ./certbot/conf/live/tairot.online/fullchain.pem:/etc/nginx/ssl/fullchain.pem:ro
-      - ./certbot/conf/live/tairot.online/privkey.pem:/etc/nginx/ssl/privkey.pem:ro
+    # volumes:
+    #   - ./certbot/conf/live/tairot.online/fullchain.pem:/etc/nginx/ssl/fullchain.pem:ro
+    #   - ./certbot/conf/live/tairot.online/privkey.pem:/etc/nginx/ssl/privkey.pem:ro
     depends_on:
       - backend
       - frontend
