@@ -16,7 +16,6 @@ const clientAuthor = (socket, next) => {
   try {
     const decoded = jwt.verify(token, 'your_secret_key_for_access_token');
     socket.user = decoded;
-    console.log('socket.user : ', socket.user);
     return next(); // 성공적인 경우 여기서 next 호출
   } catch (error) {
     console.log('clientAuthor:', error);
@@ -30,9 +29,6 @@ const newClientHandler = (socket, next) => {
 
   gptclientConnectionList.set(userId, socketId);
 
-  console.log('new client connected:', userId);
-  console.log('socketId : ' + socketId);
-  console.log('gptclientConnectionList : ' + gptclientConnectionList.get(userId));
   next();
 };
 
@@ -53,8 +49,6 @@ const clientConnectedHandler = (socket) => {
 };
 
 const getSocketId = (userId) => {
-    console.log('getSocketId : ' + userId);
-    console.log('getSocketId : ' + gptclientConnectionList.get(userId));
   return gptclientConnectionList.get(userId);
 };
 

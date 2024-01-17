@@ -85,20 +85,14 @@ router.post(
         }
     }
     */
-
     // 변수 선언
     const { cards, ask, luckType } = req.query; // 카드 배열, 질문 저장, 운 종류, poll_id
     const poll_id = res.locals.poll; // poll_id
-    const luckTypeArray = [
-      "오늘의 운세",
-      "애정운",
-      "우정운",
-      "재물운",
-      "소망운",
-    ]; // 운 종류 배열
-    const masterName = ["세레나", "샤를린", "마틸드", "루크", "굴이"]; // 마스터 이름 배열
-    const socketId = req.socketId; // 소켓 아이디
-    const io = req.app.get("io"); // 소켓 io 객체
+    const luckTypeArray = ['오늘의 운세', '애정운', '우정운', '재물운', '소망운']; // 운 종류 배열
+    const masterName = ['세레나', '샤를린', '마틸드', '루크', '굴이']; // 마스터 이름 배열
+    const socketId = res.locals.socketId; // 소켓 아이디
+    const io = req.app.get('io'); // 소켓 io 객체
+
     let cardsArray = []; // 카드 배열
     let intCardArray = []; // 카드 번호 배열
     let numOfExplain = 0; // 해석의 수
@@ -108,17 +102,22 @@ router.post(
     let resultArray; // 결과 배열
     let resultAnswer = new String(); // 결과 메시지
     let cardAnswerArray = new Array(); // 결과 배열
-    res.locals.ignore = true; // commonResponse 미들웨어에서 응답을 보내지 않음
 
     // 유효한 정보인지 검사하는 기능
-    if (!cards || !ask) {
+    if (!cards || !ask || !luckType || !poll_id) {
       res.locals.status = 400;
       res.locals.data = {
         error: "유효하지 않은 데이터입니다. (널 값, 누락 등)",
       };
       return next();
     }
-
+    
+    if (luckType < 1 || luckType > luckTypeArray.length) {
+      res.locals.status = 400;
+      res.locals.data = { error: '유효하지 않은 운 종류입니다.' };
+      return next();
+    }
+    
     try {
       intCardArray = toVerifyCardArray(cards);
       for (const card of intCardArray) {
@@ -136,14 +135,14 @@ router.post(
       return next(); // 오류 발생 → commonResponse 미들웨어로 이동
     }
 
-    // 결과 배열 생성
-    resultArray = Array.from({ length: numOfExplain + 1 }, () => ''); // 결과 배열 생성
-
     // gpt 메시지 생성
     messages.addUserTestMessage();
     messages.addUserMessage(ask);
     messages.addUserCardsArrayMessage(cardsArray);
     messages.addUserJsonFormMessage();
+
+    // 결과 배열 생성
+    resultArray = Array.from({ length: numOfExplain + 1 }, () => ''); // 결과 배열 생성
 
     try {
       console.log("Send To GPT : " + messages.getMessages().join(""));
@@ -160,8 +159,8 @@ router.post(
           resultArray[resultIndex] += streamMessage; // 파싱한 데이터를 배열에 저장
           clientRecv += streamMessage; // 사용자가 받은 메시지 저장
 
-          if (resultIndex == numOfExplain && streamMessage != "")
-            io.to(socketId).emit("message", streamMessage); // 소켓으로 메시지 전송
+          // resultIndex == numOfExplain
+          io.to(socketId).emit('message', gptChunkMessage); // 소켓으로 메시지 전송
         }
       }
 
