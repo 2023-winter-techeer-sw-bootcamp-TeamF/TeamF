@@ -32,4 +32,5 @@ export const replyState = atom({
 export const selectLuck = atom({
   key: "selectLuck",
   default: 0,
+  effects_UNSTABLE: [persistAtom],
 });
