@@ -193,7 +193,9 @@ const CardSelect: React.FC = () => {
         setCard3(response.data.data.image_url);
         setCardNumber3(card);
 
-        navigate("/tarotprocess");
+        setTimeout(() => {
+          navigate("/tarotprocess");
+        }, 1000);
       }
 
       setHoldCount((prev) => (prev === 2 ? 3 : prev + 1));
