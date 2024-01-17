@@ -63,6 +63,7 @@ router.post('/refresh', async (req, res, next) => {
         console.error(err);
         res.locals.status = 403;
         res.locals.data = { error: err.message };
+        return next();
     }
 });
 
