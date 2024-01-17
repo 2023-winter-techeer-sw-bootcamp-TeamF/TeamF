@@ -8,11 +8,18 @@ import TaroEx1 from "../assets/TaroEx1.png";
 import TaroEx2 from "../assets/TaroEx2.png";
 import TaroEx3 from "../assets/TaroEx3.png";
 */
+import { useNavigate } from "react-router-dom";
 import BackOfCard from "../assets/BackOfCard.png";
 import NextButton from "../assets/NextBtn.png";
 import { motion, AnimatePresence } from "framer-motion";
 import { chunkArray, shuffleArray } from "../component/ShuffleArray";
 import axios from "axios";
+import { useSetRecoilState } from "recoil";
+import {
+  cardNumberAtom1,
+  cardNumberAtom2,
+  cardNumberAtom3,
+} from "../state/atom";
 
 const BackgroundColor = styled.div`
   background: #000;
@@ -151,8 +158,13 @@ const CardSelect = () => {
   const [card1, setCard1] = useState("");
   const [card2, setCard2] = useState("");
   const [card3, setCard3] = useState("");
+
   const [clicknumber, setClickNumber] = useState(-1);
   const [selectedCard, setSelectedCard] = useState<number[][]>([[]]);
+  const setCardNumber1 = useSetRecoilState(cardNumberAtom1);
+  const setCardNumber2 = useSetRecoilState(cardNumberAtom2);
+  const setCardNumber3 = useSetRecoilState(cardNumberAtom3);
+  const navigate = useNavigate();
 
   const incraseIndex = () => {
     setCount((prev) => (prev === 3 ? 0 : prev + 1));
@@ -164,21 +176,27 @@ const CardSelect = () => {
   };
 
   const getImage = async (card: number) => {
-    console.log(card);
     try {
       const response = await axios.post("/tarot/card/info", null, {
         params: { card }, // {이름/카드 번호}
       });
-
       if (holdCount === 0) {
         setCard1(response.data.data.image_url);
+        setCardNumber1(card);
       } else if (holdCount === 1) {
         setCard2(response.data.data.image_url);
+        setCardNumber2(card);
       } else if (holdCount === 2) {
         setCard3(response.data.data.image_url);
+        setCardNumber3(card);
+
+        setTimeout(() => {
+          navigate("/process");
+        }, 1000);
       }
 
       setHoldCount((prev) => (prev === 2 ? 3 : prev + 1));
+      // setCardNumber(card);
     } catch (error) {
       console.log(error);
     }
@@ -191,19 +209,13 @@ const CardSelect = () => {
     setSelectedCard(updateCard);
     setClickNumber(index);
   };
-  const consoleIndex4 = (index: number, count: number) => {
-    getImage(selectedCard[count][index]);
-    const updateCard = [...selectedCard];
-    updateCard[count][index] = 0;
-    setSelectedCard(updateCard);
-    setClickNumber(index);
-  };
 
   useEffect(() => {
     const numbers = Array.from({ length: 78 }, (_, index) => index + 1);
     shuffleArray(numbers);
     setSelectedCard(chunkArray(numbers, 22));
   }, []);
+
   return (
     <BackgroundColor>
       <Inside>
@@ -213,14 +225,14 @@ const CardSelect = () => {
           <CardsWrapper>
             <Cards>
               <CardBackground>
-                <TaroEx src={card1} />
+                {card1 ? <TaroEx src={card1} /> : null}
               </CardBackground>
 
               <CardBackground>
-                <TaroEx src={card2} />
+                {card2 ? <TaroEx src={card2} /> : null}
               </CardBackground>
               <CardBackground>
-                <TaroEx src={card3} />
+                {card3 ? <TaroEx src={card3} /> : null}
               </CardBackground>
             </Cards>
             <AnimatePresence mode="wait" custom={back}>
@@ -277,7 +289,7 @@ const CardSelect = () => {
                         }}
                         exit={{ scale: 0 }}
                         transition={{ duration: 0.5 }}
-                        onClick={() => consoleIndex4(index, count)}
+                        onClick={() => consoleIndex(index, count)}
                         style={{
                           left: `${index * Overlap}rem`,
                           zIndex: numberOfCardsDelete - index,

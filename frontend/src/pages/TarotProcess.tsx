@@ -11,6 +11,9 @@ import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import {
   accessTokenState,
+  cardNumberAtom1,
+  cardNumberAtom2,
+  cardNumberAtom3,
   pollIdState,
   replyState,
   selectLuck,
@@ -119,6 +122,9 @@ function TarotProcess() {
   const ask = useRecoilValue(replyState);
   const pollId = useRecoilValue(pollIdState);
   const luckType = useRecoilValue(selectLuck);
+  const card1 = useRecoilValue(cardNumberAtom1);
+  const card2 = useRecoilValue(cardNumberAtom2);
+  const card3 = useRecoilValue(cardNumberAtom3);
 
   const getStream = async () => {
     try {
@@ -130,7 +136,7 @@ function TarotProcess() {
             Authorization: accesstoken,
           },
           params: {
-            cards: "1,16,20",
+            cards: `${card1},${card2},${card3}`,
             ask: ask,
             luckType: luckType,
             poll_id: pollId,

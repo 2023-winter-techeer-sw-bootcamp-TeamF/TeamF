@@ -160,7 +160,8 @@ router.post(
           clientRecv += streamMessage; // 사용자가 받은 메시지 저장
 
           // resultIndex == numOfExplain
-          io.to(socketId).emit('message', gptChunkMessage); // 소켓으로 메시지 전송
+          if (streamMessage != '')
+            io.to(socketId).emit('message', streamMessage); // 소켓으로 메시지 전송
         }
       }
 

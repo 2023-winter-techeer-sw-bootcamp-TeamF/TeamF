@@ -17,6 +17,21 @@ export const refreshTokenState = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
+export const cardNumberAtom1 = atom<number>({
+  key: "cardNumberAtom",
+  default: 0,
+});
+
+export const cardNumberAtom2 = atom<number>({
+  key: "cardNumberAtom",
+  default: 0,
+});
+
+export const cardNumberAtom3 = atom<number>({
+  key: "cardNumberAtom",
+  default: 0,
+});
+
 export const pollIdState = atom({
   key: "pollIdState",
   default: "",
@@ -26,7 +41,6 @@ export const pollIdState = atom({
 export const replyState = atom({
   key: "replyState",
   default: "",
-  effects_UNSTABLE: [persistAtom],
 });
 
 export const selectLuck = atom({
