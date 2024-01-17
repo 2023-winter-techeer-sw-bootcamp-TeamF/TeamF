@@ -22,7 +22,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./www:/var/www/html
+      - /hostpath/www:/var/www/html
     depends_on:
       - backend
       - frontend
@@ -30,9 +30,9 @@ services:
   certbot:
     image: certbot/certbot
     volumes:
-      - ./certbot/etc:/etc/letsencrypt
-      - ./certbot/var:/var/lib/letsencrypt
-      - ./www:/var/www/html
+      - /hostpath/certbot/etc:/etc/letsencrypt
+      - /hostpath/certbot/var:/var/lib/letsencrypt
+      - /hostpath/www:/var/www/html
     command: certonly --webroot --webroot-path=/var/www/html --email t --email tjfgkssk9472 --agree-tos --no-eff-email --force-renewal -d tairot.online -d www.tairot.online
     # depends_on:
     #   - nginx
