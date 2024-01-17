@@ -3,7 +3,8 @@ const db = require('../mysql/database');
 
 // mysqlDB에 prompt를 내용을 저장하는 미들웨어
 const savePrompt = async (req, res, next) => {
-  res.locals.ignore = false;
+  if(res.locals.data) return next();
+
   const { cardArray, ask, cardAnswerArray, answer, poll_id, luckType, masterName } = res.locals.store;
 
   const connection = db.getConnection();
@@ -15,7 +16,6 @@ const savePrompt = async (req, res, next) => {
       const result_query =
         'INSERT INTO result (poll_id, question, explanation, master_name, luck) VALUES (?, ?, ?, ?, ?)';
       const result_params = [poll_id, ask, answer, masterName, luckType];
-      console.log('result_params: ', result_params);
       connection.query(result_query, result_params, (error, results, fields) => {
         if (error) {
           res.locals.status = 500;
@@ -42,7 +42,6 @@ const savePrompt = async (req, res, next) => {
           card.name,
           index,
         ];
-        console.log('cards_params: ', cards_params);
         connection.query(cards_query, cards_params, (error, results, fields) => {
           if (error) {
             res.locals.status = 500;
@@ -64,16 +63,14 @@ const savePrompt = async (req, res, next) => {
           res.locals.status = 500;
           res.locals.data = { message: '폴 아이디 조회 중, 데이터베이스 오류', error: error.message };
           reject(new Error('DB Error'));
-        } else {
-          resolve();
-        }
+        } 
+        resolve();
       });
     });
 
     res.locals.status = 200;
     res.locals.data = { message: '결과 저장 성공' };
     next();
-    // 결과 저장이 완료된 poll 테이블의 complete 열을 1로 업데이트\\\\\\\\\\\\\\\\
   } catch (error) {
     next();
   }

@@ -28,49 +28,42 @@ router.post('/refresh', async (req, res, next) => {
     const { refreshToken } = req.body;
 
     try {
+
         if (!refreshToken)
             throw new Error('jwt 토큰: 리프레시 토큰이 필요합니다.');
 
         const connect = db.getConnection();
 
-        await new Promise((resolve, reject) => {
+        new Promise((reject) => {
+
             jwt.verify(refreshToken, 'your_secret_key_for_refresh_token', (err, user) => {
                 if (err)
                     reject(new Error('jwt 토큰: 유효하지 않은 리프레시 토큰입니다.'));
-                resolve();
             });
-        });
 
-        await new Promise((resolve, reject) => {
             const query = 'SELECT * FROM users WHERE id = ? AND refresh_token = ?';
             connect.query(query, [user.id, refreshToken], (dbErr, results) => {
                 if (dbErr || results.length === 0)
                     reject(new Error('리프레시 토큰이 일치하지 않습니다.'));
-                resolve();
             });
-            
-        });
 
-        const accessToken = jwt.sign({ id: user.id, username: user.username }, 'your_secret_key_for_access_token', { expiresIn: '1h' });
-        const newRefreshToken = jwt.sign({ id: user.id, username: user.username }, 'your_secret_key_for_refresh_token', { expiresIn: '7d' });
+            const accessToken = jwt.sign({ id: user.id, username: user.username }, 'your_secret_key_for_access_token', { expiresIn: '1h' });
+            const newRefreshToken = jwt.sign({ id: user.id, username: user.username }, 'your_secret_key_for_refresh_token', { expiresIn: '7d' });
 
-        await new Promise((resolve, reject) => {
             const updateQuery = 'UPDATE users SET refresh_token = ? WHERE id = ?';
             connect.query(updateQuery, [newRefreshToken, user.id], (updateErr) => {
                 if (updateErr)
                     reject(new Error('리프레시 토큰 업데이트 실패'));
-                resolve();
-            }); 
+            });
+
+            res.locals.data = { accessToken: accessToken, refreshToken: newRefreshToken, message: '새 엑세스 토큰과 리프레시 토큰이 발급되었습니다.' };
+            return next();
         });
 
-        res.locals.data = { accessToken: accessToken, refreshToken: newRefreshToken, message: '새 엑세스 토큰과 리프레시 토큰이 발급되었습니다.' };
-        return next();
-
-    } catch (error) {
-        console.log(error.message);
+    } catch (err) {
+        console.error(err);
         res.locals.status = 403;
-        res.locals.data = { error: error.message };
-        return next();
+        res.locals.data = { error: err.message };
     }
 });
 

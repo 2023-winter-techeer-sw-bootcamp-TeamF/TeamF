@@ -138,15 +138,7 @@ router.delete('/delete', async (req, res, next) => {
    #swagger.responses[403] = {
       description: 'JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다.',
       schema: { message: 'JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다.', error: 'JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다.' }
-    } 
-   #swagger.responses[500] = {
-      description: '내부 서버 오류로 인한 데이터 삭제 실패.',
-      schema: { message: 'DB 쿼리 오류', error: 'DB 쿼리 오류' }
-    } 
-   #swagger.responses[500] = {
-      description: '내부 서버 오류로 인한 데이터 삭제 실패.',
-      schema: { message: 'DB 쿼리 오류', error: 'DB 쿼리 오류'}
-    } 
+    }
    #swagger.responses[200] = {
       description: 'poll id에 매칭되는 column삭제 -> result, card 연쇄 삭제',
       schema: { message: 'poll 삭제 완료'}

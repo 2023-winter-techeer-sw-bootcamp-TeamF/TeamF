@@ -154,7 +154,6 @@ router.post("/card/info", async (req, res, next) => {
     }
 
     const cardIndex = await s3.findIndex(cardNum); // 카드 번호를 통해 S3에서 파일의 인덱스를 가져옴
-    console.log('cardIndex : ' + cardIndex); // '0
     result = await s3.getS3ImageURL(cardIndex); // 파일명을 통해 S3에서 이미지 주소를 가져옴
     dataObject = await s3.getDataObject(cardIndex); // 파일명을 통해 데이터를 가져옴
    
@@ -171,7 +170,6 @@ router.post("/card/info", async (req, res, next) => {
   } catch (error) {
     console.error(error);
     res.locals.status = 500;
-    res.locals.data = { message: "카드 정보를 가져오는데 실패했습니다." };
     return next(); // 오류 발생 → commonResponse 미들웨어로 이동
   }
 }, commonResponse); // commonResponse 미들웨어를 체인으로 추가
