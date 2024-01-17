@@ -9,8 +9,6 @@ services:
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - AWS_REGION=${AWS_REGION}
-    # volumes:
-    #   - ./backend:/usr/src/app
 
   frontend:
     build: ./frontend
@@ -18,16 +16,14 @@ services:
       - "5000:5000"
 
   nginx:
-    # image: nginx:latest
     build: ./nginx
     ports:
       - "80:80"
       - "443:443"
-    # restart: always # 인증서 재발급 실패 제한 요청을 줄이기 위한 주석
-    volumes:
-      # - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./certbot/data:/var/www/certbot:ro
-      - ./certbot/conf:/etc/nginx/ssl:ro
+    # restart: always
+    # volumes:
+    #   - ./certbot/conf/live/tairot.online/fullchain.pem:/etc/nginx/ssl/fullchain.pem:ro
+    #   - ./certbot/conf/live/tairot.online/privkey.pem:/etc/nginx/ssl/privkey.pem:ro
     depends_on:
       - backend
       - frontend
