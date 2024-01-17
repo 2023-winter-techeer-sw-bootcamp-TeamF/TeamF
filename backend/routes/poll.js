@@ -124,7 +124,6 @@ router.get("/list", (req, res, next) => {
             });
 
             res.json(combinedData);
-            next();
           });
         });
       });
