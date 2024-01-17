@@ -13,12 +13,12 @@ data_path="./certbot"
 email="tjfgkssk9472@gmail.com" # Adding a valid address is strongly recommended
 staging=1 # Set to 1 if you're testing your setup to avoid hitting request limits
 
+
 if [ -d "$data_path" ]; then
     echo "Existing data found for $domains. Replacing existing certificate."
 else
     echo "No existing data found for $domains. Proceeding with certificate generation."
 fi
-
 
 if [ ! -e "$data_path/conf/options-ssl-nginx.conf" ] || [ ! -e "$data_path/conf/ssl-dhparams.pem" ]; then
   echo "### Downloading recommended TLS parameters ..."
@@ -28,8 +28,6 @@ if [ ! -e "$data_path/conf/options-ssl-nginx.conf" ] || [ ! -e "$data_path/conf/
   echo
 fi
 
-# /etc/letsencrypt/live/tairot.online
-# data_path="./certbot"
 echo "### Creating dummy certificate for $domains ..."
 path="$data_path/conf/live/$domains"
 mkdir -p "$path"
@@ -39,7 +37,6 @@ docker-compose -f "$compose_file" run --rm --entrypoint "\
     -out '$path/fullchain.pem' \
     -subj '/CN=localhost'" certbot
 echo
-
 
 echo "### Starting nginx ..."
 docker-compose -f "$compose_file" up --force-recreate -d nginx
@@ -52,32 +49,26 @@ docker-compose -f "$compose_file" run --rm --entrypoint "\
   rm -Rf $data_path/conf/renewal/$domains.conf" certbot
 echo
 
-
 echo "### Requesting Let's Encrypt certificate for $domains ..."
-#Join $domains to -d args
 domain_args=""
 for domain in "${domains[@]}"; do
   domain_args="$domain_args -d $domain"
 done
 
-# Select appropriate email arg
-case "$email" in
-  "") email_arg="--register-unsafely-without-email" ;;
-  *) email_arg="--email $email" ;;
-esac
-
-# Enable staging mode if needed
-if [ $staging != "0" ]; then staging_arg="--staging"; fi
+email_arg="--email $email"
+if [ $staging != "0" ]; then
+  staging_arg="--staging"
+else
+  staging_arg=""
+fi
 
 docker-compose -f "$compose_file" run --rm --entrypoint "\
   certbot certonly --webroot -w /var/www/certbot \
-    $staging_arg \
-    $email_arg \
-    $domain_args \
+    $staging_arg $email_arg $domain_args \
     --rsa-key-size $rsa_key_size \
     --agree-tos \
     --force-renewal" certbot
 echo
 
-echo "### Reloading nginx ..."
-# docker-compose -f "$compose_file" exec nginx nginx -s reload
+# echo "### Reloading nginx ..."
+#docker-compose -f "$compose_file" exec nginx nginx -s reload
