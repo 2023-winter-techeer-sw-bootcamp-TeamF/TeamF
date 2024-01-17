@@ -128,7 +128,7 @@ const router = createBrowserRouter([
     element: <ResultDetail />,
   },
   {
-    path: "/tarotprocess",
+    path: "/process",
     element: <TarotProcess />,
   },
 

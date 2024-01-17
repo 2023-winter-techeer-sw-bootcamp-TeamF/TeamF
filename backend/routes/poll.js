@@ -71,4 +71,81 @@ router.get("/create", async (req, res, next) => {
   }
 }, commonResponse); // commonResponse 미들웨어를 체인으로 추가
 
+
+router.get("/list", (req, res, next) => {
+  // #swagger.tags = ['MyPage']
+  // #swagger.security = [{ "Bearer": [] }]
+  // #swagger.summary = "마이 페이지에서 결과 리스트들을 조회하기"
+  // #swagger.description = 'JWT토큰에서 사용자의 poll 리스트를 조회'
+  const user_id = req.user.id;
+  if (!user_id) {
+    /* #swagger.responses[401] = {
+          description: 'Unauthorized: 엑세스 토큰을 복호화한 정보(user_id)가 없을 시의 응답',
+          schema: { message: '엑세스 토큰이 없습니다.', error: '엑세스 토큰이 필요합니다' }
+      } */
+    res.locals.status = 401;
+    res.locals.data = {
+      message: "엑세스 토큰이 없습니다.",
+      error: "엑세스 토큰이 필요합니다",
+    };
+    return next();
+  } else {
+    try {
+      const dbCon = db.getConnection();
+
+      const pollSearchQuery = "SELECT id FROM poll WHERE user_id = ? AND complete = 1;";
+      dbCon.query(pollSearchQuery, user_id, (error, pollInfo) => {
+        if (error) {
+          return res
+          .status(500)
+          .send({ message: "DB 저장 오류", error: error.message });
+        }
+
+        if (pollInfo.length === 0) {
+          return res.status(404).send({ message: req.user.name + " 사용자의 결과가 없음" });
+        }
+
+        const pollIds = pollInfo.map(row => row.id);
+
+        // result 테이블 조회
+        const resultQuery = "SELECT poll_id, explanation, luck FROM result WHERE poll_id IN (?);";
+        dbCon.query(resultQuery, [pollIds], (error, resultData) => {
+          if (error) {
+            return res
+            .status(500)
+            .send({ message: "DB 저장 오류", error: error.message });
+          }
+
+          // card 테이블 조회
+          const cardQuery = "SELECT poll_id, image_url FROM card WHERE poll_id IN (?);";
+          dbCon.query(cardQuery, [pollIds], (error, cardData) => {
+            if (error) {
+              return res
+              .status(500)
+              .send({ message: "DB 저장 오류", error: error.message });
+            }
+
+            // 결과 조합
+            const combinedData = resultData.map(result => {
+              return {
+                resultInfo: {
+                  explanation: result.explanation,
+                  luck: result.luck,
+                  imageUrls
+                    : cardData.filter(card => card.poll_id === result.poll_id).map(card => card.image_url)
+                }
+              };
+            });
+
+            res.json(combinedData);
+            next();
+          });
+        });
+      });
+    } catch (error) {
+      return res.status(500).send({ message: "결과 리스트 조회 실패", error: error.message });
+    }
+  }
+}, commonResponse);
+
 module.exports = router;
