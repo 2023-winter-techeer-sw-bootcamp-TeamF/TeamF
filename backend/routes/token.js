@@ -1,7 +1,6 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const db = require('../mysql/database.js');
-const { connect } = require('http2');
 const router = express.Router();
 
 router.post('/refresh', async (req, res, next) => {
