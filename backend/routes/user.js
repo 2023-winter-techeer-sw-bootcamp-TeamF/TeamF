@@ -29,7 +29,7 @@ router.post("/signup", async (req, res, next) => {
     description: '사용자의 아이디', 
     required: true,
     type: 'string',
-    example: 'minki',
+    example: 'test',
   } 
   #swagger.parameters['password'] = {
     in: 'query',
