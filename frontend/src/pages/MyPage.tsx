@@ -5,9 +5,13 @@ import TaroEx2 from "../assets/TaroEx2.png";
 import TaroEx3 from "../assets/TaroEx3.png";
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
+<<<<<<< HEAD
 import { accessTokenState } from "../state/atom.ts";
 import axios from "axios";
 import { useEffect, useState } from "react";
+=======
+import { cardNumberAtom1 } from "../state/atom";
+>>>>>>> 38b771425ccf07c5a130a3c90218cc4e303a709a
 
 const Background = styled.div`
   width: 100vw;
@@ -130,6 +134,7 @@ const Row = styled.div`
 `;
 
 function MyPage() {
+<<<<<<< HEAD
   const accessToken = useRecoilValue(accessTokenState);
   const [tarotRecord, setTarotRecord] = useState([]);
 
@@ -147,6 +152,10 @@ function MyPage() {
         console.error("타로 기록을 불러오는데 실패했습니다.", error);
       });
   }, [accessToken]);
+=======
+  const num1 = useRecoilValue(cardNumberAtom1);
+  console.log(num1);
+>>>>>>> 38b771425ccf07c5a130a3c90218cc4e303a709a
   return (
     <>
       <Background>
