@@ -23,6 +23,7 @@ services:
       - "443:443"
     volumes:
       - /hostpath/www:/var/www/html
+      - /hostpath/certbot/etc:/etc/letsencrypt:ro
     depends_on:
       - backend
       - frontend
