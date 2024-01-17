@@ -9,7 +9,12 @@ import NextButton from "../assets/NextBtn.png";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
-import { accessTokenState } from "../state/atom";
+import {
+  accessTokenState,
+  pollIdState,
+  replyState,
+  selectLuck,
+} from "../state/atom";
 import { io } from "socket.io-client";
 import axios from "axios";
 const Background = styled.div`
@@ -111,6 +116,9 @@ function TarotProcess() {
   const [streamArray, setStreamArray] = useState("");
   const accesstoken = useRecoilValue(accessTokenState);
   const [trigger, setTrigger] = useState(true);
+  const ask = useRecoilValue(replyState);
+  const pollId = useRecoilValue(pollIdState);
+  const luckType = useRecoilValue(selectLuck);
 
   const getStream = async () => {
     try {
@@ -123,9 +131,9 @@ function TarotProcess() {
           },
           params: {
             cards: "1,16,20",
-            ask: "요즘 조금 외롭네요",
-            luckType: 2,
-            poll_id: 94,
+            ask: ask,
+            luckType: luckType,
+            poll_id: pollId,
           },
         }
       );

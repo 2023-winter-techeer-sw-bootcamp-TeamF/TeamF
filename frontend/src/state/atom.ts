@@ -20,9 +20,16 @@ export const refreshTokenState = atom({
 export const pollIdState = atom({
   key: "pollIdState",
   default: "",
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const replyState = atom({
   key: "replyState",
   default: "",
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const selectLuck = atom({
+  key: "selectLuck",
+  default: 0,
 });

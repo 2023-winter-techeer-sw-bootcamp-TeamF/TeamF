@@ -250,8 +250,25 @@ const CardSelect = () => {
                   transition={{ type: "tween", duration: 1 }}
                   key={count}
                 >
-                  {Array.from({ length: numberOfCardsDelete }).map(
-                    (_, index) => (
+                  {Array.from({ length: numberOfCardsDelete }).map((_, index) =>
+                    index === 1 ? (
+                      <BackcardBackground
+                        key={index}
+                        initial={{ y: 0 }}
+                        animate={{
+                          y: clicknumber === index ? -300 : 0,
+                        }}
+                        exit={{ scale: 0 }}
+                        transition={{ duration: 0.5 }}
+                        onClick={() => consoleIndex4(index, count)}
+                        style={{
+                          left: `${index * Overlap}rem`,
+                          zIndex: numberOfCardsDelete - index,
+                        }}
+                      >
+                        <BackOfCardImg src={BackOfCard} alt="Card back" />
+                      </BackcardBackground>
+                    ) : (
                       <BackcardBackground
                         key={index}
                         initial={{ y: 0 }}
