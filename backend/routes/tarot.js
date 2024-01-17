@@ -14,7 +14,7 @@ router.get("/guide", async (req, res, next) => {
          description: '운 종류',
          required: true,
          type: 'string',
-         example: '오늘의 운세, 애정운, 우정운, 재물운, 소망운',
+         example: '오늘의 운세, 연애운, 우정운, 재물운, 소망운',
          value: 'test_luck"
       } */
   /* #swagger.parameters['luckOpt'] = {
