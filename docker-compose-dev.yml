@@ -20,10 +20,10 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    restart: always
+    # restart: always
     volumes:
-      - ./certbot/data:/var/www/certbot:ro
-      - ./certbot/conf:/etc/nginx/ssl:ro
+      - ./certbot/conf/live/tairot.online/fullchain.pem:/etc/nginx/ssl/fullchain.pem:ro
+      - ./certbot/conf/live/tairot.online/privkey.pem:/etc/nginx/ssl/privkey.pem:ro
     depends_on:
       - backend
       - frontend
