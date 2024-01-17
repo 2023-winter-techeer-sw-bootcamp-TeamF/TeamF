@@ -4,6 +4,10 @@ import TaroEx1 from "../assets/TaroEx1.png";
 import TaroEx2 from "../assets/TaroEx2.png";
 import TaroEx3 from "../assets/TaroEx3.png";
 import { Link } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { accessTokenState } from "../state/atom.ts";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 const Background = styled.div`
   width: 100vw;
@@ -126,6 +130,23 @@ const Row = styled.div`
 `;
 
 function MyPage() {
+  const accessToken = useRecoilValue(accessTokenState);
+  const [tarotRecord, setTarotRecord] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("/poll/list", {
+        headers: {
+          Authorization: accessToken,
+        },
+      })
+      .then((response) => {
+        setTarotRecord(response.data);
+      })
+      .catch((error) => {
+        console.error("타로 기록을 불러오는데 실패했습니다.", error);
+      });
+  }, [accessToken]);
   return (
     <>
       <Background>
@@ -144,6 +165,7 @@ function MyPage() {
                 fill="#ECB973"
               />
             </svg>
+
             <MyDrawer>내 서랍</MyDrawer>
           </Folder>
           <Line />
