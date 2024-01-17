@@ -6,11 +6,9 @@ services:
     ports:
       - "3001:3000"
     environment:
-      - AWS_ACCESS_KEY_ID=AKIA4VFKZCU33SOXB4XC
-      - AWS_SECRET_ACCESS_KEY=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
-      - AWS_REGION=ap-northeast-2
-    # volumes:
-    #   - ./backend:/usr/src/app
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_REGION=${AWS_REGION}
 
   frontend:
     build: ./frontend
@@ -21,15 +19,15 @@ services:
     build: ./nginx
     ports:
       - "80:80"
-      #- "443:443"
-    # restart: always # 인증서 재발급 실패 제한 요청을 줄이기 위한 주석
-    # volumes:
-    #   # - ./certbot/data:/var/www/certbot:ro
-    #   # - ./certbot/conf:/etc/nginx/ssl:ro
+      - "443:443"
+    restart: always
+    volumes:
+      - ./certbot/data:/var/www/certbot:ro
+      - ./certbot/conf:/etc/nginx/ssl:ro
     depends_on:
       - backend
       - frontend
-      #- certbot
+      - certbot
 
   # certbot:
   #   image: certbot/certbot:latest
@@ -39,4 +37,3 @@ services:
   #     - ./certbot/conf:/etc/letsencrypt:rw
   #     - ./certbot/logs:/var/log/letsencrypt:rw
   #     - ./certbot/data:/var/www/certbot:rw
-  #     # - ./certbot/conf:/etc/nginx/ssl:ro
