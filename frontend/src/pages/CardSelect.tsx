@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Navbar from "../component/Navbar";
 import styled from "styled-components";
 import Background from "../assets/Background.png";
+// import TaroEx1 from "../assets/TaroEx1.png";
 /*
 import TaroEx1 from "../assets/TaroEx1.png";
 import TaroEx2 from "../assets/TaroEx2.png";
@@ -230,7 +231,7 @@ const CardSelect: React.FC = () => {
     console.log(chunkNumber[count][index]);
     getImage(chunkNumber[count][index]);
     chunkNumber[count].splice(index, 1);
-
+    setNumberOfCardsDelete((prev) => prev - 1);
     setClickNumber(index);
   };
 

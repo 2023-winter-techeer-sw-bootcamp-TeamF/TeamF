@@ -2,9 +2,11 @@ import Navbar from "../component/Navbar";
 import styled from "styled-components";
 import Background from "../assets/Background.png";
 import LoveFortuneImg from "../assets/LoveFortune.png";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
+import { pollIdState, accessTokenState, replyState } from "../state/atom.ts";
 
 const BackgroundColor = styled.div`
   background: #000;
@@ -181,6 +183,10 @@ const NextText = styled.a`
 `;
 
 const LoveFortune = () => {
+  const navigate = useNavigate();
+  const setPollId = useSetRecoilState(pollIdState);
+  const accessToken = useRecoilValue(accessTokenState);
+  const [reply, setReply] = useRecoilState(replyState);
   const [tellMeText, setTellMeText] = useState(""); //useState TellMeText를 빈칸으로 선언
   // const로 선언했을 때 불변값이라 값을 변화하면 에러 생김
   const getText = (): void => {
@@ -201,6 +207,28 @@ const LoveFortune = () => {
       });
   };
 
+  const handleNextButton = () => {
+    axios
+      .get("/poll/create", {
+        headers: {
+          Authorization: accessToken,
+        },
+      })
+      .then((response) => {
+        console.log("성공", response.data);
+        setPollId(response.data.data.pollId);
+        navigate("/cardselect");
+      })
+      .catch((error) => {
+        console.error("실패:", error);
+      });
+    console.log("Reply 내용:", reply);
+  };
+
+  const handleReplyChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setReply(event.target.value);
+  };
+
   useEffect(() => {
     getText();
   }, []);
@@ -218,13 +246,15 @@ const LoveFortune = () => {
             <Tellme>{tellMeText}</Tellme>
           </ChatBox>
           <ReplyBox>
-            <Reply placeholder="이곳에 고민을 적어주세요"></Reply>
+            <Reply
+              placeholder="이곳에 고민을 적어주세요"
+              value={reply}
+              onChange={handleReplyChange}
+            ></Reply>
           </ReplyBox>
           <Profile2 src={LoveFortuneImg}></Profile2>
           <NextBox>
-            <Link to="/cardselect">
-              <NextText>카드 뽑으러 가기</NextText>
-            </Link>
+            <NextText onClick={handleNextButton}>카드 뽑으러 가기</NextText>
           </NextBox>
         </BackgroundWrapper>
       </Inside>
