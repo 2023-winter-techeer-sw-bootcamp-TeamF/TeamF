@@ -6,13 +6,11 @@ if ! [ -x "$(command -v docker-compose)" ]; then
 fi
 
 compose_file='docker-compose-dev.yml'
-
 domains=(tairot.online)
 rsa_key_size=4096
 data_path="./certbot"
 email="tjfgkssk9472@gmail.com" # Adding a valid address is strongly recommended
 staging=1 # Set to 1 if you're testing your setup to avoid hitting request limits
-
 
 if [ -d "$data_path" ]; then
     echo "Existing data found for $domains. Replacing existing certificate."
@@ -32,7 +30,7 @@ echo "### Creating dummy certificate for $domains ..."
 path="$data_path/conf/live/$domains"
 mkdir -p "$path"
 docker-compose -f "$compose_file" run --rm --entrypoint "\
-  openssl req -x509 -nodes -newkey rsa:$rsa_key_size -days 1\
+  openssl req -x509 -nodes -newkey rsa:$rsa_key_size -days 1 \
     -keyout '$path/privkey.pem' \
     -out '$path/fullchain.pem' \
     -subj '/CN=localhost'" certbot
@@ -70,5 +68,5 @@ docker-compose -f "$compose_file" run --rm --entrypoint "\
     --force-renewal" certbot
 echo
 
-# echo "### Reloading nginx ..."
-#docker-compose -f "$compose_file" exec nginx nginx -s reload
+echo "### Reloading nginx ..."
+docker-compose -f "$compose_file" exec nginx nginx -s reload
