@@ -184,7 +184,7 @@ const CardSelect = () => {
     }
   };
 
-  console.log(selectedCard);
+  console.log(selectedCard[0]);
   const consoleIndex1 = (index: number, count: number) => {
     getImage(selectedCard[count][index]);
     const updateCard = [...selectedCard];
@@ -249,7 +249,7 @@ const CardSelect = () => {
                   transition={{ type: "tween", duration: 1 }}
                   key={count}
                 >
-                  {selectedCard[count].map((_, index) =>
+                  {selectedCard[3].map((_, index) =>
                     selectedCard[count][index] !== 0 ? (
                       <BackcardBackground
                         key={index}
@@ -282,7 +282,7 @@ const CardSelect = () => {
                   transition={{ type: "tween", duration: 1 }}
                   key={count}
                 >
-                  {selectedCard[count].map((_, index) =>
+                  {selectedCard[2].map((_, index) =>
                     selectedCard[count][index] !== 0 ? (
                       <BackcardBackground
                         key={index}
@@ -315,7 +315,8 @@ const CardSelect = () => {
                   transition={{ type: "tween", duration: 1 }}
                   key={count}
                 >
-                  {selectedCard[count].map((_, index) =>
+                  {" "}
+                  {selectedCard[1].map((_, index) =>
                     selectedCard[count][index] !== 0 ? (
                       <BackcardBackground
                         key={index}
@@ -338,7 +339,7 @@ const CardSelect = () => {
                     )
                   )}
                 </StackedCardsContainer>
-              ) : (
+              ) : count === 0 ? (
                 <StackedCardsContainer
                   custom={back}
                   variants={rowVariants}
@@ -348,7 +349,7 @@ const CardSelect = () => {
                   transition={{ type: "tween", duration: 1 }}
                   key={count}
                 >
-                  {selectedCard[count].map((_, index) =>
+                  {selectedCard[0].map((_, index) =>
                     selectedCard[count][index] !== 0 ? (
                       <BackcardBackground
                         key={index}
@@ -371,6 +372,8 @@ const CardSelect = () => {
                     )
                   )}
                 </StackedCardsContainer>
+              ) : (
+                <></>
               )}
             </AnimatePresence>
           </CardsWrapper>
