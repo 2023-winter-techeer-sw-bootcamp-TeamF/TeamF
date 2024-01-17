@@ -16,13 +16,12 @@ services:
       - "5000:5000"
 
   nginx:
-    image: nginx:latest
+    build: ./nginx
     # restart: always
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - ./nginx:/etc/nginx
       - ./www:/var/www/html
     depends_on:
       - backend
