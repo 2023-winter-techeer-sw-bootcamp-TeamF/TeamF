@@ -33,6 +33,6 @@ services:
       - /hostpath/certbot/etc:/etc/letsencrypt
       - /hostpath/certbot/var:/var/lib/letsencrypt
       - /hostpath/www:/var/www/html
-    command: certonly --webroot --webroot-path=/var/www/html --email t --email tjfgkssk9472 --agree-tos --no-eff-email --force-renewal -d tairot.online -d www.tairot.online
+    command: certonly --webroot --webroot-path=/var/www/html --email t --email tjfgkssk9472@gmail.com --agree-tos --no-eff-email --force-renewal -d tairot.online -d www.tairot.online
     # depends_on:
     #   - nginx
