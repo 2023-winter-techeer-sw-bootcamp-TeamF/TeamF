@@ -29,6 +29,8 @@ if [ ! -e "$data_path/conf/options-ssl-nginx.conf" ] || [ ! -e "$data_path/conf/
   echo
 fi
 
+# /etc/letsencrypt/live/tairot.online
+# data_path="./certbot"
 echo "### Creating dummy certificate for $domains ..."
 path="/etc/letsencrypt/live/$domains"
 mkdir -p "$data_path/conf/live/$domains"
