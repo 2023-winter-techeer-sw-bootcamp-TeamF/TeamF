@@ -124,7 +124,7 @@ const router = createBrowserRouter([
     element: <FortuneSelect />,
   },
   {
-    path: "/resultdetail",
+    path: "/resultdetail/:poll_id",
     element: <ResultDetail />,
   },
   {

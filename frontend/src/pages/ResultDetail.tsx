@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../component/Navbar";
 import styled from "styled-components";
-import TaroEx1 from "../assets/TaroEx1.png";
-import TaroEx2 from "../assets/TaroEx2.png";
-import TaroEx3 from "../assets/TaroEx3.png";
 import FlipCard from "../assets/ResultFlipCard.png";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { accessTokenState } from "../state/atom";
+import { useRecoilValue } from "recoil";
+import axios from "axios";
 
 const Background = styled.div`
   width: 100vw;
@@ -275,9 +275,30 @@ const CardContent = styled.p`
   transform: translate(-50%, -50%);
 `;
 
+interface ImgType {
+  explanation: string;
+  image_url: string;
+}
+interface CardType {
+  resultInfo: {
+    imageUrls: string[];
+    explanation: string;
+    luck: string;
+    pollId: number;
+  };
+}
 function ResultDetail() {
   const [flippedCards, setFlippedCards] = useState(Array(10).fill(false));
   const navigate = useNavigate();
+  const { poll_id } = useParams();
+  const [question, setQuestion] = useState("");
+  const [explanation, setExplanation] = useState("");
+  const [luck, setLuck] = useState("");
+  const [masterName, setMasterName] = useState("");
+  const [tarotImage, setTarotImage] = useState<ImgType[]>([]);
+  const accessToken = useRecoilValue(accessTokenState);
+  const [tarotCard, setTarotCard] = useState<CardType[]>([]);
+  const [numberId, setNumberId] = useState("");
 
   // 카드를 뒤집는 함수
   const handleFlip = (flip: number) => {
@@ -288,7 +309,32 @@ function ResultDetail() {
   const goBack = () => {
     navigate(-1);
   };
-
+  const getDetails = (): void => {
+    axios
+      .get("/mypage/detail?", {
+        params: {
+          poll_id,
+        },
+        headers: {
+          Authorization: accessToken,
+        },
+      })
+      .then((response) => {
+        console.log(response, response.data.card); /*
+        setTarotCard(response.data.result);
+        setTarotImage(response.data.card); 
+        setExplanation(response.data.result.explanation);
+        setLuck(response.data.result.luck);
+        setMasterName(response.data.result.masterName);
+        setTarotImage(response.data.card); */
+      })
+      .catch((error) => {
+        console.error("마이페이지 디테일 조회 실패:", error);
+      });
+  };
+  useEffect(() => {
+    getDetails();
+  }, []);
   return (
     <>
       <Background>
@@ -299,70 +345,27 @@ function ResultDetail() {
               <DetailLine1>
                 <DetailLine2>
                   <Title>당신의 고민 . . .</Title>
-                  <Worry>
-                    일하는데 스트레스를 너무 많이 받습니다. 이직을 하면 좋을 지
-                    아니면 더 적응을 해야할 지 알려주세요. 일하는데 스트레스를
-                    너무 많이 받습니다. 이직을 하면 좋을 지 아니면 더 적응을
-                    해야할 지 알려주세요.
-                  </Worry>
+                  <Worry>{question}</Worry>
                   <Cards>
-                    <FlipcardContainer onClick={() => handleFlip(0)}>
-                      <FlipcardInner isFlipped={flippedCards[0]}>
-                        <CardBackground>
-                          <TaroEx src={TaroEx1} />
-                        </CardBackground>
-                        <FlipcardBackground>
-                          <FlipcardImg src={FlipCard}></FlipcardImg>
-                          <CardTitle>The Fool (바보)</CardTitle>
-                          <CardContent>
-                            새로운 시작과 모험을 상징. 지금 당신이 겪고 있는
-                            스트레스, 이 카드는 마치 새로운 길을 걸을 준비가
-                            되었다고 말하는 것 같아. 어쩌면 이것은 당신에게
-                            변화가 필요하다는 신호일 수도 있어. 새로운 가능성을
-                            열어주는 걸까?
-                          </CardContent>
-                        </FlipcardBackground>
-                      </FlipcardInner>
-                    </FlipcardContainer>
-                    <FlipcardContainer onClick={() => handleFlip(1)}>
-                      <FlipcardInner isFlipped={flippedCards[1]}>
-                        <CardBackground>
-                          <TaroEx src={TaroEx2} />
-                        </CardBackground>
-                        <FlipcardBackground>
-                          <FlipcardImg src={FlipCard}></FlipcardImg>
-                          <CardTitle>The Fool (바보)</CardTitle>
-                          <CardContent>
-                            새로운 시작과 모험을 상징. 지금 당신이 겪고 있는
-                            스트레스, 이 카드는 마치 새로운 길을 걸을 준비가
-                            되었다고 말하는 것 같아. 어쩌면 이것은 당신에게
-                            변화가 필요하다는 신호일 수도 있어. 새로운 가능성을
-                            열어주는 걸까?
-                          </CardContent>
-                        </FlipcardBackground>
-                      </FlipcardInner>
-                    </FlipcardContainer>
-                    <FlipcardContainer onClick={() => handleFlip(2)}>
-                      <FlipcardInner isFlipped={flippedCards[2]}>
-                        <CardBackground>
-                          <TaroEx src={TaroEx3} />
-                        </CardBackground>
-                        <FlipcardBackground>
-                          <FlipcardImg src={FlipCard}></FlipcardImg>
-                          <CardTitle>The Fool (바보)</CardTitle>
-                          <CardContent>
-                            새로운 시작과 모험을 상징. 지금 당신이 겪고 있는
-                            스트레스, 이 카드는 마치 새로운 길을 걸을 준비가
-                            되었다고 말하는 것 같아. 어쩌면 이것은 당신에게
-                            변화가 필요하다는 신호일 수도 있어. 새로운 가능성을
-                            열어주는 걸까?
-                          </CardContent>
-                        </FlipcardBackground>
-                      </FlipcardInner>
-                    </FlipcardContainer>
+                    {tarotImage.map((number, index) => (
+                      <FlipcardContainer onClick={() => handleFlip(index)}>
+                        <FlipcardInner isFlipped={flippedCards[index]}>
+                          <CardBackground>
+                            <TaroEx src={number.image_url} />
+                          </CardBackground>
+                          <FlipcardBackground>
+                            <FlipcardImg src={FlipCard}></FlipcardImg>
+                            <CardTitle>The Fool (바보)</CardTitle>
+                            <CardContent>{number.explanation}</CardContent>
+                          </FlipcardBackground>
+                        </FlipcardInner>
+                      </FlipcardContainer>
+                    ))}
                   </Cards>
                   <Solutions>
-                    <SolutionTitle>OOO 타로 마스터의 솔루션</SolutionTitle>
+                    <SolutionTitle>
+                      {masterName} 타로 마스터의 솔루션
+                    </SolutionTitle>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="27"
@@ -376,18 +379,7 @@ function ResultDetail() {
                         fill-opacity="0.8"
                       />
                     </svg>
-                    <SolutionDetail>
-                      지금 당신이 처한 상황에서 가장 중요한 건, 새로운 시작에
-                      대한 용기와 기존 직장에서의 성장 가능성, 그리고 미래에
-                      대한 안정성 사이의 균형을 찾는 것 같아. 변화는 두려울 수
-                      있지만, 새로운 도전에서 더 큰 만족과 성취를 발견할 수도
-                      있어. 네가 어떤 결정을 내리든, 너를 응원할게! 🌟💕 지금
-                      당신이 처한 상황에서 가장 중요한 건, 새로운 시작에 대한
-                      용기와 기존 직장에서의 성장 가능성, 그리고 미래에 대한
-                      안정성 사이의 균형을 찾는 것 같아. 변화는 두려울 수
-                      있지만, 새로운 도전에서 더 큰 만족과 성취를 발견할 수도
-                      있어. 네가 어떤 결정을 내리든, 너를 응원할게! 🌟💕
-                    </SolutionDetail>
+                    <SolutionDetail>{explanation}</SolutionDetail>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="27"
@@ -403,7 +395,7 @@ function ResultDetail() {
                     </svg>
                   </Solutions>
                 </DetailLine2>
-                <Date>ㆍ2024.00.00ㆍ</Date>
+                <Date>{luck}</Date>
               </DetailLine1>
             </DetailBackground>
             <Buttons>
