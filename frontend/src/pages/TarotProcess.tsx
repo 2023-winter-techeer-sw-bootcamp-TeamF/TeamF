@@ -1,9 +1,6 @@
 import Navbar from "../component/Navbar";
 import styled from "styled-components";
 import BackgroundImg1 from "../assets/Background.png";
-import TaroEx1 from "../assets/TaroEx1.png";
-import TaroEx2 from "../assets/TaroEx2.png";
-import TaroEx3 from "../assets/TaroEx3.png";
 import TodayFortune from "../assets/TodayFortune.png";
 import NextButton from "../assets/NextBtn.png";
 import { Link } from "react-router-dom";
@@ -125,9 +122,40 @@ function TarotProcess() {
   const card1 = useRecoilValue(cardNumberAtom1);
   const card2 = useRecoilValue(cardNumberAtom2);
   const card3 = useRecoilValue(cardNumberAtom3);
+  const [cardUrl1, setCardUrl1] = useState("");
+  const [cardUrl2, setCardUrl2] = useState("");
+  const [cardUrl3, setCardUrl3] = useState("");
 
+  const getImage = async (card1: number, card2: number, card3: number) => {
+    try {
+      const response = await axios.post("/tarot/card/info", null, {
+        params: { card: card1 }, // {이름/카드 번호}
+      });
+      setCardUrl1(response.data.data.image_url);
+    } catch (error) {
+      console.log(error);
+    }
+    try {
+      const response = await axios.post("/tarot/card/info", null, {
+        params: { card: card2 }, // {이름/카드 번호}
+      });
+      setCardUrl2(response.data.data.image_url);
+    } catch (error) {
+      console.log(error);
+    }
+    try {
+      const response = await axios.post("/tarot/card/info", null, {
+        params: { card: card3 }, // {이름/카드 번호}
+      });
+      setCardUrl3(response.data.data.image_url);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  //웹소켓 연결
   const getStream = async () => {
     try {
+      getImage(card1, card2, card3);
       const response = await axios.post(
         "/stream/",
         {},
@@ -170,6 +198,7 @@ function TarotProcess() {
   });
   socket.on("disconnect", () => {
     console.log("서버와의 연결이 끊어졌습니다.");
+    socket.disconnect();
   });
 
   socket.on("success", () => {
@@ -180,6 +209,7 @@ function TarotProcess() {
     console.log("연결 작업 종료");
     socket.disconnect();
   });
+
   return (
     <>
       <Background>
@@ -189,13 +219,13 @@ function TarotProcess() {
             <BackgroundImg src={BackgroundImg1} />
             <Cards>
               <CardBackground>
-                <TaroEx src={TaroEx1} />
+                <TaroEx src={cardUrl1} />
               </CardBackground>
               <CardBackground>
-                <TaroEx src={TaroEx2} />
+                <TaroEx src={cardUrl2} />
               </CardBackground>
               <CardBackground>
-                <TaroEx src={TaroEx3} />
+                <TaroEx src={cardUrl3} />
               </CardBackground>
             </Cards>
             <TaroMaster src={TodayFortune} />
