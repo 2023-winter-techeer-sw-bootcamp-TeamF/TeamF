@@ -1,12 +1,22 @@
 import Navbar from "../component/Navbar";
 import styled from "styled-components";
 import BackgroundImg1 from "../assets/Background.png";
-import TaroEx1 from "../assets/TaroEx1.png";
-import TaroEx2 from "../assets/TaroEx2.png";
-import TaroEx3 from "../assets/TaroEx3.png";
 import TodayFortune from "../assets/TodayFortune.png";
 import NextButton from "../assets/NextBtn.png";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
+import {
+  accessTokenState,
+  cardNumberAtom1,
+  cardNumberAtom2,
+  cardNumberAtom3,
+  pollIdState,
+  replyState,
+  selectLuck,
+} from "../state/atom";
+import { io } from "socket.io-client";
+import axios from "axios";
+import LoadingPage from "../component/LoadingPage";
 const Background = styled.div`
   width: 100vw;
   height: 100vh;
@@ -103,48 +113,147 @@ const NextBtnImg = styled.img`
   height: 100%;
 `;
 function TarotProcess() {
+  const [streamArray, setStreamArray] = useState("로딩 중...");
+  const accesstoken = useRecoilValue(accessTokenState);
+  const [trigger, setTrigger] = useState(true);
+  const ask = useRecoilValue(replyState);
+  const pollId = useRecoilValue(pollIdState);
+  const luckType = useRecoilValue(selectLuck);
+  const card1 = useRecoilValue(cardNumberAtom1);
+  const card2 = useRecoilValue(cardNumberAtom2);
+  const card3 = useRecoilValue(cardNumberAtom3);
+  const [cardUrl1, setCardUrl1] = useState("");
+  const [cardUrl2, setCardUrl2] = useState("");
+  const [cardUrl3, setCardUrl3] = useState("");
+
+  const getImage = async (card1: number, card2: number, card3: number) => {
+    try {
+      const response = await axios.post("/tarot/card/info", null, {
+        params: { card: card1 }, // {이름/카드 번호}
+      });
+      setCardUrl1(response.data.data.image_url);
+    } catch (error) {
+      console.log(error);
+    }
+    try {
+      const response = await axios.post("/tarot/card/info", null, {
+        params: { card: card2 }, // {이름/카드 번호}
+      });
+      setCardUrl2(response.data.data.image_url);
+    } catch (error) {
+      console.log(error);
+    }
+    try {
+      const response = await axios.post("/tarot/card/info", null, {
+        params: { card: card3 }, // {이름/카드 번호}
+      });
+      setCardUrl3(response.data.data.image_url);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  //웹소켓 연결
+  const getStream = async () => {
+    try {
+      getImage(card1, card2, card3);
+      socket.connect();
+      const response = await axios.post(
+        "/stream/",
+        {},
+        {
+          headers: {
+            Authorization: accesstoken,
+          },
+          params: {
+            cards: `${card1},${card2},${card3}`,
+            ask: ask,
+            luckType: luckType,
+            poll_id: pollId,
+          },
+        }
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const socket = io("http://localhost:3001/", {
+    auth: {
+      token: accesstoken,
+    },
+  });
+
+  socket.on("chat message", (msg) => {
+    console.log(msg);
+    //promptInput();
+  });
+
+  socket.on("message", (msg) => {
+    console.log(streamArray);
+    console.log(`받은 메시지 :" + ${msg}`);
+    setStreamArray((prev) => prev + msg);
+  });
+
+  socket.on("connect", () => {
+    console.log("서버에 연결되었습니다.");
+    if (streamArray === "로딩 중...") {
+      setStreamArray("");
+    }
+    if (trigger) {
+      getStream();
+    }
+    setTrigger(false);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("서버와의 연결이 끊어졌습니다.");
+  });
+
+  socket.on("success", () => {
+    console.log("연결 작업 성공");
+  });
+
+  socket.on("finish", async () => {
+    console.log("연결 작업 종료");
+    socket.disconnect();
+  });
+
+  useEffect(() => {}, []);
+  const buttonClear = () => {
+    setTrigger(true);
+    setCardUrl1("");
+    setCardUrl2("");
+    setCardUrl3("");
+    setStreamArray("로딩 중...");
+    window.location.replace("/cardsave");
+  };
   return (
     <>
       <Background>
         <Inside>
+          <LoadingPage></LoadingPage>
           <Navbar />
           <BackgroundWrapper>
             <BackgroundImg src={BackgroundImg1} />
             <Cards>
               <CardBackground>
-                <TaroEx src={TaroEx1} />
+                <TaroEx src={cardUrl1} />
               </CardBackground>
               <CardBackground>
-                <TaroEx src={TaroEx2} />
+                <TaroEx src={cardUrl2} />
               </CardBackground>
               <CardBackground>
-                <TaroEx src={TaroEx3} />
+                <TaroEx src={cardUrl3} />
               </CardBackground>
             </Cards>
             <TaroMaster src={TodayFortune} />
             <ChatBox>
-              <Chat>
-                우선 네가 뽑은 각 카드에 대해 설명해줄게. 1. The Fool (바보):
-                오, 이 카드는 정말 흥미로워! 새로운 시작과 모험을 상징해. 지금
-                당신이 겪고 있는 스트레스, 이 카드는 마치 새로운 길을 걸을
-                준비가 되었다고 말하는 것 같아. 어쩌면 이것은 당신에게 변화가
-                필요하다는 신호일 수도 있어. 새로운 가능성을 열어주는 걸까? 2.
-                The Magician (마법사): 이 카드는 너의 능력과 창의력을 상징해.
-                현재 직장에서 네가 정말로 능력을 발휘하고 있는지, 아니면 새로운
-                환경에서 더 큰 기회를 찾아야 하는지 생각해 볼 시간이야. 너에겐
-                분명 마법 같은 재능이 있으니까, 그걸 잘 활용해야 해. 3. King of
-                Pentacles (펜타클의 왕): 이 카드는 안정과 성공을 의미해. 이직을
-                생각하고 있다면, 이 카드는 재정적 안정성과 경력적 성장을
-                중요하게 생각하라 이건 스크롤 생성용으로 만든 말이야 이건 스크롤
-                생성용으로 만든 말이야 이건 스크롤 생성용으로 만든 말이야 이건
-                스크롤 생성용으로 만든 말이야
-              </Chat>
+              <Chat>{streamArray}</Chat>
             </ChatBox>
-            <Link to="/cardsave">
-              <NextBtn>
-                <NextBtnImg src={NextButton} />
-              </NextBtn>
-            </Link>
+            <NextBtn onClick={buttonClear}>
+              <NextBtnImg src={NextButton} />
+            </NextBtn>
           </BackgroundWrapper>
         </Inside>
       </Background>

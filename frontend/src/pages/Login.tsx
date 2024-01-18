@@ -1,6 +1,11 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-
+import { useSetRecoilState } from "recoil";
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { accessTokenState, refreshTokenState } from "../state/atom.ts";
+import LoadingPage from "../component/LoadingPage";
 const Outside = styled.div`
   background-color: #000;
   display: flex;
@@ -110,14 +115,52 @@ const Sign = styled.button`
 `;
 
 function Login() {
+  const navigate = useNavigate();
+  const [loginId, setLoginId] = useState("");
+  const [password, setPassword] = useState("");
+  const setAccessToken = useSetRecoilState(accessTokenState);
+  const setRefreshToken = useSetRecoilState(refreshTokenState);
+
+  const loginIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setLoginId(event.target.value);
+  };
+
+  const passwordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+  };
+
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post("/user/login", {
+        login_id: loginId,
+        password: password,
+      });
+
+      setAccessToken(response.data.data.accessToken);
+      setRefreshToken(response.data.data.refreshToken);
+
+      alert("성공");
+      navigate("/fortuneselect");
+    } catch (error) {
+      console.error("로그인 실패", error);
+      alert("로그인 실패");
+    }
+  };
+
   return (
     <>
       <Outside>
+        <LoadingPage></LoadingPage>
         <Circle>
           <LWord>LOG IN</LWord>
-          <Id placeholder="ID" />
-          <Pw type="password" placeholder="PASSWORD"></Pw>
-          <LButton> LOG IN</LButton>
+          <Id placeholder="ID" value={loginId} onChange={loginIdChange} />
+          <Pw
+            type="password"
+            placeholder="PASSWORD"
+            value={password}
+            onChange={passwordChange}
+          ></Pw>
+          <LButton onClick={handleLogin}>LOG IN</LButton>
           <Sign>
             <Link to="/signup">SIGN UP</Link>
           </Sign>

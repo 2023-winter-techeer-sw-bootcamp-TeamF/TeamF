@@ -2,13 +2,25 @@ import { useEffect, useState } from "react";
 import Navbar from "../component/Navbar";
 import styled from "styled-components";
 import Background from "../assets/Background.png";
+// import TaroEx1 from "../assets/TaroEx1.png";
+/*
 import TaroEx1 from "../assets/TaroEx1.png";
 import TaroEx2 from "../assets/TaroEx2.png";
 import TaroEx3 from "../assets/TaroEx3.png";
+*/
+import { useNavigate } from "react-router-dom";
 import BackOfCard from "../assets/BackOfCard.png";
 import NextButton from "../assets/NextBtn.png";
 import { motion, AnimatePresence } from "framer-motion";
 import { chunkArray, shuffleArray } from "../component/ShuffleArray";
+import axios from "axios";
+import { useSetRecoilState } from "recoil";
+import {
+  cardNumberAtom1,
+  cardNumberAtom2,
+  cardNumberAtom3,
+} from "../state/atom";
+import LoadingPage from "../component/LoadingPage";
 
 const BackgroundColor = styled.div`
   background: #000;
@@ -116,16 +128,6 @@ const rowVariants = {
   }),
 };
 
-const Variants = {
-  clicked: {
-    y: -50,
-    opacity: 0,
-    transition: {
-      duration: 0.5,
-    },
-  },
-};
-
 const BackOfCardImg = styled.img`
   width: 95%;
   height: 95%;
@@ -148,15 +150,22 @@ const NextBtnImg = styled.img`
 `;
 
 const CardSelect = () => {
-  const [numberOfCards1, setNumberOfCards1] = useState(22); // 1번째 줄 카드 수
-  const [numberOfCards2, setNumberOfCards2] = useState(22); // 2번째 줄 카드 수
-  const [numberOfCards3, setNumberOfCards3] = useState(22); // 3번째 줄 카드 수
-  const [numberOfCardsDelete, setNumberOfCardsDelete] = useState(12); // 4번째 줄 카드 수
+  const numberOfCards = 22; // 1번째 줄 카드 수
+  const numberOfCardsDelete = 12; // 4번째 줄 카드 수
   const Overlap = 1.875; // 카드 겹침 정도
   const [count, setCount] = useState(0); //몇번째 슬라이드인지
+  const [holdCount, setHoldCount] = useState(0);
   const [back, setBack] = useState(false); //뒤로 갈지 앞으로 갈지
-  const [chunkNumber, setChunkNumber] = useState<number[][]>([]);
+  const [card1, setCard1] = useState("");
+  const [card2, setCard2] = useState("");
+  const [card3, setCard3] = useState("");
+
   const [clicknumber, setClickNumber] = useState(-1);
+  const [selectedCard, setSelectedCard] = useState<number[][]>([[]]);
+  const setCardNumber1 = useSetRecoilState(cardNumberAtom1);
+  const setCardNumber2 = useSetRecoilState(cardNumberAtom2);
+  const setCardNumber3 = useSetRecoilState(cardNumberAtom3);
+  const navigate = useNavigate();
 
   const incraseIndex = () => {
     setCount((prev) => (prev === 3 ? 0 : prev + 1));
@@ -166,57 +175,70 @@ const CardSelect = () => {
     setCount((prev) => (prev === 0 ? 3 : prev - 1));
     setBack(true);
   };
-  const consoleIndex1 = (index: number, count: number) => {
-    alert(chunkNumber[count][index]);
-    chunkNumber[count].splice(index, 1);
-    setNumberOfCards1((prev) => prev - 1);
-    setClickNumber(index);
-  };
-  const consoleIndex2 = (index: number, count: number) => {
-    alert(chunkNumber[count][index]);
-    chunkNumber[count].splice(index, 1);
-    setNumberOfCards2((prev) => prev - 1);
-    setClickNumber(index);
-  };
-  const consoleIndex3 = (index: number, count: number) => {
-    alert(chunkNumber[count][index]);
-    chunkNumber[count].splice(index, 1);
-    setNumberOfCards3((prev) => prev - 1);
-    setClickNumber(index);
-  };
-  const consoleIndex4 = (index: number, count: number) => {
-    alert(chunkNumber[count][index]);
-    chunkNumber[count].splice(index, 1);
 
+  const getImage = async (card: number) => {
+    try {
+      const response = await axios.post("/tarot/card/info", null, {
+        params: { card }, // {이름/카드 번호}
+      });
+      if (holdCount === 0) {
+        setCard1(response.data.data.image_url);
+        setCardNumber1(card);
+      } else if (holdCount === 1) {
+        setCard2(response.data.data.image_url);
+        setCardNumber2(card);
+      } else if (holdCount === 2) {
+        setCard3(response.data.data.image_url);
+        setCardNumber3(card);
+
+        setTimeout(() => {
+          navigate("/process");
+        }, 1000);
+      }
+
+      setHoldCount((prev) => (prev === 2 ? 3 : prev + 1));
+      // setCardNumber(card);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const consoleIndex = (index: number, count: number) => {
+    getImage(selectedCard[count][index]);
+    const updateCard = [...selectedCard];
+    updateCard[count][index] = 0;
+    setSelectedCard(updateCard);
     setClickNumber(index);
   };
 
   useEffect(() => {
     const numbers = Array.from({ length: 78 }, (_, index) => index + 1);
     shuffleArray(numbers);
-    setChunkNumber(chunkArray(numbers, 22));
+    setSelectedCard(chunkArray(numbers, 22));
   }, []);
+
   return (
     <BackgroundColor>
       <Inside>
+        <LoadingPage></LoadingPage>
         <Navbar />
         <BackgroundWrapper>
           <BackgroundImg src={Background} alt="Background" />
           <CardsWrapper>
             <Cards>
               <CardBackground>
-                <TaroEx src={TaroEx1} />
+                {card1 ? <TaroEx src={card1} /> : null}
               </CardBackground>
 
               <CardBackground>
-                <TaroEx src={TaroEx2} />
+                {card2 ? <TaroEx src={card2} /> : null}
               </CardBackground>
               <CardBackground>
-                <TaroEx src={TaroEx3} />
+                {card3 ? <TaroEx src={card3} /> : null}
               </CardBackground>
             </Cards>
             <AnimatePresence mode="wait" custom={back}>
-              {count === 3 ? (
+              {count !== 3 ? (
                 <StackedCardsContainer
                   custom={back}
                   variants={rowVariants}
@@ -226,84 +248,23 @@ const CardSelect = () => {
                   transition={{ type: "tween", duration: 1 }}
                   key={count}
                 >
-                  {Array.from({ length: numberOfCardsDelete }).map(
-                    (_, index) => (
+                  {selectedCard[count].map((_, index) =>
+                    selectedCard[count][index] !== 0 ? (
                       <BackcardBackground
                         key={index}
-                        initial={{ y: 0 }}
-                        animate={{
-                          y: clicknumber === index ? -300 : 0,
-                        }}
-                        exit={{ scale: 0 }}
                         transition={{ duration: 0.5 }}
-                        onClick={() => consoleIndex4(index, count)}
+                        onClick={() => consoleIndex(index, count)}
                         style={{
                           left: `${index * Overlap}rem`,
-                          zIndex: numberOfCardsDelete - index,
+                          zIndex: numberOfCards - index,
                         }}
                       >
                         <BackOfCardImg src={BackOfCard} alt="Card back" />
                       </BackcardBackground>
+                    ) : (
+                      <></>
                     )
                   )}
-                </StackedCardsContainer>
-              ) : count === 2 ? (
-                <StackedCardsContainer
-                  custom={back}
-                  variants={rowVariants}
-                  initial="hidden"
-                  animate="visible"
-                  exit="exit"
-                  transition={{ type: "tween", duration: 1 }}
-                  key={count}
-                >
-                  {Array.from({ length: numberOfCards3 }).map((_, index) => (
-                    <BackcardBackground
-                      key={index}
-                      initial={{ y: 0 }}
-                      animate={{
-                        y: clicknumber === index ? -300 : 0,
-                      }}
-                      exit={{ scale: 0 }}
-                      transition={{ duration: 0.5 }}
-                      onClick={() => consoleIndex3(index, count)}
-                      style={{
-                        left: `${index * Overlap}rem`,
-                        zIndex: numberOfCards3 - index,
-                      }}
-                    >
-                      <BackOfCardImg src={BackOfCard} alt="Card back" />
-                    </BackcardBackground>
-                  ))}
-                </StackedCardsContainer>
-              ) : count === 1 ? (
-                <StackedCardsContainer
-                  custom={back}
-                  variants={rowVariants}
-                  initial="hidden"
-                  animate="visible"
-                  exit="exit"
-                  transition={{ type: "tween", duration: 1 }}
-                  key={count}
-                >
-                  {Array.from({ length: numberOfCards2 }).map((_, index) => (
-                    <BackcardBackground
-                      key={index}
-                      initial={{ y: 0 }}
-                      animate={{
-                        y: clicknumber === index ? -300 : 0,
-                      }}
-                      exit={{ scale: 0 }}
-                      transition={{ duration: 0.5 }}
-                      onClick={() => consoleIndex2(index, count)}
-                      style={{
-                        left: `${index * Overlap}rem`,
-                        zIndex: numberOfCards2 - index,
-                      }}
-                    >
-                      <BackOfCardImg src={BackOfCard} alt="Card back" />
-                    </BackcardBackground>
-                  ))}
                 </StackedCardsContainer>
               ) : (
                 <StackedCardsContainer
@@ -315,24 +276,28 @@ const CardSelect = () => {
                   transition={{ type: "tween", duration: 1 }}
                   key={count}
                 >
-                  {Array.from({ length: numberOfCards1 }).map((_, index) => (
-                    <BackcardBackground
-                      key={index}
-                      initial={{ y: 0 }}
-                      animate={{
-                        y: clicknumber === index ? -300 : 0,
-                      }}
-                      exit={{ scale: 0 }}
-                      transition={{ duration: 0.5 }}
-                      onClick={() => consoleIndex1(index, count)}
-                      style={{
-                        left: `${index * Overlap}rem`,
-                        zIndex: numberOfCards1 - index,
-                      }}
-                    >
-                      <BackOfCardImg src={BackOfCard} alt="Card back" />
-                    </BackcardBackground>
-                  ))}
+                  {selectedCard[count].map((_, index) =>
+                    selectedCard[count][index] !== 0 ? (
+                      <BackcardBackground
+                        key={index}
+                        initial={{ y: 0 }}
+                        animate={{
+                          y: clicknumber === index ? -300 : 0,
+                        }}
+                        exit={{ scale: 0 }}
+                        transition={{ duration: 0.5 }}
+                        onClick={() => consoleIndex(index, count)}
+                        style={{
+                          left: `${index * Overlap}rem`,
+                          zIndex: numberOfCardsDelete - index,
+                        }}
+                      >
+                        <BackOfCardImg src={BackOfCard} alt="Card back" />
+                      </BackcardBackground>
+                    ) : (
+                      <></>
+                    )
+                  )}
                 </StackedCardsContainer>
               )}
             </AnimatePresence>

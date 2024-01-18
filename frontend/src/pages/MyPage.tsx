@@ -1,10 +1,11 @@
 import Navbar from "../component/Navbar";
 import styled from "styled-components";
-import TaroEx1 from "../assets/TaroEx1.png";
-import TaroEx2 from "../assets/TaroEx2.png";
-import TaroEx3 from "../assets/TaroEx3.png";
 import { Link } from "react-router-dom";
-
+import { useRecoilValue } from "recoil";
+import { accessTokenState } from "../state/atom.ts";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import LoadingPage from "../component/LoadingPage";
 const Background = styled.div`
   width: 100vw;
   height: 100vh;
@@ -73,12 +74,34 @@ const CardLine2 = styled.div`
   margin-left: 0.125rem;
 `;
 
-const TaroExs = styled.div`
+const TaroExs = styled.div<TaroExsProps>`
   display: flex;
-  justify-content: center;
+  justify-content: ${(props) =>
+    props.tarotImage === 1 || props.tarotImage === 3 ? "center" : "flex-start"};
   gap: 0.5rem;
   margin-top: 1rem;
+  overflow-x: auto;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+
+  &::-webkit-scrollbar {
+    width: 0.1875rem; /* 스크롤바의 너비 */
+    height: 0.2rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #ecb973; /* 황금색 스크롤바 색상 */
+    border-radius: 0.3125rem; /* 스크롤바 모양 (둥근 모서리) */
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #daa520; /* 호버시 색상 변경 (더 진한 황금색) */
+  }
 `;
+
+interface TaroExsProps {
+  tarotImage: number;
+}
 
 const TaroEx = styled.img`
   width: 3.0998125rem;
@@ -99,12 +122,27 @@ const CardText = styled.p`
   text-transform: uppercase;
   margin-top: 1rem;
   margin-left: 0.7rem;
+  overflow-y: auto;
+  padding: 0.5rem;
+
+  &::-webkit-scrollbar {
+    width: 0.1875rem; /* 스크롤바의 너비 */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #ecb973; /* 황금색 스크롤바 색상 */
+    border-radius: 0.3125rem; /* 스크롤바 모양 (둥근 모서리) */
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #daa520; /* 호버시 색상 변경 (더 진한 황금색) */
+  }
 `;
 
 const UserName = styled.p`
   color: #b88150;
   text-align: center;
-  font-family: "Italiana", sans-serif;
+  font-family: "맑은 고딕";
   font-size: 1.125rem;
   font-style: normal;
   font-weight: 400;
@@ -122,14 +160,43 @@ const Row = styled.div`
 
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 1rem;
   gap: 2.5rem 2rem;
 `;
 
+interface RecordType {
+  resultInfo: {
+    imageUrls: string[];
+    explanation: string;
+    luck: string;
+  };
+}
+
+// 그리고 tarotRecord의 상태를 이 타입의 배열로 선언해야 합니다.
+
 function MyPage() {
+  const accessToken = useRecoilValue(accessTokenState);
+  const [tarotRecord, setTarotRecord] = useState<RecordType[]>([]);
+  useEffect(() => {
+    axios
+      .get("/poll/list", {
+        headers: {
+          authorization: accessToken,
+        },
+      })
+      .then((response) => {
+        setTarotRecord(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error("타로 기록을 불러오는데 실패했습니다.", error);
+      });
+  }, [accessToken]);
   return (
     <>
       <Background>
         <Inside>
+          <LoadingPage></LoadingPage>
           <Navbar />
           <Folder>
             <svg
@@ -144,111 +211,33 @@ function MyPage() {
                 fill="#ECB973"
               />
             </svg>
+
             <MyDrawer>내 서랍</MyDrawer>
           </Folder>
           <Line />
-          <Link
-            to="/resultdetail"
-            style={{ display: "flex", alignItems: "center" }}
-          >
+          <div style={{ display: "flex", alignItems: "center" }}>
             <Row>
-              <Card>
-                <CardLine1>
-                  <CardLine2>
-                    <TaroExs>
-                      <TaroEx src={TaroEx1} />
-                      <TaroEx src={TaroEx2} />
-                      <TaroEx src={TaroEx3} />
-                    </TaroExs>
-                    <CardText>
-                      어쩌구 저쩌구 어쩌구 어쩌구 저쩌구 어쩌구 저쩌 어쩌구
-                      저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
-                      저쩌구 어쩌구 저쩌 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
-                      저쩌구 어쩌구 저 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구
-                      어쩌구 할거에요♥
-                    </CardText>
-                  </CardLine2>
-                  <UserName>ㆍUSERNAMEㆍ</UserName>
-                </CardLine1>
-              </Card>
-              <Card>
-                <CardLine1>
-                  <CardLine2>
-                    <TaroExs>
-                      <TaroEx src={TaroEx1} />
-                      <TaroEx src={TaroEx2} />
-                      <TaroEx src={TaroEx3} />
-                    </TaroExs>
-                    <CardText>
-                      어쩌구 저쩌구 어쩌구 어쩌구 저쩌구 어쩌구 저쩌 어쩌구
-                      저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
-                      저쩌구 어쩌구 저쩌 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
-                      저쩌구 어쩌구 저 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구
-                      어쩌구 할거에요♥
-                    </CardText>
-                  </CardLine2>
-                  <UserName>ㆍUSERNAMEㆍ</UserName>
-                </CardLine1>
-              </Card>
-              <Card>
-                <CardLine1>
-                  <CardLine2>
-                    <TaroExs>
-                      <TaroEx src={TaroEx1} />
-                      <TaroEx src={TaroEx2} />
-                      <TaroEx src={TaroEx3} />
-                    </TaroExs>
-                    <CardText>
-                      어쩌구 저쩌구 어쩌구 어쩌구 저쩌구 어쩌구 저쩌 어쩌구
-                      저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
-                      저쩌구 어쩌구 저쩌 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
-                      저쩌구 어쩌구 저 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구
-                      어쩌구 할거에요♥
-                    </CardText>
-                  </CardLine2>
-                  <UserName>ㆍUSERNAMEㆍ</UserName>
-                </CardLine1>
-              </Card>
-              <Card>
-                <CardLine1>
-                  <CardLine2>
-                    <TaroExs>
-                      <TaroEx src={TaroEx1} />
-                      <TaroEx src={TaroEx2} />
-                      <TaroEx src={TaroEx3} />
-                    </TaroExs>
-                    <CardText>
-                      어쩌구 저쩌구 어쩌구 어쩌구 저쩌구 어쩌구 저쩌 어쩌구
-                      저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
-                      저쩌구 어쩌구 저쩌 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
-                      저쩌구 어쩌구 저 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구
-                      어쩌구 할거에요♥
-                    </CardText>
-                  </CardLine2>
-                  <UserName>ㆍUSERNAMEㆍ</UserName>
-                </CardLine1>
-              </Card>
-              <Card>
-                <CardLine1>
-                  <CardLine2>
-                    <TaroExs>
-                      <TaroEx src={TaroEx1} />
-                      <TaroEx src={TaroEx2} />
-                      <TaroEx src={TaroEx3} />
-                    </TaroExs>
-                    <CardText>
-                      어쩌구 저쩌구 어쩌구 어쩌구 저쩌구 어쩌구 저쩌 어쩌구
-                      저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
-                      저쩌구 어쩌구 저쩌 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
-                      저쩌구 어쩌구 저 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구
-                      어쩌구 할거에요♥
-                    </CardText>
-                  </CardLine2>
-                  <UserName>ㆍUSERNAMEㆍ</UserName>
-                </CardLine1>
-              </Card>
+              {tarotRecord.map((record, index) => (
+                <Link to="/resultdetail">
+                  <Card key={index}>
+                    <CardLine1>
+                      <CardLine2>
+                        <TaroExs
+                          tarotImage={record.resultInfo.imageUrls.length}
+                        >
+                          {record.resultInfo.imageUrls.map((url, idx) => (
+                            <TaroEx key={idx} src={url} />
+                          ))}
+                        </TaroExs>
+                        <CardText>{record.resultInfo.explanation}</CardText>
+                      </CardLine2>
+                      <UserName>ㆍ{record.resultInfo.luck}ㆍ</UserName>
+                    </CardLine1>
+                  </Card>
+                </Link>
+              ))}
             </Row>
-          </Link>
+          </div>
         </Inside>
       </Background>
     </>
