@@ -51,3 +51,9 @@ export const selectLuck = atom({
   default: 0,
   effects_UNSTABLE: [persistAtom],
 });
+
+export const tarotMasterImg = atom({
+  key: "tarotMasterImg",
+  default: "",
+  effects_UNSTABLE: [persistAtom],
+});

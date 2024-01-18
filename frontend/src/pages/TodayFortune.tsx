@@ -13,6 +13,7 @@ import {
   accessTokenState,
   replyState,
   selectLuck,
+  tarotMasterImg,
 } from "../state/atom.ts";
 
 const BackgroundColor = styled.div`
@@ -198,6 +199,7 @@ const TodayFortune = () => {
   const [taroMaster, setTaroMaster] = useState("");
 
   const setLuckType = useSetRecoilState(selectLuck);
+  const settarotMasterImg = useSetRecoilState(tarotMasterImg);
   // const로 선언했을 때 불변값이라 값을 변화하면 에러 생김
   const getText = (): void => {
     axios
@@ -213,6 +215,7 @@ const TodayFortune = () => {
         setTellMeText(res.data.data.content); //set@=텍스트 값 바꿈
         setTaroMaster(res.data.data.master_name);
         setLuckType(1);
+        settarotMasterImg(TodayFortuneImg);
       })
       .catch((error) => {
         console.log(error);
