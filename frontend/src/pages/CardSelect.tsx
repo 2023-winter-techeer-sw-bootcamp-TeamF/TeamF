@@ -250,11 +250,6 @@ const CardSelect = () => {
                     selectedCard[count][index] !== 0 ? (
                       <BackcardBackground
                         key={index}
-                        initial={{ y: 0 }}
-                        animate={{
-                          y: clicknumber === index ? -300 : 0,
-                        }}
-                        exit={{ scale: 0 }}
                         transition={{ duration: 0.5 }}
                         onClick={() => consoleIndex(index, count)}
                         style={{

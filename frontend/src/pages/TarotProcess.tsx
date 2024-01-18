@@ -3,8 +3,7 @@ import styled from "styled-components";
 import BackgroundImg1 from "../assets/Background.png";
 import TodayFortune from "../assets/TodayFortune.png";
 import NextButton from "../assets/NextBtn.png";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import {
   accessTokenState,
@@ -113,7 +112,7 @@ const NextBtnImg = styled.img`
   height: 100%;
 `;
 function TarotProcess() {
-  const [streamArray, setStreamArray] = useState("");
+  const [streamArray, setStreamArray] = useState("로딩 중...");
   const accesstoken = useRecoilValue(accessTokenState);
   const [trigger, setTrigger] = useState(true);
   const ask = useRecoilValue(replyState);
@@ -156,6 +155,7 @@ function TarotProcess() {
   const getStream = async () => {
     try {
       getImage(card1, card2, card3);
+      socket.connect();
       const response = await axios.post(
         "/stream/",
         {},
@@ -176,29 +176,37 @@ function TarotProcess() {
       console.log(error);
     }
   };
+
   const socket = io("http://localhost:3001/", {
     auth: {
       token: accesstoken,
     },
   });
+
   socket.on("chat message", (msg) => {
     console.log(msg);
     //promptInput();
   });
 
   socket.on("message", (msg) => {
+    console.log(streamArray);
     console.log(`받은 메시지 :" + ${msg}`);
     setStreamArray((prev) => prev + msg);
   });
 
   socket.on("connect", () => {
     console.log("서버에 연결되었습니다.");
-    if (trigger) getStream();
+    if (streamArray === "로딩 중...") {
+      setStreamArray("");
+    }
+    if (trigger) {
+      getStream();
+    }
     setTrigger(false);
   });
+
   socket.on("disconnect", () => {
     console.log("서버와의 연결이 끊어졌습니다.");
-    socket.disconnect();
   });
 
   socket.on("success", () => {
@@ -210,6 +218,15 @@ function TarotProcess() {
     socket.disconnect();
   });
 
+  useEffect(() => {}, []);
+  const buttonClear = () => {
+    setTrigger(true);
+    setCardUrl1("");
+    setCardUrl2("");
+    setCardUrl3("");
+    setStreamArray("로딩 중...");
+    window.location.replace("/cardsave");
+  };
   return (
     <>
       <Background>
@@ -232,11 +249,9 @@ function TarotProcess() {
             <ChatBox>
               <Chat>{streamArray}</Chat>
             </ChatBox>
-            <Link to="/cardsave">
-              <NextBtn>
-                <NextBtnImg src={NextButton} />
-              </NextBtn>
-            </Link>
+            <NextBtn onClick={buttonClear}>
+              <NextBtnImg src={NextButton} />
+            </NextBtn>
           </BackgroundWrapper>
         </Inside>
       </Background>
