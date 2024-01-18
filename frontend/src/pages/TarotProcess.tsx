@@ -1,6 +1,6 @@
 import Navbar from "../component/Navbar";
 import styled from "styled-components";
-import TodayFortune from "../assets/TodayFortune.png";
+import background from "../assets/Background.png";
 import NextButton from "../assets/NextBtn.png";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
@@ -236,7 +236,7 @@ function TarotProcess() {
           <LoadingPage></LoadingPage>
           <Navbar />
           <BackgroundWrapper>
-            <BackgroundImg src={tarotMasterImage} />
+            <BackgroundImg src={background} />
             <Cards>
               <CardBackground>
                 <TaroEx src={cardUrl1} />
@@ -248,7 +248,7 @@ function TarotProcess() {
                 <TaroEx src={cardUrl3} />
               </CardBackground>
             </Cards>
-            <TaroMaster src={TodayFortune} />
+            <TaroMaster src={tarotMasterImage} />
             <ChatBox>
               <Chat>{streamArray}</Chat>
             </ChatBox>

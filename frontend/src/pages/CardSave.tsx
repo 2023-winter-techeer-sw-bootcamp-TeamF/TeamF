@@ -8,6 +8,9 @@ import { Link } from "react-router-dom";
 import LinkBtn from "../assets/LinkButton.png";
 import ShareBtn from "../assets/ShareButton.png";
 import LoadingPage from "../component/LoadingPage";
+import html2canvas from "html2canvas";
+import { useRef } from "react";
+
 const Background = styled.div`
   width: 100vw;
   height: 100vh;
@@ -218,6 +221,25 @@ const ShareButtonIcon1 = styled.img`
   height: 100%;
 `;
 function CardSave() {
+  const captureDivRef = useRef(null);
+
+  const downloadButton = () => {
+    if (captureDivRef.current) {
+      html2canvas(captureDivRef.current).then((canvas) => {
+        saveImg(canvas.toDataURL("image/jpg"), "image.jpg");
+      });
+    }
+  };
+
+  const saveImg = (uri: string, filename: string) => {
+    const link = document.createElement("a");
+    document.body.appendChild(link);
+    link.href = uri;
+    link.download = filename;
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <>
       <Background>
@@ -227,7 +249,7 @@ function CardSave() {
           <BackgroundWrapper>
             <BackgroundImg src={BackgroundImg1} />
             <Cards>
-              <Card>
+              <Card ref={captureDivRef} id="captureDiv">
                 <CardLine1>
                   <CardLine2>
                     <TaroExs>
@@ -263,7 +285,9 @@ function CardSave() {
                     <ShareButtonIcon>
                       <LinkButton src={LinkBtn}></LinkButton>
                     </ShareButtonIcon>
-                    <ShareButtonText>링크 공유하기</ShareButtonText>
+                    <ShareButtonText onClick={downloadButton}>
+                      링크 공유하기
+                    </ShareButtonText>
                   </ShareButton>
 
                   <Link to="/mypage">
