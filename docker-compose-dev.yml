@@ -4,7 +4,7 @@ services:
   prometheus:
     image: prom/prometheus
     volumes:
-      - /hostpath/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - /hostpath/prometheus/:/etc/prometheus/
     ports:
       - "9090:9090"
 
