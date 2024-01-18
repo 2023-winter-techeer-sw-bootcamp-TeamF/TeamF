@@ -4,9 +4,21 @@ services:
   prometheus:
     image: prom/prometheus
     volumes:
-      -"./prometheus.yml:/etc/prometheus/prometheus.yml"
+      - "./prometheus.yml:/etc/prometheus/prometheus.yml"
     ports:
-      -9090:9090
+      - "9090:9090"
+
+  node-exporter:
+    image: prom/node-exporter
+    ports:
+      - "9100:9100"
+
+  grafana:
+    image: grafana/grafana
+    volumes:
+      - ./provisioning:/etc/provisioning
+    ports:
+      - 9000:3000
 
   backend:
     build: ./backend
