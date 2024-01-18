@@ -104,7 +104,6 @@ router.get("/list", (req, res, next) => {
         if (pollInfo.length === 0) {
           return res.status(404).send({ message: req.user.name + " 사용자의 결과가 없음" });
         }
-
         const pollIds = pollInfo.map(row => row.id);
 
         // result 테이블 조회
@@ -124,11 +123,11 @@ router.get("/list", (req, res, next) => {
               .status(500)
               .send({ message: "DB 저장 오류", error: error.message });
             }
-
             // 결과 조합
             const combinedData = resultData.map(result => {
               return {
                 resultInfo: {
+                  pollId: result.poll_id,
                   explanation: result.explanation,
                   luck: result.luck,
                   imageUrls
@@ -136,7 +135,6 @@ router.get("/list", (req, res, next) => {
                 }
               };
             });
-
             res.json(combinedData);
           });
         });
