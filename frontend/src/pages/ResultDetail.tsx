@@ -105,7 +105,7 @@ const Worry = styled.p`
   line-height: normal;
   margin-top: 0.8125rem;
   overflow-y: scroll;
-  padding-right: 0.625rem;
+  padding-right: 0.125rem;
 
   &::-webkit-scrollbar {
     width: 0.1875rem; /* 스크롤바의 너비 */
@@ -280,14 +280,7 @@ interface ImgType {
   explanation: string;
   image_url: string;
 }
-interface CardType {
-  resultInfo: {
-    imageUrls: string[];
-    explanation: string;
-    luck: string;
-    pollId: number;
-  };
-}
+
 function ResultDetail() {
   const [flippedCards, setFlippedCards] = useState(Array(10).fill(false));
   const navigate = useNavigate();
@@ -298,8 +291,6 @@ function ResultDetail() {
   const [masterName, setMasterName] = useState("");
   const [tarotImage, setTarotImage] = useState<ImgType[]>([]);
   const accessToken = useRecoilValue(accessTokenState);
-  const [tarotCard, setTarotCard] = useState<CardType[]>([]);
-  const [numberId, setNumberId] = useState("");
 
   // 카드를 뒤집는 함수
   const handleFlip = (flip: number) => {
@@ -312,7 +303,7 @@ function ResultDetail() {
   };
   const getDetails = (): void => {
     axios
-      .get("/mypage/detail?", {
+      .get("/mypage/detail", {
         params: {
           poll_id,
         },
@@ -321,23 +312,41 @@ function ResultDetail() {
         },
       })
       .then((response) => {
-        console.log(response, response.data.card); /*
-        setTarotCard(response.data.result);
-        setTarotImage(response.data.card); 
-        setExplanation(response.data.result.explanation);
-        setLuck(response.data.result.luck);
-        setMasterName(response.data.result.masterName);
-        setTarotImage(response.data.card); */
+        setQuestion(response.data.data.result[0].question);
+        setTarotImage(response.data.data.card);
+        setExplanation(response.data.data.result[0].explanation);
+        setLuck(response.data.data.result[0].luck);
+        setMasterName(response.data.data.result[0].master_name);
       })
       .catch((error) => {
         console.error("마이페이지 디테일 조회 실패:", error);
       });
   };
+  const deleteCard = () => {
+    axios
+      .delete("/mypage/delete", {
+        params: {
+          poll_id,
+        },
+        headers: {
+          Authorization: accessToken,
+        },
+      })
+      .then(() => {
+        alert("삭제 완료!");
+        navigate("/mypage");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   useEffect(() => {
     getDetails();
   }, []);
   return (
     <>
+      {" "}
       <Background>
         <Inside>
           <LoadingPage></LoadingPage>
@@ -434,7 +443,7 @@ function ResultDetail() {
                   />
                 </svg>
               </Button>
-              <Button>
+              <Button onClick={deleteCard}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="40"
