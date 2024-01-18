@@ -106,7 +106,7 @@ router.post("/card/info", async (req, res, next) => {
    #swagger.tags = ['Tarot']
    #swagger.summary = "카드 정보 조회"
    #swagger.description = '카드 정보를 정수형으로 전달하면 해당 카드의 정보를 반환함'
-    #swagger.responses[200] = {
+   #swagger.responses[200] = {
           description: '카드 정보 불러오기 성공 url 전송',
           schema: {
               message: 'creat image url successfully',

@@ -308,6 +308,25 @@
         ],
         "summary": "마이 페이지에서 결과 리스트들을 조회하기",
         "description": "JWT토큰에서 사용자의 poll 리스트를 조회",
+        "parameters": [
+          {
+            "name": "poll_id",
+            "in": "query",
+            "description": "poll id 번호",
+            "required": true,
+            "type": "integer",
+            "example": "1",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "poll_id": {
+                  "type": "number",
+                  "example": 1
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
