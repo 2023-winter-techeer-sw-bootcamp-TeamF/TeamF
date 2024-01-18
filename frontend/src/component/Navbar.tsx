@@ -94,7 +94,7 @@ const Navbar = () => {
   return (
     <NavContainer>
       <LogoContainer>
-        <Link to="/">
+        <Link to="/fortuneselect">
           <LargeLetter>T</LargeLetter>AIROT&nbsp;
         </Link>
       </LogoContainer>

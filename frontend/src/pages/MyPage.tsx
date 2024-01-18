@@ -169,6 +169,7 @@ interface RecordType {
     imageUrls: string[];
     explanation: string;
     luck: string;
+    pollId: string;
   };
 }
 
@@ -218,7 +219,7 @@ function MyPage() {
           <div style={{ display: "flex", alignItems: "center" }}>
             <Row>
               {tarotRecord.map((record, index) => (
-                <Link to="/resultdetail">
+                <Link to={`/resultdetail/${record.resultInfo.pollId}`}>
                   <Card key={index}>
                     <CardLine1>
                       <CardLine2>

@@ -160,7 +160,6 @@ const CardSelect = () => {
   const [card2, setCard2] = useState("");
   const [card3, setCard3] = useState("");
 
-  const [clicknumber, setClickNumber] = useState(-1);
   const [selectedCard, setSelectedCard] = useState<number[][]>([[]]);
   const setCardNumber1 = useSetRecoilState(cardNumberAtom1);
   const setCardNumber2 = useSetRecoilState(cardNumberAtom2);
@@ -208,7 +207,6 @@ const CardSelect = () => {
     const updateCard = [...selectedCard];
     updateCard[count][index] = 0;
     setSelectedCard(updateCard);
-    setClickNumber(index);
   };
 
   useEffect(() => {
@@ -280,11 +278,6 @@ const CardSelect = () => {
                     selectedCard[count][index] !== 0 ? (
                       <BackcardBackground
                         key={index}
-                        initial={{ y: 0 }}
-                        animate={{
-                          y: clicknumber === index ? -300 : 0,
-                        }}
-                        exit={{ scale: 0 }}
                         transition={{ duration: 0.5 }}
                         onClick={() => consoleIndex(index, count)}
                         style={{
