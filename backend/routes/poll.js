@@ -73,10 +73,21 @@ router.get("/create", async (req, res, next) => {
 
 
 router.get("/list", (req, res, next) => {
-  // #swagger.tags = ['MyPage']
-  // #swagger.security = [{ "Bearer": [] }]
-  // #swagger.summary = "마이 페이지에서 결과 리스트들을 조회하기"
-  // #swagger.description = 'JWT토큰에서 사용자의 poll 리스트를 조회'
+  /*
+   #swagger.tags = ['MyPage']
+   #swagger.security = [{ "Bearer": [] }]
+   #swagger.summary = "마이 페이지에서 결과 리스트들을 조회하기"
+   #swagger.description = 'JWT토큰에서 사용자의 poll 리스트를 조회'
+   #swagger.parameters['poll_id'] = { 
+      in: 'query',
+      description: 'poll id 번호', 
+      required: true,
+      type: 'integer',
+      example: '1',
+      schema: {
+        poll_id: 1
+      }  
+      */
   const user_id = req.user.id;
   if (!user_id) {
     /* #swagger.responses[401] = {
@@ -97,14 +108,13 @@ router.get("/list", (req, res, next) => {
       dbCon.query(pollSearchQuery, user_id, (error, pollInfo) => {
         if (error) {
           return res
-          .status(500)
-          .send({ message: "DB 저장 오류", error: error.message });
+            .status(500)
+            .send({ message: "DB 저장 오류", error: error.message });
         }
 
         if (pollInfo.length === 0) {
           return res.status(404).send({ message: req.user.name + " 사용자의 결과가 없음" });
         }
-
         const pollIds = pollInfo.map(row => row.id);
 
         // result 테이블 조회
@@ -112,8 +122,8 @@ router.get("/list", (req, res, next) => {
         dbCon.query(resultQuery, [pollIds], (error, resultData) => {
           if (error) {
             return res
-            .status(500)
-            .send({ message: "DB 저장 오류", error: error.message });
+              .status(500)
+              .send({ message: "DB 저장 오류", error: error.message });
           }
 
           // card 테이블 조회
@@ -121,14 +131,14 @@ router.get("/list", (req, res, next) => {
           dbCon.query(cardQuery, [pollIds], (error, cardData) => {
             if (error) {
               return res
-              .status(500)
-              .send({ message: "DB 저장 오류", error: error.message });
+                .status(500)
+                .send({ message: "DB 저장 오류", error: error.message });
             }
-
             // 결과 조합
             const combinedData = resultData.map(result => {
               return {
                 resultInfo: {
+                  pollId: result.poll_id,
                   explanation: result.explanation,
                   luck: result.luck,
                   imageUrls
@@ -136,7 +146,6 @@ router.get("/list", (req, res, next) => {
                 }
               };
             });
-
             res.json(combinedData);
           });
         });

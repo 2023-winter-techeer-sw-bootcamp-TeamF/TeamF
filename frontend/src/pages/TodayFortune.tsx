@@ -6,8 +6,15 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
-import { pollIdState, accessTokenState, replyState } from "../state/atom.ts";
+
 import LoadingPage from "../component/LoadingPage";
+import {
+  pollIdState,
+  accessTokenState,
+  replyState,
+  selectLuck,
+} from "../state/atom.ts";
+
 const BackgroundColor = styled.div`
   background: #000;
   width: 100vw;
@@ -188,19 +195,24 @@ const TodayFortune = () => {
   const accessToken = useRecoilValue(accessTokenState);
   const [reply, setReply] = useRecoilState(replyState);
   const [tellMeText, setTellMeText] = useState(""); //useState TellMeText를 빈칸으로 선언
+  const [taroMaster, setTaroMaster] = useState("");
+
+  const setLuckType = useSetRecoilState(selectLuck);
   // const로 선언했을 때 불변값이라 값을 변화하면 에러 생김
   const getText = (): void => {
     axios
       .get("/tarot/guide", {
         params: {
           //await: 비동기 함수 안에서 promise 객체가 처리될 때까지 기다림
-          luckType: "test_luck", // 나중에 사용자가 누른 값에 따라
+          luckType: "오늘의 운세", // 나중에 사용자가 누른 값에 따라
           luckOpt: 0, // 사용자가 혼자 하기 누르면 0, 같이는 1 넣어야 함
         },
       })
       .then((res) => {
         console.log(res.data.data.content);
         setTellMeText(res.data.data.content); //set@=텍스트 값 바꿈
+        setTaroMaster(res.data.data.master_name);
+        setLuckType(1);
       })
       .catch((error) => {
         console.log(error);
@@ -241,7 +253,7 @@ const TodayFortune = () => {
         <BackgroundWrapper>
           <Profile src={TodayFortuneImg}></Profile>
           <TitleBox>
-            <TitleContent>오늘의 운세 타로 마스터와의 대화</TitleContent>
+            <TitleContent>{taroMaster} 타로 마스터와의 대화</TitleContent>
           </TitleBox>
           <BackgroundImg src={Background} alt="Background" />
           <ChatBox>

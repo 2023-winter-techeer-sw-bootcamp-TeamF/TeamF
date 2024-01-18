@@ -6,8 +6,15 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
-import { pollIdState, accessTokenState, replyState } from "../state/atom.ts";
+
 import LoadingPage from "../component/LoadingPage";
+import {
+  pollIdState,
+  accessTokenState,
+  replyState,
+  selectLuck,
+} from "../state/atom.ts";
+
 const BackgroundColor = styled.div`
   background: #000;
   width: 100vw;
@@ -188,19 +195,23 @@ const LoveFortune = () => {
   const accessToken = useRecoilValue(accessTokenState);
   const [reply, setReply] = useRecoilState(replyState);
   const [tellMeText, setTellMeText] = useState(""); //useState TellMeText를 빈칸으로 선언
+  const setLuckType = useSetRecoilState(selectLuck);
+  const [taroMaster, setTaroMaster] = useState("");
   // const로 선언했을 때 불변값이라 값을 변화하면 에러 생김
   const getText = (): void => {
     axios
       .get("/tarot/guide", {
         params: {
           //await: 비동기 함수 안에서 promise 객체가 처리될 때까지 기다림
-          luckType: "test_luck",
+          luckType: "연애운",
           luckOpt: 0,
         },
       })
       .then((res) => {
         console.log(res.data.data.content);
         setTellMeText(res.data.data.content); //set@=텍스트 값 바꿈
+        setTaroMaster(res.data.data.master_name);
+        setLuckType(2);
       })
       .catch((error) => {
         console.log(error);
@@ -240,7 +251,7 @@ const LoveFortune = () => {
         <BackgroundWrapper>
           <Profile src={LoveFortuneImg}></Profile>
           <TitleBox>
-            <TitleContent>연애운 타로 마스터와의 대화</TitleContent>
+            <TitleContent>{taroMaster} 타로 마스터와의 대화</TitleContent>
           </TitleBox>
           <BackgroundImg src={Background} alt="Background" />
           <ChatBox>
