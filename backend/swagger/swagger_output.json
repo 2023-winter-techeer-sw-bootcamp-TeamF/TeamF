@@ -1062,6 +1062,11 @@
         "description": "타로 결과를 API에 요청하고 결과를 반환함",
         "parameters": [
           {
+            "name": "userId",
+            "in": "query",
+            "type": "string"
+          },
+          {
             "name": "cards",
             "in": "query",
             "description": "카드 배열",
