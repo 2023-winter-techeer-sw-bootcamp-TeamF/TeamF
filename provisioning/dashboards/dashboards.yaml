@@ -1,0 +1,8 @@
+apiVersion: 1
+
+provides:
+  - name: "Dashboard provider"
+    orgId: 1
+    type: file
+    options:
+      path: /etc/grafana/provisioning/dashboards
