@@ -160,6 +160,7 @@ const Row = styled.div`
 
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 1rem;
   gap: 2.5rem 2rem;
 `;
 
@@ -213,28 +214,29 @@ function MyPage() {
             <MyDrawer>내 서랍</MyDrawer>
           </Folder>
           <Line />
-          <Link
-            to="/resultdetail"
-            style={{ display: "flex", alignItems: "center" }}
-          >
+          <div style={{ display: "flex", alignItems: "center" }}>
             <Row>
               {tarotRecord.map((record, index) => (
-                <Card key={index}>
-                  <CardLine1>
-                    <CardLine2>
-                      <TaroExs tarotImage={record.resultInfo.imageUrls.length}>
-                        {record.resultInfo.imageUrls.map((url, idx) => (
-                          <TaroEx key={idx} src={url} />
-                        ))}
-                      </TaroExs>
-                      <CardText>{record.resultInfo.explanation}</CardText>
-                    </CardLine2>
-                    <UserName>ㆍ{record.resultInfo.luck}ㆍ</UserName>
-                  </CardLine1>
-                </Card>
+                <Link to="/resultdetail">
+                  <Card key={index}>
+                    <CardLine1>
+                      <CardLine2>
+                        <TaroExs
+                          tarotImage={record.resultInfo.imageUrls.length}
+                        >
+                          {record.resultInfo.imageUrls.map((url, idx) => (
+                            <TaroEx key={idx} src={url} />
+                          ))}
+                        </TaroExs>
+                        <CardText>{record.resultInfo.explanation}</CardText>
+                      </CardLine2>
+                      <UserName>ㆍ{record.resultInfo.luck}ㆍ</UserName>
+                    </CardLine1>
+                  </Card>
+                </Link>
               ))}
             </Row>
-          </Link>
+          </div>
         </Inside>
       </Background>
     </>
