@@ -12,6 +12,7 @@ import { useRecoilValue } from "recoil";
 import { accessTokenState } from "../state/atom";
 import { io } from "socket.io-client";
 import axios from "axios";
+import LoadingPage from "../component/LoadingPage";
 const Background = styled.div`
   width: 100vw;
   height: 100vh;
@@ -170,6 +171,7 @@ function TarotProcess() {
     <>
       <Background>
         <Inside>
+          <LoadingPage></LoadingPage>
           <Navbar />
           <BackgroundWrapper>
             <BackgroundImg src={BackgroundImg1} />

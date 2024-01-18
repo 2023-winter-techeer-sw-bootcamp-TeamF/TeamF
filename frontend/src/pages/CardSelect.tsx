@@ -20,6 +20,7 @@ import {
   cardNumberAtom2,
   cardNumberAtom3,
 } from "../state/atom";
+import LoadingPage from "../component/LoadingPage";
 
 const BackgroundColor = styled.div`
   background: #000;
@@ -244,6 +245,7 @@ const CardSelect: React.FC = () => {
   return (
     <BackgroundColor>
       <Inside>
+        <LoadingPage></LoadingPage>
         <Navbar />
         <BackgroundWrapper>
           <BackgroundImg src={Background} alt="Background" />

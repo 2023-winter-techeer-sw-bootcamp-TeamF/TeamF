@@ -7,7 +7,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
 import { pollIdState, accessTokenState, replyState } from "../state/atom.ts";
-
+import LoadingPage from "../component/LoadingPage";
 const BackgroundColor = styled.div`
   background: #000;
   width: 100vw;
@@ -236,6 +236,7 @@ const FriendShip = () => {
   return (
     <BackgroundColor>
       <Inside>
+        <LoadingPage></LoadingPage>
         <Navbar />
         <BackgroundWrapper>
           <Profile src={FriendshipImg}></Profile>
