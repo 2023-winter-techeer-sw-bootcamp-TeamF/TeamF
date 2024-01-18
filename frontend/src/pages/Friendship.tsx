@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
+
+import LoadingPage from "../component/LoadingPage";
 import {
   pollIdState,
   accessTokenState,
@@ -246,6 +248,7 @@ const FriendShip = () => {
   return (
     <BackgroundColor>
       <Inside>
+        <LoadingPage></LoadingPage>
         <Navbar />
         <BackgroundWrapper>
           <Profile src={FriendshipImg}></Profile>

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import LoadingPage from "../component/LoadingPage";
 const Outside = styled.div`
   background-color: #000;
   display: flex;
@@ -191,6 +191,7 @@ function Signup() {
 
   return (
     <Outside>
+      <LoadingPage></LoadingPage>
       <Circle>
         <SWord>SIGN UP</SWord>
         <Id placeholder="ID" value={loginId} onChange={loginIdChange} />

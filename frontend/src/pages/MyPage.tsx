@@ -5,7 +5,7 @@ import { useRecoilValue } from "recoil";
 import { accessTokenState } from "../state/atom.ts";
 import axios from "axios";
 import { useEffect, useState } from "react";
-
+import LoadingPage from "../component/LoadingPage";
 const Background = styled.div`
   width: 100vw;
   height: 100vh;
@@ -197,6 +197,7 @@ function MyPage() {
     <>
       <Background>
         <Inside>
+          <LoadingPage></LoadingPage>
           <Navbar />
           <Folder>
             <svg

@@ -7,6 +7,7 @@ import { accessTokenState } from "../state/atom";
 import { useRecoilValue } from "recoil";
 import axios from "axios";
 
+import LoadingPage from "../component/LoadingPage";
 const Background = styled.div`
   width: 100vw;
   height: 100vh;
@@ -339,6 +340,7 @@ function ResultDetail() {
     <>
       <Background>
         <Inside>
+          <LoadingPage></LoadingPage>
           <Navbar />
           <Details>
             <DetailBackground>
