@@ -2,9 +2,7 @@ version: "3.8"
 
 services:
   prometheus:
-    image: prom/prometheus
-    volumes:
-      - /hostpath/prometheus/:/etc/prometheus/
+    build: .prometheus/
     ports:
       - "9090:9090"
 
