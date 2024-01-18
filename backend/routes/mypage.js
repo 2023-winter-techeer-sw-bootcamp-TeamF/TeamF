@@ -85,7 +85,7 @@ router.get('/detail', async (req, res, next) => {
       });
     });
 
-    const cardsQuery = 'SELECT image_url, explanation FROM card WHERE poll_id = ?';
+    const cardsQuery = 'SELECT image_url, explanation, eng_name FROM card WHERE poll_id = ?';
     const cardData = await new Promise((resolve, rejects) => {
       connection.query(cardsQuery, [poll_id], (error, cardData) => {
         if (error) {
