@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { accessTokenState, refreshTokenState } from "../state/atom.ts";
+import LoadingPage from "../component/LoadingPage";
 const Outside = styled.div`
   background-color: #000;
   display: flex;
@@ -141,14 +142,15 @@ function Login() {
       alert("성공");
       navigate("/fortuneselect");
     } catch (error) {
-      console.error("실패", error);
-      alert("실패");
+      console.error("로그인 실패", error);
+      alert("로그인 실패");
     }
   };
 
   return (
     <>
       <Outside>
+        <LoadingPage></LoadingPage>
         <Circle>
           <LWord>LOG IN</LWord>
           <Id placeholder="ID" value={loginId} onChange={loginIdChange} />

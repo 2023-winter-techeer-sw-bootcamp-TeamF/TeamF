@@ -7,6 +7,7 @@ import BackgroundImg1 from "../assets/Background.png";
 import { Link } from "react-router-dom";
 import LinkBtn from "../assets/LinkButton.png";
 import ShareBtn from "../assets/ShareButton.png";
+import LoadingPage from "../component/LoadingPage";
 const Background = styled.div`
   width: 100vw;
   height: 100vh;
@@ -221,6 +222,7 @@ function CardSave() {
     <>
       <Background>
         <Inside>
+          <LoadingPage></LoadingPage>
           <Navbar />
           <BackgroundWrapper>
             <BackgroundImg src={BackgroundImg1} />

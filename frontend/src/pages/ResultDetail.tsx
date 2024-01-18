@@ -6,7 +6,7 @@ import TaroEx2 from "../assets/TaroEx2.png";
 import TaroEx3 from "../assets/TaroEx3.png";
 import FlipCard from "../assets/ResultFlipCard.png";
 import { useNavigate } from "react-router-dom";
-
+import LoadingPage from "../component/LoadingPage";
 const Background = styled.div`
   width: 100vw;
   height: 100vh;
@@ -293,6 +293,7 @@ function ResultDetail() {
     <>
       <Background>
         <Inside>
+          <LoadingPage></LoadingPage>
           <Navbar />
           <Details>
             <DetailBackground>

@@ -9,7 +9,7 @@ import MoneyFortuneImg from "../assets/MoneyFortune.png";
 import TodayFortuneImg from "../assets/TodayFortune.png";
 import WishFortuneImg from "../assets/WishFortune.png";
 import FlipCard from "../assets/FlipCard.png";
-
+import LoadingPage from "../component/LoadingPage";
 const BackgroundWrapper = styled.div`
   position: relative; // 자식 요소를 절대 위치로 배치하기 위한 설정
   width: 79.4671675rem;
@@ -446,6 +446,7 @@ const FortuneSelect = () => {
           </OverlayContent>
         </BackgroundWrapper>
       </Inside>
+      <LoadingPage></LoadingPage>
     </BackgroundColor>
   );
 };

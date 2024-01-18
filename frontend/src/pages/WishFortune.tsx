@@ -6,6 +6,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
+
+import LoadingPage from "../component/LoadingPage";
 import {
   pollIdState,
   accessTokenState,
@@ -245,6 +247,7 @@ const WishFortune = () => {
   return (
     <BackgroundColor>
       <Inside>
+        <LoadingPage></LoadingPage>
         <Navbar />
         <BackgroundWrapper>
           <Profile src={WishFortuneImg}></Profile>
