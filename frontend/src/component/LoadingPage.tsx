@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Lottie from "react-lottie-player";
-import lottiloading from "../assets/Animation.json";
+import lottiloading from "../lotti/animation.json";
 
 const LoadingPage: React.FC = () => {
   // 로딩 상태를 state로 관리
