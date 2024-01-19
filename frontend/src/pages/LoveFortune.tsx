@@ -245,7 +245,34 @@ const LoveFortune = () => {
   const handleReplyChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setReply(event.target.value);
   };
+  //한글자씩 나오게 하는 로직
+  const [blobTitle, setBlobTitle] = useState("");
+  const [count, setCount] = useState(0);
+  const completionWord = tellMeText;
+  const [comeout, setComeout] = useState(0);
 
+  useEffect(() => {
+    if (comeout === 0) {
+      const typingInterval = setInterval(() => {
+        setBlobTitle((prevTitleValue) => {
+          const result = prevTitleValue
+            ? prevTitleValue + completionWord[count]
+            : completionWord[0];
+          setCount(count + 1);
+
+          if (count >= completionWord.length - 1) {
+            setCount(0);
+            setComeout(1);
+          }
+
+          return result;
+        });
+      }, 50);
+      return () => {
+        clearInterval(typingInterval);
+      };
+    }
+  });
   useEffect(() => {
     getText();
   }, []);
@@ -261,19 +288,25 @@ const LoveFortune = () => {
           </TitleBox>
           <BackgroundImg src={Background} alt="Background" />
           <ChatBox>
-            <Tellme>{tellMeText}</Tellme>
+            <Tellme>{blobTitle}</Tellme>
           </ChatBox>
-          <ReplyBox>
-            <Reply
-              placeholder="이곳에 고민을 적어주세요"
-              value={reply}
-              onChange={handleReplyChange}
-            ></Reply>
-          </ReplyBox>
-          <Profile2 src={LoveFortuneImg}></Profile2>
-          <NextBox>
-            <NextText onClick={handleNextButton}>카드 뽑으러 가기</NextText>
-          </NextBox>
+          {comeout === 0 ? (
+            <></>
+          ) : (
+            <>
+              <ReplyBox>
+                <Reply
+                  placeholder="이곳에 고민을 적어주세요"
+                  value={reply}
+                  onChange={handleReplyChange}
+                ></Reply>
+              </ReplyBox>
+              <Profile2 src={LoveFortuneImg}></Profile2>
+              <NextBox>
+                <NextText onClick={handleNextButton}>카드 뽑으러 가기</NextText>
+              </NextBox>{" "}
+            </>
+          )}
         </BackgroundWrapper>
       </Inside>
     </BackgroundColor>
