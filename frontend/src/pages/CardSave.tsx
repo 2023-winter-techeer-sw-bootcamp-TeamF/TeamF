@@ -10,6 +10,8 @@ import LoadingPage from "../component/LoadingPage";
 import html2canvas from "html2canvas";
 import { useRef } from "react";
 import { shareKakao } from "../utils/shareKakaoLink";
+import { useRecoilValue } from "recoil";
+import { pollIdState } from "../state/atom";
 const Background = styled.div`
   width: 100vw;
   height: 100vh;
@@ -223,6 +225,7 @@ const ShareButtonIcon1 = styled.img`
 `;
 function CardSave() {
   const captureDivRef = useRef(null);
+  const poll_id = useRecoilValue(pollIdState);
 
   const downloadButton = () => {
     if (captureDivRef.current) {
@@ -242,7 +245,7 @@ function CardSave() {
   };
 
   const shareButton = () => {
-    shareKakao("https://tairot.online/", "Tairot");
+    shareKakao(`http://localhost:5000/share/`, poll_id);
   };
 
   return (
