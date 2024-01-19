@@ -13,6 +13,7 @@ import {
   accessTokenState,
   replyState,
   selectLuck,
+  tarotMasterImg,
 } from "../state/atom.ts";
 
 const BackgroundColor = styled.div`
@@ -25,6 +26,7 @@ const BackgroundWrapper = styled.div`
   position: relative; // 자식 요소를 절대 위치로 배치하기 위한 설정
   width: 79.4671675rem;
   height: 52.94rem;
+  margin: auto;
 `;
 
 const BackgroundImg = styled.img`
@@ -48,6 +50,9 @@ const TitleBox = styled.div`
   top: 12%;
   left: 36%;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const TitleContent = styled.p`
@@ -58,7 +63,6 @@ const TitleContent = styled.p`
   font-weight: 350;
   line-height: normal;
   text-transform: capitalize;
-  margin-top: 0.6125rem;
 `;
 
 const Profile = styled.img`
@@ -198,6 +202,7 @@ const TodayFortune = () => {
   const [taroMaster, setTaroMaster] = useState("");
 
   const setLuckType = useSetRecoilState(selectLuck);
+  const settarotMasterImg = useSetRecoilState(tarotMasterImg);
   // const로 선언했을 때 불변값이라 값을 변화하면 에러 생김
   const getText = (): void => {
     axios
@@ -213,6 +218,7 @@ const TodayFortune = () => {
         setTellMeText(res.data.data.content); //set@=텍스트 값 바꿈
         setTaroMaster(res.data.data.master_name);
         setLuckType(1);
+        settarotMasterImg(TodayFortuneImg);
       })
       .catch((error) => {
         console.log(error);
@@ -240,7 +246,34 @@ const TodayFortune = () => {
   const handleReplyChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setReply(event.target.value);
   };
+  //한글자씩 나오게 하는 로직
+  const [blobTitle, setBlobTitle] = useState("");
+  const [count, setCount] = useState(0);
+  const completionWord = tellMeText;
+  const [comeout, setComeout] = useState(0);
 
+  useEffect(() => {
+    if (comeout === 0) {
+      const typingInterval = setInterval(() => {
+        setBlobTitle((prevTitleValue) => {
+          const result = prevTitleValue
+            ? prevTitleValue + completionWord[count]
+            : completionWord[0];
+          setCount(count + 1);
+
+          if (count >= completionWord.length - 1) {
+            setCount(0);
+            setComeout(1);
+          }
+
+          return result;
+        });
+      }, 50);
+      return () => {
+        clearInterval(typingInterval);
+      };
+    }
+  });
   useEffect(() => {
     getText();
   }, []);
@@ -257,19 +290,25 @@ const TodayFortune = () => {
           </TitleBox>
           <BackgroundImg src={Background} alt="Background" />
           <ChatBox>
-            <Tellme>{tellMeText}</Tellme>
+            <Tellme>{blobTitle}</Tellme>
           </ChatBox>
-          <ReplyBox>
-            <Reply
-              placeholder="이곳에 고민을 적어주세요"
-              value={reply}
-              onChange={handleReplyChange}
-            ></Reply>
-          </ReplyBox>
-          <Profile2 src={TodayFortuneImg}></Profile2>
-          <NextBox>
-            <NextText onClick={handleNextButton}>카드 뽑으러 가기</NextText>
-          </NextBox>
+          {comeout === 0 ? (
+            <></>
+          ) : (
+            <>
+              <ReplyBox>
+                <Reply
+                  placeholder="이곳에 고민을 적어주세요"
+                  value={reply}
+                  onChange={handleReplyChange}
+                ></Reply>
+              </ReplyBox>
+              <Profile2 src={TodayFortuneImg}></Profile2>
+              <NextBox>
+                <NextText onClick={handleNextButton}>카드 뽑으러 가기</NextText>
+              </NextBox>
+            </>
+          )}
         </BackgroundWrapper>
       </Inside>
     </BackgroundColor>

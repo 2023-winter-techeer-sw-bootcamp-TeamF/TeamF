@@ -22,6 +22,7 @@ const LogoContainer = styled.div`
   line-height: normal;
   text-transform: capitalize;
   display: flex;
+  margin-left: 1.25rem;
 `;
 
 const MenuContainer = styled.div`
@@ -94,7 +95,7 @@ const Navbar = () => {
   return (
     <NavContainer>
       <LogoContainer>
-        <Link to="/">
+        <Link to="/fortuneselect">
           <LargeLetter>T</LargeLetter>AIROT&nbsp;
         </Link>
       </LogoContainer>
