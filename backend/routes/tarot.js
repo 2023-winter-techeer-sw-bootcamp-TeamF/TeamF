@@ -1,15 +1,28 @@
 const express = require("express");
-const commonResponse = require("../middleware/commonResponse.js");
+const socketConnection = require("../middleware/socketConnection");
+const { toVerifyCardArray } = require("../card/toCardVaild");
+const GptMessage = require("../chatgpt/message");
+const StreamJson = require("../chatgpt/streamJson");
+const gpt = require("../chatgpt/api");
+const commonResponse = require("../middleware/commonResponse");
+const s3 = require("../aws/awsS3");
+const { socketFinishHandler } = require("../middleware/socketHandle");
+const savePrompt = require("../middleware/savePrompt");
 const db = require("../mysql/database.js");
-const s3 = require("../aws/awsS3.js");
 const router = express.Router();
+const verifyToken = require("../middleware/verifyToken");
+const { socketSendHandler } = require("../middleware/socketHandle");
+const checkPoll = require("../middleware/checkPoll");
+const middleware = [verifyToken, checkPoll, socketSendHandler];
 
-router.get("/guide", async (req, res, next) => {
-  // Swagger 문서화
-  // #swagger.summary = '가이드라인 불러오기'
-  // #swagger.description = '운 종류와 뽑는 사람 수를 전달하면 가이드라인(content)과 타로 마스터 이름(master_name)을 반환함'
-  // #swagger.tags = ['Tarot']
-  /* #swagger.parameters['luckType'] = {
+router.get(
+  "/option",
+  async (req, res, next) => {
+    // Swagger 문서화
+    // #swagger.summary = '가이드라인 불러오기'
+    // #swagger.description = '운 종류와 뽑는 사람 수를 전달하면 가이드라인(content)과 타로 마스터 이름(master_name)을 반환함'
+    // #swagger.tags = ['Tarot']
+    /* #swagger.parameters['luckType'] = {
          in: 'query',
          description: '운 종류',
          required: true,
@@ -17,7 +30,7 @@ router.get("/guide", async (req, res, next) => {
          example: '오늘의 운세, 연애운, 우정운, 재물운, 소망운',
          value: 'test_luck"
       } */
-  /* #swagger.parameters['luckOpt'] = {
+    /* #swagger.parameters['luckOpt'] = {
           in: 'query',
           description: '카드를 뽑는 사람의 수',
           required: true,
@@ -25,7 +38,7 @@ router.get("/guide", async (req, res, next) => {
           example: '0(혼자 보는 경우), 1(같이 보는 경우)',
           value: '0'
       } */
-  /*  #swagger.responses[200] = {
+    /*  #swagger.responses[200] = {
           description: '테스트 값 조회 성공',
           schema: {
           message: "가이드라인과 타로 마스터 이름 불러오기 성공",
@@ -35,13 +48,13 @@ router.get("/guide", async (req, res, next) => {
               }
           }
       } */
-  /*  #swagger.responses[400] = {
+    /*  #swagger.responses[400] = {
           description: '잘못된 요청',
           schema: {
           message: '운 종류나 뽑는 사람 수가 없습니다.'
           }
   } */
-  /*  #swagger.responses[500] = {
+    /*  #swagger.responses[500] = {
            description: 'DB 조회 과정에서 오류 발생 시의 응답',
            schema: {
               "message": "DB 조회 오류",
@@ -49,60 +62,65 @@ router.get("/guide", async (req, res, next) => {
               }
       } */
 
-  const { luckType, luckOpt } = req.query;
+    const { luckType, luckOpt } = req.query;
 
-  // async/await을 사용하여 비동기 처리
-  try {
+    // async/await을 사용하여 비동기 처리
+    try {
+      if (!luckType || !luckOpt) {
+        res.locals.status = 400;
+        res.locals.data = { message: "운 종류나 뽑는 사람 수가 없습니다." };
+        throw new Error("운 종류나 뽑는 사람 수가 없습니다.");
+      }
 
-    if (!luckType || !luckOpt) {
-      res.locals.status = 400;
-      res.locals.data = { message: "운 종류나 뽑는 사람 수가 없습니다." };
-      throw new Error("운 종류나 뽑는 사람 수가 없습니다.");
+      // DB 연결
+      const connection = db.getConnection();
+
+      // 쿼리가 성공하면 resolve를 호출하여 결과를 반환하고, 실패하면 reject를 호출하여 에러를 반환
+      const getLuckList = (luckType, luckOpt) => {
+        return new Promise((resolve) => {
+          // 운 카테고리 Table에서 가이드라인 내용 조회
+          const query = "SELECT * FROM luck_list WHERE luck = ? AND opt = ?";
+          connection.query(
+            query,
+            [luckType, luckOpt],
+            (error, results, fields) => {
+              if (error) {
+                res.locals.status = 500;
+                res.locals.data = { message: "DB 조회 오류", error };
+                throw new Error(
+                  "운 카테고리 Table에서 데이터 조회 중 오류 발생"
+                );
+              }
+
+              resolve(results);
+            }
+          );
+        });
+      };
+
+      const results = await getLuckList(luckType, luckOpt);
+
+      if (results.length <= 0)
+        throw new Error("운 카테고리 Table에서 데이터 조회 중 오류 발생");
+
+      // 조회 성공 시, 타로 마스터 이름과 가이드라인 내용 전달
+      res.locals.data = {
+        master_name: results[0].master_name,
+        content: results[0].content,
+      };
+      return next();
+    } catch (error) {
+      console.error(error);
+      return next(); // 오류 발생 → commonResponse 미들웨어로 이동
     }
+  },
+  commonResponse
+); // commonResponse 미들웨어를 체인으로 추가
 
-    // DB 연결
-    const connection = db.getConnection();
-
-    // 쿼리가 성공하면 resolve를 호출하여 결과를 반환하고, 실패하면 reject를 호출하여 에러를 반환
-    const getLuckList = (luckType, luckOpt) => {
-      return new Promise((resolve) => {
-        // 운 카테고리 Table에서 가이드라인 내용 조회
-        const query = "SELECT * FROM luck_list WHERE luck = ? AND opt = ?";
-        connection.query(query, [luckType, luckOpt], (error, results, fields) => {
-          if (error) {
-            res.locals.status = 500;
-            res.locals.data = { message: "DB 조회 오류", error };
-            throw new Error("운 카테고리 Table에서 데이터 조회 중 오류 발생");
-          } 
-          
-          resolve(results);
-        }
-        );
-      });
-    };
-
-    const results = await getLuckList(luckType, luckOpt);
-
-    if (results.length <= 0)
-      throw new Error("운 카테고리 Table에서 데이터 조회 중 오류 발생");
-
-    // 조회 성공 시, 타로 마스터 이름과 가이드라인 내용 전달
-    res.locals.data = {
-      master_name: results[0].master_name,
-      content: results[0].content,
-    };
-    return next();
-
-  } catch (error) {
-    console.error(error);
-    return next(); // 오류 발생 → commonResponse 미들웨어로 이동
-  }
-
-
-}, commonResponse); // commonResponse 미들웨어를 체인으로 추가
-
-router.post("/card/info", async (req, res, next) => {
-  /*
+router.get(
+  "/card",
+  async (req, res, next) => {
+    /*
    #swagger.tags = ['Tarot']
    #swagger.summary = "카드 정보 조회"
    #swagger.description = '카드 정보를 정수형으로 전달하면 해당 카드의 정보를 반환함'
@@ -135,117 +153,314 @@ router.post("/card/info", async (req, res, next) => {
       }
   } */
 
-  let result = null;
-  let dataObject = null;
-  const cardNum = req.query.card; // 카드 번호 저장
+    let result = null;
+    let dataObject = null;
+    const cardNum = req.query.card; // 카드 번호 저장
 
-  try {
+    try {
+      if (!cardNum) {
+        res.locals.status = 400;
+        res.locals.data = { message: "카드 넘버가 없습니다." };
+        throw new Error("카드 넘버가 없습니다.");
+      }
 
-    if (!cardNum) {
-      res.locals.status = 400;
-      res.locals.data = { message: "카드 넘버가 없습니다." };
-      throw new Error("카드 넘버가 없습니다.");
+      if (cardNum < 1 || cardNum > 78) {
+        res.locals.status = 400;
+        res.locals.data = { message: "카드 넘버가 잘못되었습니다." };
+        throw new Error("카드 넘버가 잘못되었습니다.");
+      }
+
+      const cardIndex = await s3.findIndex(cardNum); // 카드 번호를 통해 S3에서 파일의 인덱스를 가져옴
+      result = await s3.getS3ImageURL(cardIndex); // 파일명을 통해 S3에서 이미지 주소를 가져옴
+      dataObject = await s3.getDataObject(cardIndex); // 파일명을 통해 데이터를 가져옴
+
+      res.locals.data = {
+        message: "create image url successfully",
+        name: dataObject.name,
+        english: dataObject.english,
+        mean: dataObject.mean,
+        image_url: result,
+      };
+
+      return next();
+    } catch (error) {
+      console.error(error);
+      res.locals.status = 500;
+      return next(); // 오류 발생 → commonResponse 미들웨어로 이동
     }
+  },
+  commonResponse
+); // commonResponse 미들웨어를 체인으로 추가
 
-    if (cardNum < 1 || cardNum > 78) {
-      res.locals.status = 400;
-      res.locals.data = { message: "카드 넘버가 잘못되었습니다." };
-      throw new Error("카드 넘버가 잘못되었습니다.");
-    }
-
-    const cardIndex = await s3.findIndex(cardNum); // 카드 번호를 통해 S3에서 파일의 인덱스를 가져옴
-    result = await s3.getS3ImageURL(cardIndex); // 파일명을 통해 S3에서 이미지 주소를 가져옴
-    dataObject = await s3.getDataObject(cardIndex); // 파일명을 통해 데이터를 가져옴
-   
-    res.locals.data = {
-      message: "create image url successfully",
-      name: dataObject.name,
-      english: dataObject.english,
-      mean: dataObject.mean,
-      image_url: result,
-    };
-
-    return next();
-
-  } catch (error) {
-    console.error(error);
-    res.locals.status = 500;
-    return next(); // 오류 발생 → commonResponse 미들웨어로 이동
-  }
-}, commonResponse); // commonResponse 미들웨어를 체인으로 추가
-
-router.get('/share/detail', async (req, res, next) => {
-  /*
-   #swagger.tags = ['Share']
-   #swagger.summary = "결과 공유 Detail 조회"
-   #swagger.description = '결과(Poll_id)를 통해 해당 결과를 상세조회한다.'
-   #swagger.parameters['poll_id'] = {
-      in: 'query',
-      description: '폴 아이디 입력',
-      required: true,
-      example: 'Poll_ID',
-      value: '',
-  } 
-   #swagger.responses[404] = {
-      description: '해당 ID를 가진 폴이 존재하지 않습니다.',
-      schema: { error: '해당 ID를 가진 폴이 존재하지 않습니다.' }
-   } 
+router.post(
+  "/poll",
+  async (req, res, next) => {
+    /*
+   #swagger.tags = ['Tarot']
+   #swagger.security = [{ "Bearer": [] }]
+   #swagger.summary = "뽑은 카드 결과 저장 및 총 결과 저장을 위한 폴 아이디 생성"
+   #swagger.description = '타로 시작 시 Poll(임시저장)→ 타로 시작 할 경우 뽑은 카드와 결과 저장을 구별할 Poll Table에 poll_id가 각각 추가됨 (방만들기) → 토큰 값에서 추출한 userId를 이용'
+   #swagger.responses[401] = {
+          description: 'Unauthorized: 엑세스 토큰을 복호화한 정보(user_id)가 없을 시의 응답',
+          schema: { message: '엑세스 토큰이 없습니다.', error: '엑세스 토큰이 필요합니다' }
+      }
    #swagger.responses[500] = {
-      description: '내부 서버 오류로 인한 DB 쿼리 실패',
-      schema: { 
-        message: '내부 서버 오류로 인한 DB 쿼리 실패', 
-        error: '내부 서버 오류로 인한 DB 쿼리 실패'
-      }
-    }
-    #swagger.responses[200] = {
-      description: '총합 결과와 카드별 해석 및 링크 데이터 성공적으로 조회됨.',
+              description: 'DB 저장 과정에서 오류 발생 시의 응답',
+              schema: { message: 'DB 저장 오류', error: '타로 결과(poll) Table에 데이터 저장 중 오류 발생' }
+          }
+   #swagger.responses[200] = {
+      description: 'Poll ID가 성공적으로 생성되었을 때의 응답',
       schema: {
-        result: 'result 결과 조회 성공',
-        card: 'card 결과 조회 성공'
+          status: "success",
+          statusCode: 200,
+          data: {
+              message: 'Poll ID 생성 완료',
+              pollId: 0 
+          }
       }
+  } */
+    let result;
+    const user_id = req.user.id;
+
+    try {
+      if (!user_id) {
+        res.locals.status = 401;
+        res.locals.data = {
+          message: "엑세스 토큰이 없습니다.",
+          error: "엑세스 토큰이 필요합니다",
+        };
+        throw new Error("poll 생성 실패: 엑세스 토큰이 필요합니다");
+      }
+
+      // 데이터베이스 연결 및 쿼리 실행
+      const connection = db.getConnection();
+
+      const query = "INSERT INTO poll (user_id) VALUES (?)";
+      result = await new Promise((resolve, reject) => {
+        connection.query(query, [user_id], (error, results, fields) => {
+          if (error) {
+            res.locals.status = 500;
+            res.locals.data = { message: "DB 저장 오류", error: error.message };
+            reject(new Error("poll 생성 실패: DB 저장 오류"));
+          }
+          resolve(results);
+        });
+      });
+
+      res.locals.data = {
+        message: "Poll ID 생성 완료",
+        pollId: result.insertId,
+      };
+
+      return next();
+    } catch (error) {
+      console.error(error.message);
+      res.locals.status = 500;
+      res.locals.data = { message: error.message };
+      return next();
+    }
+  },
+  commonResponse
+); // commonResponse 미들웨어를 체인으로 추가
+
+router.post(
+  "/result",
+  middleware,
+  async (req, res, next) => {
+    /*
+    #swagger.tags = ['Tarot']
+    #swagger.summary = "타로 결과 GPT 요청 후 저장"
+    #swagger.description = '타로 결과를 API에 요청하고 결과를 반환함'
+    #swagger.security = [{ "Bearer": [] }]
+    #swagger.responses[200] = { 
+        description: 'GPT API 요청 성공',
+        schema: {
+            json: {
+                userId: 'yunki',
+                card1: 'Ace of Wands',
+                card2: 'Ace of Cups',
+                card3: 'Ace of Swords',
+                ask: '오늘의 운세는 어떤가요?',
+                answer: '오늘은 행운이 가득할 거예요!'
+            }
+        }
+    }
+    #swagger.responses[400] = {
+        description: '유효하지않은 데이터',
+        schema: {
+            message: '데이터가 유효하지 않습니다. (널값, 누락 등)'
+        }
+    }
+    #swagger.responses[500] = {
+        description: 'GPT API 요청 중 오류 발생',
+        schema: {
+            message: 'GPT에서 오류가 발생해 데이터를 불러올 수 없습니다!',
+            error: ''
+        }
+    }
+    #swagger.parameters['cards'] = {
+        in: 'query',
+        description: '카드 배열',
+        required: true,
+        type: 'array',
+        example: '[1,2,3]',
+        schema: {
+            cards: [1,2,3]
+        }
+    }
+    #swagger.parameters['ask'] = {
+        in: 'query',
+        description: '질문',
+        required: true,
+        type: 'string',
+        example: '오늘의 운세는 어떤가요?',
+        schema: {
+            ask: '오늘의 운세는 어떤가요?'
+        }
+    }
+    #swagger.parameters['luckType'] = {
+        in: 'query',
+        description: '운 종류',
+        required: true,
+        type: 'integer',
+        example: '1: 오늘의 운세, 2: 연애운, 3: 우정운, 4: 재물운, 5: 소망운',
+        schema: {
+            luckType: 1
+        }
+    }
+    #swagger.parameters['poll_id'] = {
+        in: 'query',
+        description: '폴 아이디',
+        required: true,
+        type: 'integer',
+        example: '1',
+        schema: {
+            poll_id: 1
+        }
     }
     */
-  const { poll_id } = req.query;
-  const connection = db.getConnection();
+    // 변수 선언
+    const { cards, ask, luckType } = req.query; // 카드 배열, 질문 저장, 운 종류, poll_id
+    const poll_id = res.locals.poll; // poll_id
+    const luckTypeArray = [
+      "오늘의 운세",
+      "연애운",
+      "우정운",
+      "재물운",
+      "소망운",
+    ]; // 운 종류 배열
+    const masterName = ["세레나", "샤를린", "마틸드", "제라드", "굴이"]; // 마스터 이름 배열
+    const socketId = res.locals.socketId; // 소켓 아이디
+    const io = req.app.get("io"); // 소켓 io 객체
 
-  try {
-    const resultQuery = 'SELECT question, explanation, luck, master_name FROM result WHERE poll_id = ?';
-    const resultData = await new Promise((resolve, rejects) => {
-      connection.query(resultQuery, [poll_id], (error, result) => {
-        if (error) {
-          res.locals.status = 500;
-          res.locals.data = { message: 'DB 쿼리 오류', error: error.message };
-          rejects(new Error('DB 오류: result에서 데이터 조회 중 오류 발생'));
+    let cardsArray = []; // 카드 배열
+    let intCardArray = []; // 카드 번호 배열
+    let numOfExplain = 0; // 해석의 수
+    let clientRecv = new String(); // 사용자가 받은 메시지 저장
+    let messages = new GptMessage(); // gpt 메시지 객체
+    const streamJson = new StreamJson(); // 스트림 json 객체 생성
+    let resultArray; // 결과 배열
+    let resultAnswer = new String(); // 결과 메시지
+    let cardAnswerArray = new Array(); // 결과 배열
+
+    // 유효한 정보인지 검사하는 기능
+    if (!cards || !ask || !luckType || !poll_id) {
+      res.locals.status = 400;
+      res.locals.data = {
+        error: "유효하지 않은 데이터입니다. (널 값, 누락 등)",
+      };
+      return next();
+    }
+
+    if (luckType < 1 || luckType > luckTypeArray.length) {
+      res.locals.status = 400;
+      res.locals.data = { error: "유효하지 않은 운 종류입니다." };
+      return next();
+    }
+
+    try {
+      intCardArray = toVerifyCardArray(cards);
+      for (const card of intCardArray) {
+        const cardIndex = s3.findIndex(card); // 카드 번호를 통해 S3에서 파일의 인덱스를 가져옴
+        const cardData = await s3.getDataObject(cardIndex); // 파일명을 통해 데이터를 가져옴
+        cardsArray.push(cardData.english);
+        numOfExplain++;
+      }
+    } catch (error) {
+      res.locals.status = 500;
+      res.locals.data = {
+        message: "데이터 조회 중 오류 발생 : ",
+        error: error.message,
+      };
+      return next(); // 오류 발생 → commonResponse 미들웨어로 이동
+    }
+
+    // gpt 메시지 생성
+    messages.addUserTestMessage();
+    messages.addUserMessage(ask);
+    messages.addUserCardsArrayMessage(cardsArray);
+    messages.addUserJsonFormMessage();
+
+    // 결과 배열 생성
+    resultArray = Array.from({ length: numOfExplain + 1 }, () => ""); // 결과 배열 생성
+
+    try {
+      console.log("Send To GPT : " + messages.getMessages().join(""));
+      const gptStream = await gpt.getGptJsonStream(messages.getMessages());
+
+      // gpt 스트림 데이터를 받는다.
+      for await (const chunk of gptStream) {
+        const gptChunkMessage = chunk.choices[0]?.delta?.content || "";
+
+        if (gptChunkMessage) {
+          const resultIndex = streamJson.getIndex();
+          const streamMessage = streamJson.parse(gptChunkMessage); // 스트림 데이터를 파싱
+
+          resultArray[resultIndex] += streamMessage; // 파싱한 데이터를 배열에 저장
+          clientRecv += streamMessage; // 사용자가 받은 메시지 저장
+
+          // resultIndex == numOfExplain
+          if (streamMessage != "")
+            io.to(socketId).emit("message", streamMessage); // 소켓으로 메시지 전송
         }
-        resolve(result);
-      });
-    });
+      }
 
-    const cardsQuery = 'SELECT image_url, explanation, eng_name FROM card WHERE poll_id = ?';
-    const cardData = await new Promise((resolve, rejects) => {
-      connection.query(cardsQuery, [poll_id], (error, cardData) => {
-        if (error) {
-          res.locals.status = 500;
-          res.locals.data = { message: 'DB 쿼리 오류', error: error.message };
-          rejects(new Error('DB 오류: card에서 데이터 조회 중 오류 발생'));
-        }
-        resolve(cardData);
-      });
-    });
+      // 카드 해석 배열 생성
+      for (let i = 0; i < numOfExplain; i++) {
+        cardAnswerArray[i] = resultArray[i];
+      }
 
-    res.locals.data = {
-      result: resultData.length > 0 ? resultData : '데이터가 없음',
-      card: cardData.length > 0 ? cardData : '데이터가 없음',
-    };
+      // 결과
+      resultAnswer += resultArray[numOfExplain];
 
-    return next();
+      console.log("Client Recv : " + clientRecv);
 
-  } catch (error) {
-    console.error(error);
-    res.locals.data = { message: error.message };
-    res.locals.status = 500;
-    return next();
-  }
-}, commonResponse);
+      res.locals.store = {
+        masterName: masterName[luckType - 1],
+        cardArray: intCardArray,
+        ask: ask,
+        cardAnswerArray: cardAnswerArray,
+        answer: resultAnswer,
+        socketId: socketId,
+        poll_id: poll_id,
+        luckType: luckTypeArray[luckType - 1], // 운 종류
+      }; // 조회 결과 → res.locals.data에 저장
+
+      console.log("Result : " + JSON.stringify(res.locals.store));
+
+      next(); // 다음 미들웨어로 이동
+    } catch (error) {
+      res.locals.status = 500;
+      res.locals.data = {
+        message: "스트리밍 중 오류 발생 : ",
+        error: error.message,
+      };
+      return next(); // 오류 발생 → commonResponse 미들웨어로 이동
+    }
+  },
+  socketFinishHandler,
+  savePrompt,
+  commonResponse
+);
 
 module.exports = router;
