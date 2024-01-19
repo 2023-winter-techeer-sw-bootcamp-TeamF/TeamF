@@ -266,12 +266,12 @@ const CardTitle = styled.p`
 const CardContent = styled.p`
   color: #fbecc6;
   font-family: Inter;
-  font-size: 0.5rem;
+  font-size: 0.6rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
   position: absolute;
-  top: 60%; // CardTitle 아래에 위치
+  top: 57%; // CardTitle 아래에 위치
   left: 50%;
   transform: translate(-50%, -50%);
 `;
@@ -279,6 +279,7 @@ const CardContent = styled.p`
 interface ImgType {
   explanation: string;
   image_url: string;
+  eng_name: string;
 }
 
 function ResultDetail() {
@@ -346,7 +347,6 @@ function ResultDetail() {
   }, []);
   return (
     <>
-      {" "}
       <Background>
         <Inside>
           <LoadingPage></LoadingPage>
@@ -366,7 +366,7 @@ function ResultDetail() {
                           </CardBackground>
                           <FlipcardBackground>
                             <FlipcardImg src={FlipCard}></FlipcardImg>
-                            <CardTitle>The Fool (바보)</CardTitle>
+                            <CardTitle>{number.eng_name}</CardTitle>
                             <CardContent>{number.explanation}</CardContent>
                           </FlipcardBackground>
                         </FlipcardInner>
@@ -406,7 +406,7 @@ function ResultDetail() {
                     </svg>
                   </Solutions>
                 </DetailLine2>
-                <Date>{luck}</Date>
+                <Date>ㆍ{luck}ㆍ</Date>
               </DetailLine1>
             </DetailBackground>
             <Buttons>
