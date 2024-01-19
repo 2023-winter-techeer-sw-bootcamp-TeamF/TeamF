@@ -4,13 +4,12 @@ import TaroEx1 from "../assets/TaroEx1.png";
 import TaroEx2 from "../assets/TaroEx2.png";
 import TaroEx3 from "../assets/TaroEx3.png";
 import BackgroundImg1 from "../assets/Background.png";
-import { Link } from "react-router-dom";
 import LinkBtn from "../assets/LinkButton.png";
 import ShareBtn from "../assets/ShareButton.png";
 import LoadingPage from "../component/LoadingPage";
 import html2canvas from "html2canvas";
 import { useRef } from "react";
-
+import { shareKakao } from "../utils/shareKakaoLink";
 const Background = styled.div`
   width: 100vw;
   height: 100vh;
@@ -240,6 +239,10 @@ function CardSave() {
     document.body.removeChild(link);
   };
 
+  const shareButton = () => {
+    shareKakao("https://tairot.online/", "Tairot");
+  };
+
   return (
     <>
       <Background>
@@ -285,16 +288,16 @@ function CardSave() {
                     <ShareButtonIcon>
                       <LinkButton src={LinkBtn}></LinkButton>
                     </ShareButtonIcon>
-                    <ShareButtonText onClick={downloadButton}>
+                    <ShareButtonText onClick={shareButton}>
                       링크 공유하기
                     </ShareButtonText>
                   </ShareButton>
 
-                  <Link to="/mypage">
-                    <SaveButton>
-                      <SaveButtonText>내 서랍에 저장하기</SaveButtonText>
-                    </SaveButton>
-                  </Link>
+                  <SaveButton>
+                    <SaveButtonText onClick={downloadButton}>
+                      카드 다운로드받기
+                    </SaveButtonText>
+                  </SaveButton>
                 </Buttons>
               </RightBox>
             </Cards>
