@@ -3,6 +3,8 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LoadingPage from "../component/LoadingPage";
+import Swal from "sweetalert2";
+
 const Outside = styled.div`
   background-color: #000;
   display: flex;
@@ -165,14 +167,79 @@ function Signup() {
     setConfirmPassword(event.target.value);
   };
 
+  const showToast = async (): Promise<void> => {
+    await Swal.fire({
+      icon: "success",
+      title: "회원가입 성공!",
+      toast: true,
+      position: "center",
+      showConfirmButton: false,
+      timer: 1000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
+      },
+    });
+    navigate("/login");
+  };
+
+  const showToastFail = async (): Promise<void> => {
+    await Swal.fire({
+      icon: "info",
+      title: "이미 존재하는 계정입니다",
+      toast: true,
+      position: "center",
+      showConfirmButton: false,
+      timer: 1000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
+      },
+    });
+  };
+
+  const toastType = async (): Promise<void> => {
+    await Swal.fire({
+      icon: "info",
+      title: "모두 입력해주세요",
+      toast: true,
+      position: "center",
+      showConfirmButton: false,
+      timer: 1000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
+      },
+    });
+  };
+
+  const toastConfirm = async (): Promise<void> => {
+    await Swal.fire({
+      icon: "info",
+      title: "비밀번호가 일치하지 않습니다",
+      toast: true,
+      position: "center",
+      showConfirmButton: false,
+      timer: 1000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
+      },
+    });
+  };
+
   const handleSignup = async () => {
     if (!loginId || !name || !password || !confirmPassword) {
-      alert("모두 입력해주세요!");
+      await toastType();
       return;
     }
 
     if (password !== confirmPassword) {
-      alert("비밀번호가 일치하지 않습니다.");
+      await toastConfirm();
       return;
     }
     try {
@@ -181,11 +248,9 @@ function Signup() {
       );
 
       console.log(response.data);
-      alert("성공");
-      navigate("/login");
+      await showToast();
     } catch (error) {
-      console.error("실패", error);
-      alert("실패");
+      await showToastFail();
     }
   };
 
