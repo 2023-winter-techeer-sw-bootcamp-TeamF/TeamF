@@ -14,6 +14,7 @@ const BackgroundWrapper = styled.div`
   position: relative; // 자식 요소를 절대 위치로 배치하기 위한 설정
   width: 79.4671675rem;
   height: 52.94rem;
+  margin: auto;
 `;
 
 const BackgroundImg = styled.img`
