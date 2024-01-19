@@ -1,7 +1,6 @@
 import Navbar from "../component/Navbar";
 import styled from "styled-components";
-import BackgroundImg1 from "../assets/Background.png";
-import TodayFortune from "../assets/TodayFortune.png";
+import background from "../assets/Background.png";
 import NextButton from "../assets/NextBtn.png";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
@@ -13,6 +12,7 @@ import {
   pollIdState,
   replyState,
   selectLuck,
+  tarotMasterImg,
 } from "../state/atom";
 import { io } from "socket.io-client";
 import axios from "axios";
@@ -125,6 +125,7 @@ function TarotProcess() {
   const [cardUrl1, setCardUrl1] = useState("");
   const [cardUrl2, setCardUrl2] = useState("");
   const [cardUrl3, setCardUrl3] = useState("");
+  const tarotMasterImage = useRecoilValue(tarotMasterImg);
 
   const getImage = async (card1: number, card2: number, card3: number) => {
     try {
@@ -235,7 +236,7 @@ function TarotProcess() {
           <LoadingPage></LoadingPage>
           <Navbar />
           <BackgroundWrapper>
-            <BackgroundImg src={BackgroundImg1} />
+            <BackgroundImg src={background} />
             <Cards>
               <CardBackground>
                 <TaroEx src={cardUrl1} />
@@ -247,7 +248,7 @@ function TarotProcess() {
                 <TaroEx src={cardUrl3} />
               </CardBackground>
             </Cards>
-            <TaroMaster src={TodayFortune} />
+            <TaroMaster src={tarotMasterImage} />
             <ChatBox>
               <Chat>{streamArray}</Chat>
             </ChatBox>
