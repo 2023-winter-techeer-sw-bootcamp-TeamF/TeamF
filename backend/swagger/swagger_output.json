@@ -5,7 +5,7 @@
     "description": "오늘도 화이팅",
     "version": "1.0.0"
   },
-  "host": "43.202.208.226:3001",
+  "host": "localhost:3000",
   "basePath": "/",
   "schemes": [
     "http"
@@ -209,6 +209,81 @@
         }
       }
     },
+    "/tarot/share/detail": {
+      "get": {
+        "tags": [
+          "Share"
+        ],
+        "summary": "결과 공유 Detail 조회",
+        "description": "결과(Poll_id)를 통해 해당 결과를 상세조회한다.",
+        "parameters": [
+          {
+            "name": "poll_id",
+            "in": "query",
+            "description": "폴 아이디 입력",
+            "required": true,
+            "example": "Poll_ID",
+            "value": "",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "총합 결과와 카드별 해석 및 링크 데이터 성공적으로 조회됨.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "string",
+                  "example": "result 결과 조회 성공"
+                },
+                "card": {
+                  "type": "string",
+                  "example": "card 결과 조회 성공"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "해당 ID를 가진 폴이 존재하지 않습니다.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "해당 ID를 가진 폴이 존재하지 않습니다."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "내부 서버 오류로 인한 DB 쿼리 실패",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "내부 서버 오류로 인한 DB 쿼리 실패"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "내부 서버 오류로 인한 DB 쿼리 실패"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
     "/poll/create": {
       "get": {
         "tags": [
@@ -308,25 +383,6 @@
         ],
         "summary": "마이 페이지에서 결과 리스트들을 조회하기",
         "description": "JWT토큰에서 사용자의 poll 리스트를 조회",
-        "parameters": [
-          {
-            "name": "poll_id",
-            "in": "query",
-            "description": "poll id 번호",
-            "required": true,
-            "type": "integer",
-            "example": "1",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "poll_id": {
-                  "type": "number",
-                  "example": 1
-                }
-              }
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -1061,11 +1117,6 @@
         "summary": "타로 결과 GPT 요청",
         "description": "타로 결과를 API에 요청하고 결과를 반환함",
         "parameters": [
-          {
-            "name": "userId",
-            "in": "query",
-            "type": "string"
-          },
           {
             "name": "cards",
             "in": "query",
