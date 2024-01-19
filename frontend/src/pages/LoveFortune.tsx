@@ -25,6 +25,7 @@ const BackgroundWrapper = styled.div`
   position: relative; // 자식 요소를 절대 위치로 배치하기 위한 설정
   width: 79.4671675rem;
   height: 52.94rem;
+  margin: auto;
 `;
 
 const BackgroundImg = styled.img`
@@ -41,13 +42,16 @@ const Inside = styled.div`
 const TitleBox = styled.div`
   border-radius: 1.875rem;
   background: rgba(51, 51, 51, 0.9);
-  width: 19.45rem;
+  width: 22.75rem;
   height: 3.125rem;
   flex-shrink: 0;
   position: absolute; // 부모 컨테이너인 BackgroundWrapper에 상대적인 위치
   top: 12%;
-  left: 37%;
+  left: 36%;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const TitleContent = styled.p`
@@ -58,7 +62,6 @@ const TitleContent = styled.p`
   font-weight: 350;
   line-height: normal;
   text-transform: capitalize;
-  margin-top: 0.6125rem;
 `;
 
 const Profile = styled.img`

@@ -22,6 +22,7 @@ const LogoContainer = styled.div`
   line-height: normal;
   text-transform: capitalize;
   display: flex;
+  margin-left: 1.25rem;
 `;
 
 const MenuContainer = styled.div`

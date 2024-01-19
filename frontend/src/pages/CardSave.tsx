@@ -18,12 +18,14 @@ const Inside = styled.div`
   width: 81.75rem;
   margin-left: auto;
   margin-right: auto;
+  margin: auto;
 `;
 
 const BackgroundWrapper = styled.div`
   position: relative;
   width: 79.4671675rem;
   height: 52.94rem;
+  margin: auto;
 `;
 
 const BackgroundImg = styled.img`

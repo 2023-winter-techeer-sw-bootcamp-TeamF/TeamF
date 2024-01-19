@@ -25,6 +25,7 @@ const BackgroundWrapper = styled.div`
   position: relative; // 자식 요소를 절대 위치로 배치하기 위한 설정
   width: 79.4671675rem;
   height: 52.94rem;
+  margin: auto;
 `;
 
 const BackgroundImg = styled.img`
@@ -48,6 +49,9 @@ const TitleBox = styled.div`
   top: 12%;
   left: 36%;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const TitleContent = styled.p`
@@ -58,7 +62,6 @@ const TitleContent = styled.p`
   font-weight: 350;
   line-height: normal;
   text-transform: capitalize;
-  margin-top: 0.6125rem;
 `;
 
 const Profile = styled.img`
