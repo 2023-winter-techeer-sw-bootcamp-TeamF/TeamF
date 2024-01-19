@@ -194,6 +194,7 @@ router.get(
 
 router.post(
   "/poll",
+  verifyToken,
   async (req, res, next) => {
     /*
    #swagger.tags = ['Tarot']

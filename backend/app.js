@@ -68,8 +68,8 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // 라우팅 설정
 app.use("/tarot", require("./routes/tarot"));
 app.use("/share", require("./routes/share"));
-app.use("/users", require("./routes/users"));
-
+app.use("/users", verifyToken, require("./routes/users"));
+app.use("/auth", require("./routes/auth"));
 // 공통 응답 미들웨어
 app.use(require("./middleware/commonResponse"));
 // 404 핸들러
