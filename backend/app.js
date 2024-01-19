@@ -5,28 +5,29 @@ const socketIo = require("socket.io"); // 소켓 io 필요 모듈
 const cors = require("cors");
 const { configureAwsClient } = require("./aws/awsClientConfig"); // AWS 클라이언트 설정
 const { GetSecretValueCommand } = require("@aws-sdk/client-secrets-manager"); // GetSecretValueCommand 가져오기
-const { loadDBConfig, getDBConfig } = require('./mysql/configDB');
-const db = require('./mysql/database');
-const { loadGptApiKey, initializeGpt } = require('./chatgpt/apiKey');
-const gpt = require('./chatgpt/api');
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger/swagger_output.json');
-const s3 = require('./aws/awsS3');
-const verifyToken = require('./middleware/verifyToken');
-const socketConnection = require('./middleware/socketConnection');
-const { socketSendHandler } = require('./middleware/socketHandle');
-const checkPoll = require('./middleware/checkPoll');
+const { loadDBConfig, getDBConfig } = require("./mysql/configDB");
+const db = require("./mysql/database");
+const { loadGptApiKey, initializeGpt } = require("./chatgpt/apiKey");
+const gpt = require("./chatgpt/api");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger/swagger_output.json");
+const s3 = require("./aws/awsS3");
+const verifyToken = require("./middleware/verifyToken");
+const socketConnection = require("./middleware/socketConnection");
+const { socketSendHandler } = require("./middleware/socketHandle");
+const checkPoll = require("./middleware/checkPoll");
 const app = express();
 const secretName = "MySQL_Info";
 const secretGptApiKey = "GPT_KEY";
 // Express 미들웨어 설정
 app.use(express.json());
 const server = http.createServer(app); // http 서버 생성
-const io = socketIo(server, { // socket.io 서버 생성
+const io = socketIo(server, {
+  // socket.io 서버 생성
   cors: {
     origin: "*", // 모든 오리진 허용
-    credentials: true // 쿠키 허용
-  }
+    credentials: true, // 쿠키 허용
+  },
 }); // socket.io와 서버 연결
 app.use(express.urlencoded({ extended: false }));
 // 소켓 이벤트 설정
@@ -65,15 +66,10 @@ app.use((req, res, next) => {
 // Swagger UI 설정
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // 라우팅 설정
-app.use('/tarot', require('./routes/tarot'));
-app.use('/poll', verifyToken, require('./routes/poll'));
-app.use('/result', require('./routes/result'));
-app.use('/user', require('./routes/user'));
-app.use('/mypage', verifyToken, require('./routes/mypage'));
-app.use('/test', require('./routes/test/test'));
-app.use('/secret', require('./routes/test/secretsManager'));
-app.use('/token', require('./routes/token'));
-app.use('/stream', verifyToken, checkPoll, socketSendHandler, require('./routes/stream'));
+app.use("/tarot", require("./routes/tarot"));
+app.use("/share", require("./routes/share"));
+app.use("/users", verifyToken, require("./routes/users"));
+app.use("/auth", require("./routes/auth"));
 // 공통 응답 미들웨어
 app.use(require("./middleware/commonResponse"));
 // 404 핸들러
