@@ -142,8 +142,8 @@ function Login() {
       alert("성공");
       navigate("/fortuneselect");
     } catch (error) {
-      console.error("로그인 실패", error);
-      alert("로그인 실패");
+      console.error("실패", error);
+      alert("실패");
     }
   };
 

@@ -14,6 +14,7 @@ export default defineConfig({
       "/stream": "http://localhost:3001/",
       "/result": "http://localhost:3001/",
       "/poll": "http://localhost:3001/",
+      "/mypage": "http://localhost:3001/",
     },
   },
 });
