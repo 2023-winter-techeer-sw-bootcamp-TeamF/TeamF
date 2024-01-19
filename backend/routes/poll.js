@@ -78,16 +78,7 @@ router.get("/list", (req, res, next) => {
    #swagger.security = [{ "Bearer": [] }]
    #swagger.summary = "마이 페이지에서 결과 리스트들을 조회하기"
    #swagger.description = 'JWT토큰에서 사용자의 poll 리스트를 조회'
-   #swagger.parameters['poll_id'] = { 
-      in: 'query',
-      description: 'poll id 번호', 
-      required: true,
-      type: 'integer',
-      example: '1',
-      schema: {
-        poll_id: 1
-      }  
-      */
+  */
   const user_id = req.user.id;
   if (!user_id) {
     /* #swagger.responses[401] = {
