@@ -68,10 +68,10 @@ services:
     # depends_on:
     #   - nginx
 
-  networks:
-    mybridge:
-      ipam:
-        driver: default
-        config:
-          - subnet: 172.17.0.1/16
+networks:
+  mybridge:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.17.0.1/16
 
