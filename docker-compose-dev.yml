@@ -1,25 +1,25 @@
 version: "3.8"
 
 services:
-  prometheus:
+  # prometheus:
     # image: prom/prometheus
-    build: ./prometheus
+    # build: ./prometheus
     # volumes:
     #   - /hostpath/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-    ports:
-      - "9090:9090"
+    # ports:
+      # - "9090:9090"
 
-  node-exporter:
-    image: prom/node-exporter
-    ports:
-      - "9199:9199"
+  # node-exporter:
+    # image: prom/node-exporter
+    #ports:
+     # - "9199:9199"
 
-  grafana:
-    image: grafana/grafana
-    volumes:
-      - /hostpath/provisioning:/etc/provisioning
-    ports:
-      - 9000:3000
+  #grafana:
+   # image: grafana/grafana
+#    volumes:
+ #     - /hostpath/provisioning:/etc/provisioning
+  #  ports:
+   #   - 9000:3000
 
   backend:
     build: ./backend
