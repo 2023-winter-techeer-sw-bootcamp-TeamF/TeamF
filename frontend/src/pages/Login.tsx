@@ -166,7 +166,7 @@ function Login() {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post("/user/login", {
+      const response = await axios.post("/auth/login", {
         login_id: loginId,
         password: password,
       });
