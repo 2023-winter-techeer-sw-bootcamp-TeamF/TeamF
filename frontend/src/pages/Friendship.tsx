@@ -4,7 +4,7 @@ import Background from "../assets/Background.png";
 import FriendshipImg from "../assets/Friendship.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
 
 import LoadingPage from "../component/LoadingPage";
@@ -202,6 +202,9 @@ const FriendShip = () => {
   const setLuckType = useSetRecoilState(selectLuck);
   const [taroMaster, setTaroMaster] = useState("");
   const settarotMasterImg = useSetRecoilState(tarotMasterImg);
+  const messages = useRef();
+
+
   // const로 선언했을 때 불변값이라 값을 변화하면 에러 생김
   const getText = (): void => {
     axios
@@ -274,10 +277,15 @@ const FriendShip = () => {
       };
     }
   });
+  const scrollToBottom = () => {
+    messages.current?.scrollIntoView({ behavior: 'smooth' });
+ };
   useEffect(() => {
     getText();
   }, []);
-
+  useEffect(()=>{
+    scrollToBottom();
+  },[blobTitle])
   return (
     <BackgroundColor>
       <Inside>
@@ -290,7 +298,7 @@ const FriendShip = () => {
           </TitleBox>
           <BackgroundImg src={Background} alt="Background" />
           <ChatBox>
-            <Tellme>{blobTitle}</Tellme>
+            <Tellme ref={messages}>{blobTitle}</Tellme>
           </ChatBox>
           {comeout === 0 ? (
             <></>

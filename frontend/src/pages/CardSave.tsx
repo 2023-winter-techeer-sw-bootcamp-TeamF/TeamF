@@ -4,13 +4,14 @@ import BackgroundImg1 from "../assets/Background.png";
 import LinkBtn from "../assets/LinkButton.png";
 import ShareBtn from "../assets/ShareButton.png";
 import LoadingPage from "../component/LoadingPage";
-import html2canvas from "html2canvas";
+//import html2canvas from "html2canvas";
 import { useRef } from "react";
 import { shareKakao } from "../utils/shareKakaoLink";
 import { useRecoilValue } from "recoil";
 import { pollIdState, accessTokenState } from "../state/atom.ts";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Background = styled.div`
   width: 100vw;
@@ -258,7 +259,7 @@ function CardSave() {
     callData();
   }, [accessToken, pollId]);
 
-  const downloadButton = () => {
+  /* const downloadButton = () => {
     if (captureDivRef.current) {
       html2canvas(captureDivRef.current).then((canvas) => {
         saveImg(canvas.toDataURL("image/jpg"), "image.jpg");
@@ -273,7 +274,7 @@ function CardSave() {
     link.download = filename;
     link.click();
     document.body.removeChild(link);
-  };
+  }; */
 
   const shareButton = () => {
     shareKakao(`http://localhost:5000/share/`, poll_id);
@@ -319,12 +320,13 @@ function CardSave() {
                       링크 공유하기
                     </ShareButtonText>
                   </ShareButton>
-
-                  <SaveButton>
-                    <SaveButtonText onClick={downloadButton}>
-                      카드 다운로드받기
-                    </SaveButtonText>
-                  </SaveButton>
+                  <Link to="/mypage">
+                    <SaveButton>
+                      <SaveButtonText>
+                        내 서랍에 저장하기
+                      </SaveButtonText>
+                    </SaveButton>
+                  </Link>
                 </Buttons>
               </RightBox>
             </Cards>
