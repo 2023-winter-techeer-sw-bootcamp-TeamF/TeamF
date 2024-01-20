@@ -63,14 +63,15 @@ services:
       - /hostpath/certbot/var:/var/lib/letsencrypt
       - /hostpath/www:/var/www/html
     command: certonly --webroot --webroot-path=/var/www/html --email tjfgkssk9472@gmail.com --agree-tos --no-eff-email --force-renewal -d tairot.online -v
-
+    networks:
+      - mybridge
     # depends_on:
     #   - nginx
 
-    networks:
-      mybridge:
-        ipam:
-          driver: default
-          config:
-            - subnet: 172.17.0.1/16
+  networks:
+    mybridge:
+      ipam:
+        driver: default
+        config:
+          - subnet: 172.17.0.1/16
 
