@@ -186,7 +186,7 @@ function Signup() {
 
   const showToastFail = async (): Promise<void> => {
     await Swal.fire({
-      icon: "info",
+      icon: "question",
       title: "이미 존재하는 계정입니다",
       toast: true,
       position: "center",
@@ -200,10 +200,10 @@ function Signup() {
     });
   };
 
-  const toastType = async (): Promise<void> => {
+  const showToastType = async (): Promise<void> => {
     await Swal.fire({
       icon: "info",
-      title: "모두 입력해주세요",
+      title: "모두 입력해주세요!",
       toast: true,
       position: "center",
       showConfirmButton: false,
@@ -216,10 +216,10 @@ function Signup() {
     });
   };
 
-  const toastConfirm = async (): Promise<void> => {
+  const showToastConfirm = async (): Promise<void> => {
     await Swal.fire({
       icon: "info",
-      title: "비밀번호가 일치하지 않습니다",
+      title: "비밀번호가 일치하지 않습니다.",
       toast: true,
       position: "center",
       showConfirmButton: false,
@@ -234,12 +234,12 @@ function Signup() {
 
   const handleSignup = async () => {
     if (!loginId || !name || !password || !confirmPassword) {
-      await toastType();
+ await showToastType();
       return;
     }
 
     if (password !== confirmPassword) {
-      await toastConfirm();
+      await showToastConfirm();
       return;
     }
     try {
