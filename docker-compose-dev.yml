@@ -30,14 +30,15 @@ services:
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - AWS_REGION=${AWS_REGION}
     networks:
-      default_bridge:
+      - default_bridge
 
   frontend:
     build: ./frontend
     ports:
       - "5000:5000"
     networks:
-      default_bridge:
+      - default_bridge
+
 
   nginx:
     build: ./nginx
@@ -51,6 +52,9 @@ services:
     depends_on:
       - backend
       - frontend
+    networks:
+      - default_bridge
+
 
   certbot:
     image: certbot/certbot
@@ -60,7 +64,8 @@ services:
       - /hostpath/www:/var/www/html
     command: certonly --webroot --webroot-path=/var/www/html --email tjfgkssk9472@gmail.com --agree-tos --no-eff-email --force-renewal -d tairot.online -v
     networks:
-      default_bridge:
+      - default_bridge
+
 
     # depends_on:
     #   - nginx
