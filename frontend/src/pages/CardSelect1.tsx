@@ -9,11 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { chunkArray, shuffleArray } from "../component/ShuffleArray";
 import axios from "axios";
 import { useSetRecoilState } from "recoil";
-import {
-  cardNumberAtom1,
-  cardNumberAtom2,
-  cardNumberAtom3,
-} from "../state/atom";
+import { cardNumberAtom1 } from "../state/atom";
 import LoadingPage from "../component/LoadingPage";
 
 const BackgroundColor = styled.div`
@@ -48,6 +44,7 @@ const CardBackground = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-left: 15rem;
 `;
 
 const TaroEx = styled.img`
@@ -152,13 +149,10 @@ const CardSelect = () => {
   const [holdCount, setHoldCount] = useState(0);
   const [back, setBack] = useState(false); //뒤로 갈지 앞으로 갈지
   const [card1, setCard1] = useState("");
-  const [card2, setCard2] = useState("");
-  const [card3, setCard3] = useState("");
 
   const [selectedCard, setSelectedCard] = useState<number[][]>([[]]);
   const setCardNumber1 = useSetRecoilState(cardNumberAtom1);
-  const setCardNumber2 = useSetRecoilState(cardNumberAtom2);
-  const setCardNumber3 = useSetRecoilState(cardNumberAtom3);
+
   const navigate = useNavigate();
 
   const incraseIndex = () => {
@@ -169,29 +163,22 @@ const CardSelect = () => {
     setCount((prev) => (prev === 0 ? 3 : prev - 1));
     setBack(true);
   };
-
   const getImage = async (card: number) => {
+    if (holdCount >= 1) {
+      // 이미 카드를 선택했다면 더 이상 선택하지 않도록 함
+      return;
+    }
     try {
       const response = await axios.post("/tarot/card/info", null, {
-        params: { card }, // {이름/카드 번호}
+        params: { card },
       });
-      if (holdCount === 0) {
-        setCard1(response.data.data.image_url);
-        setCardNumber1(card);
-      } else if (holdCount === 1) {
-        setCard2(response.data.data.image_url);
-        setCardNumber2(card);
-      } else if (holdCount === 2) {
-        setCard3(response.data.data.image_url);
-        setCardNumber3(card);
+      setCard1(response.data.data.image_url);
+      setCardNumber1(card);
+      setHoldCount(1); // 카드를 한 장 선택했으므로 holdCount 업데이트
 
-        setTimeout(() => {
-          navigate("/process");
-        }, 1000);
-      }
-
-      setHoldCount((prev) => (prev === 2 ? 3 : prev + 1));
-      // setCardNumber(card);
+      setTimeout(() => {
+        navigate("/tarotprocess1");
+      }, 1000); // 카드 선택 후 1초 뒤에 페이지 이동
     } catch (error) {
       console.log(error);
     }
@@ -199,9 +186,7 @@ const CardSelect = () => {
 
   const consoleIndex = (index: number, count: number) => {
     getImage(selectedCard[count][index]);
-    const updateCard = [...selectedCard];
-    updateCard[count][index] = 0;
-    setSelectedCard(updateCard);
+    // 여기에서는 selectedCard 배열을 업데이트하지 않습니다.
   };
 
   useEffect(() => {
@@ -221,13 +206,6 @@ const CardSelect = () => {
             <Cards>
               <CardBackground>
                 {card1 ? <TaroEx src={card1} /> : null}
-              </CardBackground>
-
-              <CardBackground>
-                {card2 ? <TaroEx src={card2} /> : null}
-              </CardBackground>
-              <CardBackground>
-                {card3 ? <TaroEx src={card3} /> : null}
               </CardBackground>
             </Cards>
             <AnimatePresence mode="wait" custom={back}>

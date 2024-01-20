@@ -18,7 +18,10 @@ import Friendship from "./pages/Friendship";
 import MoneyFortune from "./pages/MoneyFortune";
 import WishFortune from "./pages/WishFortune";
 import CardSelect from "./pages/CardSelect";
-
+import CardSelect1 from "./pages/CardSelect1";
+import TarotProcess1 from "./pages/TarotProcess1";
+import CardSelect5 from "./pages/CardSelect5";
+import TarotProcess5 from "./pages/TarotProcess5";
 import CardSave from "./pages/CardSave";
 import ResultShare from "./pages/ResultShare";
 
@@ -164,6 +167,22 @@ const router = createBrowserRouter([
   {
     path: "/share/:poll_id",
     element: <ResultShare />,
+  },
+  {
+    path: "/cardselect1",
+    element: <CardSelect1 />,
+  },
+  {
+    path: "/tarotprocess1",
+    element: <TarotProcess1 />,
+  },
+  {
+    path: "/cardselect5",
+    element: <CardSelect5 />,
+  },
+  {
+    path: "/tarotprocess5",
+    element: <TarotProcess5 />,
   },
 ]);
 

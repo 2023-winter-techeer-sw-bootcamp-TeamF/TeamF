@@ -235,7 +235,7 @@ const TodayFortune = () => {
       .then((response) => {
         console.log("성공", response.data);
         setPollId(response.data.data.pollId);
-        navigate("/cardselect");
+        navigate("/cardselect1");
       })
       .catch((error) => {
         console.error("실패:", error);
