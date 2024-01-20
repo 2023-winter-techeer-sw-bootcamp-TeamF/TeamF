@@ -178,7 +178,7 @@ function MyPage() {
   const [tarotRecord, setTarotRecord] = useState<RecordType[]>([]);
   useEffect(() => {
     axios
-      .get("/poll/list", {
+      .get("/api/v1/polls/list", {
         headers: {
           authorization: accessToken,
         },

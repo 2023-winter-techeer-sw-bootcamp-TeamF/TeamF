@@ -129,7 +129,7 @@ function TarotProcess() {
 
   const getImage = async (card1: number, card2: number, card3: number) => {
     try {
-      const response = await axios.post("/tarot/card/info", null, {
+      const response = await axios.get("/api/v1/tarot/card",  {
         params: { card: card1 }, // {이름/카드 번호}
       });
       setCardUrl1(response.data.data.image_url);
@@ -137,7 +137,7 @@ function TarotProcess() {
       console.log(error);
     }
     try {
-      const response = await axios.post("/tarot/card/info", null, {
+      const response = await axios.get("/api/v1/tarot/card", {
         params: { card: card2 }, // {이름/카드 번호}
       });
       setCardUrl2(response.data.data.image_url);
@@ -145,7 +145,7 @@ function TarotProcess() {
       console.log(error);
     }
     try {
-      const response = await axios.post("/tarot/card/info", null, {
+      const response = await axios.get("/api/v1/tarot/card", {
         params: { card: card3 }, // {이름/카드 번호}
       });
       setCardUrl3(response.data.data.image_url);
@@ -159,7 +159,7 @@ function TarotProcess() {
       getImage(card1, card2, card3);
       socket.connect();
       const response = await axios.post(
-        "/stream/",
+        "/api/v1/tarot/result",
         {},
         {
           headers: {
