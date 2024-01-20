@@ -19,7 +19,7 @@
     }
   },
   "paths": {
-    "/v1/tarot/option": {
+    "/api/v1/tarot/option": {
       "get": {
         "tags": [
           "Tarot"
@@ -115,7 +115,7 @@
         }
       }
     },
-    "/v1/tarot/card": {
+    "/api/v1/tarot/card": {
       "get": {
         "tags": [
           "Tarot"
@@ -209,7 +209,7 @@
         }
       }
     },
-    "/v1/tarot/result": {
+    "/api/v1/tarot/result": {
       "post": {
         "tags": [
           "Tarot"
@@ -379,7 +379,7 @@
         ]
       }
     },
-    "/v1/share/": {
+    "/api/v1/share/": {
       "get": {
         "tags": [
           "Share"
@@ -454,7 +454,7 @@
         }
       }
     },
-    "/v1/polls/list": {
+    "/api/v1/polls/list": {
       "get": {
         "tags": [
           "Polls"
@@ -501,7 +501,7 @@
         ]
       }
     },
-    "/v1/polls/detail": {
+    "/api/v1/polls/detail": {
       "get": {
         "tags": [
           "Polls"
@@ -599,7 +599,7 @@
         ]
       }
     },
-    "/v1/polls": {
+    "/api/v1/polls": {
       "delete": {
         "tags": [
           "Polls"
@@ -791,7 +791,7 @@
         ]
       }
     },
-    "/v1/users/signup": {
+    "/api/v1/users/signup": {
       "post": {
         "tags": [
           "Users"
@@ -894,7 +894,7 @@
         }
       }
     },
-    "/v1/users/login": {
+    "/api/v1/users/login": {
       "post": {
         "tags": [
           "Users"
@@ -989,7 +989,7 @@
         }
       }
     },
-    "/v1/users/logout": {
+    "/api/v1/users/logout": {
       "post": {
         "tags": [
           "Users"
@@ -1028,7 +1028,7 @@
         }
       }
     },
-    "/v1/users/refresh-token": {
+    "/api/v1/users/refresh-token": {
       "post": {
         "tags": [
           "Users"
