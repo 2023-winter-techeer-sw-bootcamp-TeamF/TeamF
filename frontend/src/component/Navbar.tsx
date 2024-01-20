@@ -89,6 +89,7 @@ const LogoutButton = styled.button`
     opacity: 0.7;
     transition: transform 0.3s ease, opacity 0.3s ease;
   }
+  margin-right: 1.25rem;
 `;
 
 const Navbar = () => {
