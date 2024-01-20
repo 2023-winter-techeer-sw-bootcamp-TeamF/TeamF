@@ -234,7 +234,7 @@ function Signup() {
 
   const handleSignup = async () => {
     if (!loginId || !name || !password || !confirmPassword) {
- await showToastType();
+      await showToastType();
       return;
     }
 
