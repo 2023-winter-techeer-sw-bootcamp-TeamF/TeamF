@@ -8,7 +8,7 @@
   "host": "tairot.online",
   "basePath": "/",
   "schemes": [
-    "http"
+    "https"
   ],
   "securityDefinitions": {
     "Bearer": {

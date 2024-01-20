@@ -13,7 +13,7 @@ const doc = {
   //host: "localhost:3000",
   //host: "43.202.208.226:3001",
   host: "tairot.online",
-  schemes: ["http"],
+  schemes: ["https"],
   securityDefinitions: {
     Bearer: {
       type: "apiKey",
