@@ -30,14 +30,14 @@ services:
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - AWS_REGION=${AWS_REGION}
     networks:
-      - default_bridge
+      - mybridge
 
   frontend:
     build: ./frontend
     ports:
       - "5000:5000"
     networks:
-      - default_bridge
+      - mybridge
 
 
   nginx:
@@ -53,7 +53,7 @@ services:
       - backend
       - frontend
     networks:
-      - default_bridge
+      - mybridge
 
 
   certbot:
@@ -63,14 +63,12 @@ services:
       - /hostpath/certbot/var:/var/lib/letsencrypt
       - /hostpath/www:/var/www/html
     command: certonly --webroot --webroot-path=/var/www/html --email tjfgkssk9472@gmail.com --agree-tos --no-eff-email --force-renewal -d tairot.online -v
-    networks: 
-      - default_bridge
 
     # depends_on:
     #   - nginx
 
     networks:
-      default_bridge:
+      mybridge:
         ipam:
           driver: default
           config:
