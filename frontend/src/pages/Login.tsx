@@ -6,6 +6,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { accessTokenState, refreshTokenState } from "../state/atom.ts";
 import LoadingPage from "../component/LoadingPage";
+import Swal from "sweetalert2";
+
 const Outside = styled.div`
   background-color: #000;
   display: flex;
@@ -129,6 +131,39 @@ function Login() {
     setPassword(event.target.value);
   };
 
+  const showToast = async (): Promise<void> => {
+    await Swal.fire({
+      icon: "success",
+      title: "로그인 성공",
+      toast: true,
+      position: "center",
+      showConfirmButton: false,
+      timer: 1000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
+      },
+    });
+    navigate("/fortuneselect");
+  };
+
+  const showToastFail = async (): Promise<void> => {
+    await Swal.fire({
+      icon: "error",
+      title: "로그인 실패",
+      toast: true,
+      position: "center",
+      showConfirmButton: false,
+      timer: 1000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
+      },
+    });
+  };
+
   const handleLogin = async () => {
     try {
       const response = await axios.post("/user/login", {
@@ -139,11 +174,9 @@ function Login() {
       setAccessToken(response.data.data.accessToken);
       setRefreshToken(response.data.data.refreshToken);
 
-      alert("성공");
-      navigate("/fortuneselect");
+      await showToast();
     } catch (error) {
-      console.error("실패", error);
-      alert("실패");
+      await showToastFail();
     }
   };
 
