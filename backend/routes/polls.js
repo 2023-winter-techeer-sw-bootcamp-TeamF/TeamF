@@ -300,7 +300,7 @@ router.delete(
 );
 
 router.post(
-  "/poll",
+  "",
   async (req, res, next) => {
     /*
    #swagger.tags = ['Polls']
