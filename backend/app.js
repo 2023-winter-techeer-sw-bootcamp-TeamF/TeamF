@@ -66,10 +66,10 @@ app.use((req, res, next) => {
 // Swagger UI 설정
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // 라우팅 설정
-app.use("/tarot", require("./routes/tarot"));
-app.use("/share", require("./routes/share"));
-app.use("/users", verifyToken, require("./routes/users"));
-app.use("/auth", require("./routes/auth"));
+app.use("/v1/tarot", require("./routes/tarot"));
+app.use("/v1/share", require("./routes/share"));
+app.use("/v1/polls", verifyToken, require("./routes/polls"));
+app.use("/v1/users", require("./routes/users"));
 // 공통 응답 미들웨어
 app.use(require("./middleware/commonResponse"));
 // 404 핸들러
@@ -97,7 +97,7 @@ async function startServer() {
     // s3 연결
     s3.initializeS3();
     // 서버 시작
-    const port = 3000;
+    const port = 3001;
     // 기존 app.listen() 대신 server.listen()을 사용
     // HTTP 서버와 소켓 서버가 모두 동일한 포트로 설정
     server.listen(port, () =>
