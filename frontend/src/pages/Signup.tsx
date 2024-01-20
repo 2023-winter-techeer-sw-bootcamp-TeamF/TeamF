@@ -219,7 +219,7 @@ function Signup() {
   const showToastConfirm = async (): Promise<void> => {
     await Swal.fire({
       icon: "info",
-      title: "비밀번호가 입력하지 않습니다.",
+      title: "비밀번호가 일치하지 않습니다.",
       toast: true,
       position: "center",
       showConfirmButton: false,
@@ -234,7 +234,7 @@ function Signup() {
 
   const handleSignup = async () => {
     if (!loginId || !name || !password || !confirmPassword) {
-      await showToastType();
+ await showToastType();
       return;
     }
 
