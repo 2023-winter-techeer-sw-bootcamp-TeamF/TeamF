@@ -7,6 +7,7 @@ function initializeConnection(dbConfig) {
         user: dbConfig.user,
         password: dbConfig.password,
         database: dbConfig.database,
+        charset: "utf8mb4",
     });
 
     connection.connect(error => {
