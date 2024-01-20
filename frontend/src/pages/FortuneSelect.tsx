@@ -10,6 +10,8 @@ import TodayFortuneImg from "../assets/TodayFortune.png";
 import WishFortuneImg from "../assets/WishFortune.png";
 import FlipCard from "../assets/FlipCard.png";
 import LoadingPage from "../component/LoadingPage";
+import "../assets/font-YUniverse-B.css";
+
 const BackgroundWrapper = styled.div`
   position: relative; // 자식 요소를 절대 위치로 배치하기 위한 설정
   width: 79.4671675rem;
@@ -40,15 +42,15 @@ const BackgroundColor = styled.div`
 const TitleContainer = styled.div`
   //타로 마스터가 여러분의 운세를 봐드립니다
   text-align: center;
-
   color: #ecb973;
   text-align: center;
-  font-family: Inter;
+  font-family: YUniverse-B;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 300;
+  letter-spacing: 0.05rem;
   line-height: normal;
   text-transform: uppercase;
-  font-size: 1.875rem;
+  font-size: 2rem;
   margin-bottom: 3.5rem;
 `;
 
@@ -56,10 +58,11 @@ const ContentContainer = styled.p`
   //타로 마스터의 설명을 참고하여 주제별 운세를 선택해주세요
   color: #ecb973;
   text-align: center;
-  font-family: Inter;
-  font-size: 1.125rem;
+  font-family: YUniverse-B;
+  font-size: 1rem; //1.125rem
   font-style: normal;
-  font-weight: 400;
+  font-weight: 300;
+  letter-spacing: 0.05rem;
   line-height: normal;
   text-transform: uppercase;
   margin-top: 1.25rem;
@@ -105,10 +108,10 @@ const Question = styled.span`
   // 어떨까?
   color: #ecb973;
   text-align: center;
-  font-family: Inter;
+  font-family: YUniverse-B;
   font-size: 1rem;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 300;
   line-height: normal;
   margin-top: 3.125rem;
 `;
@@ -117,12 +120,13 @@ const CardTitle = styled.span`
   //운 이름
   color: #ecb973;
   text-align: center;
-  font-family: Inter;
+  font-family: YUniverse-B;
   font-size: 1.5rem;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
   text-transform: uppercase;
+  margin-top: 0.2rem;
 `;
 
 const Inside = styled.div`
@@ -180,10 +184,12 @@ const CardText = styled.span`
   display: flex;
   flex-direction: column;
   color: #fffbf2;
-  font-family: "맑은 고딕";
-  font-size: 0.86rem;
-  width: 9rem;
-  line-height: 1.3;
+  font-family: YUniverse-B;
+  font-weight: 300;
+  font-size: 0.8rem;
+  text-align: center;
+  width: 9.5rem;
+  line-height: 1.5;
   margin-top: 0.6rem;
   display: inline;
 `;
@@ -195,19 +201,21 @@ const CardTextToday = styled.span`
   display: flex;
   flex-direction: column;
   color: #fffbf2;
-  font-family: "맑은 고딕";
-  font-size: 0.86rem;
-  width: 9rem;
-  line-height: 1.3;
+  font-family: YUniverse-B;
+  font-weight: 300;
+  font-size: 0.8rem;
+  text-align: center;
+  width: 9.5rem;
+  line-height: 1.5;
   margin-top: 0.6rem;
   display: inline;
 `;
 const Bold = styled.span`
   color: #fffbf2;
-  font-family: Inter;
-  font-size: 0.9375rem;
+  font-family: YUniverse-B;
+  font-size: 0.95rem;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 700;
   line-height: normal;
 `;
 const SoloBtn = styled.div`
@@ -259,10 +267,10 @@ const TogetherBtn = styled.div`
 const SoloText = styled.p`
   color: #806838;
   text-align: center;
-  font-family: Inter;
-  font-size: 0.625rem;
+  font-family: YUniverse-B;
+  font-size: 0.7rem;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 700;
   line-height: normal;
   text-transform: uppercase;
 `;
@@ -270,10 +278,10 @@ const SoloText = styled.p`
 const TogetherText = styled.p`
   color: #fbecc6;
   text-align: center;
-  font-family: Inter;
-  font-size: 0.625rem;
+  font-family: YUniverse-B;
+  font-size: 0.7rem;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 700;
   line-height: normal;
   text-transform: uppercase;
 `;
@@ -295,12 +303,12 @@ const FortuneSelect = () => {
           <BackgroundImg src={Background} />
           <OverlayContent>
             <TitleContainer>
-              타로 마스터가
-              <br /> 여러분의 운세를 봐드립니다!
+              타로 마스터에게
+              <br /> 여러분의 고민을 들려주세요!
             </TitleContainer>
             <ContentContainer>
-              타로 마스터의 설명을 참고하여
-              <br /> 주제별 운세를 선택해주세요
+              운세별 설명을 참고하여
+              <br /> 여러분이 상담하고 싶은 주제를 선택할 수 있어요
             </ContentContainer>
             <CardsContainer>
               <FlipcardContainer onClick={() => handleFlip(0)}>
@@ -313,15 +321,16 @@ const FortuneSelect = () => {
                   <FlipcardBackground>
                     <FlipCardImg src={FlipCard} />
                     <CardTextToday>
-                      킹왕짱 마스터는 어쩌구, 저쩌구, 요따구 능력을 지닌 타로
-                      마스터에요.
-                      <br />
-                      <Bold>오늘의 운세</Bold>는 타로 마스터와의 고민 상담없이
-                      바로 카드 선택이 진행돼요.
-                      <br />
-                      여러분의
-                      <Bold> 오늘의 운세</Bold>를 타로 카드와 함께 자세히
-                      분석해드릴게요
+                      <Bold>세레나 마스터</Bold>는<br />
+                      별과 달의 조화로 미래를 읽는.<br />
+                      타로 마스터에요.<br />
+                      <Bold>오늘의 운세</Bold>는<br />
+                      <Bold>총 1장</Bold>의 카드를 뽑아요.<br />
+                      <Bold>세레나 마스터</Bold>에게<br />
+                      여러분의 고민을<br />
+                      솔직하게 얘기해 주신다면<br />
+                      타로 카드와 함께<br />
+                      자세히 분석해 드릴게요.
                     </CardTextToday>
                     <Link to="/todayfortune">
                       <SoloBtn>
@@ -342,12 +351,17 @@ const FortuneSelect = () => {
                   <FlipcardBackground>
                     <FlipCardImg src={FlipCard} />
                     <CardText>
-                      퀸왕짱 마스터는 어쩌구, 저쩌구, 요따구 능력을 지닌 타로
-                      마스터에요.
-                      <br />
-                      <Bold>연애운</Bold>은 혼자 또는 두명이 함께 카드를 선택할
-                      수 있어요. 퀸왕짱 마스터에게 여러분의 고민을 솔직하게
-                      얘기해주신다면 타로 카드와 함께 자세히 분석해드릴게요.
+                      <Bold>샤를린 마스터</Bold>는<br />
+                      100번 이상의 연애 경험을 지닌<br />
+                      연애 고수 타로 마스터에요.<br />
+                      <Bold>연애운</Bold>은 <Bold>총 5장</Bold>의 카드를<br />
+                      혼자 또는 두 명이 함께<br />
+                      뽑을 수 있어요.<br />
+                      <Bold>샤를린 마스터</Bold>에게<br />
+                      여러분의 고민을<br />
+                      솔직하게 얘기해 주신다면<br />
+                      타로 카드와 함께<br />
+                      자세히 분석해 드릴게요.
                     </CardText>
                     <Link to="/lovefortune">
                       <SoloAboveBtn>
@@ -373,12 +387,17 @@ const FortuneSelect = () => {
                   <FlipcardBackground>
                     <FlipCardImg src={FlipCard} />
                     <CardText>
-                      할매짱 마스터는 어쩌구, 저쩌구, 요따구 능력을 지닌 타로
-                      마스터에요.
-                      <br />
-                      <Bold>우정운</Bold>은 혼자 또는 두명이 함께 카드를 선택할
-                      수 있어요. 퀸왕짱 마스터에게 여러분의 고민을 솔직하게
-                      얘기해주신다면 타로 카드와 함께 자세히 분석해드릴게요.
+                      <Bold>마틸드 마스터</Bold>는<br />
+                      풍부한 경험과 깊은 통찰력을<br />
+                      지닌 타로 마스터에요.<br />
+                      <Bold>우정운</Bold>은 <Bold>총 5장</Bold>의 카드를<br />
+                      혼자 또는 두 명이 함께<br />
+                      뽑을 수 있어요.<br />
+                      <Bold>마틸드 마스터</Bold>에게<br />
+                      여러분의 고민을<br />
+                      솔직하게 얘기해 주신다면<br />
+                      타로 카드와 함께<br />
+                      자세히 분석해 드릴게요.
                     </CardText>
                     <Link to="/friendship">
                       <SoloAboveBtn>
@@ -397,18 +416,23 @@ const FortuneSelect = () => {
                 <FlipcardInner isFlipped={flippedCards[3]}>
                   <CardBox>
                     <ProfileImage src={MoneyFortuneImg} />
-                    <Question>나 부자될 수 있을까?</Question>
+                    <Question>나 부자 될 수 있을까?</Question>
                     <CardTitle>재물운</CardTitle>
                   </CardBox>
                   <FlipcardBackground>
                     <FlipCardImg src={FlipCard} />
                     <CardText>
-                      할배짱 마스터는 어쩌구, 저쩌구, 요따구 능력을 지닌 타로
-                      마스터에요.
-                      <br />
-                      <Bold>재물운</Bold>은 혼자 또는 두명이 함께 카드를 선택할
-                      수 있어요. 퀸왕짱 마스터에게 여러분의 고민을 솔직하게
-                      얘기해주신다면 타로 카드와 함께 자세히 분석해드릴게요.
+                      <Bold>제라드 마스터</Bold>는<br />
+                      여러 사업을 성공적으로<br />
+                      운영하며 거대한 부를<br />
+                      축적한 타로 마스터에요.<br />
+                      <Bold>재물운</Bold>은<br />
+                      <Bold>총 3장</Bold>의 카드를 뽑아요.<br />
+                      <Bold>제라드 마스터</Bold>에게<br />
+                      여러분의 고민을<br />
+                      솔직하게 얘기해 주신다면<br />
+                      타로 카드와 함께<br />
+                      자세히 분석해 드릴게요.
                     </CardText>
                     <Link to="/moneyfortune">
                       <SoloBtn>
@@ -428,12 +452,16 @@ const FortuneSelect = () => {
                   <FlipcardBackground>
                     <FlipCardImg src={FlipCard} />
                     <CardText>
-                      개굴짱 마스터는 어쩌구, 저쩌구, 요따구 능력을 지닌 타로
-                      마스터에요.
-                      <br />
-                      <Bold>소망운</Bold>은 혼자 또는 두명이 함께 카드를 선택할
-                      수 있어요. 퀸왕짱 마스터에게 여러분의 고민을 솔직하게
-                      얘기해주신다면 타로 카드와 함께 자세히 분석해드릴게요.
+                      <Bold>굴이 마스터</Bold>는<br />
+                      작은 몸집에 거대한 통찰력이<br />
+                      숨어있는 타로 마스터에요.<br />
+                      <Bold>소망운</Bold>은<br />
+                      <Bold>총 3장</Bold>의 카드를 뽑아요.<br />
+                      <Bold>굴이 마스터</Bold>에게<br />
+                      여러분의 고민을<br />
+                      솔직하게 얘기해 주신다면<br />
+                      타로 카드와 함께<br />
+                      자세히 분석해 드릴게요.
                     </CardText>
                     <Link to="/wishfortune">
                       <SoloBtn>
