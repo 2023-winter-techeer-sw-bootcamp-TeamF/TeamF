@@ -9,7 +9,7 @@ const router = express.Router();
 // 회원가입 API
 router.post("/signup", async (req, res, next) => {
   /*
-  #swagger.tags = ['Auth']
+  #swagger.tags = ['Users']
   #swagger.summary = "회원가입"
   #swagger.description = '회원가입 하는 유저의 아이디 중복검사 및 가입 하는 유저의 정보를 데이터베이스에 저장'
   #swagger.responses[400] = {
@@ -103,7 +103,7 @@ router.post("/signup", async (req, res, next) => {
 
 // 로그인 API
 router.post("/login", async (req, res, next) => {
-  // #swagger.tags = ['Auth']
+  // #swagger.tags = ['Users']
   // #swagger.summary = "로그인"
   // #swagger.description = '아이디와 비밀번호를 이용하여 로그인을 수행하고, 성공 시 액세스 토큰과 리프레시 토큰을 발급'
   /*  #swagger.responses[400] = {
@@ -193,7 +193,7 @@ router.post("/login", async (req, res, next) => {
 
 // 로그아웃 API
 router.post("/logout", (req, res, next) => {
-  // #swagger.tags = ['Auth']
+  // #swagger.tags = ['Users']
   // #swagger.summary = "로그아웃"
   // #swagger.description = '현재 로그인된 사용자의 로그아웃을 수행'
   /*  #swagger.responses[500] = {
@@ -207,7 +207,7 @@ router.post("/logout", (req, res, next) => {
 
 router.post("/refresh-token", async (req, res, next) => {
   /*
-    #swagger.tags = ['Auth']
+    #swagger.tags = ['Users']
     #swagger.summary = "리프레시 토큰을 사용하여 새로운 엑세스 토큰과 리프레시 토큰 발급"
     #swagger.description = '유효한 리프레시 토큰을 제공받아 새로운 엑세스 토큰과 리프레시 토큰을 발급합니다.'
     #swagger.parameters['refreshToken'] = {

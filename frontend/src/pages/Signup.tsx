@@ -219,7 +219,7 @@ function Signup() {
   const showToastConfirm = async (): Promise<void> => {
     await Swal.fire({
       icon: "info",
-      title: "비밀번호가 일치하지 않습니다.",
+      title: "비밀번호가 입력하지 않습니다.",
       toast: true,
       position: "center",
       showConfirmButton: false,
@@ -244,7 +244,7 @@ function Signup() {
     }
     try {
       const response = await axios.post(
-        `/user/signup?login_id=${loginId}&name=${name}&password=${password}`
+        `/api/v1/users/signup?login_id=${loginId}&name=${name}&password=${password}`
       );
 
       console.log(response.data);

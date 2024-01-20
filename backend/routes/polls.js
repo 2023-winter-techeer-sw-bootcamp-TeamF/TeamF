@@ -11,7 +11,7 @@ router.get(
   "/list",
   (req, res, next) => {
     /*
-   #swagger.tags = ['Users']
+   #swagger.tags = ['Polls']
    #swagger.security = [{ "Bearer": [] }]
    #swagger.summary = "마이 페이지에서 결과 리스트들을 조회하기"
    #swagger.description = '마이 페이지에서 결과 리스트들을 조회하기 → 토큰 값에서 추출한 userId를 이용'
@@ -99,7 +99,7 @@ router.get(
   "/detail",
   async (req, res, next) => {
     /*
-   #swagger.tags = ['Users']
+   #swagger.tags = ['Polls']
    #swagger.security = [{ "Bearer": [] }]
    #swagger.summary = "결과 리스트에서 선택한 결과(poll_id) 상세 조회"
    #swagger.description = '결과 리스트 중 선택한 결과(Poll_id)를 통해 해당 결과를 상세조회한다.'
@@ -217,7 +217,7 @@ router.delete(
   "",
   async (req, res, next) => {
     /*
-   #swagger.tags = ['Users']
+   #swagger.tags = ['Polls']
    #swagger.security = [{ "Bearer": [] }]
    #swagger.summary = "결과 리스트에서 선택한 결과 및 카드 삭제"
    #swagger.description = '결과 리스트 중 선택한 결과(Poll_id)가 삭제된다. -> CASCADE로 result, card 테이블의 관련 데이터도 삭제'
@@ -300,10 +300,10 @@ router.delete(
 );
 
 router.post(
-  "/poll",
+  "",
   async (req, res, next) => {
     /*
-   #swagger.tags = ['Users']
+   #swagger.tags = ['Polls']
    #swagger.security = [{ "Bearer": [] }]
    #swagger.summary = "뽑은 카드 결과 저장 및 총 결과 저장을 위한 폴 아이디 생성"
    #swagger.description = '타로 시작 시 Poll(임시저장)→ 타로 시작 할 경우 뽑은 카드와 결과 저장을 구별할 Poll Table에 poll_id가 각각 추가됨 (방만들기) → 토큰 값에서 추출한 userId를 이용'

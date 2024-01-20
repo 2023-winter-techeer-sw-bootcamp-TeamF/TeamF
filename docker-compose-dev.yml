@@ -1,25 +1,25 @@
 version: "3.8"
 
 services:
-  prometheus:
+  # prometheus:
     # image: prom/prometheus
-    build: ./prometheus
+    # build: ./prometheus
     # volumes:
     #   - /hostpath/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-    ports:
-      - "9090:9090"
+    # ports:
+      # - "9090:9090"
 
-  node-exporter:
-    image: prom/node-exporter
-    ports:
-      - "9199:9199"
+  # node-exporter:
+    # image: prom/node-exporter
+    #ports:
+     # - "9199:9199"
 
-  grafana:
-    image: grafana/grafana
-    volumes:
-      - /hostpath/provisioning:/etc/provisioning
-    ports:
-      - 9000:3000
+  #grafana:
+   # image: grafana/grafana
+#    volumes:
+ #     - /hostpath/provisioning:/etc/provisioning
+  #  ports:
+   #   - 9000:3000
 
   backend:
     build: ./backend
@@ -29,11 +29,16 @@ services:
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - AWS_REGION=${AWS_REGION}
+    networks:
+      - mybridge
 
   frontend:
     build: ./frontend
     ports:
       - "5000:5000"
+    networks:
+      - mybridge
+
 
   nginx:
     build: ./nginx
@@ -47,6 +52,9 @@ services:
     depends_on:
       - backend
       - frontend
+    networks:
+      - mybridge
+
 
   certbot:
     image: certbot/certbot
@@ -55,5 +63,15 @@ services:
       - /hostpath/certbot/var:/var/lib/letsencrypt
       - /hostpath/www:/var/www/html
     command: certonly --webroot --webroot-path=/var/www/html --email tjfgkssk9472@gmail.com --agree-tos --no-eff-email --force-renewal -d tairot.online -v
+    networks:
+      - mybridge
     # depends_on:
     #   - nginx
+
+networks:
+  mybridge:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.202.0.1/16
+

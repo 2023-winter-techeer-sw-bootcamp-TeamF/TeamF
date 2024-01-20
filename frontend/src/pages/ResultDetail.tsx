@@ -305,7 +305,7 @@ function ResultDetail() {
   };
   const getDetails = (): void => {
     axios
-      .get("/mypage/detail", {
+      .get("/api/v1/polls/detail", {
         params: {
           poll_id,
         },
@@ -326,7 +326,7 @@ function ResultDetail() {
   };
   const deleteCard = () => {
     axios
-      .delete("/mypage/delete", {
+      .delete("/api/v1/polls", {
         params: {
           poll_id,
         },
