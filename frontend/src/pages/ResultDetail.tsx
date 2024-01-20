@@ -6,7 +6,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { accessTokenState } from "../state/atom";
 import { useRecoilValue } from "recoil";
 import axios from "axios";
-
 import LoadingPage from "../component/LoadingPage";
 import { shareKakao } from "../utils/shareKakaoLink";
 const Background = styled.div`
@@ -122,13 +121,14 @@ const Worry = styled.p`
   }
 `;
 
-const Cards = styled.div`
+const Cards = styled.div<TaroExsProps>`
   display: flex;
   flex-direction: row;
-  gap: 4.75rem;
+  gap: ${(props) => (props.tarotImage === 5 ? "2.5rem" : "4.75rem")};
   margin-top: 2rem;
   align-items: center;
   width: 34.375rem;
+  justify-content: center;
 `;
 
 const CardBackground = styled.div`
@@ -143,6 +143,9 @@ const CardBackground = styled.div`
   backface-visibility: hidden;
   transform: rotateY(0deg);
 `;
+interface TaroExsProps {
+  tarotImage: number;
+}
 
 const TaroEx = styled.img`
   width: 7.8209375rem;
@@ -204,6 +207,12 @@ const Buttons = styled.div`
 const Button = styled.button`
   all: unset;
   cursor: pointer;
+
+  &:hover {
+    opacity: 0.7;
+    transform: scale(1.1);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
 `;
 
 const FlipcardBackground = styled.div`
@@ -214,7 +223,6 @@ const FlipcardBackground = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
   backface-visibility: hidden;
   transform: rotateY(180deg);
 `;
@@ -360,7 +368,7 @@ function ResultDetail() {
                 <DetailLine2>
                   <Title>당신의 고민 . . .</Title>
                   <Worry>{question}</Worry>
-                  <Cards>
+                  <Cards tarotImage={tarotImage.length}>
                     {tarotImage.map((number, index) => (
                       <FlipcardContainer onClick={() => handleFlip(index)}>
                         <FlipcardInner isFlipped={flippedCards[index]}>

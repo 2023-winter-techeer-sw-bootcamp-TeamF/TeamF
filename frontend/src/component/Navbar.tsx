@@ -45,6 +45,12 @@ const LoginButton = styled.button`
   line-height: normal;
   text-transform: capitalize;
   cursor: pointer;
+
+  &:hover {
+    opacity: 0.7;
+
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
 `;
 
 const MenuItem = styled(Link)`
@@ -79,6 +85,10 @@ const LogoutButton = styled.button`
   line-height: normal;
   text-transform: capitalize;
   cursor: pointer;
+  &:hover {
+    opacity: 0.7;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
 `;
 
 const Navbar = () => {

@@ -224,26 +224,7 @@ const TodayFortune = () => {
         console.log(error);
       });
   };
-<<<<<<< HEAD
 
-  const handleNextButton = () => {
-    axios
-      .get("/poll/create", {
-        headers: {
-          Authorization: accessToken,
-        },
-      })
-      .then((response) => {
-        console.log("성공", response.data);
-        setPollId(response.data.data.pollId);
-        navigate("/cardselect1");
-      })
-      .catch((error) => {
-        console.error("실패:", error);
-      });
-    console.log("Reply 내용:", reply);
-=======
-  
   const handleNextButton = async () => {
     try {
       const response = await axios.post(
@@ -257,11 +238,10 @@ const TodayFortune = () => {
       );
       console.log("성공", response.data);
       setPollId(response.data.data.pollId);
-      navigate("/cardselect");
+      navigate("/cardselect1");
     } catch (error) {
       console.log(error);
     }
->>>>>>> 48df8a6b53e9c991e6977bcd562446a180a19ee0
   };
 
   const handleReplyChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {

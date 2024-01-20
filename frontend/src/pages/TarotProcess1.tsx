@@ -42,7 +42,7 @@ const CardBackground = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 15rem;
+  margin-left: 13rem;
 `;
 const TaroEx = styled.img`
   width: 7.72438rem;
@@ -126,7 +126,7 @@ function TarotProcess() {
 
   const getImage = async (card1: number) => {
     try {
-      const response = await axios.post("/tarot/card/info", null, {
+      const response = await axios.get("/api/v1/tarot/card", {
         params: { card: card1 }, // {이름/카드 번호}
       });
       setCardUrl1(response.data.data.image_url);
@@ -140,7 +140,7 @@ function TarotProcess() {
       getImage(card1);
       socket.connect();
       const response = await axios.post(
-        "/stream/",
+        "/api/v1/tarot/result",
         {},
         {
           headers: {
@@ -221,6 +221,7 @@ function TarotProcess() {
               <CardBackground>
                 <TaroEx src={cardUrl1} />
               </CardBackground>
+              ㄴ
             </Cards>
             <TaroMaster src={tarotMasterImage} />
             <ChatBox>

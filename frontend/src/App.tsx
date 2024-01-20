@@ -173,7 +173,7 @@ const router = createBrowserRouter([
     element: <CardSelect1 />,
   },
   {
-    path: "/tarotprocess1",
+    path: "/process1",
     element: <TarotProcess1 />,
   },
   {
@@ -181,7 +181,7 @@ const router = createBrowserRouter([
     element: <CardSelect5 />,
   },
   {
-    path: "/tarotprocess5",
+    path: "/process5",
     element: <TarotProcess5 />,
   },
 ]);

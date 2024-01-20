@@ -44,7 +44,7 @@ const CardBackground = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 15rem;
+  margin-left: 20rem;
 `;
 
 const TaroEx = styled.img`
@@ -56,7 +56,6 @@ const Cards = styled.div`
   display: flex;
   flex-direction: row;
   gap: 6.5rem;
-  margin-left: 5rem;
 `;
 
 const BackcardBackground = styled(motion.div)`
@@ -146,13 +145,12 @@ const CardSelect = () => {
   const numberOfCardsDelete = 12; // 4번째 줄 카드 수
   const Overlap = 1.875; // 카드 겹침 정도
   const [count, setCount] = useState(0); //몇번째 슬라이드인지
-  const [holdCount, setHoldCount] = useState(0);
+
   const [back, setBack] = useState(false); //뒤로 갈지 앞으로 갈지
   const [card1, setCard1] = useState("");
 
   const [selectedCard, setSelectedCard] = useState<number[][]>([[]]);
   const setCardNumber1 = useSetRecoilState(cardNumberAtom1);
-
   const navigate = useNavigate();
 
   const incraseIndex = () => {
@@ -164,31 +162,26 @@ const CardSelect = () => {
     setBack(true);
   };
   const getImage = async (card: number) => {
-    if (holdCount >= 1) {
-      // 이미 카드를 선택했다면 더 이상 선택하지 않도록 함
-      return;
-    }
     try {
-      const response = await axios.post("/tarot/card/info", null, {
+      const response = await axios.get("/api/v1/tarot/card", {
         params: { card },
       });
       setCard1(response.data.data.image_url);
       setCardNumber1(card);
-      setHoldCount(1); // 카드를 한 장 선택했으므로 holdCount 업데이트
 
+      // 페이지 이동
       setTimeout(() => {
-        navigate("/tarotprocess1");
-      }, 1000); // 카드 선택 후 1초 뒤에 페이지 이동
+        navigate("/process1");
+      }, 1000);
     } catch (error) {
-      console.log(error);
+      console.error("실패:", error);
     }
   };
 
   const consoleIndex = (index: number, count: number) => {
-    getImage(selectedCard[count][index]);
-    // 여기에서는 selectedCard 배열을 업데이트하지 않습니다.
+    const card = selectedCard[count][index];
+    getImage(card);
   };
-
   useEffect(() => {
     const numbers = Array.from({ length: 78 }, (_, index) => index + 1);
     shuffleArray(numbers);

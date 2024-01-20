@@ -177,36 +177,37 @@ const CardSelect = () => {
   };
 
   const getImage = async (card: number) => {
-    try {
-      const response = await axios.post("/tarot/card/info", null, {
-        params: { card }, // {이름/카드 번호}
+    axios
+      .get("/api/v1/tarot/card", {
+        params: { card },
+      })
+      .then((response) => {
+        if (holdCount === 0) {
+          setCard1(response.data.data.image_url);
+          setCardNumber1(card);
+        } else if (holdCount === 1) {
+          setCard2(response.data.data.image_url);
+          setCardNumber2(card);
+        } else if (holdCount === 2) {
+          setCard3(response.data.data.image_url);
+          setCardNumber3(card);
+        } else if (holdCount === 3) {
+          setCard4(response.data.data.image_url);
+          setCardNumber4(card);
+        } else if (holdCount === 4) {
+          setCard5(response.data.data.image_url);
+          setCardNumber5(card);
+
+          setTimeout(() => {
+            navigate("/process5");
+          }, 1000);
+        }
+
+        setHoldCount((prev) => (prev === 2 ? 3 : prev + 1));
+      })
+      .catch((error) => {
+        console.error("실패:", error);
       });
-      if (holdCount === 0) {
-        setCard1(response.data.data.image_url);
-        setCardNumber1(card);
-      } else if (holdCount === 1) {
-        setCard2(response.data.data.image_url);
-        setCardNumber2(card);
-      } else if (holdCount === 2) {
-        setCard3(response.data.data.image_url);
-        setCardNumber3(card);
-      } else if (holdCount === 3) {
-        setCard4(response.data.data.image_url);
-        setCardNumber4(card);
-      } else if (holdCount === 4) {
-        setCard5(response.data.data.image_url);
-        setCardNumber5(card);
-
-        setTimeout(() => {
-          navigate("/process");
-        }, 1000);
-      }
-
-      setHoldCount((prev) => (prev === 2 ? 3 : prev + 1));
-      // setCardNumber(card);
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   const consoleIndex = (index: number, count: number) => {
@@ -234,6 +235,7 @@ const CardSelect = () => {
               <CardBackground>
                 {card1 ? <TaroEx src={card1} /> : null}
               </CardBackground>
+
               <CardBackground>
                 {card2 ? <TaroEx src={card2} /> : null}
               </CardBackground>
