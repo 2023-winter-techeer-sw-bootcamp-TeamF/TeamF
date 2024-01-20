@@ -205,7 +205,7 @@ const FriendShip = () => {
   // const로 선언했을 때 불변값이라 값을 변화하면 에러 생김
   const getText = (): void => {
     axios
-      .get("/tarot/guide", {
+      .get("/v1/tarot/option", {
         params: {
           //await: 비동기 함수 안에서 promise 객체가 처리될 때까지 기다림
           luckType: "우정운",
@@ -226,7 +226,7 @@ const FriendShip = () => {
 
   const handleNextButton = () => {
     axios
-      .get("/poll/create", {
+      .post("/v1/polls", {
         headers: {
           Authorization: accessToken,
         },
@@ -268,7 +268,7 @@ const FriendShip = () => {
 
           return result;
         });
-      }, 50);
+      }, 30);
       return () => {
         clearInterval(typingInterval);
       };

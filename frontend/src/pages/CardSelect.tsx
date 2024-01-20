@@ -178,7 +178,7 @@ const CardSelect = () => {
 
   const getImage = async (card: number) => {
     try {
-      const response = await axios.post("/tarot/card/info", null, {
+      const response = await axios.post("/v1/tarot/card", null, {
         params: { card }, // {이름/카드 번호}
       });
       if (holdCount === 0) {
