@@ -66,10 +66,10 @@ app.use((req, res, next) => {
 // Swagger UI 설정
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // 라우팅 설정
-app.use("/v1/tarot", require("./routes/tarot"));
-app.use("/v1/share", require("./routes/share"));
-app.use("/v1/polls", verifyToken, require("./routes/polls"));
-app.use("/v1/users", require("./routes/users"));
+app.use("/api/v1/tarot", require("./routes/tarot"));
+app.use("/api/v1/share", require("./routes/share"));
+app.use("/api/v1/polls", verifyToken, require("./routes/polls"));
+app.use("/api/v1/users", require("./routes/users"));
 // 공통 응답 미들웨어
 app.use(require("./middleware/commonResponse"));
 // 404 핸들러
