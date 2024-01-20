@@ -79,6 +79,7 @@ const LogoutButton = styled.button`
   line-height: normal;
   text-transform: capitalize;
   cursor: pointer;
+  margin-right: 1.25rem;
 `;
 
 const Navbar = () => {
