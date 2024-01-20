@@ -9,7 +9,7 @@ export default defineConfig({
     port: 5000,
     host: true,
     proxy: {
-      "/v1":"http://localhost:3001/",
+      "/api":"http://localhost:3001/",
       "/tarot": "http://localhost:3001/",
       "/user": "http://localhost:3001/",
       "/stream": "http://localhost:3001/",

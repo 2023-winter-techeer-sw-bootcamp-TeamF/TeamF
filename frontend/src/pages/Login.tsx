@@ -166,7 +166,7 @@ function Login() {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post("/v1/users/login", {
+      const response = await axios.post("/api/v1/users/login", {
         login_id: loginId,
         password: password,
       });

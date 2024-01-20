@@ -242,7 +242,7 @@ function CardSave() {
   useEffect(() => {
     const callData = async () => {
       try {
-        const response = await axios.get(`/v1/polls/detail?poll_id=${pollId}`, {
+        const response = await axios.get(`/api/v1/polls/detail?poll_id=${pollId}`, {
           headers: {
             authorization: accessToken,
           },
