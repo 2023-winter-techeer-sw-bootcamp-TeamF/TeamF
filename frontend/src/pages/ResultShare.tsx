@@ -288,7 +288,7 @@ function ResultShare() {
 
   const getDetails = (): void => {
     axios
-      .get("/tarot/share/detail", {
+      .get("/api/v1/share/", {
         params: {
           poll_id,
         },

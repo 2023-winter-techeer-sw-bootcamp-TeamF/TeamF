@@ -207,7 +207,7 @@ const MoneyFortune = () => {
   // const로 선언했을 때 불변값이라 값을 변화하면 에러 생김
   const getText = (): void => {
     axios
-      .get("/tarot/guide", {
+      .get("/api/v1/tarot/option", {
         params: {
           //await: 비동기 함수 안에서 promise 객체가 처리될 때까지 기다림
           luckType: "재물운",
@@ -226,24 +226,24 @@ const MoneyFortune = () => {
       });
   };
 
-  const handleNextButton = () => {
-    axios
-      .get("/poll/create", {
-        headers: {
-          Authorization: accessToken,
-        },
-      })
-      .then((response) => {
-        console.log("성공", response.data);
-        setPollId(response.data.data.pollId);
-        navigate("/cardselect");
-      })
-      .catch((error) => {
-        console.error("실패:", error);
-      });
-    console.log("Reply 내용:", reply);
+  const handleNextButton = async () => {
+    try {
+      const response = await axios.post(
+        "/api/v1/polls",
+        {},
+        {
+          headers: {
+            Authorization: accessToken,
+          },
+        }
+      );
+      console.log("성공", response.data);
+      setPollId(response.data.data.pollId);
+      navigate("/cardselect");
+    } catch (error) {
+      console.log(error);
+    }
   };
-
   const handleReplyChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setReply(event.target.value);
   };
@@ -269,7 +269,7 @@ const MoneyFortune = () => {
 
           return result;
         });
-      }, 50);
+      }, 30);
       return () => {
         clearInterval(typingInterval);
       };
