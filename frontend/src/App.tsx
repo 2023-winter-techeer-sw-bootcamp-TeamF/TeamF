@@ -82,6 +82,12 @@ a {
   text-decoration:none;
   color:inherit;
 }
+
+@media (max-width: 1600px) , (max-height : 920px) {
+    html {
+      font-size: 15px;
+    }
+  }
 @media (max-width: 1500px) , (max-height : 870px) {
     html {
       font-size: 12px;

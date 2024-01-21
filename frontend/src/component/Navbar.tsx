@@ -89,7 +89,7 @@ const Navbar = () => {
   const handleLogout = () => {
     setAccessToken("");
     setRefreshToken("");
-    navigate("/fortuneselect");
+    navigate("/");
   };
 
   return (
