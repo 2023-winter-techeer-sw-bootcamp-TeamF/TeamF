@@ -237,7 +237,7 @@ const FriendShip = () => {
       );
       console.log("성공", response.data);
       setPollId(response.data.data.pollId);
-      navigate("/cardselect");
+      navigate("/cardselect5");
     } catch (error) {
       console.log(error);
     }

@@ -140,6 +140,10 @@ const SButton = styled.button`
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  &:hover {
+    opacity: 0.7;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
 `;
 
 function Signup() {

@@ -224,7 +224,7 @@ const TodayFortune = () => {
         console.log(error);
       });
   };
-  
+
   const handleNextButton = async () => {
     try {
       const response = await axios.post(
@@ -238,7 +238,7 @@ const TodayFortune = () => {
       );
       console.log("성공", response.data);
       setPollId(response.data.data.pollId);
-      navigate("/cardselect");
+      navigate("/cardselect1");
     } catch (error) {
       console.log(error);
     }
