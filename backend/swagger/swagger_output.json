@@ -5,10 +5,10 @@
     "description": "오늘도 화이팅",
     "version": "1.0.0"
   },
-  "host": "tairot.online",
+  "host": "43.202.208.226:3001",
   "basePath": "/",
   "schemes": [
-    "https"
+    "http"
   ],
   "securityDefinitions": {
     "Bearer": {

@@ -22,6 +22,7 @@ router.get(
           description: 'Unauthorized: 엑세스 토큰을 복호화한 정보(user_id)가 없을 시의 응답',
           schema: { message: '엑세스 토큰이 없습니다.', error: '엑세스 토큰이 필요합니다' }
       } */
+
       res.locals.status = 401;
       res.locals.data = {
         message: "엑세스 토큰이 없습니다.",
@@ -50,7 +51,7 @@ router.get(
 
           // result 테이블 조회
           const resultQuery =
-            "SELECT poll_id, explanation, luck FROM result WHERE poll_id IN (?);";
+            "SELECT poll_id, explanation, luck FROM result WHERE poll_id IN (?) ORDER BY poll_id DESC;";
           dbCon.query(resultQuery, [pollIds], (error, resultData) => {
             if (error) {
               return res
@@ -60,7 +61,7 @@ router.get(
 
             // card 테이블 조회
             const cardQuery =
-              "SELECT poll_id, image_url FROM card WHERE poll_id IN (?);";
+              "SELECT poll_id, image_url FROM card WHERE poll_id IN (?) ORDER BY poll_id DESC;";
             dbCon.query(cardQuery, [pollIds], (error, cardData) => {
               if (error) {
                 return res
