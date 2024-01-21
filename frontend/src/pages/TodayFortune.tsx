@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Background from "../assets/Background.png";
 import TodayFortuneImg from "../assets/TodayFortune.png";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
 
@@ -275,6 +275,21 @@ const TodayFortune = () => {
       };
     }
   });
+
+  //자동으로 스크롤이 내려가게 하는 로직
+  const chatBoxRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollToBottom = () => {
+    const chatBox = chatBoxRef.current;
+    if (chatBox) {
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [blobTitle]);
+
   useEffect(() => {
     getText();
   }, []);
@@ -291,7 +306,9 @@ const TodayFortune = () => {
           </TitleBox>
           <BackgroundImg src={Background} alt="Background" />
           <ChatBox>
-            <Tellme>{blobTitle}</Tellme>
+            <Tellme ref={chatBoxRef} className="chatBox">
+              {blobTitle}
+            </Tellme>
           </ChatBox>
           {comeout === 0 ? (
             <></>

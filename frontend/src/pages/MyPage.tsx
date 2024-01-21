@@ -150,6 +150,8 @@ const UserName = styled.p`
 
   letter-spacing: 0.07875rem;
   text-transform: uppercase;
+
+  margin-top: 0.3rem;
 `;
 
 const Row = styled.div`

@@ -79,6 +79,8 @@ const Date = styled.p`
   line-height: normal;
   text-transform: uppercase;
   padding-bottom: 0.4rem;
+
+  margin-top: 0.3rem;
 `;
 
 const Title = styled.p`

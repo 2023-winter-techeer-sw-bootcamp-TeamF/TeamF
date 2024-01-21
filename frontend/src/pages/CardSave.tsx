@@ -4,12 +4,6 @@ import BackgroundImg1 from "../assets/Background.png";
 import LinkBtn from "../assets/LinkButton.png";
 import ShareBtn from "../assets/ShareButton.png";
 import LoadingPage from "../component/LoadingPage";
-<<<<<<< HEAD
-//import html2canvas from "html2canvas";
-import { useRef } from "react";
-=======
-import { useNavigate } from "react-router-dom";
->>>>>>> 214b14b1ab1ce22ed92ee2f2393ade4678c316f7
 import { shareKakao } from "../utils/shareKakaoLink";
 import { useRecoilValue } from "recoil";
 import { pollIdState, accessTokenState } from "../state/atom.ts";
@@ -260,7 +254,6 @@ function CardSave() {
   const poll_id = useRecoilValue(pollIdState);
   const accessToken = useRecoilValue(accessTokenState);
   const pollId = useRecoilValue(pollIdState);
-  const navigate = useNavigate();
   const [tarotImage, setTarotImage] = useState<ImgType[]>([]);
   const [explanation, setExplanation] = useState("");
   const [luck, setLuck] = useState("");
@@ -287,31 +280,8 @@ function CardSave() {
     callData();
   }, [accessToken, pollId]);
 
-<<<<<<< HEAD
-  /* const downloadButton = () => {
-    if (captureDivRef.current) {
-      html2canvas(captureDivRef.current).then((canvas) => {
-        saveImg(canvas.toDataURL("image/jpg"), "image.jpg");
-      });
-    }
-  };
-
-  const saveImg = (uri: string, filename: string) => {
-    const link = document.createElement("a");
-    document.body.appendChild(link);
-    link.href = uri;
-    link.download = filename;
-    link.click();
-    document.body.removeChild(link);
-  }; */
-
-=======
->>>>>>> 214b14b1ab1ce22ed92ee2f2393ade4678c316f7
   const shareButton = () => {
     shareKakao(`http://localhost:5000/share/`, poll_id);
-  };
-  const handleMyPage = () => {
-    navigate("/mypage");
   };
 
   return (
@@ -354,22 +324,11 @@ function CardSave() {
                       링크 공유하기
                     </ShareButtonText>
                   </ShareButton>
-<<<<<<< HEAD
                   <Link to="/mypage">
                     <SaveButton>
-                      <SaveButtonText>
-                        내 서랍에 저장하기
-                      </SaveButtonText>
+                      <SaveButtonText>마이페이지로 이동하기</SaveButtonText>
                     </SaveButton>
                   </Link>
-=======
-
-                  <SaveButton>
-                    <SaveButtonText onClick={handleMyPage}>
-                      마이페이지로 이동하기
-                    </SaveButtonText>
-                  </SaveButton>
->>>>>>> 214b14b1ab1ce22ed92ee2f2393ade4678c316f7
                 </Buttons>
               </RightBox>
             </Cards>

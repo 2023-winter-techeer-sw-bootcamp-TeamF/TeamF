@@ -202,8 +202,6 @@ const FriendShip = () => {
   const setLuckType = useSetRecoilState(selectLuck);
   const [taroMaster, setTaroMaster] = useState("");
   const settarotMasterImg = useSetRecoilState(tarotMasterImg);
-  const messages = useRef();
-
 
   // const로 선언했을 때 불변값이라 값을 변화하면 에러 생김
   const getText = (): void => {
@@ -277,15 +275,22 @@ const FriendShip = () => {
       };
     }
   });
+
+  const chatBoxRef = useRef<HTMLDivElement | null>(null);
   const scrollToBottom = () => {
-    messages.current?.scrollIntoView({ behavior: 'smooth' });
- };
+    const chatBox = chatBoxRef.current;
+    if (chatBox) {
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+  };
+  useEffect(() => {
+    scrollToBottom();
+  }, [blobTitle]);
+
   useEffect(() => {
     getText();
   }, []);
-  useEffect(()=>{
-    scrollToBottom();
-  },[blobTitle])
+
   return (
     <BackgroundColor>
       <Inside>
@@ -298,7 +303,9 @@ const FriendShip = () => {
           </TitleBox>
           <BackgroundImg src={Background} alt="Background" />
           <ChatBox>
-            <Tellme ref={messages}>{blobTitle}</Tellme>
+            <Tellme ref={chatBoxRef} className="chatBox">
+              {blobTitle}
+            </Tellme>
           </ChatBox>
           {comeout === 0 ? (
             <></>
