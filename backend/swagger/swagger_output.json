@@ -529,6 +529,10 @@
                   "type": "string",
                   "example": "result 결과 조회 성공"
                 },
+                "date": {
+                  "type": "string",
+                  "example": "create_at 결과 조회 성공"
+                },
                 "card": {
                   "type": "string",
                   "example": "card 결과 조회 성공"

@@ -130,6 +130,7 @@ router.get(
       description: '총합 결과와 카드별 해석 및 링크 데이터 성공적으로 조회됨.',
       schema: {
         result: 'result 결과 조회 성공',
+        date: 'create_at 결과 조회 성공',
         card: 'card 결과 조회 성공'
       }
     }
@@ -138,7 +139,7 @@ router.get(
     const connection = db.getConnection();
 
     try {
-      const searchQuery = "SELECT user_id FROM poll WHERE id = ?";
+      const searchQuery = "SELECT user_id, DATE_FORMAT(created_at, '%Y-%m-%d') AS created_date FROM poll WHERE id = ?";
       const result = await new Promise((resolve, reject) => {
         connection.query(searchQuery, [poll_id], (error, result) => {
           if (error) {
@@ -198,6 +199,7 @@ router.get(
 
       res.locals.data = {
         result: resultData.length > 0 ? resultData : "데이터가 없음",
+        date: result[0].created_date ? result[0].created_date : "데이터가 없음",
         card: cardData.length > 0 ? cardData : "데이터가 없음",
       };
 
