@@ -34,7 +34,7 @@ const MyDrawer = styled.p`
   font-family: S-CoreDream-3Light;
   font-size: 1.25rem;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 900;
   line-height: normal;
   text-transform: capitalize;
   margin-left: 1rem;
@@ -104,12 +104,14 @@ const TaroExs = styled.div<TaroExsProps>`
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #ecb973; /* 황금색 스크롤바 색상 */
+    //background-color: #ecb973; /* 황금색 스크롤바 색상 */
+    background-color: #b8815079; /* 스크롤바 색상 변경*/
     border-radius: 0.3125rem; /* 스크롤바 모양 (둥근 모서리) */
   }
 
   &::-webkit-scrollbar-thumb:hover {
-    background-color: #daa520; /* 호버시 색상 변경 (더 진한 황금색) */
+    //background-color: #daa520; /* 호버시 색상 변경 (더 진한 황금색) */
+    background-color: #b88150ba; /* 스크롤바 색상 변경*/
   }
 `;
 
@@ -125,31 +127,34 @@ const TaroEx = styled.img`
 const CardText = styled.p`
   //width: 10.0003125rem;
   height: 11.3rem;
-  color: #1d1d1d;
+  color: #b88150; //#1d1d1d -> #b88150
   text-align: center;
-  font-family: S-CoreDream-3Light;
+  font-family: YUniverse-B;
   font-size: 0.8125rem;
   font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  letter-spacing: -0.01625rem;
+  font-weight: 300;
+  line-height: 1.3;
+  //letter-spacing: -0.01625rem;
   text-transform: uppercase;
   //margin-top: 1rem;
   //margin-left: 0.7rem;
   overflow-y: auto;
   margin: 0.5rem; //padding -> margin
+  padding-right: 0.3rem;
 
   &::-webkit-scrollbar {
     width: 0.1875rem; /* 스크롤바의 너비 */
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #ecb973; /* 황금색 스크롤바 색상 */
+    //background-color: #ecb973; /* 황금색 스크롤바 색상 */
+    background-color: #b8815079; /* 스크롤바 색상 변경*/
     border-radius: 0.3125rem; /* 스크롤바 모양 (둥근 모서리) */
   }
 
   &::-webkit-scrollbar-thumb:hover {
-    background-color: #daa520; /* 호버시 색상 변경 (더 진한 황금색) */
+    //background-color: #daa520; /* 호버시 색상 변경 (더 진한 황금색) */
+    background-color: #b88150ba; /* 스크롤바 색상 변경*/
   }
 `;
 

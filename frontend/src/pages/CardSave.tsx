@@ -105,16 +105,17 @@ const TaroEx = styled.img`
 `;
 
 const CardText = styled.p`
-  color: #1d1d1d;
+  color: #b88150; //#1d1d1d -> #b88150
   text-align: center;
-  font-family: S-CoreDream-3Light;
+  font-family: YUniverse-B;
   font-size: 1rem;
   font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  letter-spacing: -0.0225rem;
+  font-weight: 300;
+  line-height: 1.3;
+  //letter-spacing: -0.0225rem;
   text-transform: uppercase;
   margin: 0.7rem; //padding -> margin
+  padding-right: 0.3rem;
   height: 15rem;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -123,7 +124,8 @@ const CardText = styled.p`
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #e1ded9; /* 연한 흰색 */
+    //background-color: #e1ded9; /* 연한 흰색 */
+    background-color: #b8815034; /* 스크롤바 색상 변경 */
     border-radius: 0.25rem; /* 스크롤바 모양 (둥근 모서리) */
   }
 
