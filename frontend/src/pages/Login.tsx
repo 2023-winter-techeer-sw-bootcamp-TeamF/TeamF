@@ -2,12 +2,12 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import React, { useState } from "react";
-import axios from "axios";
+
 import { useNavigate } from "react-router-dom";
 import { accessTokenState, refreshTokenState } from "../state/atom.ts";
 import LoadingPage from "../component/LoadingPage";
 import Swal from "sweetalert2";
-
+import axios from "axios";
 const Outside = styled.div`
   background-color: #000;
   display: flex;
@@ -175,7 +175,7 @@ function Login() {
         login_id: loginId,
         password: password,
       });
-
+      console.log(response.data);
       setAccessToken(response.data.data.accessToken);
       setRefreshToken(response.data.data.refreshToken);
 

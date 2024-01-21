@@ -1,8 +1,10 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { accessTokenState, refreshTokenState } from "../state/atom.ts";
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+
 const NavContainer = styled.nav`
   //background-color: #000000;
   width: 100%;
@@ -23,6 +25,7 @@ const LogoContainer = styled.div`
   text-transform: capitalize;
   display: flex;
   margin-left: 1.25rem;
+  cursor: pointer;
 `;
 
 const MenuContainer = styled.div`
@@ -53,7 +56,7 @@ const LoginButton = styled.button`
   }
 `;
 
-const MenuItem = styled(Link)`
+const MenuItem = styled.div`
   color: #ecb973;
   font-family: Inter;
   font-size: 1rem;
@@ -62,6 +65,7 @@ const MenuItem = styled(Link)`
   line-height: normal;
   text-transform: capitalize;
   margin-right: 1.25rem;
+  cursor: pointer;
 `;
 
 const LargeLetter = styled.span`
@@ -89,35 +93,40 @@ const LogoutButton = styled.button`
     opacity: 0.7;
     transition: transform 0.3s ease, opacity 0.3s ease;
   }
-  margin-right: 1.25rem;
 `;
 
 const Navbar = () => {
   const navigate = useNavigate();
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
   const setRefreshToken = useSetRecoilState(refreshTokenState);
-
+  const accessTokenValue = useRecoilValue(accessTokenState);
   const handleLogout = () => {
     setAccessToken("");
     setRefreshToken("");
     navigate("/fortuneselect");
   };
 
+  const handlePageNavigation = (path: string) => {
+    if (!accessTokenValue) {
+      navigate("/login");
+    } else {
+      navigate(path);
+    }
+  };
+
   return (
     <NavContainer>
-      <LogoContainer>
-        <Link to="/fortuneselect">
-          <LargeLetter>T</LargeLetter>AIROT&nbsp;
-        </Link>
+      <LogoContainer onClick={() => navigate("/fortuneselect")}>
+        <LargeLetter>T</LargeLetter>AIROT&nbsp;
       </LogoContainer>
       <MenuContainer>
-        <MenuItem to="/mypage"> MYPAGE</MenuItem>
+        <MenuItem onClick={() => handlePageNavigation("/mypage")}>
+          MYPAGE
+        </MenuItem>
         {accessToken ? (
           <LogoutButton onClick={handleLogout}>LOG OUT</LogoutButton>
         ) : (
-          <MenuItem to="/login">
-            <LoginButton>LOG IN</LoginButton>
-          </MenuItem>
+          <LoginButton onClick={() => navigate("/login")}>LOG IN</LoginButton>
         )}
       </MenuContainer>
     </NavContainer>

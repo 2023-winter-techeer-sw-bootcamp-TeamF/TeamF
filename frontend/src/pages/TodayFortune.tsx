@@ -6,7 +6,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
-
 import LoadingPage from "../component/LoadingPage";
 import {
   pollIdState,
@@ -15,31 +14,26 @@ import {
   selectLuck,
   tarotMasterImg,
 } from "../state/atom.ts";
-
 const BackgroundColor = styled.div`
   background: #000;
   width: 100vw;
   height: 100vh;
 `;
-
 const BackgroundWrapper = styled.div`
   position: relative; // 자식 요소를 절대 위치로 배치하기 위한 설정
   width: 79.4671675rem;
   height: 52.94rem;
   margin: auto;
 `;
-
 const BackgroundImg = styled.img`
   width: 100%;
   height: 100%;
 `;
-
 const Inside = styled.div`
   width: 81.75rem;
   margin-left: auto;
   margin-right: auto;
 `;
-
 const TitleBox = styled.div`
   border-radius: 1.875rem;
   background: rgba(51, 51, 51, 0.9);
@@ -54,7 +48,6 @@ const TitleBox = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
 const TitleContent = styled.p`
   color: #fff;
   font-family: 맑은 고딕;
@@ -64,7 +57,6 @@ const TitleContent = styled.p`
   line-height: normal;
   text-transform: capitalize;
 `;
-
 const Profile = styled.img`
   width: 4rem;
   height: 3.9375rem;
@@ -75,7 +67,6 @@ const Profile = styled.img`
   left: 50%;
   transform: translate(-811%, -366%);
 `;
-
 const ChatBox = styled.div`
   width: 39.625rem;
   height: 13.25rem;
@@ -85,7 +76,6 @@ const ChatBox = styled.div`
   transform: translate(32%, -300%);
   padding: 1.375rem;
 `;
-
 const Tellme = styled.p`
   color: #ecb973;
   font-family: Inter;
@@ -101,17 +91,14 @@ const Tellme = styled.p`
   &::-webkit-scrollbar {
     width: 0.3125rem; /* 스크롤바의 너비 */
   }
-
   &::-webkit-scrollbar-thumb {
     background-color: #ecb973; /* 황금색 스크롤바 색상 */
     border-radius: 0.25rem; /* 스크롤바 모양 (둥근 모서리) */
   }
-
   &::-webkit-scrollbar-thumb:hover {
     background-color: #daa520; /* 호버시 색상 변경 (더 진한 황금색) */
   }
 `;
-
 const ReplyBox = styled.div`
   width: 39.625rem;
   height: 6.8125rem;
@@ -121,7 +108,6 @@ const ReplyBox = styled.div`
   display: flex;
   transform: translate(80%, -542%);
 `;
-
 const Reply = styled.textarea`
   color: #fff;
   background-color: #000;
@@ -140,12 +126,10 @@ const Reply = styled.textarea`
   &::-webkit-scrollbar {
     width: 0.3125rem; /* 스크롤바의 너비 */
   }
-
   &::-webkit-scrollbar-thumb {
     background-color: #e1ded9; /* 연한 흰색 */
     border-radius: 0.25rem; /* 스크롤바 모양 (둥근 모서리) */
   }
-
   &::-webkit-scrollbar-thumb:hover {
     background-color: #ffffff; /* 호버시 색상 변경 (흰색) */
   }
@@ -156,7 +140,6 @@ const Reply = styled.textarea`
     padding-right: 1rem;
   }
 `;
-
 const Profile2 = styled.img`
   width: 4rem;
   height: 3.9375rem;
@@ -167,7 +150,6 @@ const Profile2 = styled.img`
   left: 50%;
   transform: translate(-811%, -441%);
 `;
-
 const NextBox = styled.div`
   width: 14.6875rem;
   height: 5rem;
@@ -179,7 +161,6 @@ const NextBox = styled.div`
   align-items: center;
   justify-content: center;
 `;
-
 const NextText = styled.a`
   color: #ecb973;
   text-align: center;
@@ -192,7 +173,6 @@ const NextText = styled.a`
   text-transform: capitalize;
   cursor: pointer;
 `;
-
 const TodayFortune = () => {
   const navigate = useNavigate();
   const setPollId = useSetRecoilState(pollIdState);
@@ -200,7 +180,6 @@ const TodayFortune = () => {
   const [reply, setReply] = useRecoilState(replyState);
   const [tellMeText, setTellMeText] = useState(""); //useState TellMeText를 빈칸으로 선언
   const [taroMaster, setTaroMaster] = useState("");
-
   const setLuckType = useSetRecoilState(selectLuck);
   const settarotMasterImg = useSetRecoilState(tarotMasterImg);
   // const로 선언했을 때 불변값이라 값을 변화하면 에러 생김
@@ -224,7 +203,6 @@ const TodayFortune = () => {
         console.log(error);
       });
   };
-
   const handleNextButton = async () => {
     try {
       const response = await axios.post(
@@ -238,12 +216,11 @@ const TodayFortune = () => {
       );
       console.log("성공", response.data);
       setPollId(response.data.data.pollId);
-      navigate("/cardselect1");
+      navigate("/cardselect");
     } catch (error) {
       console.log(error);
     }
   };
-
   const handleReplyChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setReply(event.target.value);
   };
@@ -252,7 +229,6 @@ const TodayFortune = () => {
   const [count, setCount] = useState(0);
   const completionWord = tellMeText;
   const [comeout, setComeout] = useState(0);
-
   useEffect(() => {
     if (comeout === 0) {
       const typingInterval = setInterval(() => {
@@ -261,12 +237,10 @@ const TodayFortune = () => {
             ? prevTitleValue + completionWord[count]
             : completionWord[0];
           setCount(count + 1);
-
           if (count >= completionWord.length - 1) {
             setCount(0);
             setComeout(1);
           }
-
           return result;
         });
       }, 30);
@@ -278,7 +252,6 @@ const TodayFortune = () => {
   useEffect(() => {
     getText();
   }, []);
-
   return (
     <BackgroundColor>
       <Inside>

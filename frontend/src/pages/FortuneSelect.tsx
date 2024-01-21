@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Navbar from "../component/Navbar";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 import Background from "../assets/Background.png";
 import FriendshipImg from "../assets/Friendship.png";
 import LoveFortuneImg from "../assets/LoveFortune.png";
@@ -11,6 +10,9 @@ import WishFortuneImg from "../assets/WishFortune.png";
 import FlipCard from "../assets/FlipCard.png";
 import LoadingPage from "../component/LoadingPage";
 import "../assets/font-YUniverse-B.css";
+import { useRecoilValue } from "recoil";
+import { useNavigate } from "react-router-dom";
+import { accessTokenState } from "../state/atom.ts";
 
 const BackgroundWrapper = styled.div`
   position: relative; // 자식 요소를 절대 위치로 배치하기 위한 설정
@@ -288,6 +290,16 @@ const TogetherText = styled.p`
 
 const FortuneSelect = () => {
   const [flippedCards, setFlippedCards] = useState(Array(5).fill(false));
+  const navigate = useNavigate();
+  const accessToken = useRecoilValue(accessTokenState);
+
+  const handlePageNavigation = (path: string) => {
+    if (!accessToken) {
+      navigate("/login");
+    } else {
+      navigate(path);
+    }
+  };
 
   // 카드를 뒤집는 함수
   const handleFlip = (flipIndex: number) => {
@@ -322,21 +334,29 @@ const FortuneSelect = () => {
                     <FlipCardImg src={FlipCard} />
                     <CardTextToday>
                       <Bold>세레나 마스터</Bold>는<br />
-                      별과 달의 조화로 미래를 읽는.<br />
-                      타로 마스터에요.<br />
+                      별과 달의 조화로 미래를 읽는.
+                      <br />
+                      타로 마스터에요.
+                      <br />
                       <Bold>오늘의 운세</Bold>는<br />
-                      <Bold>총 1장</Bold>의 카드를 뽑아요.<br />
-                      <Bold>세레나 마스터</Bold>에게<br />
-                      여러분의 고민을<br />
-                      솔직하게 얘기해 주신다면<br />
-                      타로 카드와 함께<br />
+                      <Bold>총 1장</Bold>의 카드를 뽑아요.
+                      <br />
+                      <Bold>세레나 마스터</Bold>에게
+                      <br />
+                      여러분의 고민을
+                      <br />
+                      솔직하게 얘기해 주신다면
+                      <br />
+                      타로 카드와 함께
+                      <br />
                       자세히 분석해 드릴게요.
                     </CardTextToday>
-                    <Link to="/todayfortune">
-                      <SoloBtn>
-                        <SoloText>오늘의 운세 보러가기</SoloText>
-                      </SoloBtn>
-                    </Link>
+
+                    <SoloBtn
+                      onClick={() => handlePageNavigation("/todayfortune")}
+                    >
+                      <SoloText>오늘의 운세 보러가기</SoloText>
+                    </SoloBtn>
                   </FlipcardBackground>
                 </FlipcardInner>
               </FlipcardContainer>
@@ -352,27 +372,38 @@ const FortuneSelect = () => {
                     <FlipCardImg src={FlipCard} />
                     <CardText>
                       <Bold>샤를린 마스터</Bold>는<br />
-                      100번 이상의 연애 경험을 지닌<br />
-                      연애 고수 타로 마스터에요.<br />
-                      <Bold>연애운</Bold>은 <Bold>총 5장</Bold>의 카드를<br />
-                      혼자 또는 두 명이 함께<br />
-                      뽑을 수 있어요.<br />
-                      <Bold>샤를린 마스터</Bold>에게<br />
-                      여러분의 고민을<br />
-                      솔직하게 얘기해 주신다면<br />
-                      타로 카드와 함께<br />
+                      100번 이상의 연애 경험을 지닌
+                      <br />
+                      연애 고수 타로 마스터에요.
+                      <br />
+                      <Bold>연애운</Bold>은 <Bold>총 5장</Bold>의 카드를
+                      <br />
+                      혼자 또는 두 명이 함께
+                      <br />
+                      뽑을 수 있어요.
+                      <br />
+                      <Bold>샤를린 마스터</Bold>에게
+                      <br />
+                      여러분의 고민을
+                      <br />
+                      솔직하게 얘기해 주신다면
+                      <br />
+                      타로 카드와 함께
+                      <br />
                       자세히 분석해 드릴게요.
                     </CardText>
-                    <Link to="/lovefortune">
-                      <SoloAboveBtn>
-                        <SoloText>혼자 카드 선택하기</SoloText>
-                      </SoloAboveBtn>
-                    </Link>
-                    <Link to="/lovefortune">
-                      <TogetherBtn>
-                        <TogetherText>함께 카드 선택하기</TogetherText>
-                      </TogetherBtn>
-                    </Link>
+
+                    <SoloAboveBtn
+                      onClick={() => handlePageNavigation("/lovefortune")}
+                    >
+                      <SoloText>혼자 카드 선택하기</SoloText>
+                    </SoloAboveBtn>
+
+                    <TogetherBtn
+                      onClick={() => handlePageNavigation("/lovefortune")}
+                    >
+                      <TogetherText>함께 카드 선택하기</TogetherText>
+                    </TogetherBtn>
                   </FlipcardBackground>
                 </FlipcardInner>
               </FlipcardContainer>
@@ -388,27 +419,38 @@ const FortuneSelect = () => {
                     <FlipCardImg src={FlipCard} />
                     <CardText>
                       <Bold>마틸드 마스터</Bold>는<br />
-                      풍부한 경험과 깊은 통찰력을<br />
-                      지닌 타로 마스터에요.<br />
-                      <Bold>우정운</Bold>은 <Bold>총 5장</Bold>의 카드를<br />
-                      혼자 또는 두 명이 함께<br />
-                      뽑을 수 있어요.<br />
-                      <Bold>마틸드 마스터</Bold>에게<br />
-                      여러분의 고민을<br />
-                      솔직하게 얘기해 주신다면<br />
-                      타로 카드와 함께<br />
+                      풍부한 경험과 깊은 통찰력을
+                      <br />
+                      지닌 타로 마스터에요.
+                      <br />
+                      <Bold>우정운</Bold>은 <Bold>총 5장</Bold>의 카드를
+                      <br />
+                      혼자 또는 두 명이 함께
+                      <br />
+                      뽑을 수 있어요.
+                      <br />
+                      <Bold>마틸드 마스터</Bold>에게
+                      <br />
+                      여러분의 고민을
+                      <br />
+                      솔직하게 얘기해 주신다면
+                      <br />
+                      타로 카드와 함께
+                      <br />
                       자세히 분석해 드릴게요.
                     </CardText>
-                    <Link to="/friendship">
-                      <SoloAboveBtn>
-                        <SoloText>혼자 카드 선택하기</SoloText>
-                      </SoloAboveBtn>
-                    </Link>
-                    <Link to="/friendship">
-                      <TogetherBtn>
-                        <TogetherText>함께 카드 선택하기</TogetherText>
-                      </TogetherBtn>
-                    </Link>
+
+                    <SoloAboveBtn
+                      onClick={() => handlePageNavigation("/friendship")}
+                    >
+                      <SoloText>혼자 카드 선택하기</SoloText>
+                    </SoloAboveBtn>
+
+                    <TogetherBtn
+                      onClick={() => handlePageNavigation("/friendship")}
+                    >
+                      <TogetherText>함께 카드 선택하기</TogetherText>
+                    </TogetherBtn>
                   </FlipcardBackground>
                 </FlipcardInner>
               </FlipcardContainer>
@@ -423,22 +465,31 @@ const FortuneSelect = () => {
                     <FlipCardImg src={FlipCard} />
                     <CardText>
                       <Bold>제라드 마스터</Bold>는<br />
-                      여러 사업을 성공적으로<br />
-                      운영하며 거대한 부를<br />
-                      축적한 타로 마스터에요.<br />
+                      여러 사업을 성공적으로
+                      <br />
+                      운영하며 거대한 부를
+                      <br />
+                      축적한 타로 마스터에요.
+                      <br />
                       <Bold>재물운</Bold>은<br />
-                      <Bold>총 3장</Bold>의 카드를 뽑아요.<br />
-                      <Bold>제라드 마스터</Bold>에게<br />
-                      여러분의 고민을<br />
-                      솔직하게 얘기해 주신다면<br />
-                      타로 카드와 함께<br />
+                      <Bold>총 3장</Bold>의 카드를 뽑아요.
+                      <br />
+                      <Bold>제라드 마스터</Bold>에게
+                      <br />
+                      여러분의 고민을
+                      <br />
+                      솔직하게 얘기해 주신다면
+                      <br />
+                      타로 카드와 함께
+                      <br />
                       자세히 분석해 드릴게요.
                     </CardText>
-                    <Link to="/moneyfortune">
-                      <SoloBtn>
-                        <SoloText>혼자 카드 선택하기</SoloText>
-                      </SoloBtn>
-                    </Link>
+
+                    <SoloBtn
+                      onClick={() => handlePageNavigation("/moneyfortune")}
+                    >
+                      <SoloText>혼자 카드 선택하기</SoloText>
+                    </SoloBtn>
                   </FlipcardBackground>
                 </FlipcardInner>
               </FlipcardContainer>
@@ -453,21 +504,29 @@ const FortuneSelect = () => {
                     <FlipCardImg src={FlipCard} />
                     <CardText>
                       <Bold>굴이 마스터</Bold>는<br />
-                      작은 몸집에 거대한 통찰력이<br />
-                      숨어있는 타로 마스터에요.<br />
+                      작은 몸집에 거대한 통찰력이
+                      <br />
+                      숨어있는 타로 마스터에요.
+                      <br />
                       <Bold>소망운</Bold>은<br />
-                      <Bold>총 3장</Bold>의 카드를 뽑아요.<br />
-                      <Bold>굴이 마스터</Bold>에게<br />
-                      여러분의 고민을<br />
-                      솔직하게 얘기해 주신다면<br />
-                      타로 카드와 함께<br />
+                      <Bold>총 3장</Bold>의 카드를 뽑아요.
+                      <br />
+                      <Bold>굴이 마스터</Bold>에게
+                      <br />
+                      여러분의 고민을
+                      <br />
+                      솔직하게 얘기해 주신다면
+                      <br />
+                      타로 카드와 함께
+                      <br />
                       자세히 분석해 드릴게요.
                     </CardText>
-                    <Link to="/wishfortune">
-                      <SoloBtn>
-                        <SoloText>혼자 카드 선택하기</SoloText>
-                      </SoloBtn>
-                    </Link>
+
+                    <SoloBtn
+                      onClick={() => handlePageNavigation("/wishfortune")}
+                    >
+                      <SoloText>혼자 카드 선택하기</SoloText>
+                    </SoloBtn>
                   </FlipcardBackground>
                 </FlipcardInner>
               </FlipcardContainer>
