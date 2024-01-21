@@ -44,7 +44,7 @@ class StreamJson {
       }
 
       if (index != this.index)
-        result += '';
+        result += '\n';
     }
     return result;
   }
