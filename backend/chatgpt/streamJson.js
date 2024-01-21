@@ -43,8 +43,9 @@ class StreamJson {
         console.log('char : ' + char);
       }
 
-      if (index != this.index)
+      if (index != this.index){
         result += '\n';
+      }
     }
     return result;
   }
