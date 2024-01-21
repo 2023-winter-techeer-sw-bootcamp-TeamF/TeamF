@@ -45,10 +45,8 @@ class StreamJson {
 
       if (index != this.index)
         result += '';
-
     }
-
-    return result.join('');
+    return result;
   }
 
   parseByIndex(chunck, index) {
