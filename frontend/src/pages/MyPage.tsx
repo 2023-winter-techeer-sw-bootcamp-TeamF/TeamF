@@ -173,14 +173,12 @@ interface RecordType {
   };
 }
 
-// 그리고 tarotRecord의 상태를 이 타입의 배열로 선언해야 합니다.
-
 function MyPage() {
   const accessToken = useRecoilValue(accessTokenState);
   const [tarotRecord, setTarotRecord] = useState<RecordType[]>([]);
   useEffect(() => {
     axios
-      .get("/poll/list", {
+      .get("/api/v1/polls/list", {
         headers: {
           authorization: accessToken,
         },

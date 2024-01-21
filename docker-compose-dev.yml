@@ -8,8 +8,8 @@ services:
     container_name: dev_prometheus_container
     # volumes:
     #   - /hostpath/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-    ports:
-      - "9090:9090"
+    # ports:
+      # - "9090:9090"
 
   dev_node-exporter:
     image: prom/node-exporter
@@ -31,15 +31,19 @@ services:
     ports:
       - "3001:3000"
     environment:
-      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-      - AWS_REGION=${AWS_REGION}
+      - AWS_ACCESS_KEY_ID=AKIA4VFKZCU33SOXB4XC
+      - AWS_SECRET_ACCESS_KEY=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
+      - AWS_REGION=ap-northeast-2
+    networks:
+      - mybridge
 
   dev_frontend:
     build: ./frontend
     container_name: dev_frontend_container
     ports:
       - "5001:5000"
+    networks:
+      - mybridge
 
   dev_nginx:
     build: ./nginx
@@ -54,14 +58,26 @@ services:
     depends_on:
       - dev_backend
       - dev_frontend
+    networks:
+      - mybridge
 
-  # dev_certbot:
+
+  # certbot:
   #   image: certbot/certbot
-  #   container_name: dev_certbot_container
   #   volumes:
   #     - /hostpath/certbot/etc:/etc/letsencrypt
   #     - /hostpath/certbot/var:/var/lib/letsencrypt
   #     - /hostpath/www:/var/www/html
   #   command: certonly --webroot --webroot-path=/var/www/html --email tjfgkssk9472@gmail.com --agree-tos --no-eff-email --force-renewal -d tairot.online -v
+  #   networks:
+  #     - mybridge
   #   # depends_on:
   #   #   - nginx
+
+networks:
+  mybridge:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.202.0.1/16
+

@@ -13,6 +13,7 @@ import {
   accessTokenState,
   replyState,
   selectLuck,
+  tarotMasterImg,
 } from "../state/atom.ts";
 
 const BackgroundColor = styled.div`
@@ -200,10 +201,11 @@ const FriendShip = () => {
   const [tellMeText, setTellMeText] = useState(""); //useState TellMeText를 빈칸으로 선언
   const setLuckType = useSetRecoilState(selectLuck);
   const [taroMaster, setTaroMaster] = useState("");
+  const settarotMasterImg = useSetRecoilState(tarotMasterImg);
   // const로 선언했을 때 불변값이라 값을 변화하면 에러 생김
   const getText = (): void => {
     axios
-      .get("/tarot/guide", {
+      .get("/api/v1/tarot/option", {
         params: {
           //await: 비동기 함수 안에서 promise 객체가 처리될 때까지 기다림
           luckType: "우정운",
@@ -214,6 +216,7 @@ const FriendShip = () => {
         console.log(res.data.data.content);
         setTellMeText(res.data.data.content); //set@=텍스트 값 바꿈
         setTaroMaster(res.data.data.master_name);
+        settarotMasterImg(FriendshipImg);
         setLuckType(3);
       })
       .catch((error) => {
@@ -221,29 +224,56 @@ const FriendShip = () => {
       });
   };
 
-  const handleNextButton = () => {
-    axios
-      .get("/poll/create", {
-        headers: {
-          Authorization: accessToken,
-        },
-      })
-      .then((response) => {
-        console.log("성공", response.data);
-        setPollId(response.data.data.pollId);
-        console.log(response.data.data.pollId);
-        navigate("/cardselect");
-      })
-      .catch((error) => {
-        console.error("실패:", error);
-      });
-    console.log("Reply 내용:", reply);
+  const handleNextButton = async () => {
+    try {
+      const response = await axios.post(
+        "/api/v1/polls",
+        {},
+        {
+          headers: {
+            Authorization: accessToken,
+          },
+        }
+      );
+      console.log("성공", response.data);
+      setPollId(response.data.data.pollId);
+      navigate("/cardselect5");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleReplyChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setReply(event.target.value);
   };
+  //한글자씩 나오게 하는 로직
+  const [blobTitle, setBlobTitle] = useState("");
+  const [count, setCount] = useState(0);
+  const completionWord = tellMeText;
+  const [comeout, setComeout] = useState(0);
 
+  useEffect(() => {
+    if (comeout === 0) {
+      const typingInterval = setInterval(() => {
+        setBlobTitle((prevTitleValue) => {
+          const result = prevTitleValue
+            ? prevTitleValue + completionWord[count]
+            : completionWord[0];
+          setCount(count + 1);
+
+          if (count >= completionWord.length - 1) {
+            setCount(0);
+            setComeout(1);
+          }
+
+          return result;
+        });
+      }, 30);
+      return () => {
+        clearInterval(typingInterval);
+      };
+    }
+  });
   useEffect(() => {
     getText();
   }, []);
@@ -260,19 +290,25 @@ const FriendShip = () => {
           </TitleBox>
           <BackgroundImg src={Background} alt="Background" />
           <ChatBox>
-            <Tellme>{tellMeText}</Tellme>
+            <Tellme>{blobTitle}</Tellme>
           </ChatBox>
-          <ReplyBox>
-            <Reply
-              placeholder="이곳에 고민을 적어주세요"
-              value={reply}
-              onChange={handleReplyChange}
-            ></Reply>
-          </ReplyBox>
-          <Profile2 src={FriendshipImg}></Profile2>
-          <NextBox>
-            <NextText onClick={handleNextButton}>카드 뽑으러 가기</NextText>
-          </NextBox>
+          {comeout === 0 ? (
+            <></>
+          ) : (
+            <>
+              <ReplyBox>
+                <Reply
+                  placeholder="이곳에 고민을 적어주세요"
+                  value={reply}
+                  onChange={handleReplyChange}
+                ></Reply>
+              </ReplyBox>
+              <Profile2 src={FriendshipImg}></Profile2>
+              <NextBox>
+                <NextText onClick={handleNextButton}>카드 뽑으러 가기</NextText>
+              </NextBox>
+            </>
+          )}
         </BackgroundWrapper>
       </Inside>
     </BackgroundColor>

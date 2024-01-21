@@ -9,6 +9,8 @@ import {
   cardNumberAtom1,
   cardNumberAtom2,
   cardNumberAtom3,
+  cardNumberAtom4,
+  cardNumberAtom5,
   pollIdState,
   replyState,
   selectLuck,
@@ -53,9 +55,9 @@ const Cards = styled.div`
   display: flex;
   flex-direction: row;
   position: absolute;
-  gap: 6.5rem;
+  gap: 5rem;
   top: 13%;
-  left: 28%;
+  left: 10%;
 `;
 const TaroMaster = styled.img`
   width: 4rem;
@@ -122,14 +124,24 @@ function TarotProcess() {
   const card1 = useRecoilValue(cardNumberAtom1);
   const card2 = useRecoilValue(cardNumberAtom2);
   const card3 = useRecoilValue(cardNumberAtom3);
+  const card4 = useRecoilValue(cardNumberAtom4);
+  const card5 = useRecoilValue(cardNumberAtom5);
   const [cardUrl1, setCardUrl1] = useState("");
   const [cardUrl2, setCardUrl2] = useState("");
   const [cardUrl3, setCardUrl3] = useState("");
+  const [cardUrl4, setCardUrl4] = useState("");
+  const [cardUrl5, setCardUrl5] = useState("");
   const tarotMasterImage = useRecoilValue(tarotMasterImg);
 
-  const getImage = async (card1: number, card2: number, card3: number) => {
+  const getImage = async (
+    card1: number,
+    card2: number,
+    card3: number,
+    card4: number,
+    card5: number
+  ) => {
     try {
-      const response = await axios.get("/api/v1/tarot/card",  {
+      const response = await axios.get("/api/v1/tarot/card", {
         params: { card: card1 }, // {이름/카드 번호}
       });
       setCardUrl1(response.data.data.image_url);
@@ -152,11 +164,27 @@ function TarotProcess() {
     } catch (error) {
       console.log(error);
     }
+    try {
+      const response = await axios.get("/api/v1/tarot/card", {
+        params: { card: card4 }, // {이름/카드 번호}
+      });
+      setCardUrl4(response.data.data.image_url);
+    } catch (error) {
+      console.log(error);
+    }
+    try {
+      const response = await axios.get("/api/v1/tarot/card", {
+        params: { card: card5 }, // {이름/카드 번호}
+      });
+      setCardUrl5(response.data.data.image_url);
+    } catch (error) {
+      console.log(error);
+    }
   };
   //웹소켓 연결
   const getStream = async () => {
     try {
-      getImage(card1, card2, card3);
+      getImage(card1, card2, card3, card4, card5);
       socket.connect();
       const response = await axios.post(
         "/api/v1/tarot/result",
@@ -166,7 +194,7 @@ function TarotProcess() {
             Authorization: accesstoken,
           },
           params: {
-            cards: `${card1},${card2},${card3}`,
+            cards: `${card1},${card2},${card3},${card4},${card5}`,
             ask: ask,
             luckType: luckType,
             poll_id: pollId,
@@ -226,6 +254,8 @@ function TarotProcess() {
     setCardUrl1("");
     setCardUrl2("");
     setCardUrl3("");
+    setCardUrl4("");
+    setCardUrl5("");
     setStreamArray("로딩 중...");
     window.location.replace("/cardsave");
   };
@@ -246,6 +276,12 @@ function TarotProcess() {
               </CardBackground>
               <CardBackground>
                 <TaroEx src={cardUrl3} />
+              </CardBackground>
+              <CardBackground>
+                <TaroEx src={cardUrl4} />
+              </CardBackground>
+              <CardBackground>
+                <TaroEx src={cardUrl5} />
               </CardBackground>
             </Cards>
             <TaroMaster src={tarotMasterImage} />

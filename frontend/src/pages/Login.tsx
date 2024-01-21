@@ -6,6 +6,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { accessTokenState, refreshTokenState } from "../state/atom.ts";
 import LoadingPage from "../component/LoadingPage";
+import Swal from "sweetalert2";
+
 const Outside = styled.div`
   background-color: #000;
   display: flex;
@@ -98,6 +100,11 @@ const LButton = styled.button`
   justify-content: center;
   align-items: center;
   cursor: pointer;
+
+  &:hover {
+    opacity: 0.7;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
 `;
 
 const Sign = styled.button`
@@ -129,9 +136,42 @@ function Login() {
     setPassword(event.target.value);
   };
 
+  const showToast = async (): Promise<void> => {
+    await Swal.fire({
+      icon: "success",
+      title: "로그인 성공",
+      toast: true,
+      position: "center",
+      showConfirmButton: false,
+      timer: 1000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
+      },
+    });
+    navigate("/fortuneselect");
+  };
+
+  const showToastFail = async (): Promise<void> => {
+    await Swal.fire({
+      icon: "error",
+      title: "로그인 실패",
+      toast: true,
+      position: "center",
+      showConfirmButton: false,
+      timer: 1000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
+      },
+    });
+  };
+
   const handleLogin = async () => {
     try {
-      const response = await axios.post("/user/login", {
+      const response = await axios.post("/api/v1/users/login", {
         login_id: loginId,
         password: password,
       });
@@ -139,32 +179,37 @@ function Login() {
       setAccessToken(response.data.data.accessToken);
       setRefreshToken(response.data.data.refreshToken);
 
-      alert("성공");
-      navigate("/fortuneselect");
+      await showToast();
     } catch (error) {
-      console.error("로그인 실패", error);
-      alert("로그인 실패");
+      await showToastFail();
     }
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    handleLogin();
   };
 
   return (
     <>
       <Outside>
         <LoadingPage></LoadingPage>
-        <Circle>
-          <LWord>LOG IN</LWord>
-          <Id placeholder="ID" value={loginId} onChange={loginIdChange} />
-          <Pw
-            type="password"
-            placeholder="PASSWORD"
-            value={password}
-            onChange={passwordChange}
-          ></Pw>
-          <LButton onClick={handleLogin}>LOG IN</LButton>
-          <Sign>
-            <Link to="/signup">SIGN UP</Link>
-          </Sign>
-        </Circle>
+        <form onSubmit={handleSubmit}>
+          <Circle>
+            <LWord>LOG IN</LWord>
+            <Id placeholder="ID" value={loginId} onChange={loginIdChange} />
+            <Pw
+              type="password"
+              placeholder="PASSWORD"
+              value={password}
+              onChange={passwordChange}
+            />
+            <LButton type="submit">LOG IN</LButton>
+            <Sign>
+              <Link to="/signup">SIGN UP</Link>
+            </Sign>
+          </Circle>
+        </form>
       </Outside>
     </>
   );

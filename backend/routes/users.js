@@ -9,7 +9,7 @@ const router = express.Router();
 // 회원가입 API
 router.post("/signup", async (req, res, next) => {
   /*
-  #swagger.tags = ['User']
+  #swagger.tags = ['Users']
   #swagger.summary = "회원가입"
   #swagger.description = '회원가입 하는 유저의 아이디 중복검사 및 가입 하는 유저의 정보를 데이터베이스에 저장'
   #swagger.responses[400] = {
@@ -51,12 +51,10 @@ router.post("/signup", async (req, res, next) => {
 
     // 유효한 정보인지 검사하는 기능
     if (!login_id || !password || !name) {
-      res
-        .status(400)
-        .json({
-          error:
-            "유효하지 않은 접근입니다. 아이디, 비밀번호, username을 입력해주세요.",
-        });
+      res.status(400).json({
+        error:
+          "유효하지 않은 접근입니다. 아이디, 비밀번호, username을 입력해주세요.",
+      });
       return;
     }
 
@@ -72,12 +70,10 @@ router.post("/signup", async (req, res, next) => {
 
       if (checkResults.length > 0) {
         // 이미 존재하는 username 또는 아이디인 경우
-        res
-          .status(409)
-          .json({
-            error:
-              "이미 존재하는 아이디 또는 username 입니다. 다시 입력해주세요.",
-          });
+        res.status(409).json({
+          error:
+            "이미 존재하는 아이디 또는 username 입니다. 다시 입력해주세요.",
+        });
       } else {
         // 존재하지 않는 경우, 사용자 정보를 데이터베이스에 저장
         const insertQuery =
@@ -107,7 +103,7 @@ router.post("/signup", async (req, res, next) => {
 
 // 로그인 API
 router.post("/login", async (req, res, next) => {
-  // #swagger.tags = ['User']
+  // #swagger.tags = ['Users']
   // #swagger.summary = "로그인"
   // #swagger.description = '아이디와 비밀번호를 이용하여 로그인을 수행하고, 성공 시 액세스 토큰과 리프레시 토큰을 발급'
   /*  #swagger.responses[400] = {
@@ -197,7 +193,7 @@ router.post("/login", async (req, res, next) => {
 
 // 로그아웃 API
 router.post("/logout", (req, res, next) => {
-  // #swagger.tags = ['User']
+  // #swagger.tags = ['Users']
   // #swagger.summary = "로그아웃"
   // #swagger.description = '현재 로그인된 사용자의 로그아웃을 수행'
   /*  #swagger.responses[500] = {
@@ -207,6 +203,90 @@ router.post("/logout", (req, res, next) => {
 
   res.locals.data = { message: "로그아웃 되었습니다." };
   next();
+});
+
+router.post("/refresh-token", async (req, res, next) => {
+  /*
+    #swagger.tags = ['Users']
+    #swagger.summary = "리프레시 토큰을 사용하여 새로운 엑세스 토큰과 리프레시 토큰 발급"
+    #swagger.description = '유효한 리프레시 토큰을 제공받아 새로운 엑세스 토큰과 리프레시 토큰을 발급합니다.'
+    #swagger.parameters['refreshToken'] = {
+        in: 'body',
+        description: '리프레시 토큰',
+        required: true,
+        type: 'string',
+        example: '리프래시 토큰 입력'
+    } 
+    #swagger.responses[401] = {
+        description: '리프레시 토큰 누락 시의 응답',
+        schema: { error: '리프레시 토큰이 필요합니다.' }
+    }
+    #swagger.responses[403] = {
+        description: '유효하지 않은 리프레시 토큰의 응답',
+        schema: { error: '유효하지 않은 리프레시 토큰입니다.' }
+    }
+    */
+  const { refreshToken } = req.body;
+
+  try {
+    if (!refreshToken) throw new Error("jwt 토큰: 리프레시 토큰이 필요합니다.");
+
+    const connect = db.getConnection();
+
+    const user = await new Promise((resolve, reject) => {
+      jwt.verify(
+        refreshToken,
+        "your_secret_key_for_refresh_token",
+        (err, user) => {
+          if (err)
+            reject(new Error("jwt 토큰: 유효하지 않은 리프레시 토큰입니다."));
+          resolve(user);
+        }
+      );
+    });
+
+    console.log(user);
+
+    await new Promise((resolve, reject) => {
+      const query = "SELECT * FROM user WHERE id = ? AND refresh_token = ?";
+      connect.query(query, [user.id, refreshToken], (dbErr, results) => {
+        if (dbErr || results.length === 0)
+          reject(new Error("리프레시 토큰이 일치하지 않습니다."));
+        resolve();
+      });
+    });
+
+    const accessToken = jwt.sign(
+      { id: user.id, username: user.username },
+      "your_secret_key_for_access_token",
+      { expiresIn: "1h" }
+    );
+    const newRefreshToken = jwt.sign(
+      { id: user.id, username: user.username },
+      "your_secret_key_for_refresh_token",
+      { expiresIn: "7d" }
+    );
+
+    await new Promise((resolve, reject) => {
+      const updateQuery = "UPDATE user SET refresh_token = ? WHERE id = ?";
+      connect.query(updateQuery, [newRefreshToken, user.id], (updateErr) => {
+        if (updateErr) reject(new Error("리프레시 토큰 업데이트 실패"));
+        resolve();
+      });
+    });
+
+    res.locals.data = {
+      accessToken: accessToken,
+      refreshToken: newRefreshToken,
+      message: "새 엑세스 토큰과 리프레시 토큰이 발급되었습니다.",
+    };
+    return next();
+  } catch (err) {
+    console.error(err);
+    res.locals.status = 403;
+    res.locals.data = { error: err.message };
+    return next();
+  }
 });
 
 module.exports = router;

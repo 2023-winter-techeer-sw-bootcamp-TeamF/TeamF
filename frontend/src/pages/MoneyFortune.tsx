@@ -13,6 +13,7 @@ import {
   accessTokenState,
   replyState,
   selectLuck,
+  tarotMasterImg,
 } from "../state/atom.ts";
 
 const BackgroundColor = styled.div`
@@ -40,28 +41,28 @@ const Inside = styled.div`
 `;
 
 const TitleBox = styled.div`
-border-radius: 1.875rem;
-background: rgba(51, 51, 51, 0.9);
-width: 22.75rem;
-height: 3.125rem;
-flex-shrink: 0;
-position: absolute; // 부모 컨테이너인 BackgroundWrapper에 상대적인 위치
-top: 12%;
-left: 36%;
-text-align: center;
-display: flex;
-justify-content: center;
-align-items: center;
+  border-radius: 1.875rem;
+  background: rgba(51, 51, 51, 0.9);
+  width: 22.75rem;
+  height: 3.125rem;
+  flex-shrink: 0;
+  position: absolute; // 부모 컨테이너인 BackgroundWrapper에 상대적인 위치
+  top: 12%;
+  left: 36%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const TitleContent = styled.p`
-color: #fff;
-font-family: 맑은 고딕;
-font-size: 1.25rem;
-font-style: normal;
-font-weight: 350;
-line-height: normal;
-text-transform: capitalize;
+  color: #fff;
+  font-family: 맑은 고딕;
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 350;
+  line-height: normal;
+  text-transform: capitalize;
 `;
 
 const Profile = styled.img`
@@ -201,11 +202,12 @@ const MoneyFortune = () => {
   const [tellMeText, setTellMeText] = useState(""); //useState TellMeText를 빈칸으로 선언
   const setLuckType = useSetRecoilState(selectLuck);
   const [taroMaster, setTaroMaster] = useState("");
+  const settarotMasterImg = useSetRecoilState(tarotMasterImg);
 
   // const로 선언했을 때 불변값이라 값을 변화하면 에러 생김
   const getText = (): void => {
     axios
-      .get("/tarot/guide", {
+      .get("/api/v1/tarot/option", {
         params: {
           //await: 비동기 함수 안에서 promise 객체가 처리될 때까지 기다림
           luckType: "재물운",
@@ -217,34 +219,62 @@ const MoneyFortune = () => {
         setTellMeText(res.data.data.content); //set@=텍스트 값 바꿈
         setTaroMaster(res.data.data.master_name);
         setLuckType(4);
+        settarotMasterImg(Moneyfortuneimg);
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-  const handleNextButton = () => {
-    axios
-      .get("/poll/create", {
-        headers: {
-          Authorization: accessToken,
-        },
-      })
-      .then((response) => {
-        console.log("성공", response.data);
-        setPollId(response.data.data.pollId);
-        navigate("/cardselect");
-      })
-      .catch((error) => {
-        console.error("실패:", error);
-      });
-    console.log("Reply 내용:", reply);
+  const handleNextButton = async () => {
+    try {
+      const response = await axios.post(
+        "/api/v1/polls",
+        {},
+        {
+          headers: {
+            Authorization: accessToken,
+          },
+        }
+      );
+      console.log("성공", response.data);
+      setPollId(response.data.data.pollId);
+      navigate("/cardselect");
+    } catch (error) {
+      console.log(error);
+    }
   };
-
   const handleReplyChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setReply(event.target.value);
   };
+  //한글자씩 나오게 하는 로직
+  const [blobTitle, setBlobTitle] = useState("");
+  const [count, setCount] = useState(0);
+  const completionWord = tellMeText;
+  const [comeout, setComeout] = useState(0);
 
+  useEffect(() => {
+    if (comeout === 0) {
+      const typingInterval = setInterval(() => {
+        setBlobTitle((prevTitleValue) => {
+          const result = prevTitleValue
+            ? prevTitleValue + completionWord[count]
+            : completionWord[0];
+          setCount(count + 1);
+
+          if (count >= completionWord.length - 1) {
+            setCount(0);
+            setComeout(1);
+          }
+
+          return result;
+        });
+      }, 30);
+      return () => {
+        clearInterval(typingInterval);
+      };
+    }
+  });
   useEffect(() => {
     getText();
   }, []);
@@ -260,19 +290,25 @@ const MoneyFortune = () => {
           </TitleBox>
           <BackgroundImg src={Background} alt="Background" />
           <ChatBox>
-            <Tellme>{tellMeText}</Tellme>
+            <Tellme>{blobTitle}</Tellme>
           </ChatBox>
-          <ReplyBox>
-            <Reply
-              placeholder="이곳에 고민을 적어주세요"
-              value={reply}
-              onChange={handleReplyChange}
-            ></Reply>
-          </ReplyBox>
-          <Profile2 src={Moneyfortuneimg}></Profile2>
-          <NextBox>
-            <NextText onClick={handleNextButton}>카드 뽑으러 가기</NextText>
-          </NextBox>
+          {comeout === 0 ? (
+            <></>
+          ) : (
+            <>
+              <ReplyBox>
+                <Reply
+                  placeholder="이곳에 고민을 적어주세요"
+                  value={reply}
+                  onChange={handleReplyChange}
+                ></Reply>
+              </ReplyBox>
+              <Profile2 src={Moneyfortuneimg}></Profile2>
+              <NextBox>
+                <NextText onClick={handleNextButton}>카드 뽑으러 가기</NextText>
+              </NextBox>
+            </>
+          )}
         </BackgroundWrapper>
       </Inside>
     </BackgroundColor>

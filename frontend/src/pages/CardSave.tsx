@@ -1,13 +1,16 @@
 import Navbar from "../component/Navbar";
 import styled from "styled-components";
-import TaroEx1 from "../assets/TaroEx1.png";
-import TaroEx2 from "../assets/TaroEx2.png";
-import TaroEx3 from "../assets/TaroEx3.png";
 import BackgroundImg1 from "../assets/Background.png";
-import { Link } from "react-router-dom";
 import LinkBtn from "../assets/LinkButton.png";
 import ShareBtn from "../assets/ShareButton.png";
 import LoadingPage from "../component/LoadingPage";
+import { useNavigate } from "react-router-dom";
+import { shareKakao } from "../utils/shareKakaoLink";
+import { useRecoilValue } from "recoil";
+import { pollIdState, accessTokenState } from "../state/atom.ts";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
 const Background = styled.div`
   width: 100vw;
   height: 100vh;
@@ -61,12 +64,34 @@ const CardLine2 = styled.div`
   margin-left: 0.125rem;
 `;
 
-const TaroExs = styled.div`
+const TaroExs = styled.div<TaroExsProps>`
   display: flex;
   justify-content: center;
   gap: 0.5rem;
   margin-top: 1rem;
+  justify-content: ${(props) =>
+    props.tarotImage === 1 || props.tarotImage === 3 ? "center" : "flex-start"};
+  overflow-x: auto;
+  margin-right: 0.7rem;
+  margin-left: 0.7rem;
+
+  &::-webkit-scrollbar {
+    width: 0.1875rem; /* 스크롤바의 너비 */
+    height: 0.2rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #ecb973; /* 황금색 스크롤바 색상 */
+    border-radius: 0.3125rem; /* 스크롤바 모양 (둥근 모서리) */
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #daa520; /* 호버시 색상 변경 (더 진한 황금색) */
+  }
 `;
+interface TaroExsProps {
+  tarotImage: number;
+}
 
 const TaroEx = styled.img`
   width: 4.16306rem;
@@ -219,7 +244,50 @@ const ShareButtonIcon1 = styled.img`
   width: 100%;
   height: 100%;
 `;
+
+interface ImgType {
+  explanation: string;
+  image_url: string;
+  eng_name: string;
+}
 function CardSave() {
+  const poll_id = useRecoilValue(pollIdState);
+  const accessToken = useRecoilValue(accessTokenState);
+  const pollId = useRecoilValue(pollIdState);
+  const navigate = useNavigate();
+  const [tarotImage, setTarotImage] = useState<ImgType[]>([]);
+  const [explanation, setExplanation] = useState("");
+  const [luck, setLuck] = useState("");
+
+  useEffect(() => {
+    const callData = async () => {
+      try {
+        const response = await axios.get(
+          `/api/v1/polls/detail?poll_id=${pollId}`,
+          {
+            headers: {
+              authorization: accessToken,
+            },
+          }
+        );
+        setTarotImage(response.data.data.card);
+        setExplanation(response.data.data.result[0].explanation);
+        setLuck(response.data.data.result[0].luck);
+      } catch (error) {
+        console.error("타로 결과를 불러오는데 실패했습니다:", error);
+      }
+    };
+
+    callData();
+  }, [accessToken, pollId]);
+
+  const shareButton = () => {
+    shareKakao(`http://localhost:5000/share/`, poll_id);
+  };
+  const handleMyPage = () => {
+    navigate("/mypage");
+  };
+
   return (
     <>
       <Background>
@@ -232,26 +300,17 @@ function CardSave() {
               <Card>
                 <CardLine1>
                   <CardLine2>
-                    <TaroExs>
-                      <TaroEx src={TaroEx1} />
-                      <TaroEx src={TaroEx2} />
-                      <TaroEx src={TaroEx3} />
+                    <TaroExs tarotImage={tarotImage.length}>
+                      {tarotImage.map((image, index) => (
+                        <TaroEx key={index} src={image.image_url} />
+                      ))}
                     </TaroExs>
-                    <CardText>
-                      어쩌구 저쩌구 어쩌구 어쩌구 저쩌구 어쩌구 저쩌 어쩌구
-                      저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
-                      저쩌구 어쩌구 저쩌 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
-                      저쩌구 어쩌구 저 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구
-                      어쩌구 할거에요♥어쩌구 저쩌구 어쩌구 어쩌구 저쩌구 어쩌구
-                      저쩌 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구 어쩌구
-                      저쩌구 어쩌구 저쩌구 어쩌구 저쩌 어쩌구 저쩌구 어쩌구
-                      저쩌구 어쩌구 저쩌구 어쩌구 저 어쩌구 저쩌구 어쩌구 저쩌구
-                      어쩌구 저쩌구 어쩌구 할거에요♥
-                    </CardText>
+                    <CardText>{explanation}</CardText>
                   </CardLine2>
-                  <UserName>ㆍUSERNAMEㆍ</UserName>
+                  <UserName>ㆍ{luck}ㆍ</UserName>
                 </CardLine1>
               </Card>
+
               <RightBox>
                 <ShareIcon>
                   <ShareButtonIcon1 src={ShareBtn}></ShareButtonIcon1>
@@ -265,14 +324,16 @@ function CardSave() {
                     <ShareButtonIcon>
                       <LinkButton src={LinkBtn}></LinkButton>
                     </ShareButtonIcon>
-                    <ShareButtonText>링크 공유하기</ShareButtonText>
+                    <ShareButtonText onClick={shareButton}>
+                      링크 공유하기
+                    </ShareButtonText>
                   </ShareButton>
 
-                  <Link to="/mypage">
-                    <SaveButton>
-                      <SaveButtonText>내 서랍에 저장하기</SaveButtonText>
-                    </SaveButton>
-                  </Link>
+                  <SaveButton>
+                    <SaveButtonText onClick={handleMyPage}>
+                      마이페이지로 이동하기
+                    </SaveButtonText>
+                  </SaveButton>
                 </Buttons>
               </RightBox>
             </Cards>
