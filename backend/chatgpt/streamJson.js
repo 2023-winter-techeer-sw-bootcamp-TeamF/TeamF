@@ -34,18 +34,17 @@ class StreamJson {
   }
 
   parse(chunck) {
-    let result = [];
+    let result = '';
     for (let char of chunck) {
       const index = this.index;
 
       if (this.status(char) === 3) {
-        result.push(char);
+        result += char;
         console.log('char : ' + char);
       }
 
-      if (index != this.index) {
-        result.push('\n');
-      }
+      if (index != this.index)
+        result += '';
 
     }
 
