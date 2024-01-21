@@ -4,8 +4,12 @@ import BackgroundImg1 from "../assets/Background.png";
 import LinkBtn from "../assets/LinkButton.png";
 import ShareBtn from "../assets/ShareButton.png";
 import LoadingPage from "../component/LoadingPage";
+<<<<<<< HEAD
 //import html2canvas from "html2canvas";
 import { useRef } from "react";
+=======
+import { useNavigate } from "react-router-dom";
+>>>>>>> 214b14b1ab1ce22ed92ee2f2393ade4678c316f7
 import { shareKakao } from "../utils/shareKakaoLink";
 import { useRecoilValue } from "recoil";
 import { pollIdState, accessTokenState } from "../state/atom.ts";
@@ -66,12 +70,34 @@ const CardLine2 = styled.div`
   margin-left: 0.125rem;
 `;
 
-const TaroExs = styled.div`
+const TaroExs = styled.div<TaroExsProps>`
   display: flex;
   justify-content: center;
   gap: 0.5rem;
   margin-top: 1rem;
+  justify-content: ${(props) =>
+    props.tarotImage === 1 || props.tarotImage === 3 ? "center" : "flex-start"};
+  overflow-x: auto;
+  margin-right: 0.7rem;
+  margin-left: 0.7rem;
+
+  &::-webkit-scrollbar {
+    width: 0.1875rem; /* 스크롤바의 너비 */
+    height: 0.2rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #ecb973; /* 황금색 스크롤바 색상 */
+    border-radius: 0.3125rem; /* 스크롤바 모양 (둥근 모서리) */
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #daa520; /* 호버시 색상 변경 (더 진한 황금색) */
+  }
 `;
+interface TaroExsProps {
+  tarotImage: number;
+}
 
 const TaroEx = styled.img`
   width: 4.16306rem;
@@ -231,11 +257,10 @@ interface ImgType {
   eng_name: string;
 }
 function CardSave() {
-  const captureDivRef = useRef(null);
   const poll_id = useRecoilValue(pollIdState);
   const accessToken = useRecoilValue(accessTokenState);
   const pollId = useRecoilValue(pollIdState);
-
+  const navigate = useNavigate();
   const [tarotImage, setTarotImage] = useState<ImgType[]>([]);
   const [explanation, setExplanation] = useState("");
   const [luck, setLuck] = useState("");
@@ -243,11 +268,14 @@ function CardSave() {
   useEffect(() => {
     const callData = async () => {
       try {
-        const response = await axios.get(`/api/v1/polls/detail?poll_id=${pollId}`, {
-          headers: {
-            authorization: accessToken,
-          },
-        });
+        const response = await axios.get(
+          `/api/v1/polls/detail?poll_id=${pollId}`,
+          {
+            headers: {
+              authorization: accessToken,
+            },
+          }
+        );
         setTarotImage(response.data.data.card);
         setExplanation(response.data.data.result[0].explanation);
         setLuck(response.data.data.result[0].luck);
@@ -259,6 +287,7 @@ function CardSave() {
     callData();
   }, [accessToken, pollId]);
 
+<<<<<<< HEAD
   /* const downloadButton = () => {
     if (captureDivRef.current) {
       html2canvas(captureDivRef.current).then((canvas) => {
@@ -276,8 +305,13 @@ function CardSave() {
     document.body.removeChild(link);
   }; */
 
+=======
+>>>>>>> 214b14b1ab1ce22ed92ee2f2393ade4678c316f7
   const shareButton = () => {
     shareKakao(`http://localhost:5000/share/`, poll_id);
+  };
+  const handleMyPage = () => {
+    navigate("/mypage");
   };
 
   return (
@@ -289,12 +323,12 @@ function CardSave() {
           <BackgroundWrapper>
             <BackgroundImg src={BackgroundImg1} />
             <Cards>
-              <Card ref={captureDivRef} id="captureDiv">
+              <Card>
                 <CardLine1>
                   <CardLine2>
-                    <TaroExs>
-                      {tarotImage.map((number) => (
-                        <TaroEx src={number.image_url} />
+                    <TaroExs tarotImage={tarotImage.length}>
+                      {tarotImage.map((image, index) => (
+                        <TaroEx key={index} src={image.image_url} />
                       ))}
                     </TaroExs>
                     <CardText>{explanation}</CardText>
@@ -320,6 +354,7 @@ function CardSave() {
                       링크 공유하기
                     </ShareButtonText>
                   </ShareButton>
+<<<<<<< HEAD
                   <Link to="/mypage">
                     <SaveButton>
                       <SaveButtonText>
@@ -327,6 +362,14 @@ function CardSave() {
                       </SaveButtonText>
                     </SaveButton>
                   </Link>
+=======
+
+                  <SaveButton>
+                    <SaveButtonText onClick={handleMyPage}>
+                      마이페이지로 이동하기
+                    </SaveButtonText>
+                  </SaveButton>
+>>>>>>> 214b14b1ab1ce22ed92ee2f2393ade4678c316f7
                 </Buttons>
               </RightBox>
             </Cards>

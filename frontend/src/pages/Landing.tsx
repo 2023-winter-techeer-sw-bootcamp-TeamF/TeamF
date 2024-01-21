@@ -2,6 +2,7 @@ import styled from "styled-components";
 import LandingBackgroundImg from "../assets/LandingBackground3.png";
 import BackOfCard from "../assets/LandingCard.png";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const Background = styled.div`
   background: #000;
@@ -30,14 +31,15 @@ const LandingThings = styled.div`
   gap: 3rem;
 `;
 
-const BackofCardsLeft = styled.div`
+const BackofCardsLeft = styled(motion.div)`
   width: 27.8125rem;
   height: 30.41931rem;
   position: absolute;
   z-index: 3;
   left: 23%;
 `;
-const BackofCardsRight = styled.div`
+
+const BackofCardsRight = styled(motion.div)`
   width: 27.8125rem;
   height: 30.41931rem;
   position: absolute;
@@ -109,10 +111,37 @@ function Landing() {
             </StartButton>
           </Link>
         </LandingThings>
-        <BackofCardsLeft>
+        <BackofCardsLeft
+          initial={{ opacity: 0 }}
+          animate={{
+            opacity: 1,
+            x: [0, 3],
+            y: [30, 10, -10],
+            rotate: 5,
+          }}
+          transition={{
+            duration: 1.5,
+            ease: "linear",
+          }}
+        >
           <CardImg src={BackOfCard} />
         </BackofCardsLeft>
-        <BackofCardsRight>
+        <BackofCardsRight
+          initial={{
+            scaleX: -1,
+            opacity: 0,
+          }}
+          animate={{
+            opacity: 1,
+            rotate: 7,
+            x: [0, 3],
+            y: [30, 10, -10],
+          }}
+          transition={{
+            duration: 1.5,
+            ease: "linear",
+          }}
+        >
           <CardImg src={BackOfCard} />
         </BackofCardsRight>
       </Background>
