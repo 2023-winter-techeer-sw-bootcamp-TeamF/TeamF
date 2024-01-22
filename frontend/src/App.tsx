@@ -89,7 +89,6 @@ a {
     html {
       font-size: 15px;
     }
-
 @media (max-width: 1500px) , (max-height : 870px) {
     html {
       font-size: 12px;

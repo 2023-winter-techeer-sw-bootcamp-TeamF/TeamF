@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { accessTokenState, refreshTokenState } from "../state/atom.ts";
-import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import "../assets/font-S-CoreDream-3Light.css";
 
@@ -96,14 +95,12 @@ const LogoutButton = styled.button`
 `;
 
 const Navbar = () => {
-  const navigate = useNavigate();
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
   const setRefreshToken = useSetRecoilState(refreshTokenState);
 
   const handleLogout = () => {
     setAccessToken("");
     setRefreshToken("");
-    navigate("/fortuneselect");
   };
 
   return (
@@ -112,7 +109,7 @@ const Navbar = () => {
         initial={{ scale: 1 }}
         whileHover={{ scale: 1.7, originX: 0, position: "relative" }}
       >
-        <Link to="/fortuneselect">
+        <Link to="/">
           <LargeLetter>T</LargeLetter>AIROT&nbsp;
         </Link>
       </LogoContainer>

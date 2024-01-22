@@ -2,7 +2,7 @@ import Navbar from "../component/Navbar";
 import styled from "styled-components";
 import background from "../assets/Background.png";
 import NextButton from "../assets/NextBtn.png";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
 import {
   accessTokenState,
@@ -211,6 +211,19 @@ function TarotProcess() {
     setStreamArray("로딩 중...");
     window.location.replace("/cardsave");
   };
+
+  const chatBoxRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollToBottom = () => {
+    const chatBox = chatBoxRef.current;
+    if (chatBox) {
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [streamArray]);
   return (
     <>
       <Background>
@@ -227,7 +240,9 @@ function TarotProcess() {
             </Cards>
             <TaroMaster src={tarotMasterImage} />
             <ChatBox>
-              <Chat>{streamArray}</Chat>
+              <Chat ref={chatBoxRef} className="chatBox">
+                {streamArray}
+              </Chat>
             </ChatBox>
             <NextBtn onClick={buttonClear}>
               <NextBtnImg src={NextButton} />
