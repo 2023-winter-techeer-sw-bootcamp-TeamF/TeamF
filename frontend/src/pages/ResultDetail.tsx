@@ -8,6 +8,10 @@ import { useRecoilValue } from "recoil";
 import axios from "axios";
 import LoadingPage from "../component/LoadingPage";
 import { shareKakao } from "../utils/shareKakaoLink";
+
+import "../assets/font-YUniverse-B.css";
+import "../assets/font-S-CoreDream-3Light.css";
+
 const Background = styled.div`
   width: 100vw;
   height: 100vh;
@@ -33,9 +37,9 @@ const DetailBackground = styled.div`
   border-radius: 0.25rem;
   background: #e9e5da;
   margin-top: 2rem;
-
   display: flex;
   justify-content: center;
+  align-items: center;
 `;
 
 const DetailLine1 = styled.div`
@@ -44,11 +48,10 @@ const DetailLine1 = styled.div`
   border-radius: 0.625rem;
   border: 0.03125rem solid #b88150;
   background: rgba(217, 217, 217, 0);
-
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  margin-top: 1.5rem;
+  //margin-top: 1.5rem;
   flex-direction: column;
 `;
 
@@ -61,10 +64,13 @@ const DetailLine2 = styled.div`
   margin-top: 0.3125rem;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
+  padding: 1.5rem;
 `;
 
 const Date = styled.p`
+  /*
   display: flex;
   width: 11.0625rem;
   height: 2.5625rem;
@@ -79,20 +85,30 @@ const Date = styled.p`
   line-height: normal;
   text-transform: uppercase;
   padding-bottom: 0.4rem;
+<<<<<<< HEAD
 
   margin-top: 0.3rem;
+=======
+  */
+  color: #b88150;
+  font-family: YUniverse-B;
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 300;
+  margin-bottom: 0.5rem;
+>>>>>>> 385c1f7aeac41ab07e4b7f0b4a7601c2575121e3
 `;
 
 const Title = styled.p`
   color: #b99e6f;
   text-align: center;
-  font-family: Inter;
+  font-family: YUniverse-B;
   font-size: 0.8125rem;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 700;
   width: 4.5rem;
-  margin-top: 0.9375rem;
-  line-height: 1.5;
+  //margin-top: 0.9375rem;
+  line-height: 1;
 `;
 
 const Worry = styled.p`
@@ -100,7 +116,7 @@ const Worry = styled.p`
   height: 3.125rem;
   color: #b99e6f;
   text-align: center;
-  font-family: Inter;
+  font-family: S-CoreDream-3Light;
   font-size: 0.8125rem;
   font-style: normal;
   font-weight: 400;
@@ -126,11 +142,13 @@ const Worry = styled.p`
 const Cards = styled.div<TaroExsProps>`
   display: flex;
   flex-direction: row;
+  gap: 4.75rem;
+  //margin-top: 2rem;
   gap: ${(props) => (props.tarotImage === 5 ? "2.5rem" : "4.75rem")};
-  margin-top: 2rem;
+  //margin-top: 2rem;
   align-items: center;
   width: 34.375rem;
-  justify-content: center;
+  justify-content: center; //merge
 `;
 
 const CardBackground = styled.div`
@@ -165,10 +183,10 @@ const Solutions = styled.div`
 const SolutionTitle = styled.p`
   color: #806838;
   text-align: center;
-  font-family: Inter;
+  font-family: YUniverse-B;
   font-size: 0.9375rem;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 700;
   line-height: normal;
 `;
 
@@ -176,12 +194,12 @@ const SolutionDetail = styled.p`
   width: 38.875rem;
   color: #806838;
   text-align: center;
-  font-family: Inter;
+  font-family: YUniverse-B;
   font-size: 0.9375rem;
   font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  height: 5rem;
+  font-weight: 300;
+  line-height: 1.5;
+  height: 6rem;
   overflow-y: scroll;
   overflow-x: hidden;
   padding-right: 0.625rem;
@@ -191,7 +209,8 @@ const SolutionDetail = styled.p`
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #ecb973; /* 황금색 스크롤바 색상 */
+    //background-color: #ecb973; /* 황금색 스크롤바 색상 */
+    background-color: #B99E6F; /* 스크롤바 색상 변경 */
     border-radius: 0.3125rem; /* 스크롤바 모양 (둥근 모서리) */
   }
 
@@ -225,6 +244,7 @@ const FlipcardBackground = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  position: absolute; // 내가 추가
   backface-visibility: hidden;
   transform: rotateY(180deg);
 `;
@@ -262,10 +282,10 @@ interface FlipcardInnerProps {
 const CardTitle = styled.p`
   color: #806838;
   text-align: center;
-  font-family: Inter;
+  font-family: YUniverse-B;
   font-size: 0.5rem;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 700;
   line-height: normal;
   width: 26.8125rem;
   position: absolute;
@@ -276,15 +296,16 @@ const CardTitle = styled.p`
 
 const CardContent = styled.p`
   color: #fbecc6;
-  font-family: Inter;
+  font-family: YUniverse-B;
   font-size: 0.6rem;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 300;
   line-height: normal;
   position: absolute;
-  top: 57%; // CardTitle 아래에 위치
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 38%; // CardTitle 아래에 위치 //57 -> 38
+  //left: 50%;
+  //transform: translate(-50%, -50%);
+  width: 5rem;
 `;
 
 interface ImgType {
@@ -368,7 +389,7 @@ function ResultDetail() {
             <DetailBackground>
               <DetailLine1>
                 <DetailLine2>
-                  <Title>당신의 고민 . . .</Title>
+                  <Title>당신의 고민<br/> . . .</Title>
                   <Worry>{question}</Worry>
                   <Cards tarotImage={tarotImage.length}>
                     {tarotImage.map((number, index) => (

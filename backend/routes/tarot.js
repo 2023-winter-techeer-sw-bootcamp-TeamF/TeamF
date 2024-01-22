@@ -278,9 +278,12 @@ router.post(
       "재물운",
       "소망운",
     ]; // 운 종류 배열
-    const masterName = ["세레나", "샤를린", "마틸드", "제라드", "굴이"]; // 마스터 이름 배열
+    const masterName = ["세레나",  "샤를린", "샤를린", "마틸드", "마틸드", "제라드", "굴이"]; // 마스터 이름 배열
     const socketId = res.locals.socketId; // 소켓 아이디
     const io = req.app.get("io"); // 소켓 io 객체
+
+    const appConfig = req.app.get("appConfig"); // appConfig 객체
+    const promptService = appConfig.promptService(); // promptService 객체
 
     let cardsArray = []; // 카드 배열
     let intCardArray = []; // 카드 번호 배열
@@ -325,10 +328,10 @@ router.post(
     }
 
     // gpt 메시지 생성
-    messages.addUserTestMessage();
+    messages.addSystemMessage(await promptService.getSystemPrompt(luckType))
+    messages.addUserMessage(await promptService.getUserPrompt(luckType))
     messages.addUserMessage(ask);
     messages.addUserCardsArrayMessage(cardsArray);
-    messages.addUserJsonFormMessage();
 
     // 결과 배열 생성
     resultArray = Array.from({ length: numOfExplain + 1 }, () => ""); // 결과 배열 생성
@@ -364,16 +367,28 @@ router.post(
 
       console.log("Client Recv : " + clientRecv);
 
-      res.locals.store = {
-        masterName: masterName[luckType - 1],
-        cardArray: intCardArray,
-        ask: ask,
-        cardAnswerArray: cardAnswerArray,
-        answer: resultAnswer,
-        socketId: socketId,
-        poll_id: poll_id,
-        luckType: luckTypeArray[luckType - 1], // 운 종류
-      }; // 조회 결과 → res.locals.data에 저장
+      if (luckTypeArray[luckType - 1] !== "오늘의 운세") {
+        res.locals.store = {
+          masterName: masterName[luckType - 1],
+          cardArray: intCardArray,
+          ask: ask,
+          cardAnswerArray: cardAnswerArray,
+          answer: resultAnswer,
+          socketId: socketId,
+          poll_id: poll_id,
+          luckType: luckTypeArray[luckType - 1], // 운 종류
+        }; // 조회 결과 → res.locals.data에 저장
+      } else {
+        res.locals.store = {
+          masterName: masterName[luckType - 1],
+          cardArray: intCardArray,
+          ask: ask,
+          cardAnswerArray: cardAnswerArray,
+          socketId: socketId,
+          poll_id: poll_id,
+          luckType: luckTypeArray[luckType - 1], // 운 종류
+        };
+      }
 
       console.log("Result : " + JSON.stringify(res.locals.store));
 

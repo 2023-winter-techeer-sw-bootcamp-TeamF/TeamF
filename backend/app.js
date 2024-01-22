@@ -16,6 +16,7 @@ const verifyToken = require("./middleware/verifyToken");
 const socketConnection = require("./middleware/socketConnection");
 const { socketSendHandler } = require("./middleware/socketHandle");
 const checkPoll = require("./middleware/checkPoll");
+const AppConfig = require('./appConfig');
 const app = express();
 const secretName = "MySQL_Info";
 const secretGptApiKey = "GPT_KEY";
@@ -96,6 +97,8 @@ async function startServer() {
     gpt.initializeGpt(gptApiKey);
     // s3 연결
     s3.initializeS3();
+    // appConfig 객체 저장
+    app.set("appConfig", new AppConfig());
     // 서버 시작
     const port = 3000;
     // 기존 app.listen() 대신 server.listen()을 사용

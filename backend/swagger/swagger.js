@@ -11,9 +11,9 @@ const doc = {
    * (주의) main 배포는...3000으로 해야하나... 여기까지 알아보기는 마음이 지금 아픔
    */
   //host: "localhost:3000",
-  //host: "43.202.208.226:3001",
-  host: "tairot.online",
-  schemes: ["https"],
+  host: "43.202.208.226:3001",
+  //host: "tairot.online",
+  schemes: ["http"],
   securityDefinitions: {
     Bearer: {
       type: "apiKey",

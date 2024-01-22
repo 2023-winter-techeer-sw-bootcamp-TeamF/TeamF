@@ -16,6 +16,8 @@ import {
   tarotMasterImg,
 } from "../state/atom.ts";
 
+import "../assets/font-YUniverse-B.css";
+
 const BackgroundColor = styled.div`
   background: #000;
   width: 100vw;
@@ -57,10 +59,10 @@ const TitleBox = styled.div`
 
 const TitleContent = styled.p`
   color: #fff;
-  font-family: 맑은 고딕;
+  font-family: YUniverse-B;
   font-size: 1.25rem;
   font-style: normal;
-  font-weight: 350;
+  font-weight: 300;
   line-height: normal;
   text-transform: capitalize;
 `;
@@ -88,16 +90,15 @@ const ChatBox = styled.div`
 
 const Tellme = styled.p`
   color: #ecb973;
-  font-family: Inter;
-  font-size: 1.4375rem;
+  font-family: YUniverse-B;
+  font-size: 1.3rem;
   font-style: normal;
-  font-weight: 500;
-  line-height: normal;
+  font-weight: 300;
   text-align: left;
   overflow-y: scroll;
   height: 96%;
   padding-right: 1rem;
-  line-height: 1.5;
+  line-height: 1.4;
   &::-webkit-scrollbar {
     width: 0.3125rem; /* 스크롤바의 너비 */
   }
@@ -127,10 +128,10 @@ const Reply = styled.textarea`
   background-color: #000;
   width: 37.5rem;
   text-align: left;
-  font-family: Inter;
-  font-size: 1.4375rem;
+  font-family: YUniverse-B;
+  font-size: 1.3rem;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 300;
   line-height: 1.4;
   overflow-y: scroll;
   padding-right: 1rem;
@@ -252,7 +253,7 @@ const TodayFortune = () => {
   const [count, setCount] = useState(0);
   const completionWord = tellMeText;
   const [comeout, setComeout] = useState(0);
-
+  
   useEffect(() => {
     if (comeout === 0) {
       const typingInterval = setInterval(() => {

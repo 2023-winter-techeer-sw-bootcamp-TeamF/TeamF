@@ -6,6 +6,9 @@ import { accessTokenState } from "../state/atom.ts";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import LoadingPage from "../component/LoadingPage";
+import "../assets/font-YUniverse-B.css";
+import "../assets/font-S-CoreDream-3Light.css";
+
 const Background = styled.div`
   width: 100vw;
   height: 100vh;
@@ -23,15 +26,15 @@ const Folder = styled.div`
   flex-direction: row;
   margin-top: 4rem;
   margin-left: 1rem;
+  align-items: center;
 `;
 
 const MyDrawer = styled.p`
   color: #ecb973;
-
-  font-family: Inter;
+  font-family: S-CoreDream-3Light;
   font-size: 1.25rem;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 900;
   line-height: normal;
   text-transform: capitalize;
   margin-left: 1rem;
@@ -53,6 +56,9 @@ const Card = styled.div`
   justify-content: center;
   margin-top: 3rem;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const CardLine1 = styled.div`
@@ -61,17 +67,25 @@ const CardLine1 = styled.div`
   border-radius: 0.625rem;
   border: 0.03125rem solid #b88150;
   background: rgba(217, 217, 217, 0);
-  margin-top: 1rem;
+  //margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
 `;
 
 const CardLine2 = styled.div`
   width: 11.4628125rem;
-  height: 18.91975rem;
+  height: 19rem;
   border-radius: 0.5rem 0.5rem 0rem 0rem;
   border: 0.03125rem solid #b88150;
   background: rgba(217, 217, 217, 0);
-  margin-top: 0.3125rem;
-  margin-left: 0.125rem;
+  margin-top: 0.125rem;
+  //margin-left: 0.125rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  //align-items: center;
 `;
 
 const TaroExs = styled.div<TaroExsProps>`
@@ -79,7 +93,7 @@ const TaroExs = styled.div<TaroExsProps>`
   justify-content: ${(props) =>
     props.tarotImage === 1 || props.tarotImage === 3 ? "center" : "flex-start"};
   gap: 0.5rem;
-  margin-top: 1rem;
+  margin-top: 0.4rem;
   overflow-x: auto;
   margin-left: 0.5rem;
   margin-right: 0.5rem;
@@ -90,12 +104,14 @@ const TaroExs = styled.div<TaroExsProps>`
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #ecb973; /* 황금색 스크롤바 색상 */
+    //background-color: #ecb973; /* 황금색 스크롤바 색상 */
+    background-color: #b8815079; /* 스크롤바 색상 변경*/
     border-radius: 0.3125rem; /* 스크롤바 모양 (둥근 모서리) */
   }
 
   &::-webkit-scrollbar-thumb:hover {
-    background-color: #daa520; /* 호버시 색상 변경 (더 진한 황금색) */
+    //background-color: #daa520; /* 호버시 색상 변경 (더 진한 황금색) */
+    background-color: #b88150ba; /* 스크롤바 색상 변경*/
   }
 `;
 
@@ -109,49 +125,55 @@ const TaroEx = styled.img`
 `;
 
 const CardText = styled.p`
-  width: 10.0003125rem;
-  height: 10.0003125rem;
-  color: #1d1d1d;
+  //width: 10.0003125rem;
+  height: 11.3rem;
+  color: #b88150; //#1d1d1d -> #b88150
   text-align: center;
-  font-family: "Italiana", sans-serif;
+  font-family: YUniverse-B;
   font-size: 0.8125rem;
   font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  letter-spacing: -0.01625rem;
+  font-weight: 300;
+  line-height: 1.3;
+  //letter-spacing: -0.01625rem;
   text-transform: uppercase;
-  margin-top: 1rem;
-  margin-left: 0.7rem;
+  //margin-top: 1rem;
+  //margin-left: 0.7rem;
   overflow-y: auto;
-  padding: 0.5rem;
+  margin: 0.5rem; //padding -> margin
+  padding-right: 0.3rem;
 
   &::-webkit-scrollbar {
     width: 0.1875rem; /* 스크롤바의 너비 */
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #ecb973; /* 황금색 스크롤바 색상 */
+    //background-color: #ecb973; /* 황금색 스크롤바 색상 */
+    background-color: #b8815079; /* 스크롤바 색상 변경*/
     border-radius: 0.3125rem; /* 스크롤바 모양 (둥근 모서리) */
   }
 
   &::-webkit-scrollbar-thumb:hover {
-    background-color: #daa520; /* 호버시 색상 변경 (더 진한 황금색) */
+    //background-color: #daa520; /* 호버시 색상 변경 (더 진한 황금색) */
+    background-color: #b88150ba; /* 스크롤바 색상 변경*/
   }
 `;
 
 const UserName = styled.p`
   color: #b88150;
   text-align: center;
-  font-family: "맑은 고딕";
-  font-size: 1.125rem;
+  font-family: YUniverse-B;
+  font-size: 1rem;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 300;
   line-height: normal;
-
   letter-spacing: 0.07875rem;
   text-transform: uppercase;
+<<<<<<< HEAD
 
   margin-top: 0.3rem;
+=======
+  margin-bottom: 0.2rem;
+>>>>>>> 385c1f7aeac41ab07e4b7f0b4a7601c2575121e3
 `;
 
 const Row = styled.div`

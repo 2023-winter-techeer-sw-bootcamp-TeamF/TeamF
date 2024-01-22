@@ -5,10 +5,10 @@
     "description": "오늘도 화이팅",
     "version": "1.0.0"
   },
-  "host": "tairot.online",
+  "host": "43.202.208.226:3001",
   "basePath": "/",
   "schemes": [
-    "https"
+    "http"
   ],
   "securityDefinitions": {
     "Bearer": {
@@ -528,6 +528,10 @@
                 "result": {
                   "type": "string",
                   "example": "result 결과 조회 성공"
+                },
+                "date": {
+                  "type": "string",
+                  "example": "create_at 결과 조회 성공"
                 },
                 "card": {
                   "type": "string",

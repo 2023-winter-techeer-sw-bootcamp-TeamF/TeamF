@@ -85,12 +85,19 @@ a {
   text-decoration:none;
   color:inherit;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 385c1f7aeac41ab07e4b7f0b4a7601c2575121e3
 @media (max-width: 1600px) , (max-height : 920px) {
     html {
       font-size: 15px;
     }
+<<<<<<< HEAD
   }
+=======
+
+>>>>>>> 385c1f7aeac41ab07e4b7f0b4a7601c2575121e3
 @media (max-width: 1500px) , (max-height : 870px) {
     html {
       font-size: 12px;
@@ -101,6 +108,7 @@ a {
       font-size: 10px;
     }
   }
+}
 `;
 
 const router = createBrowserRouter([
