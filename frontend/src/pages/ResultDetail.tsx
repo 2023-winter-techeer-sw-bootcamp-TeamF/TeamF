@@ -85,10 +85,6 @@ const Date = styled.p`
   line-height: normal;
   text-transform: uppercase;
   padding-bottom: 0.4rem;
-<<<<<<< HEAD
-
-  margin-top: 0.3rem;
-=======
   */
   color: #b88150;
   font-family: YUniverse-B;
@@ -96,7 +92,6 @@ const Date = styled.p`
   font-style: normal;
   font-weight: 300;
   margin-bottom: 0.5rem;
->>>>>>> 385c1f7aeac41ab07e4b7f0b4a7601c2575121e3
 `;
 
 const Title = styled.p`

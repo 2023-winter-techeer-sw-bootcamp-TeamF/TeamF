@@ -168,12 +168,7 @@ const UserName = styled.p`
   line-height: normal;
   letter-spacing: 0.07875rem;
   text-transform: uppercase;
-<<<<<<< HEAD
-
-  margin-top: 0.3rem;
-=======
   margin-bottom: 0.2rem;
->>>>>>> 385c1f7aeac41ab07e4b7f0b4a7601c2575121e3
 `;
 
 const Row = styled.div`

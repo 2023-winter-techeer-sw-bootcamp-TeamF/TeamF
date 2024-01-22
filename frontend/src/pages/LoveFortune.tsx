@@ -16,8 +16,6 @@ import {
   tarotMasterImg,
 } from "../state/atom.ts";
 
-import "../assets/font-YUniverse-B.css";
-
 const BackgroundColor = styled.div`
   background: #000;
   width: 100vw;
@@ -59,10 +57,10 @@ const TitleBox = styled.div`
 
 const TitleContent = styled.p`
   color: #fff;
-  font-family: YUniverse-B;
+  font-family: 맑은 고딕;
   font-size: 1.25rem;
   font-style: normal;
-  font-weight: 300;
+  font-weight: 350;
   line-height: normal;
   text-transform: capitalize;
 `;
@@ -90,15 +88,16 @@ const ChatBox = styled.div`
 
 const Tellme = styled.p`
   color: #ecb973;
-  font-family: YUniverse-B;
-  font-size: 1.3rem;
+  font-family: Inter;
+  font-size: 1.4375rem;
   font-style: normal;
-  font-weight: 300;
+  font-weight: 500;
+  line-height: normal;
   text-align: left;
   overflow-y: scroll;
   height: 96%;
   padding-right: 1rem;
-  line-height: 1.4;
+  line-height: 1.5;
   &::-webkit-scrollbar {
     width: 0.3125rem; /* 스크롤바의 너비 */
   }
@@ -128,10 +127,10 @@ const Reply = styled.textarea`
   background-color: #000;
   width: 37.5rem;
   text-align: left;
-  font-family: YUniverse-B;
-  font-size: 1.3rem;
+  font-family: Inter;
+  font-size: 1.4375rem;
   font-style: normal;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.4;
   overflow-y: scroll;
   padding-right: 1rem;
@@ -257,7 +256,7 @@ const LoveFortune = () => {
             ? prevTitleValue + completionWord2[count2]
             : completionWord[0];
           setCount2(count2 + 1);
-
+          console.log(count2, completionWord.length);
           if (count2 >= completionWord.length - 1) {
             setCount2(0);
             setComeout(3);

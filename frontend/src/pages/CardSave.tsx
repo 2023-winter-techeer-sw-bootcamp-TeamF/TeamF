@@ -9,13 +9,9 @@ import { useRecoilValue } from "recoil";
 import { pollIdState, accessTokenState } from "../state/atom.ts";
 import { useEffect, useState } from "react";
 import axios from "axios";
-<<<<<<< HEAD
 import { Link } from "react-router-dom";
-=======
 import "../assets/font-YUniverse-B.css";
 import "../assets/font-S-CoreDream-3Light.css";
-
->>>>>>> 385c1f7aeac41ab07e4b7f0b4a7601c2575121e3
 
 const Background = styled.div`
   width: 100vw;
