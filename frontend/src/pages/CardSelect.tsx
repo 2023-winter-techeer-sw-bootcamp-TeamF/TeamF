@@ -59,7 +59,7 @@ const Cards = styled.div`
   display: flex;
   flex-direction: row;
   gap: 6.5rem;
-  margin-left: 5rem;
+  transform: translateX(10%);
 `;
 
 const BackcardBackground = styled(motion.div)`

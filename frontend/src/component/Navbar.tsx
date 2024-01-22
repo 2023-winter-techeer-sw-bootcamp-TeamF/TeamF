@@ -1,9 +1,9 @@
 import styled from "styled-components";
-
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { accessTokenState, refreshTokenState } from "../state/atom.ts";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
+import "../assets/font-S-CoreDream-3Light.css";
 
 const NavContainer = styled.nav`
   //background-color: #000000;
@@ -41,7 +41,7 @@ const LoginButton = styled.button`
   border: 0.0625rem solid #ecb973;
   background: rgba(236, 185, 115, 0);
   color: #ecb973;
-  font-family: Inter;
+  font-family: S-CoreDream-3Light;
   font-size: 1rem;
   font-style: normal;
   font-weight: 400;
@@ -58,7 +58,7 @@ const LoginButton = styled.button`
 
 const MenuItem = styled.div`
   color: #ecb973;
-  font-family: Inter;
+  font-family: S-CoreDream-3Light;
   font-size: 1rem;
   font-style: normal;
   font-weight: 400;
@@ -82,7 +82,7 @@ const LogoutButton = styled.button`
   border: 0.0625rem solid #ecb973;
   background: rgba(236, 185, 115, 0);
   color: #ecb973;
-  font-family: Inter;
+  font-family: S-CoreDream-3Light;
   font-size: 0.9rem;
   font-style: normal;
   font-weight: 400;
