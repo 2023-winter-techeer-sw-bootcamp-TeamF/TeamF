@@ -1,9 +1,82 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  backend:
-    build: ./Backend
+  # dev_prometheus:
+  #   # image: prom/prometheus
+  #   build: ./prometheus
+  #   image: teamf-dev_prometheus
+  #   container_name: dev_prometheus_container
+  #   # volumes:
+  #   #   - /hostpath/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+  #   # ports:
+  #     # - "9090:9090"
+
+  # dev_node-exporter:
+  #   image: prom/node-exporter
+  #   container_name: dev_node_exporter_container
+  #   ports:
+  #     - "9100:9100"
+
+  # dev_grafana:
+  #   image: grafana/grafana
+  #   container_name: dev_grafana_container
+  #   volumes:
+  #     - /hostpath/provisioning:/etc/provisioning
+  #   ports:
+  #     - 9000:3000
+
+  dev_backend:
+    build: ./backend
+    container_name: dev_backend_container
     ports:
       - "3001:3000"
-    # volumes:
-    #   - ./backend:/usr/src/app
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_REGION=${AWS_REGION}
+    networks:
+      - mybridge
+
+  dev_frontend:
+    build: ./frontend
+    container_name: dev_frontend_container
+    ports:
+      - "5001:5000"
+    networks:
+      - mybridge
+
+  dev_nginx:
+    build: ./nginx
+    container_name: dev_nginx_container
+    # restart: always
+    ports:
+      - "80"
+      - "443:443"
+    volumes:
+      - /hostpath/www:/var/www/html
+      - /hostpath/certbot/etc:/etc/letsencrypt:ro
+    depends_on:
+      - dev_backend
+      - dev_frontend
+    networks:
+      - mybridge
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - /hostpath/certbot/etc:/etc/letsencrypt
+      - /hostpath/certbot/var:/var/lib/letsencrypt
+      - /hostpath/www:/var/www/html
+    command: certonly --webroot --webroot-path=/var/www/html --email tjfgkssk9472@gmail.com --agree-tos --no-eff-email --force-renewal -d tairot.online -v
+    networks:
+      - mybridge
+    # depends_on:
+    #   - nginx
+
+networks:
+  mybridge:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.202.0.1/16
+

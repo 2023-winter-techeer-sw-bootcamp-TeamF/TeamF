@@ -1,14 +1,29 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
-import Main from "./pages/Main";
+import Landing from "./pages/Landing";
 import Test from "./pages/Test";
 import { theme } from "./theme";
 
-import Testing from "./pages/Testing";
-
-import Sumin from "./pages/Sumin";
-
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import Main from "./pages/Main";
+import MyPage from "./pages/MyPage";
+import FortuneSelect from "./pages/FortuneSelect";
+import ResultDetail from "./pages/ResultDetail";
+import TarotProcess from "./pages/TarotProcess";
+import TodayFortune from "./pages/TodayFortune";
+import LoveFortune from "./pages/LoveFortune";
+import Friendship from "./pages/Friendship";
+import MoneyFortune from "./pages/MoneyFortune";
+import WishFortune from "./pages/WishFortune";
+import CardSelect from "./pages/CardSelect";
+import CardSelect1 from "./pages/CardSelect1";
+import TarotProcess1 from "./pages/TarotProcess1";
+import CardSelect5 from "./pages/CardSelect5";
+import TarotProcess5 from "./pages/TarotProcess5";
+import CardSave from "./pages/CardSave";
+import ResultShare from "./pages/ResultShare";
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@1,8..60,300&display=swap');
@@ -61,8 +76,6 @@ table {
   box-sizing: border-box;
 }
 body {
-  font-weight: 300;
-  font-family: Inter;
   background-color:${(props) => props.theme.bgColor};
   color:black;
   line-height: 1.2;
@@ -72,6 +85,16 @@ a {
   text-decoration:none;
   color:inherit;
 }
+@media (max-width: 1500px) , (max-height : 870px) {
+    html {
+      font-size: 12px;
+    }
+  }
+  @media (max-width: 1200px) , (max-height: 700px) {
+    html {
+      font-size: 10px;
+    }
+  }
 `;
 
 const router = createBrowserRouter([
@@ -81,19 +104,86 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <Main />,
+    element: <Landing />,
   },
   {
-
-    path: "/testing",
-    element: <Testing />,
-
-  }
-
-    path: "/sumin",
-    element: <Sumin />,
+    path: "/main",
+    element: <Main />,
   },
 
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/signup",
+    element: <Signup />,
+  },
+  {
+    path: "/mypage",
+    element: <MyPage />,
+  },
+  {
+    path: "/fortuneselect",
+    element: <FortuneSelect />,
+  },
+  {
+    path: "/resultdetail/:poll_id",
+    element: <ResultDetail />,
+  },
+  {
+    path: "/process",
+    element: <TarotProcess />,
+  },
+
+  {
+    path: "/todayfortune",
+    element: <TodayFortune />,
+  },
+  {
+    path: "/lovefortune",
+    element: <LoveFortune />,
+  },
+  {
+    path: "/friendship",
+    element: <Friendship />,
+  },
+  {
+    path: "/moneyfortune",
+    element: <MoneyFortune />,
+  },
+  {
+    path: "/wishfortune",
+    element: <WishFortune />,
+  },
+  {
+    path: "/cardselect",
+    element: <CardSelect />,
+  },
+  {
+    path: "/cardsave",
+    element: <CardSave />,
+  },
+  {
+    path: "/share/:poll_id",
+    element: <ResultShare />,
+  },
+  {
+    path: "/cardselect1",
+    element: <CardSelect1 />,
+  },
+  {
+    path: "/process1",
+    element: <TarotProcess1 />,
+  },
+  {
+    path: "/cardselect5",
+    element: <CardSelect5 />,
+  },
+  {
+    path: "/process5",
+    element: <TarotProcess5 />,
+  },
 ]);
 
 function App() {

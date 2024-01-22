@@ -1,9 +1,7 @@
-import React from "react";
-
 export default function Test() {
   return (
     <>
-      <h1>Test입니다.</h1>
+      <h1>Test입니다~~~~!!!!! .</h1>
     </>
   );
 }

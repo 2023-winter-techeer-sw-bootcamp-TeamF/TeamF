@@ -5,7 +5,18 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 3000,
+    hmr: false,
+    port: 5000,
     host: true,
+    proxy: {
+      "/api": "http://localhost:3001/",
+      "/tarot": "http://localhost:3001/",
+      "/users": "http://localhost:3001/",
+      "/stream": "http://localhost:3001/",
+      "/result": "http://localhost:3001/",
+      "/poll": "http://localhost:3001/",
+      "/mypage": "http://localhost:3001/",
+      "/auth": "http://localhost:3001/",
+    },
   },
 });

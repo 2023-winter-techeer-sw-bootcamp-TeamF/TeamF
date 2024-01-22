@@ -1,9 +1,26 @@
-import React from "react";
+import Navbar from "../component/Navbar";
+import styled from "styled-components";
+
+const Background = styled.div`
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+`;
+
+const Inside = styled.div`
+  width: 1300px;
+  margin-left: auto;
+  margin-right: auto;
+`;
 
 function Main() {
   return (
     <>
-      <h1>Main입니다.</h1>
+      <Background>
+        <Inside>
+          <Navbar />
+        </Inside>
+      </Background>
     </>
   );
 }

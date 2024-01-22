@@ -1,9 +1,18 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  backend:
-    build: ./Backend
+  main_backend:
+    build: ./backend
+    container_name: main_backend_container
     ports:
       - "3000:3000"
-    # volumes:
-    #   - ./backend:/usr/src/app
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_REGION=${AWS_REGION}
+
+  main_frontend:
+    build: ./frontend
+    ontainer_name: main_frontend_container
+    ports:
+      - "5000:5000"
