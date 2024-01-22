@@ -1,12 +1,13 @@
 import styled from "styled-components";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { accessTokenState, refreshTokenState } from "../state/atom.ts";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
+import { motion } from "framer-motion";
 import "../assets/font-S-CoreDream-3Light.css";
 
 const NavContainer = styled.nav`
-  //background-color: #000000;
+  // background-color: #000000;
   width: 100%;
   height: 4.375rem;
   display: flex;
@@ -15,7 +16,7 @@ const NavContainer = styled.nav`
   z-index: 10;
 `;
 
-const LogoContainer = styled.div`
+const LogoContainer = styled(motion.div)`
   color: #ecb973;
   font-family: Cinzel;
   font-size: 1.4375rem;
@@ -28,7 +29,7 @@ const LogoContainer = styled.div`
   cursor: pointer;
 `;
 
-const MenuContainer = styled.div`
+const MenuContainer = styled(motion.div)`
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -64,8 +65,7 @@ const MenuItem = styled.div`
   font-weight: 400;
   line-height: normal;
   text-transform: capitalize;
-  margin-right: 1.25rem;
-  cursor: pointer;
+  margin-right: 2.5rem;
 `;
 
 const LargeLetter = styled.span`
@@ -106,28 +106,42 @@ const Navbar = () => {
     navigate("/fortuneselect");
   };
 
-  const handlePageNavigation = (path: string) => {
+  const handlePageNavigation = () => {
     if (!accessTokenValue) {
       navigate("/login");
     } else {
-      navigate(path);
+      navigate("/mypage");
     }
   };
 
   return (
     <NavContainer>
-      <LogoContainer onClick={() => navigate("/fortuneselect")}>
-        <LargeLetter>T</LargeLetter>AIROT&nbsp;
+      <LogoContainer
+        initial={{ scale: 1 }}
+        whileHover={{ scale: 1.7, originX: 0, position: "relative" }}
+      >
+        <Link to="/fortuneselect">
+          <LargeLetter>T</LargeLetter>AIROT&nbsp;
+        </Link>
       </LogoContainer>
-      <MenuContainer>
-        <MenuItem onClick={() => handlePageNavigation("/mypage")}>
-          MYPAGE
-        </MenuItem>
-        {accessToken ? (
-          <LogoutButton onClick={handleLogout}>LOG OUT</LogoutButton>
-        ) : (
-          <LoginButton onClick={() => navigate("/login")}>LOG IN</LoginButton>
-        )}
+      <MenuContainer
+        initial={{ scale: 1 }}
+        whileHover={{ originX: 1, zIndex: 1000 }}
+      >
+        <motion.div whileHover={{ scale: 1.6 }}>
+          <MenuItem onClick={handlePageNavigation}> MYPAGE</MenuItem>
+        </motion.div>
+        <motion.div whileHover={{ scale: 1.3, overflow: "visible" }}>
+          {accessToken ? (
+            <LogoutButton onClick={handleLogout}>LOG OUT</LogoutButton>
+          ) : (
+            <MenuItem>
+              <Link to="/login">
+                <LoginButton>LOG IN</LoginButton>
+              </Link>
+            </MenuItem>
+          )}
+        </motion.div>
       </MenuContainer>
     </NavContainer>
   );

@@ -235,50 +235,9 @@ const SoloBtn = styled.div`
   align-items: center;
   cursor: pointer;
 `;
-const SoloAboveBtn = styled.div`
-  width: 8.4375rem;
-  height: 1.5rem;
-  flex-shrink: 0;
-  border-radius: 0.9375rem;
-  background: #fbecc6;
-  position: absolute;
-  top: 80%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-`;
-const TogetherBtn = styled.div`
-  width: 8.4375rem;
-  height: 1.5rem;
-  flex-shrink: 0;
-  border-radius: 0.9375rem;
-  background: #806838;
-  position: absolute;
-  top: 90%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-`;
 
 const SoloText = styled.p`
   color: #806838;
-  text-align: center;
-  font-family: YUniverse-B;
-  font-size: 0.7rem;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  text-transform: uppercase;
-`;
-
-const TogetherText = styled.p`
-  color: #fbecc6;
   text-align: center;
   font-family: YUniverse-B;
   font-size: 0.7rem;
@@ -389,16 +348,12 @@ const FortuneSelect = () => {
                       <br />
                       자세히 분석해 드릴게요.
                     </CardText>
-                    <SoloAboveBtn
+
+                    <SoloBtn
                       onClick={() => handlePageNavigation("/lovefortune")}
                     >
-                      <SoloText>혼자 카드 선택하기</SoloText>
-                    </SoloAboveBtn>
-                    <TogetherBtn
-                      onClick={() => handlePageNavigation("/lovefortune")}
-                    >
-                      <TogetherText>함께 카드 선택하기</TogetherText>
-                    </TogetherBtn>
+                      <SoloText>연애운 보러가기</SoloText>
+                    </SoloBtn>
                   </FlipcardBackground>
                 </FlipcardInner>
               </FlipcardContainer>
@@ -431,17 +386,11 @@ const FortuneSelect = () => {
                       자세히 분석해 드릴게요.
                     </CardText>
 
-                    <SoloAboveBtn
+                    <SoloBtn
                       onClick={() => handlePageNavigation("/friendship")}
                     >
-                      <SoloText>혼자 카드 선택하기</SoloText>
-                    </SoloAboveBtn>
-
-                    <TogetherBtn
-                      onClick={() => handlePageNavigation("/friendship")}
-                    >
-                      <TogetherText>함께 카드 선택하기</TogetherText>
-                    </TogetherBtn>
+                      <SoloText>우정운 보러가기</SoloText>
+                    </SoloBtn>
                   </FlipcardBackground>
                 </FlipcardInner>
               </FlipcardContainer>
@@ -475,10 +424,11 @@ const FortuneSelect = () => {
                       <br />
                       자세히 분석해 드릴게요.
                     </CardTextToday>
+
                     <SoloBtn
                       onClick={() => handlePageNavigation("/moneyfortune")}
                     >
-                      <SoloText>혼자 카드 선택하기</SoloText>
+                      <SoloText>재물운 보러가기</SoloText>
                     </SoloBtn>
                   </FlipcardBackground>
                 </FlipcardInner>
@@ -515,7 +465,7 @@ const FortuneSelect = () => {
                     <SoloBtn
                       onClick={() => handlePageNavigation("/wishfortune")}
                     >
-                      <SoloText>혼자 카드 선택하기</SoloText>
+                      <SoloText>소망운 보러가기</SoloText>
                     </SoloBtn>
                   </FlipcardBackground>
                 </FlipcardInner>
