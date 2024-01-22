@@ -454,7 +454,7 @@
         }
       }
     },
-    "/api/v1/polls/list": {
+    "/api/v1/polls": {
       "get": {
         "tags": [
           "Polls"
@@ -499,111 +499,7 @@
             "Bearer": []
           }
         ]
-      }
-    },
-    "/api/v1/polls/detail": {
-      "get": {
-        "tags": [
-          "Polls"
-        ],
-        "summary": "결과 리스트에서 선택한 결과(poll_id) 상세 조회",
-        "description": "결과 리스트 중 선택한 결과(Poll_id)를 통해 해당 결과를 상세조회한다.",
-        "parameters": [
-          {
-            "name": "poll_id",
-            "in": "query",
-            "description": "폴 아이디 입력",
-            "required": true,
-            "example": "Poll_ID",
-            "value": "",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "총합 결과와 카드별 해석 및 링크 데이터 성공적으로 조회됨.",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "result": {
-                  "type": "string",
-                  "example": "result 결과 조회 성공"
-                },
-                "date": {
-                  "type": "string",
-                  "example": "create_at 결과 조회 성공"
-                },
-                "card": {
-                  "type": "string",
-                  "example": "card 결과 조회 성공"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다.",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "error": {
-                  "type": "string",
-                  "example": "JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다."
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "404": {
-            "description": "해당 ID를 가진 폴이 존재하지 않습니다.",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "error": {
-                  "type": "string",
-                  "example": "해당 ID를 가진 폴이 존재하지 않습니다."
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "500": {
-            "description": "내부 서버 오류로 인한 DB 쿼리 실패",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "내부 서버 오류로 인한 DB 쿼리 실패"
-                },
-                "error": {
-                  "type": "string",
-                  "example": "내부 서버 오류로 인한 DB 쿼리 실패"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "Bearer": []
-          }
-        ]
-      }
-    },
-    "/api/v1/polls": {
+      },
       "delete": {
         "tags": [
           "Polls"
@@ -780,6 +676,108 @@
                 "error": {
                   "type": "string",
                   "example": "타로 결과(poll) Table에 데이터 저장 중 오류 발생"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/polls/detail": {
+      "get": {
+        "tags": [
+          "Polls"
+        ],
+        "summary": "결과 리스트에서 선택한 결과(poll_id) 상세 조회",
+        "description": "결과 리스트 중 선택한 결과(Poll_id)를 통해 해당 결과를 상세조회한다.",
+        "parameters": [
+          {
+            "name": "poll_id",
+            "in": "query",
+            "description": "폴 아이디 입력",
+            "required": true,
+            "example": "Poll_ID",
+            "value": "",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "총합 결과와 카드별 해석 및 링크 데이터 성공적으로 조회됨.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "string",
+                  "example": "result 결과 조회 성공"
+                },
+                "date": {
+                  "type": "string",
+                  "example": "create_at 결과 조회 성공"
+                },
+                "card": {
+                  "type": "string",
+                  "example": "card 결과 조회 성공"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "해당 ID를 가진 폴이 존재하지 않습니다.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "해당 ID를 가진 폴이 존재하지 않습니다."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "내부 서버 오류로 인한 DB 쿼리 실패",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "내부 서버 오류로 인한 DB 쿼리 실패"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "내부 서버 오류로 인한 DB 쿼리 실패"
                 }
               },
               "xml": {
