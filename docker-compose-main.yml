@@ -13,6 +13,6 @@ services:
 
   main_frontend:
     build: ./frontend
-    ontainer_name: main_frontend_container
+    container_name: main_frontend_container
     ports:
       - "5000:5000"
