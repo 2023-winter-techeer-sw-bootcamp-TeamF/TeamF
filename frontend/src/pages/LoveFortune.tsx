@@ -248,31 +248,33 @@ const LoveFortune = () => {
   const completionWord2 = "자, 그럼 이제 타로의 세계로 떠나볼까요?";
 
   useEffect(() => {
-    console.log(blobTitle2);
-    if (comeout === 2) {
+    console.log(count2, completionWord2.length);
+    if (writeDone) {
       const typingInterval = setInterval(() => {
         setBlobTitle2((prevTitleValue) => {
-          const result = prevTitleValue
-            ? prevTitleValue + completionWord2[count2]
-            : completionWord[0];
-          setCount2(count2 + 1);
-          console.log(count2, completionWord.length);
-          if (count2 >= completionWord.length - 1) {
-            setCount2(0);
-            setComeout(3);
+          if (count2 < completionWord2.length) {
+            const newChar = completionWord2[count2];
+            const result = prevTitleValue ? prevTitleValue + newChar : newChar;
+            setCount2(count2 + 1);
+            return result;
+          } else {
+            clearInterval(typingInterval);
+            setTimeout(() => {
+              navigate("/cardselect5");
+            }, 2000);
+            return prevTitleValue;
           }
-
-          return result;
         });
       }, 30);
+
       return () => {
         clearInterval(typingInterval);
       };
     }
   });
+
   const handleNextButton = async () => {
     try {
-      textChange();
       const response = await axios.post(
         "/api/v1/polls",
         {},
@@ -284,8 +286,7 @@ const LoveFortune = () => {
       );
       console.log("성공", response.data);
       setPollId(response.data.data.pollId);
-      setTimeout(() => {}, 2000);
-      navigate("/cardselect5");
+      textChange();
     } catch (error) {
       console.log(error);
     }

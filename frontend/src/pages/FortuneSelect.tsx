@@ -233,50 +233,9 @@ const SoloBtn = styled.div`
   align-items: center;
   cursor: pointer;
 `;
-const SoloAboveBtn = styled.div`
-  width: 8.4375rem;
-  height: 1.5rem;
-  flex-shrink: 0;
-  border-radius: 0.9375rem;
-  background: #fbecc6;
-  position: absolute;
-  top: 80%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-`;
-const TogetherBtn = styled.div`
-  width: 8.4375rem;
-  height: 1.5rem;
-  flex-shrink: 0;
-  border-radius: 0.9375rem;
-  background: #806838;
-  position: absolute;
-  top: 90%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-`;
 
 const SoloText = styled.p`
   color: #806838;
-  text-align: center;
-  font-family: YUniverse-B;
-  font-size: 0.7rem;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  text-transform: uppercase;
-`;
-
-const TogetherText = styled.p`
-  color: #fbecc6;
   text-align: center;
   font-family: YUniverse-B;
   font-size: 0.7rem;
@@ -322,14 +281,21 @@ const FortuneSelect = () => {
                     <FlipCardImg src={FlipCard} />
                     <CardText>
                       <Bold>세레나 마스터</Bold>는<br />
-                      별과 달의 조화로 미래를 읽는.<br />
-                      타로 마스터에요.<br />
+                      별과 달의 조화로 미래를 읽는.
+                      <br />
+                      타로 마스터에요.
+                      <br />
                       <Bold>오늘의 운세</Bold>는<br />
-                      <Bold>총 1장</Bold>의 카드를 뽑아요.<br />
-                      <Bold>세레나 마스터</Bold>에게<br />
-                      여러분의 고민을<br />
-                      솔직하게 얘기해 주신다면<br />
-                      타로 카드와 함께<br />
+                      <Bold>총 1장</Bold>의 카드를 뽑아요.
+                      <br />
+                      <Bold>세레나 마스터</Bold>에게
+                      <br />
+                      여러분의 고민을
+                      <br />
+                      솔직하게 얘기해 주신다면
+                      <br />
+                      타로 카드와 함께
+                      <br />
                       자세히 분석해 드릴게요.
                     </CardText>
                     <Link to="/todayfortune">
@@ -352,25 +318,27 @@ const FortuneSelect = () => {
                     <FlipCardImg src={FlipCard} />
                     <CardText>
                       <Bold>샤를린 마스터</Bold>는<br />
-                      100번 이상의 연애 경험을 지닌<br />
-                      연애 고수 타로 마스터에요.<br />
+                      100번 이상의 연애 경험을 지닌
+                      <br />
+                      연애 고수 타로 마스터에요.
+                      <br />
                       <Bold>연애운</Bold>는<br />
-                      <Bold>총 5장</Bold>의 카드를 뽑아요.<br />
-                      <Bold>샤를린 마스터</Bold>에게<br />
-                      여러분의 고민을<br />
-                      솔직하게 얘기해 주신다면<br />
-                      타로 카드와 함께<br />
+                      <Bold>총 5장</Bold>의 카드를 뽑아요.
+                      <br />
+                      <Bold>샤를린 마스터</Bold>에게
+                      <br />
+                      여러분의 고민을
+                      <br />
+                      솔직하게 얘기해 주신다면
+                      <br />
+                      타로 카드와 함께
+                      <br />
                       자세히 분석해 드릴게요.
                     </CardText>
                     <Link to="/lovefortune">
-                      <SoloAboveBtn>
-                        <SoloText>혼자 카드 선택하기</SoloText>
-                      </SoloAboveBtn>
-                    </Link>
-                    <Link to="/lovefortune">
-                      <TogetherBtn>
-                        <TogetherText>함께 카드 선택하기</TogetherText>
-                      </TogetherBtn>
+                      <SoloBtn>
+                        <SoloText>연애운 보러가기</SoloText>
+                      </SoloBtn>
                     </Link>
                   </FlipcardBackground>
                 </FlipcardInner>
@@ -387,25 +355,27 @@ const FortuneSelect = () => {
                     <FlipCardImg src={FlipCard} />
                     <CardText>
                       <Bold>마틸드 마스터</Bold>는<br />
-                      풍부한 경험과 깊은 통찰력을<br />
-                      지닌 타로 마스터에요.<br />
+                      풍부한 경험과 깊은 통찰력을
+                      <br />
+                      지닌 타로 마스터에요.
+                      <br />
                       <Bold>우정운</Bold>는<br />
-                      <Bold>총 5장</Bold>의 카드를 뽑아요.<br />
-                      <Bold>마틸드 마스터</Bold>에게<br />
-                      여러분의 고민을<br />
-                      솔직하게 얘기해 주신다면<br />
-                      타로 카드와 함께<br />
+                      <Bold>총 5장</Bold>의 카드를 뽑아요.
+                      <br />
+                      <Bold>마틸드 마스터</Bold>에게
+                      <br />
+                      여러분의 고민을
+                      <br />
+                      솔직하게 얘기해 주신다면
+                      <br />
+                      타로 카드와 함께
+                      <br />
                       자세히 분석해 드릴게요.
                     </CardText>
                     <Link to="/friendship">
-                      <SoloAboveBtn>
-                        <SoloText>혼자 카드 선택하기</SoloText>
-                      </SoloAboveBtn>
-                    </Link>
-                    <Link to="/friendship">
-                      <TogetherBtn>
-                        <TogetherText>함께 카드 선택하기</TogetherText>
-                      </TogetherBtn>
+                      <SoloBtn>
+                        <SoloText>우정운 보러가기</SoloText>
+                      </SoloBtn>
                     </Link>
                   </FlipcardBackground>
                 </FlipcardInner>
@@ -421,20 +391,28 @@ const FortuneSelect = () => {
                     <FlipCardImg src={FlipCard} />
                     <CardTextToday>
                       <Bold>제라드 마스터</Bold>는<br />
-                      여러 사업을 성공적으로<br />
-                      운영하며 거대한 부를<br />
-                      축적한 타로 마스터에요.<br />
+                      여러 사업을 성공적으로
+                      <br />
+                      운영하며 거대한 부를
+                      <br />
+                      축적한 타로 마스터에요.
+                      <br />
                       <Bold>재물운</Bold>은<br />
-                      <Bold>총 3장</Bold>의 카드를 뽑아요.<br />
-                      <Bold>제라드 마스터</Bold>에게<br />
-                      여러분의 고민을<br />
-                      솔직하게 얘기해 주신다면<br />
-                      타로 카드와 함께<br />
+                      <Bold>총 3장</Bold>의 카드를 뽑아요.
+                      <br />
+                      <Bold>제라드 마스터</Bold>에게
+                      <br />
+                      여러분의 고민을
+                      <br />
+                      솔직하게 얘기해 주신다면
+                      <br />
+                      타로 카드와 함께
+                      <br />
                       자세히 분석해 드릴게요.
                     </CardTextToday>
                     <Link to="/moneyfortune">
                       <SoloBtn>
-                        <SoloText>혼자 카드 선택하기</SoloText>
+                        <SoloText>재물운 보러가기</SoloText>
                       </SoloBtn>
                     </Link>
                   </FlipcardBackground>
@@ -451,19 +429,26 @@ const FortuneSelect = () => {
                     <FlipCardImg src={FlipCard} />
                     <CardText>
                       <Bold>굴이 마스터</Bold>는<br />
-                      작은 몸집에 거대한 통찰력이<br />
-                      숨어있는 타로 마스터에요.<br />
+                      작은 몸집에 거대한 통찰력이
+                      <br />
+                      숨어있는 타로 마스터에요.
+                      <br />
                       <Bold>소망운</Bold>은<br />
-                      <Bold>총 3장</Bold>의 카드를 뽑아요.<br />
-                      <Bold>굴이 마스터</Bold>에게<br />
-                      여러분의 고민을<br />
-                      솔직하게 얘기해 주신다면<br />
-                      타로 카드와 함께<br />
+                      <Bold>총 3장</Bold>의 카드를 뽑아요.
+                      <br />
+                      <Bold>굴이 마스터</Bold>에게
+                      <br />
+                      여러분의 고민을
+                      <br />
+                      솔직하게 얘기해 주신다면
+                      <br />
+                      타로 카드와 함께
+                      <br />
                       자세히 분석해 드릴게요.
                     </CardText>
                     <Link to="/wishfortune">
                       <SoloBtn>
-                        <SoloText>혼자 카드 선택하기</SoloText>
+                        <SoloText>소망운 보러가기</SoloText>
                       </SoloBtn>
                     </Link>
                   </FlipcardBackground>

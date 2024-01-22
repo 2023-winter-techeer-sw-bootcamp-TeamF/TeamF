@@ -2,11 +2,11 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { accessTokenState, refreshTokenState } from "../state/atom.ts";
-import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import "../assets/font-S-CoreDream-3Light.css";
 
 const NavContainer = styled.nav`
-  //background-color: #000000;
+  // background-color: #000000;
   width: 100%;
   height: 4.375rem;
   display: flex;
@@ -15,7 +15,7 @@ const NavContainer = styled.nav`
   z-index: 10;
 `;
 
-const LogoContainer = styled.div`
+const LogoContainer = styled(motion.div)`
   color: #ecb973;
   font-family: Cinzel;
   font-size: 1.4375rem;
@@ -27,7 +27,7 @@ const LogoContainer = styled.div`
   margin-left: 1.25rem;
 `;
 
-const MenuContainer = styled.div`
+const MenuContainer = styled(motion.div)`
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -63,7 +63,7 @@ const MenuItem = styled(Link)`
   font-weight: 400;
   line-height: normal;
   text-transform: capitalize;
-  margin-right: 1.25rem;
+  margin-right: 2.5rem;
 `;
 
 const LargeLetter = styled.span`
@@ -95,32 +95,40 @@ const LogoutButton = styled.button`
 `;
 
 const Navbar = () => {
-  const navigate = useNavigate();
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
   const setRefreshToken = useSetRecoilState(refreshTokenState);
 
   const handleLogout = () => {
     setAccessToken("");
     setRefreshToken("");
-    navigate("/");
   };
 
   return (
     <NavContainer>
-      <LogoContainer>
+      <LogoContainer
+        initial={{ scale: 1 }}
+        whileHover={{ scale: 1.7, originX: 0, position: "relative" }}
+      >
         <Link to="/">
           <LargeLetter>T</LargeLetter>AIROT&nbsp;
         </Link>
       </LogoContainer>
-      <MenuContainer>
-        <MenuItem to="/mypage"> MYPAGE</MenuItem>
-        {accessToken ? (
-          <LogoutButton onClick={handleLogout}>LOG OUT</LogoutButton>
-        ) : (
-          <MenuItem to="/login">
-            <LoginButton>LOG IN</LoginButton>
-          </MenuItem>
-        )}
+      <MenuContainer
+        initial={{ scale: 1 }}
+        whileHover={{ originX: 1, zIndex: 1000 }}
+      >
+        <motion.div whileHover={{ scale: 1.6 }}>
+          <MenuItem to="/mypage"> MYPAGE</MenuItem>
+        </motion.div>
+        <motion.div whileHover={{ scale: 1.3, overflow: "visible" }}>
+          {accessToken ? (
+            <LogoutButton onClick={handleLogout}>LOG OUT</LogoutButton>
+          ) : (
+            <MenuItem to="/login">
+              <LoginButton>LOG IN</LoginButton>
+            </MenuItem>
+          )}
+        </motion.div>
       </MenuContainer>
     </NavContainer>
   );
