@@ -22,6 +22,7 @@ router.get(
           description: 'Unauthorized: 엑세스 토큰을 복호화한 정보(user_id)가 없을 시의 응답',
           schema: { message: '엑세스 토큰이 없습니다.', error: '엑세스 토큰이 필요합니다' }
       } */
+
       res.locals.status = 401;
       res.locals.data = {
         message: "엑세스 토큰이 없습니다.",
@@ -50,7 +51,7 @@ router.get(
 
           // result 테이블 조회
           const resultQuery =
-            "SELECT poll_id, explanation, luck FROM result WHERE poll_id IN (?);";
+            "SELECT poll_id, explanation, luck FROM result WHERE poll_id IN (?) ORDER BY poll_id DESC;";
           dbCon.query(resultQuery, [pollIds], (error, resultData) => {
             if (error) {
               return res
@@ -60,7 +61,7 @@ router.get(
 
             // card 테이블 조회
             const cardQuery =
-              "SELECT poll_id, image_url FROM card WHERE poll_id IN (?);";
+              "SELECT poll_id, image_url FROM card WHERE poll_id IN (?) ORDER BY poll_id DESC;";
             dbCon.query(cardQuery, [pollIds], (error, cardData) => {
               if (error) {
                 return res
@@ -129,6 +130,7 @@ router.get(
       description: '총합 결과와 카드별 해석 및 링크 데이터 성공적으로 조회됨.',
       schema: {
         result: 'result 결과 조회 성공',
+        date: 'create_at 결과 조회 성공',
         card: 'card 결과 조회 성공'
       }
     }
@@ -137,7 +139,7 @@ router.get(
     const connection = db.getConnection();
 
     try {
-      const searchQuery = "SELECT user_id FROM poll WHERE id = ?";
+      const searchQuery = "SELECT user_id, DATE_FORMAT(created_at, '%Y-%m-%d') AS created_date FROM poll WHERE id = ?";
       const result = await new Promise((resolve, reject) => {
         connection.query(searchQuery, [poll_id], (error, result) => {
           if (error) {
@@ -197,6 +199,7 @@ router.get(
 
       res.locals.data = {
         result: resultData.length > 0 ? resultData : "데이터가 없음",
+        date: result[0].created_date ? result[0].created_date : "데이터가 없음",
         card: cardData.length > 0 ? cardData : "데이터가 없음",
       };
 

@@ -178,7 +178,7 @@ interface FlipcardInnerProps {
 
 const CardText = styled.span`
   position: absolute;
-  top: 37%;
+  top: 42%;
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
@@ -190,12 +190,12 @@ const CardText = styled.span`
   text-align: center;
   width: 9.5rem;
   line-height: 1.5;
-  margin-top: 0.6rem;
+  //margin-top: 0.6rem;
   display: inline;
 `;
 const CardTextToday = styled.span`
   position: absolute;
-  top: 34.5%;
+  top: 45%;
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
@@ -207,7 +207,7 @@ const CardTextToday = styled.span`
   text-align: center;
   width: 9.5rem;
   line-height: 1.5;
-  margin-top: 0.6rem;
+  //margin-top: 0.6rem;
   display: inline;
 `;
 const Bold = styled.span`
@@ -279,7 +279,7 @@ const FortuneSelect = () => {
                   </CardBox>
                   <FlipcardBackground>
                     <FlipCardImg src={FlipCard} />
-                    <CardTextToday>
+                    <CardText>
                       <Bold>세레나 마스터</Bold>는<br />
                       별과 달의 조화로 미래를 읽는.
                       <br />
@@ -297,7 +297,7 @@ const FortuneSelect = () => {
                       타로 카드와 함께
                       <br />
                       자세히 분석해 드릴게요.
-                    </CardTextToday>
+                    </CardText>
                     <Link to="/todayfortune">
                       <SoloBtn>
                         <SoloText>오늘의 운세 보러가기</SoloText>
@@ -322,11 +322,8 @@ const FortuneSelect = () => {
                       <br />
                       연애 고수 타로 마스터에요.
                       <br />
-                      <Bold>연애운</Bold>은 <Bold>총 5장</Bold>의 카드를
-                      <br />
-                      혼자 또는 두 명이 함께
-                      <br />
-                      뽑을 수 있어요.
+                      <Bold>연애운</Bold>는<br />
+                      <Bold>총 5장</Bold>의 카드를 뽑아요.
                       <br />
                       <Bold>샤를린 마스터</Bold>에게
                       <br />
@@ -362,11 +359,8 @@ const FortuneSelect = () => {
                       <br />
                       지닌 타로 마스터에요.
                       <br />
-                      <Bold>우정운</Bold>은 <Bold>총 5장</Bold>의 카드를
-                      <br />
-                      혼자 또는 두 명이 함께
-                      <br />
-                      뽑을 수 있어요.
+                      <Bold>우정운</Bold>는<br />
+                      <Bold>총 5장</Bold>의 카드를 뽑아요.
                       <br />
                       <Bold>마틸드 마스터</Bold>에게
                       <br />
@@ -395,7 +389,7 @@ const FortuneSelect = () => {
                   </CardBox>
                   <FlipcardBackground>
                     <FlipCardImg src={FlipCard} />
-                    <CardText>
+                    <CardTextToday>
                       <Bold>제라드 마스터</Bold>는<br />
                       여러 사업을 성공적으로
                       <br />
@@ -415,7 +409,7 @@ const FortuneSelect = () => {
                       타로 카드와 함께
                       <br />
                       자세히 분석해 드릴게요.
-                    </CardText>
+                    </CardTextToday>
                     <Link to="/moneyfortune">
                       <SoloBtn>
                         <SoloText>재물운 보러가기</SoloText>

@@ -3,6 +3,8 @@ const commonResponse = require("../middleware/commonResponse.js");
 const db = require("../mysql/database.js");
 const s3 = require("../aws/awsS3.js");
 const router = express.Router();
+const resultQuery = require("../bases/resultQuery.js");
+const cardsQuery = require("../bases/cardsQuery.js");
 
 router.get(
   "/",
@@ -41,35 +43,12 @@ router.get(
     const connection = db.getConnection();
 
     try {
-      const resultQuery =
-        "SELECT question, explanation, luck, master_name FROM result WHERE poll_id = ?";
-      const resultData = await new Promise((resolve, rejects) => {
-        connection.query(resultQuery, [poll_id], (error, result) => {
-          if (error) {
-            res.locals.status = 500;
-            res.locals.data = { message: "DB 쿼리 오류", error: error.message };
-            rejects(new Error("DB 오류: result에서 데이터 조회 중 오류 발생"));
-          }
-          resolve(result);
-        });
-      });
-
-      const cardsQuery =
-        "SELECT image_url, explanation, eng_name FROM card WHERE poll_id = ?";
-      const cardData = await new Promise((resolve, rejects) => {
-        connection.query(cardsQuery, [poll_id], (error, cardData) => {
-          if (error) {
-            res.locals.status = 500;
-            res.locals.data = { message: "DB 쿼리 오류", error: error.message };
-            rejects(new Error("DB 오류: card에서 데이터 조회 중 오류 발생"));
-          }
-          resolve(cardData);
-        });
-      });
+      const resultData = await resultQuery(connection, res, poll_id, next);
+      const cardData = await cardsQuery(connection, res, poll_id, next);
 
       res.locals.data = {
-        result: resultData.length > 0 ? resultData : "데이터가 없음",
-        card: cardData.length > 0 ? cardData : "데이터가 없음",
+        result: resultData,
+        card: cardData,
       };
 
       return next();

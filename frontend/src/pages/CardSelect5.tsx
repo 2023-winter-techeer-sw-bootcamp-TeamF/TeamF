@@ -13,6 +13,8 @@ import {
   cardNumberAtom1,
   cardNumberAtom2,
   cardNumberAtom3,
+  cardNumberAtom4,
+  cardNumberAtom5,
 } from "../state/atom";
 import LoadingPage from "../component/LoadingPage";
 
@@ -58,8 +60,8 @@ const TaroEx = styled.img`
 const Cards = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 6.5rem;
-  transform: translateX(10%);
+  gap: 5rem;
+  margin-left: -8rem;
 `;
 
 const BackcardBackground = styled(motion.div)`
@@ -154,11 +156,15 @@ const CardSelect = () => {
   const [card1, setCard1] = useState("");
   const [card2, setCard2] = useState("");
   const [card3, setCard3] = useState("");
+  const [card4, setCard4] = useState("");
+  const [card5, setCard5] = useState("");
 
   const [selectedCard, setSelectedCard] = useState<number[][]>([[]]);
   const setCardNumber1 = useSetRecoilState(cardNumberAtom1);
   const setCardNumber2 = useSetRecoilState(cardNumberAtom2);
   const setCardNumber3 = useSetRecoilState(cardNumberAtom3);
+  const setCardNumber4 = useSetRecoilState(cardNumberAtom4);
+  const setCardNumber5 = useSetRecoilState(cardNumberAtom5);
   const navigate = useNavigate();
 
   const incraseIndex = () => {
@@ -173,7 +179,7 @@ const CardSelect = () => {
   const getImage = async (card: number) => {
     axios
       .get("/api/v1/tarot/card", {
-        params: { card }, 
+        params: { card },
       })
       .then((response) => {
         if (holdCount === 0) {
@@ -185,9 +191,15 @@ const CardSelect = () => {
         } else if (holdCount === 2) {
           setCard3(response.data.data.image_url);
           setCardNumber3(card);
-  
+        } else if (holdCount === 3) {
+          setCard4(response.data.data.image_url);
+          setCardNumber4(card);
+        } else if (holdCount === 4) {
+          setCard5(response.data.data.image_url);
+          setCardNumber5(card);
+
           setTimeout(() => {
-            navigate("/process");
+            navigate("/process5");
           }, 1000);
         }
 
@@ -229,6 +241,12 @@ const CardSelect = () => {
               </CardBackground>
               <CardBackground>
                 {card3 ? <TaroEx src={card3} /> : null}
+              </CardBackground>
+              <CardBackground>
+                {card4 ? <TaroEx src={card4} /> : null}
+              </CardBackground>
+              <CardBackground>
+                {card5 ? <TaroEx src={card5} /> : null}
               </CardBackground>
             </Cards>
             <AnimatePresence mode="wait" custom={back}>

@@ -4,13 +4,15 @@ import BackgroundImg1 from "../assets/Background.png";
 import LinkBtn from "../assets/LinkButton.png";
 import ShareBtn from "../assets/ShareButton.png";
 import LoadingPage from "../component/LoadingPage";
-import html2canvas from "html2canvas";
-import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { shareKakao } from "../utils/shareKakaoLink";
 import { useRecoilValue } from "recoil";
 import { pollIdState, accessTokenState } from "../state/atom.ts";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import "../assets/font-YUniverse-B.css";
+import "../assets/font-S-CoreDream-3Light.css";
+
 
 const Background = styled.div`
   width: 100vw;
@@ -53,6 +55,9 @@ const CardLine1 = styled.div`
   border: 0.03rem solid #b88150;
   background: rgba(217, 217, 217, 0);
   margin-top: 0.97rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const CardLine2 = styled.div`
@@ -62,15 +67,37 @@ const CardLine2 = styled.div`
   border: 0.03125rem solid #b88150;
   background: rgba(217, 217, 217, 0);
   margin-top: 0.3125rem;
-  margin-left: 0.125rem;
+  //margin-left: 0.125rem;
 `;
 
-const TaroExs = styled.div`
+const TaroExs = styled.div<TaroExsProps>`
   display: flex;
   justify-content: center;
   gap: 0.5rem;
-  margin-top: 1rem;
+  margin-top: 0.8rem;
+  justify-content: ${(props) =>
+    props.tarotImage === 1 || props.tarotImage === 3 ? "center" : "flex-start"};
+  overflow-x: auto;
+  margin-right: 0.7rem;
+  margin-left: 0.7rem;
+
+  &::-webkit-scrollbar {
+    width: 0.1875rem; /* 스크롤바의 너비 */
+    height: 0.2rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #ecb973; /* 황금색 스크롤바 색상 */
+    border-radius: 0.3125rem; /* 스크롤바 모양 (둥근 모서리) */
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #daa520; /* 호버시 색상 변경 (더 진한 황금색) */
+  }
 `;
+interface TaroExsProps {
+  tarotImage: number;
+}
 
 const TaroEx = styled.img`
   width: 4.16306rem;
@@ -78,17 +105,18 @@ const TaroEx = styled.img`
 `;
 
 const CardText = styled.p`
-  color: #1d1d1d;
+  color: #b88150; //#1d1d1d -> #b88150
   text-align: center;
-  font-family: Italiana;
-  font-size: 1.125rem;
+  font-family: YUniverse-B;
+  font-size: 1rem;
   font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  letter-spacing: -0.0225rem;
+  font-weight: 300;
+  line-height: 1.3;
+  //letter-spacing: -0.0225rem;
   text-transform: uppercase;
-  padding: 0.7rem;
-  height: 15.5rem;
+  margin: 0.7rem; //padding -> margin
+  padding-right: 0.3rem;
+  height: 15rem;
   overflow-y: scroll;
   overflow-x: hidden;
   &::-webkit-scrollbar {
@@ -96,7 +124,8 @@ const CardText = styled.p`
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #e1ded9; /* 연한 흰색 */
+    //background-color: #e1ded9; /* 연한 흰색 */
+    background-color: #b8815034; /* 스크롤바 색상 변경 */
     border-radius: 0.25rem; /* 스크롤바 모양 (둥근 모서리) */
   }
 
@@ -108,16 +137,15 @@ const CardText = styled.p`
 const UserName = styled.p`
   color: #b88150;
   text-align: center;
-  font-family: "Italiana", sans-serif;
+  font-family: YUniverse-B;
   font-size: 1.1875rem;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 300;
   line-height: normal;
   text-transform: uppercase;
-
   letter-spacing: 0.08313rem;
   text-transform: uppercase;
-  margin-top: 0.4rem;
+  margin-top: 0.5rem;
 `;
 
 const Cards = styled.div`
@@ -138,22 +166,23 @@ const RightBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4.5rem;
+  //gap: 4.5rem;
+  justify-content: space-evenly;
 `;
 
 const ShareIcon = styled.div`
   width: 2.5rem;
   height: 2.5rem;
-  margin-top: 4.31rem;
+  //margin-top: 4.31rem;
 `;
 
 const ShareText = styled.p`
   color: #ecb973;
   text-align: center;
-  font-family: Inter;
+  font-family: YUniverse-B;
   font-size: 1.125rem;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 300;
   line-height: normal;
   letter-spacing: -0.0225rem;
   text-transform: capitalize;
@@ -168,6 +197,7 @@ const ShareButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 0.3rem;
   cursor: pointer;
 `;
 
@@ -179,12 +209,12 @@ const ShareButtonIcon = styled.div`
 const ShareButtonText = styled.p`
   color: #ecb973;
   text-align: center;
-  font-family: Inter;
+  font-family: S-CoreDream-3Light;
   font-size: 0.875rem;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 700;
   line-height: normal;
-  letter-spacing: -0.0175rem;
+  //letter-spacing: -0.0175rem;
   text-transform: capitalize;
 `;
 
@@ -195,17 +225,20 @@ const SaveButton = styled.button`
   background: #ecb973;
   cursor: pointer;
   border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const SaveButtonText = styled.p`
   color: #000;
   text-align: center;
-  font-family: Inter;
+  font-family: S-CoreDream-3Light;
   font-size: 0.875rem;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 700;
   line-height: normal;
-  letter-spacing: -0.0175rem;
+  //letter-spacing: -0.0175rem;
   text-transform: capitalize;
 `;
 
@@ -230,11 +263,10 @@ interface ImgType {
   eng_name: string;
 }
 function CardSave() {
-  const captureDivRef = useRef(null);
   const poll_id = useRecoilValue(pollIdState);
   const accessToken = useRecoilValue(accessTokenState);
   const pollId = useRecoilValue(pollIdState);
-
+  const navigate = useNavigate();
   const [tarotImage, setTarotImage] = useState<ImgType[]>([]);
   const [explanation, setExplanation] = useState("");
   const [luck, setLuck] = useState("");
@@ -242,11 +274,14 @@ function CardSave() {
   useEffect(() => {
     const callData = async () => {
       try {
-        const response = await axios.get(`/api/v1/polls/detail?poll_id=${pollId}`, {
-          headers: {
-            authorization: accessToken,
-          },
-        });
+        const response = await axios.get(
+          `/api/v1/polls/detail?poll_id=${pollId}`,
+          {
+            headers: {
+              authorization: accessToken,
+            },
+          }
+        );
         setTarotImage(response.data.data.card);
         setExplanation(response.data.data.result[0].explanation);
         setLuck(response.data.data.result[0].luck);
@@ -258,25 +293,11 @@ function CardSave() {
     callData();
   }, [accessToken, pollId]);
 
-  const downloadButton = () => {
-    if (captureDivRef.current) {
-      html2canvas(captureDivRef.current).then((canvas) => {
-        saveImg(canvas.toDataURL("image/jpg"), "image.jpg");
-      });
-    }
-  };
-
-  const saveImg = (uri: string, filename: string) => {
-    const link = document.createElement("a");
-    document.body.appendChild(link);
-    link.href = uri;
-    link.download = filename;
-    link.click();
-    document.body.removeChild(link);
-  };
-
   const shareButton = () => {
     shareKakao(`http://localhost:5000/share/`, poll_id);
+  };
+  const handleMyPage = () => {
+    navigate("/mypage");
   };
 
   return (
@@ -288,12 +309,12 @@ function CardSave() {
           <BackgroundWrapper>
             <BackgroundImg src={BackgroundImg1} />
             <Cards>
-              <Card ref={captureDivRef} id="captureDiv">
+              <Card>
                 <CardLine1>
                   <CardLine2>
-                    <TaroExs>
-                      {tarotImage.map((number) => (
-                        <TaroEx src={number.image_url} />
+                    <TaroExs tarotImage={tarotImage.length}>
+                      {tarotImage.map((image, index) => (
+                        <TaroEx key={index} src={image.image_url} />
                       ))}
                     </TaroExs>
                     <CardText>{explanation}</CardText>
@@ -321,8 +342,8 @@ function CardSave() {
                   </ShareButton>
 
                   <SaveButton>
-                    <SaveButtonText onClick={downloadButton}>
-                      카드 다운로드받기
+                    <SaveButtonText onClick={handleMyPage}>
+                      MYPAGE로 이동하기
                     </SaveButtonText>
                   </SaveButton>
                 </Buttons>

@@ -9,11 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { chunkArray, shuffleArray } from "../component/ShuffleArray";
 import axios from "axios";
 import { useSetRecoilState } from "recoil";
-import {
-  cardNumberAtom1,
-  cardNumberAtom2,
-  cardNumberAtom3,
-} from "../state/atom";
+import { cardNumberAtom1 } from "../state/atom";
 import LoadingPage from "../component/LoadingPage";
 
 const BackgroundColor = styled.div`
@@ -48,6 +44,7 @@ const CardBackground = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-left: 20rem;
 `;
 
 const TaroEx = styled.img`
@@ -59,7 +56,6 @@ const Cards = styled.div`
   display: flex;
   flex-direction: row;
   gap: 6.5rem;
-  transform: translateX(10%);
 `;
 
 const BackcardBackground = styled(motion.div)`
@@ -149,16 +145,12 @@ const CardSelect = () => {
   const numberOfCardsDelete = 12; // 4번째 줄 카드 수
   const Overlap = 1.875; // 카드 겹침 정도
   const [count, setCount] = useState(0); //몇번째 슬라이드인지
-  const [holdCount, setHoldCount] = useState(0);
+
   const [back, setBack] = useState(false); //뒤로 갈지 앞으로 갈지
   const [card1, setCard1] = useState("");
-  const [card2, setCard2] = useState("");
-  const [card3, setCard3] = useState("");
 
   const [selectedCard, setSelectedCard] = useState<number[][]>([[]]);
   const setCardNumber1 = useSetRecoilState(cardNumberAtom1);
-  const setCardNumber2 = useSetRecoilState(cardNumberAtom2);
-  const setCardNumber3 = useSetRecoilState(cardNumberAtom3);
   const navigate = useNavigate();
 
   const incraseIndex = () => {
@@ -169,42 +161,27 @@ const CardSelect = () => {
     setCount((prev) => (prev === 0 ? 3 : prev - 1));
     setBack(true);
   };
-
   const getImage = async (card: number) => {
-    axios
-      .get("/api/v1/tarot/card", {
-        params: { card }, 
-      })
-      .then((response) => {
-        if (holdCount === 0) {
-          setCard1(response.data.data.image_url);
-          setCardNumber1(card);
-        } else if (holdCount === 1) {
-          setCard2(response.data.data.image_url);
-          setCardNumber2(card);
-        } else if (holdCount === 2) {
-          setCard3(response.data.data.image_url);
-          setCardNumber3(card);
-  
-          setTimeout(() => {
-            navigate("/process");
-          }, 1000);
-        }
-
-        setHoldCount((prev) => (prev === 2 ? 3 : prev + 1));
-      })
-      .catch((error) => {
-        console.error("실패:", error);
+    try {
+      const response = await axios.get("/api/v1/tarot/card", {
+        params: { card },
       });
+      setCard1(response.data.data.image_url);
+      setCardNumber1(card);
+
+      // 페이지 이동
+      setTimeout(() => {
+        navigate("/process1");
+      }, 1000);
+    } catch (error) {
+      console.error("실패:", error);
+    }
   };
 
   const consoleIndex = (index: number, count: number) => {
-    getImage(selectedCard[count][index]);
-    const updateCard = [...selectedCard];
-    updateCard[count][index] = 0;
-    setSelectedCard(updateCard);
+    const card = selectedCard[count][index];
+    getImage(card);
   };
-
   useEffect(() => {
     const numbers = Array.from({ length: 78 }, (_, index) => index + 1);
     shuffleArray(numbers);
@@ -222,13 +199,6 @@ const CardSelect = () => {
             <Cards>
               <CardBackground>
                 {card1 ? <TaroEx src={card1} /> : null}
-              </CardBackground>
-
-              <CardBackground>
-                {card2 ? <TaroEx src={card2} /> : null}
-              </CardBackground>
-              <CardBackground>
-                {card3 ? <TaroEx src={card3} /> : null}
               </CardBackground>
             </Cards>
             <AnimatePresence mode="wait" custom={back}>

@@ -18,7 +18,10 @@ import Friendship from "./pages/Friendship";
 import MoneyFortune from "./pages/MoneyFortune";
 import WishFortune from "./pages/WishFortune";
 import CardSelect from "./pages/CardSelect";
-
+import CardSelect1 from "./pages/CardSelect1";
+import TarotProcess1 from "./pages/TarotProcess1";
+import CardSelect5 from "./pages/CardSelect5";
+import TarotProcess5 from "./pages/TarotProcess5";
 import CardSave from "./pages/CardSave";
 import ResultShare from "./pages/ResultShare";
 
@@ -82,6 +85,11 @@ a {
   text-decoration:none;
   color:inherit;
 }
+@media (max-width: 1600px) , (max-height : 920px) {
+    html {
+      font-size: 15px;
+    }
+
 @media (max-width: 1500px) , (max-height : 870px) {
     html {
       font-size: 12px;
@@ -92,6 +100,7 @@ a {
       font-size: 10px;
     }
   }
+}
 `;
 
 const router = createBrowserRouter([
@@ -164,6 +173,22 @@ const router = createBrowserRouter([
   {
     path: "/share/:poll_id",
     element: <ResultShare />,
+  },
+  {
+    path: "/cardselect1",
+    element: <CardSelect1 />,
+  },
+  {
+    path: "/process1",
+    element: <TarotProcess1 />,
+  },
+  {
+    path: "/cardselect5",
+    element: <CardSelect5 />,
+  },
+  {
+    path: "/process5",
+    element: <TarotProcess5 />,
   },
 ]);
 
