@@ -322,7 +322,7 @@ const MoneyFortune = () => {
               </ReplyBox>
               <Profile2 src={Moneyfortuneimg}></Profile2>
               <NextBox>
-                <NextText onClick={handleNextButton}>카드 뽑으러 가기</NextText>
+                <NextText onClick={handleNextButton}>다 적었나요?</NextText>
               </NextBox>
             </>
           )}

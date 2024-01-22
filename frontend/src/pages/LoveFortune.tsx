@@ -193,6 +193,17 @@ const NextText = styled.a`
   cursor: pointer;
 `;
 
+const NextText2 = styled.a`
+  color: #ecb973;
+  text-align: center;
+  font-family: Inter;
+  font-size: 1.4375rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  text-transform: capitalize;
+  cursor: pointer;
+`;
 const LoveFortune = () => {
   const navigate = useNavigate();
   const setPollId = useSetRecoilState(pollIdState);
@@ -224,8 +235,44 @@ const LoveFortune = () => {
       });
   };
 
+  // 다 적었다는 버튼 클릭 시
+  const [writeDone, setWriteDone] = useState(false);
+
+  const textChange = () => {
+    setWriteDone(true);
+    setComeout(2);
+  };
+  //한글자씩 나오게 하는 로직
+  const [blobTitle2, setBlobTitle2] = useState("");
+  const [count2, setCount2] = useState(0);
+  const completionWord2 = "자, 그럼 이제 타로의 세계로 떠나볼까요?";
+
+  useEffect(() => {
+    console.log(blobTitle2);
+    if (comeout === 2) {
+      const typingInterval = setInterval(() => {
+        setBlobTitle2((prevTitleValue) => {
+          const result = prevTitleValue
+            ? prevTitleValue + completionWord2[count2]
+            : completionWord[0];
+          setCount2(count2 + 1);
+
+          if (count2 >= completionWord.length - 1) {
+            setCount2(0);
+            setComeout(3);
+          }
+
+          return result;
+        });
+      }, 30);
+      return () => {
+        clearInterval(typingInterval);
+      };
+    }
+  });
   const handleNextButton = async () => {
     try {
+      textChange();
       const response = await axios.post(
         "/api/v1/polls",
         {},
@@ -237,6 +284,7 @@ const LoveFortune = () => {
       );
       console.log("성공", response.data);
       setPollId(response.data.data.pollId);
+      setTimeout(() => {}, 2000);
       navigate("/cardselect5");
     } catch (error) {
       console.log(error);
@@ -319,9 +367,15 @@ const LoveFortune = () => {
                 ></Reply>
               </ReplyBox>
               <Profile2 src={LoveFortuneImg}></Profile2>
-              <NextBox>
-                <NextText onClick={handleNextButton}>카드 뽑으러 가기</NextText>
-              </NextBox>{" "}
+              {!writeDone ? (
+                <NextBox>
+                  <NextText onClick={handleNextButton}>다 적었나요?</NextText>
+                </NextBox>
+              ) : (
+                <NextBox>
+                  <NextText2>{blobTitle2}</NextText2>
+                </NextBox>
+              )}
             </>
           )}
         </BackgroundWrapper>

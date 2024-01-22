@@ -276,13 +276,16 @@ const FriendShip = () => {
     }
   });
 
+  //자동으로 스크롤이 내려가게 하는 로직
   const chatBoxRef = useRef<HTMLDivElement | null>(null);
+
   const scrollToBottom = () => {
     const chatBox = chatBoxRef.current;
     if (chatBox) {
       chatBox.scrollTop = chatBox.scrollHeight;
     }
   };
+
   useEffect(() => {
     scrollToBottom();
   }, [blobTitle]);
@@ -320,7 +323,7 @@ const FriendShip = () => {
               </ReplyBox>
               <Profile2 src={FriendshipImg}></Profile2>
               <NextBox>
-                <NextText onClick={handleNextButton}>카드 뽑으러 가기</NextText>
+                <NextText onClick={handleNextButton}>다 적었나요?</NextText>
               </NextBox>
             </>
           )}
