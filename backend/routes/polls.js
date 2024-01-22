@@ -8,7 +8,7 @@ const router = express.Router();
 const verifyToken = require("../middleware/verifyToken.js");
 
 router.get(
-  "/list",
+  "",
   (req, res, next) => {
     /*
    #swagger.tags = ['Polls']
