@@ -6,6 +6,9 @@ const { resolve } = require("path");
 const { rejects } = require("assert");
 const router = express.Router();
 const verifyToken = require("../middleware/verifyToken.js");
+const resultQuery = require("../bases/resultQuery.js");
+const cardsQuery = require("../bases/cardsQuery.js");
+const searchQuery = require("../bases/searchQuery.js");
 
 router.get(
   "",
@@ -50,9 +53,9 @@ router.get(
           const pollIds = pollInfo.map((row) => row.id);
 
           // result 테이블 조회
-          const resultQuery =
+          const resultTableQuery =
             "SELECT poll_id, explanation, luck FROM result WHERE poll_id IN (?) ORDER BY poll_id DESC;";
-          dbCon.query(resultQuery, [pollIds], (error, resultData) => {
+          dbCon.query(resultTableQuery, [pollIds], (error, resultTableData) => {
             if (error) {
               return res
                 .status(500)
@@ -60,22 +63,22 @@ router.get(
             }
 
             // card 테이블 조회
-            const cardQuery =
+            const cardTableQuery =
               "SELECT poll_id, image_url FROM card WHERE poll_id IN (?) ORDER BY poll_id DESC;";
-            dbCon.query(cardQuery, [pollIds], (error, cardData) => {
+            dbCon.query(cardTableQuery, [pollIds], (error, cardTableData) => {
               if (error) {
                 return res
                   .status(500)
                   .send({ message: "DB 저장 오류", error: error.message });
               }
               // 결과 조합
-              const combinedData = resultData.map((result) => {
+              const combinedData = resultTableData.map((result) => {
                 return {
                   resultInfo: {
                     pollId: result.poll_id,
                     explanation: result.explanation,
                     luck: result.luck,
-                    imageUrls: cardData
+                    imageUrls: cardTableData
                       .filter((card) => card.poll_id === result.poll_id)
                       .map((card) => card.image_url),
                   },
@@ -139,68 +142,13 @@ router.get(
     const connection = db.getConnection();
 
     try {
-      const searchQuery = "SELECT user_id, DATE_FORMAT(created_at, '%Y-%m-%d') AS created_date FROM poll WHERE id = ?";
-      const result = await new Promise((resolve, reject) => {
-        connection.query(searchQuery, [poll_id], (error, result) => {
-          if (error) {
-            console.error("DB 쿼리 오류:", error);
-            res.locals.status = 500;
-            res.locals.data = { message: "DB 쿼리 오류", error: error.message };
-            reject(new Error("DB 오류: poll에서 user_id 조회 중 오류 발생"));
-          }
-          resolve(result);
-        });
-      });
-
-      console.log(result);
-
-      if (result.length === 0) {
-        res.locals.status = 404;
-        res.locals.data = { message: "해당 ID를 가진 폴이 존재하지 않습니다." };
-        throw new Error("DB 오류: 해당 ID를 가진 폴이 존재하지 않습니다.");
-      }
-
-      if (parseInt(req.user.id, 10) !== parseInt(result[0].user_id, 10)) {
-        res.locals.status = 403;
-        res.locals.data = {
-          message:
-            "JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다.",
-        };
-        throw new Error(
-          "DB 오류: JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다."
-        );
-      }
-
-      const resultQuery =
-        "SELECT question, explanation, luck, master_name FROM result WHERE poll_id = ?";
-      const resultData = await new Promise((resolve, rejects) => {
-        connection.query(resultQuery, [poll_id], (error, result) => {
-          if (error) {
-            res.locals.status = 500;
-            res.locals.data = { message: "DB 쿼리 오류", error: error.message };
-            rejects(new Error("DB 오류: result에서 데이터 조회 중 오류 발생"));
-          }
-          resolve(result);
-        });
-      });
-
-      const cardsQuery =
-        "SELECT image_url, explanation, eng_name FROM card WHERE poll_id = ?";
-      const cardData = await new Promise((resolve, rejects) => {
-        connection.query(cardsQuery, [poll_id], (error, cardData) => {
-          if (error) {
-            res.locals.status = 500;
-            res.locals.data = { message: "DB 쿼리 오류", error: error.message };
-            rejects(new Error("DB 오류: card에서 데이터 조회 중 오류 발생"));
-          }
-          resolve(cardData);
-        });
-      });
+      const searchData = await searchQuery(connection, req, res, poll_id, next);
+      const resultData = await resultQuery(connection, res, poll_id, next);
+      const cardData = await cardsQuery(connection, res, poll_id, next);
 
       res.locals.data = {
-        result: resultData.length > 0 ? resultData : "데이터가 없음",
-        date: result[0].created_date ? result[0].created_date : "데이터가 없음",
-        card: cardData.length > 0 ? cardData : "데이터가 없음",
+        result: resultData,
+        card: cardData,
       };
 
       return next();
@@ -252,33 +200,7 @@ router.delete(
     const connection = db.getConnection();
 
     try {
-      const searchQuery = "SELECT user_id FROM poll WHERE id = ?";
-      const result = await new Promise((resolve, reject) => {
-        connection.query(searchQuery, [poll_id], (error, result) => {
-          if (error) {
-            res.locals.status = 500;
-            res.locals.data = { message: "DB 쿼리 오류", error: error.message };
-            reject(new Error("DB 오류: poll에서 user_id 조회 중 오류 발생"));
-          }
-          resolve(result);
-        });
-      });
-
-      if (result.length == 0) {
-        res.locals.status = 404;
-        res.locals.data = { message: "해당 ID를 가진 폴이 존재하지 않습니다." };
-        throw new Error("DB 오류: 해당 유저 ID를 가진 폴이 존재하지 않습니다.");
-      }
-
-      if (parseInt(req.user.id, 10) !== parseInt(result[0].user_id, 10)) {
-        res.locals.status = 403;
-        res.locals.data = {
-          message:
-            "JWT토큰의 user_id와 Poll_table의 user_id가 일치하지 않습니다.",
-        };
-        throw new Error("DB 오류: 토큰과 폴 아이디가 일치하지 않습니다");
-      }
-
+      const searchData = await searchQuery(connection, req, res, poll_id, next);
       const deleteResultQuery = "DELETE FROM poll WHERE id = ?";
       await new Promise((resolve, reject) => {
         connection.query(deleteResultQuery, [poll_id], (error) => {

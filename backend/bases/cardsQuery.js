@@ -6,6 +6,7 @@ const router = express.Router();
 
 const cardsQuery = async (connection, res, poll_id, next) => {
   try {
+    const connection = db.getConnection();
     const query =
       "SELECT image_url, explanation, eng_name FROM card WHERE poll_id = ?";
     const data = await new Promise((resolve, rejects) => {
