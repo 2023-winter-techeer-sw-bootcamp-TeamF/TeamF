@@ -181,6 +181,18 @@ const NextBox = styled.div`
   justify-content: center;
 `;
 
+const NextBox2 = styled.div`
+  width: 14.6875rem;
+  height: 7rem;
+  border-radius: 0rem 1.25rem 1.25rem 1.25rem;
+  border: 1px solid #ecb973;
+  background: rgba(236, 185, 115, 0);
+  transform: translate(85%, -489%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 const NextText = styled.a`
   color: #ecb973;
   text-align: center;
@@ -377,9 +389,9 @@ const FriendShip = () => {
                   <NextText onClick={handleNextButton}>다 적었나요?</NextText>
                 </NextBox>
               ) : (
-                <NextBox>
+                <NextBox2>
                   <NextText2>{blobTitle2}</NextText2>
-                </NextBox>
+                </NextBox2>
               )}
             </>
           )}
