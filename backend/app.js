@@ -37,10 +37,6 @@ io.use(socketConnection.newClientHandler);
 io.on("connection", (socket) => {
   socketConnection.clientConnectedHandler(socket);
 });
-io.on("disconnect", (socket) => {
-  console.log("소켓 연결 해제");
-  socketConnection.clientDisconnectHandler(socket);
-});
 app.set("io", io); // app 객체에 io 객체를 저장
 const corsOptions = {
   origin: "*", // 모든 오리진 허용
