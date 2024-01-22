@@ -141,6 +141,7 @@ const SButton = styled.button`
   align-items: center;
   cursor: pointer;
   &:hover {
+    font-weight: bold;
     opacity: 0.7;
     transition: transform 0.3s ease, opacity 0.3s ease;
   }

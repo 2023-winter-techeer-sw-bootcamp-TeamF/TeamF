@@ -73,6 +73,12 @@ const StartButton = styled.button`
   cursor: pointer;
   position: sticky;
   z-index: 11;
+  &:hover {
+    // opacity: 0.7;
+    background: #ecb973;
+    font-weight: bold;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
 `;
 
 const StartText = styled.p`

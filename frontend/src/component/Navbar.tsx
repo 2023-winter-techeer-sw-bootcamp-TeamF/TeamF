@@ -26,6 +26,10 @@ const LogoContainer = styled(motion.div)`
   text-transform: capitalize;
   display: flex;
   margin-left: 1.25rem;
+  &:hover {
+    font-weight: 1200;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
 `;
 
 const MenuContainer = styled(motion.div)`
@@ -50,9 +54,13 @@ const LoginButton = styled.button`
   cursor: pointer;
 
   &:hover {
-    opacity: 0.7;
+    // opacity: 0.7;
+    background: #ff9900e1;
+    border: #ff9900e1;
+    color: #ffffff;
+    font-weight: bold;
 
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    // transition: transform 0.1s ease, opacity 0.3s ease;
   }
 `;
 
@@ -65,6 +73,12 @@ const MenuItem = styled(Link)`
   line-height: normal;
   text-transform: capitalize;
   margin-right: 2.5rem;
+  &:hover {
+    // opacity: 0.7;
+    color: #ff9900e1;
+    font-weight: bold;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
 `;
 
 const LargeLetter = styled.span`
@@ -88,10 +102,15 @@ const LogoutButton = styled.button`
   line-height: normal;
   text-transform: capitalize;
   cursor: pointer;
+
   &:hover {
-    opacity: 0.7;
+    // opacity: 0.7;
+    background: #ecb973;
+    color: #ffffff;
+    font-weight: bold;
     transition: transform 0.3s ease, opacity 0.3s ease;
   }
+
   margin-right: 1.25rem;
 `;
 
@@ -110,7 +129,12 @@ const Navbar = () => {
     <NavContainer>
       <LogoContainer
         initial={{ scale: 1 }}
-        whileHover={{ scale: 1.7, originX: 0, position: "relative" }}
+        whileHover={{
+          scale: 1.4,
+          originX: 0,
+          position: "relative",
+          fontWeight: "bold",
+        }}
       >
         <Link to="/fortuneselect">
           <LargeLetter>T</LargeLetter>AIROT&nbsp;
@@ -120,10 +144,15 @@ const Navbar = () => {
         initial={{ scale: 1 }}
         whileHover={{ originX: 1, zIndex: 1000 }}
       >
-        <motion.div whileHover={{ scale: 1.6 }}>
+        <motion.div whileHover={{ scale: 1.4 }}>
           <MenuItem to="/mypage"> MYPAGE</MenuItem>
         </motion.div>
-        <motion.div whileHover={{ scale: 1.3, overflow: "visible" }}>
+        <motion.div
+          whileHover={{
+            scale: 1.2,
+            overflow: "visible",
+          }}
+        >
           {accessToken ? (
             <LogoutButton onClick={handleLogout}>LOG OUT</LogoutButton>
           ) : (
