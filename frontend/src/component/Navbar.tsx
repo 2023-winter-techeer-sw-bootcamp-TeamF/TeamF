@@ -73,6 +73,7 @@ const MenuItem = styled.div`
   line-height: normal;
   text-transform: capitalize;
   margin-right: 2.5rem;
+  cursor: pointer;
   &:hover {
     // opacity: 0.7;
     color: #ffbf00;
