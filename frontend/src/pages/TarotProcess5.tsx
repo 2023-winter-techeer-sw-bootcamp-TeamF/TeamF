@@ -116,7 +116,7 @@ const NextBtnImg = styled.img`
   width: 100%;
   height: 100%;
 `;
-function TarotProcess() {
+function TarotProcess5() {
   const [streamArray, setStreamArray] = useState("로딩 중...");
   const accesstoken = useRecoilValue(accessTokenState);
   const [trigger, setTrigger] = useState(true);
@@ -314,4 +314,4 @@ function TarotProcess() {
     </>
   );
 }
-export default TarotProcess;
+export default TarotProcess5;

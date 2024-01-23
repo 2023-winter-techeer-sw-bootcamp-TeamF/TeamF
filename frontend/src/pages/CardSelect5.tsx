@@ -146,7 +146,7 @@ const NextBtnImg = styled.img`
   height: 100%;
 `;
 
-const CardSelect = () => {
+const CardSelect5 = () => {
   const numberOfCards = 22; // 1번째 줄 카드 수
   const numberOfCardsDelete = 12; // 4번째 줄 카드 수
   const Overlap = 1.875; // 카드 겹침 정도
@@ -322,4 +322,4 @@ const CardSelect = () => {
   );
 };
 
-export default CardSelect;
+export default CardSelect5;
