@@ -260,7 +260,6 @@ const WishFortune = () => {
   const completionWord2 = "자, 그럼 이제 타로의 세계로 떠나볼까요?";
 
   useEffect(() => {
-    console.log(count2, completionWord2.length);
     if (writeDone) {
       const typingInterval = setInterval(() => {
         setBlobTitle2((prevTitleValue) => {
@@ -352,6 +351,7 @@ const WishFortune = () => {
   useEffect(() => {
     getText();
   }, []);
+  console.log(comeout);
   return (
     <BackgroundColor>
       <Inside>
