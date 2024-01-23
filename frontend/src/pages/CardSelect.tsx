@@ -59,7 +59,7 @@ const Cards = styled.div`
   display: flex;
   flex-direction: row;
   gap: 6.5rem;
-  margin-left: 5rem;
+  transform: translateX(10%);
 `;
 
 const BackcardBackground = styled(motion.div)`
@@ -104,21 +104,26 @@ const BeforeBtn = styled.button`
 
 const rowVariants = {
   hidden: (isBack: boolean) => ({
-    x: isBack ? -window.outerWidth - 10 : window.outerWidth + 10,
+    x: isBack ? -window.outerWidth + 1000 : window.outerWidth - 1000,
+    opacity: 1,
     transition: {
-      duration: 0.4,
+      duration: 0.25,
+      type: "linear",
     },
   }),
   visible: {
     x: 0,
     transition: {
-      duration: 0.4,
+      duration: 0.25,
+      type: "linear",
     },
   },
   exit: (isBack: boolean) => ({
-    x: isBack ? window.outerWidth + 10 : -window.outerWidth - 10,
+    x: isBack ? window.outerWidth - 1000 : -window.outerWidth + 1000,
+    opacity: 0,
     transition: {
-      duration: 0.4,
+      duration: 0.25,
+      type: "linear",
     },
   }),
 };
@@ -173,7 +178,7 @@ const CardSelect = () => {
   const getImage = async (card: number) => {
     axios
       .get("/api/v1/tarot/card", {
-        params: { card }, 
+        params: { card },
       })
       .then((response) => {
         if (holdCount === 0) {
@@ -185,7 +190,7 @@ const CardSelect = () => {
         } else if (holdCount === 2) {
           setCard3(response.data.data.image_url);
           setCardNumber3(card);
-  
+
           setTimeout(() => {
             navigate("/process");
           }, 1000);

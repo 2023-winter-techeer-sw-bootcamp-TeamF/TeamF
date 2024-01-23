@@ -2,7 +2,7 @@ import Navbar from "../component/Navbar";
 import styled from "styled-components";
 import background from "../assets/Background.png";
 import NextButton from "../assets/NextBtn.png";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
 import {
   accessTokenState,
@@ -17,6 +17,8 @@ import {
 import { io } from "socket.io-client";
 import axios from "axios";
 import LoadingPage from "../component/LoadingPage";
+import "../assets/font-YUniverse-B.css";
+
 const Background = styled.div`
   width: 100vw;
   height: 100vh;
@@ -55,7 +57,8 @@ const Cards = styled.div`
   position: absolute;
   gap: 6.5rem;
   top: 13%;
-  left: 28%;
+  left: 50%;
+  transform: translateX(-50%);
 `;
 const TaroMaster = styled.img`
   width: 4rem;
@@ -77,11 +80,11 @@ const ChatBox = styled.div`
 `;
 const Chat = styled.p`
   color: #ecb973;
-  font-family: "맑은 고딕";
-  font-size: 1.3375rem;
+  font-family: YUniverse-B;
+  font-size: 1.3rem;
   font-style: normal;
-  font-weight: 400;
-  line-height: normal;
+  font-weight: 300;
+  line-height: 1.4;
   text-transform: capitalize;
   margin: 1.5625rem;
   overflow-y: scroll;
@@ -129,7 +132,7 @@ function TarotProcess() {
 
   const getImage = async (card1: number, card2: number, card3: number) => {
     try {
-      const response = await axios.get("/api/v1/tarot/card",  {
+      const response = await axios.get("/api/v1/tarot/card", {
         params: { card: card1 }, // {이름/카드 번호}
       });
       setCardUrl1(response.data.data.image_url);
@@ -229,6 +232,20 @@ function TarotProcess() {
     setStreamArray("로딩 중...");
     window.location.replace("/cardsave");
   };
+
+  const chatBoxRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollToBottom = () => {
+    const chatBox = chatBoxRef.current;
+    if (chatBox) {
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [streamArray]);
+
   return (
     <>
       <Background>
@@ -250,7 +267,9 @@ function TarotProcess() {
             </Cards>
             <TaroMaster src={tarotMasterImage} />
             <ChatBox>
-              <Chat>{streamArray}</Chat>
+              <Chat ref={chatBoxRef} className="chatBox">
+                {streamArray}
+              </Chat>
             </ChatBox>
             <NextBtn onClick={buttonClear}>
               <NextBtnImg src={NextButton} />
