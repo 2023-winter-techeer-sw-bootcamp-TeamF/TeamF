@@ -270,26 +270,21 @@ function CardSave() {
   const [luck, setLuck] = useState("");
 
   useEffect(() => {
-    const callData = async () => {
-      try {
-        const response = await axios.get(
-          `/api/v1/polls/detail?poll_id=${pollId}`,
-          {
-            headers: {
-              authorization: accessToken,
-            },
-          }
-        );
+    axios
+      .get(`/api/v1/polls/detail?poll_id=${pollId}`, {
+        headers: {
+          authorization: accessToken,
+        },
+      })
+      .then((response) => {
         setTarotImage(response.data.data.card);
         setExplanation(response.data.data.result[0].explanation);
         setLuck(response.data.data.result[0].luck);
-      } catch (error) {
+      })
+      .catch((error) => {
         console.error("타로 결과를 불러오는데 실패했습니다:", error);
-      }
-    };
-
-    callData();
-  }, [accessToken, pollId]);
+      });
+  }, []);
 
   const shareButton = () => {
     shareKakao(`http://localhost:5000/share/`, poll_id);

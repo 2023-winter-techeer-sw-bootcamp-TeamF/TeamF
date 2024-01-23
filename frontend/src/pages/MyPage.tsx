@@ -210,7 +210,7 @@ function MyPage() {
       .catch((error) => {
         console.error("타로 기록을 불러오는데 실패했습니다.", error);
       });
-  }, [accessToken]);
+  }, []);
   return (
     <>
       <Background>
