@@ -177,25 +177,27 @@ const NextText = styled.a`
   color: #ecb973;
   text-align: center;
   font-family: YUniverse-B;
-  font-size: 1.4375rem;
+  font-size: 1.3rem;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 300;
   line-height: normal;
   text-decoration-line: underline;
   text-transform: capitalize;
   cursor: pointer;
+  line-height: 1.4;
 `;
 
 const NextText2 = styled.a`
   color: #ecb973;
   text-align: center;
   font-family: YUniverse-B;
-  font-size: 1.4375rem;
+  font-size: 1.3rem;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 300;
   line-height: normal;
   text-transform: capitalize;
   cursor: pointer;
+  line-height: 1.4;
 `;
 const TodayFortune = () => {
   const navigate = useNavigate();
