@@ -190,7 +190,7 @@ function Login() {
   // 엑세스 토큰 만료 5분 전에 토큰을 재발급하는 타이머 설정
   const setAccessTokenTimeout = (refreshToken: object) => {
     // 엑세스 토큰 만료 시간을 가정하여 55분으로 설정
-    const EXPIRES_IN = 1 * 60 * 1000;
+    const EXPIRES_IN = 55 * 60 * 1000;
     setTimeout(() => {
       refreshAccessToken(refreshToken);
     }, EXPIRES_IN);
