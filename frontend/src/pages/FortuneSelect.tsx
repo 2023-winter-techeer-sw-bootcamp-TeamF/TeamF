@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Navbar from "../component/Navbar";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 import Background from "../assets/Background.png";
 import FriendshipImg from "../assets/Friendship.png";
 import LoveFortuneImg from "../assets/LoveFortune.png";
@@ -11,6 +10,9 @@ import WishFortuneImg from "../assets/WishFortune.png";
 import FlipCard from "../assets/FlipCard.png";
 import LoadingPage from "../component/LoadingPage";
 import "../assets/font-YUniverse-B.css";
+import { useRecoilValue } from "recoil";
+import { useNavigate } from "react-router-dom";
+import { accessTokenState } from "../state/atom.ts";
 
 const BackgroundWrapper = styled.div`
   position: relative; // 자식 요소를 절대 위치로 배치하기 위한 설정
@@ -247,6 +249,16 @@ const SoloText = styled.p`
 
 const FortuneSelect = () => {
   const [flippedCards, setFlippedCards] = useState(Array(5).fill(false));
+  const navigate = useNavigate();
+  const accessToken = useRecoilValue(accessTokenState);
+
+  const handlePageNavigation = (path: string) => {
+    if (!accessToken) {
+      navigate("/login");
+    } else {
+      navigate(path);
+    }
+  };
 
   // 카드를 뒤집는 함수
   const handleFlip = (flipIndex: number) => {
@@ -298,11 +310,12 @@ const FortuneSelect = () => {
                       <br />
                       자세히 분석해 드릴게요.
                     </CardText>
-                    <Link to="/todayfortune">
-                      <SoloBtn>
-                        <SoloText>오늘의 운세 보러가기</SoloText>
-                      </SoloBtn>
-                    </Link>
+
+                    <SoloBtn
+                      onClick={() => handlePageNavigation("/todayfortune")}
+                    >
+                      <SoloText>오늘의 운세 보러가기</SoloText>
+                    </SoloBtn>
                   </FlipcardBackground>
                 </FlipcardInner>
               </FlipcardContainer>
@@ -335,15 +348,15 @@ const FortuneSelect = () => {
                       <br />
                       자세히 분석해 드릴게요.
                     </CardText>
-                    <Link to="/lovefortune">
-                      <SoloBtn>
-                        <SoloText>연애운 보러가기</SoloText>
-                      </SoloBtn>
-                    </Link>
+
+                    <SoloBtn
+                      onClick={() => handlePageNavigation("/lovefortune")}
+                    >
+                      <SoloText>연애운 보러가기</SoloText>
+                    </SoloBtn>
                   </FlipcardBackground>
                 </FlipcardInner>
               </FlipcardContainer>
-
               <FlipcardContainer onClick={() => handleFlip(2)}>
                 <FlipcardInner isFlipped={flippedCards[2]}>
                   <CardBox>
@@ -372,11 +385,12 @@ const FortuneSelect = () => {
                       <br />
                       자세히 분석해 드릴게요.
                     </CardText>
-                    <Link to="/friendship">
-                      <SoloBtn>
-                        <SoloText>우정운 보러가기</SoloText>
-                      </SoloBtn>
-                    </Link>
+
+                    <SoloBtn
+                      onClick={() => handlePageNavigation("/friendship")}
+                    >
+                      <SoloText>우정운 보러가기</SoloText>
+                    </SoloBtn>
                   </FlipcardBackground>
                 </FlipcardInner>
               </FlipcardContainer>
@@ -410,11 +424,12 @@ const FortuneSelect = () => {
                       <br />
                       자세히 분석해 드릴게요.
                     </CardTextToday>
-                    <Link to="/moneyfortune">
-                      <SoloBtn>
-                        <SoloText>재물운 보러가기</SoloText>
-                      </SoloBtn>
-                    </Link>
+
+                    <SoloBtn
+                      onClick={() => handlePageNavigation("/moneyfortune")}
+                    >
+                      <SoloText>재물운 보러가기</SoloText>
+                    </SoloBtn>
                   </FlipcardBackground>
                 </FlipcardInner>
               </FlipcardContainer>
@@ -446,11 +461,12 @@ const FortuneSelect = () => {
                       <br />
                       자세히 분석해 드릴게요.
                     </CardText>
-                    <Link to="/wishfortune">
-                      <SoloBtn>
-                        <SoloText>소망운 보러가기</SoloText>
-                      </SoloBtn>
-                    </Link>
+
+                    <SoloBtn
+                      onClick={() => handlePageNavigation("/wishfortune")}
+                    >
+                      <SoloText>소망운 보러가기</SoloText>
+                    </SoloBtn>
                   </FlipcardBackground>
                 </FlipcardInner>
               </FlipcardContainer>

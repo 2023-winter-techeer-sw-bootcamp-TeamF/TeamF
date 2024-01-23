@@ -137,8 +137,6 @@ const Worry = styled.p`
 const Cards = styled.div<TaroExsProps>`
   display: flex;
   flex-direction: row;
-  gap: 4.75rem;
-  //margin-top: 2rem;
   gap: ${(props) => (props.tarotImage === 5 ? "2.5rem" : "4.75rem")};
   //margin-top: 2rem;
   align-items: center;
@@ -251,13 +249,13 @@ const FlipcardImg = styled.img`
 `;
 
 const FlipcardInner = styled.div<FlipcardInnerProps>`
-  position: relative;
   width: 100%;
   height: 100%;
   text-align: center;
   transition: transform 0.6s;
   transform-style: preserve-3d;
   cursor: pointer;
+
   transform: rotateY(${(props) => (props.isFlipped ? "180deg" : "0")});
 `;
 
