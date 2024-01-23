@@ -15,7 +15,6 @@ class GptMessage {
   }
 
   addSystemMessage(message) {
-
     this.systemMessages += message + '\n';
   }
 
