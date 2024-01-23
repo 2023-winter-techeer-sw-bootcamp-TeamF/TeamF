@@ -191,12 +191,13 @@ const NextBox2 = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 1.7rem;
 `;
 
 const NextText = styled.a`
   color: #ecb973;
   text-align: center;
-  font-family: Inter;
+  font-family: YUniverse-B;
   font-size: 1.4375rem;
   font-style: normal;
   font-weight: 600;
@@ -209,8 +210,8 @@ const NextText = styled.a`
 const NextText2 = styled.a`
   color: #ecb973;
   text-align: center;
-  font-family: Inter;
-  font-size: 1.4375rem;
+  font-family: YUniverse-B;
+  font-size: 1.2rem;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
@@ -260,7 +261,7 @@ const FriendShip = () => {
   //한글자씩 나오게 하는 로직
   const [blobTitle2, setBlobTitle2] = useState("");
   const [count2, setCount2] = useState(0);
-  const completionWord2 = "자, 그럼 이제 타로의 세계로 떠나볼까요?";
+  const completionWord2 = "너의 친구들을 한번 알아보러 가보자꾸나..🔍";
 
   useEffect(() => {
     console.log(count2, completionWord2.length);
@@ -386,7 +387,9 @@ const FriendShip = () => {
               <Profile2 src={FriendshipImg}></Profile2>
               {!writeDone ? (
                 <NextBox>
-                  <NextText onClick={handleNextButton}>다 적었나요?</NextText>
+                  <NextText onClick={handleNextButton}>
+                    다 적었으면 말해주렴.
+                  </NextText>
                 </NextBox>
               ) : (
                 <NextBox2>
