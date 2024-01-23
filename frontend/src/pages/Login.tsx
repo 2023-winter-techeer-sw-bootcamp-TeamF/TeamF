@@ -2,12 +2,14 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import React, { useState } from "react";
-import axios from "axios";
+
 import { useNavigate } from "react-router-dom";
 import { accessTokenState, refreshTokenState } from "../state/atom.ts";
 import LoadingPage from "../component/LoadingPage";
 import Swal from "sweetalert2";
+import { motion } from "framer-motion";
 
+import axios from "axios";
 const Outside = styled.div`
   background-color: #000;
   display: flex;
@@ -84,7 +86,7 @@ const Pw = styled.input`
   }
 `;
 
-const LButton = styled.button`
+const LButton = styled(motion.button)`
   width: 25rem;
   height: 3.25rem;
   border-radius: 1.0625rem;
@@ -119,6 +121,9 @@ const Sign = styled.button`
   text-decoration-line: underline;
   margin-top: -0.4rem;
   cursor: pointer;
+  &:hover {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
 `;
 
 function Login() {
@@ -169,18 +174,49 @@ function Login() {
     });
   };
 
+  const refreshAccessToken = async (refreshToken: object) => {
+    try {
+      const response = await axios.post("/api/v1/users/refresh-token", {
+        refreshToken: refreshToken,
+      });
+      // 새로운 토큰 저장
+      const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
+        response.data.data;
+
+      setAccessToken(newAccessToken);
+      setRefreshToken(newRefreshToken);
+      console.log(response.data.data);
+      setAccessTokenTimeout(newRefreshToken);
+    } catch (error) {
+      console.error("토큰 재발급에 실패했습니다.", error);
+    }
+  };
+
+  // 엑세스 토큰 만료 5분 전에 토큰을 재발급하는 타이머 설정
+  const setAccessTokenTimeout = (refreshToken: object) => {
+    // 엑세스 토큰 만료 시간을 가정하여 55분으로 설정
+    const EXPIRES_IN = 55 * 60 * 1000;
+    setTimeout(() => {
+      refreshAccessToken(refreshToken);
+    }, EXPIRES_IN);
+  };
+
   const handleLogin = async () => {
     try {
       const response = await axios.post("/api/v1/users/login", {
         login_id: loginId,
         password: password,
       });
+      console.log(response.data);
+      const { accessToken, refreshToken } = response.data.data;
+      setAccessToken(accessToken); // 엑세스 토큰을 상태에 저장합니다.
+      setRefreshToken(refreshToken); // 리프레시 토큰을 상태에 저장합니다.
 
-      setAccessToken(response.data.data.accessToken);
-      setRefreshToken(response.data.data.refreshToken);
+      setAccessTokenTimeout(refreshToken);
 
       await showToast();
     } catch (error) {
+      console.error("로그인에 실패했습니다", error);
       await showToastFail();
     }
   };
@@ -204,7 +240,9 @@ function Login() {
               value={password}
               onChange={passwordChange}
             />
-            <LButton type="submit">LOG IN</LButton>
+            <LButton type="submit" whileTap={{ scale: 0.85 }}>
+              LOG IN
+            </LButton>
             <Sign>
               <Link to="/signup">SIGN UP</Link>
             </Sign>

@@ -1,10 +1,13 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { accessTokenState, refreshTokenState } from "../state/atom.ts";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { motion } from "framer-motion";
+import "../assets/font-S-CoreDream-3Light.css";
+
 const NavContainer = styled.nav`
-  //background-color: #000000;
+  // background-color: #000000;
   width: 100%;
   height: 4.375rem;
   display: flex;
@@ -13,7 +16,7 @@ const NavContainer = styled.nav`
   z-index: 10;
 `;
 
-const LogoContainer = styled.div`
+const LogoContainer = styled(motion.div)`
   color: #ecb973;
   font-family: Cinzel;
   font-size: 1.4375rem;
@@ -23,9 +26,14 @@ const LogoContainer = styled.div`
   text-transform: capitalize;
   display: flex;
   margin-left: 1.25rem;
+  &:hover {
+    font-weight: 1200;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  cursor: pointer;
 `;
 
-const MenuContainer = styled.div`
+const MenuContainer = styled(motion.div)`
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -38,7 +46,7 @@ const LoginButton = styled.button`
   border: 0.0625rem solid #ecb973;
   background: rgba(236, 185, 115, 0);
   color: #ecb973;
-  font-family: Inter;
+  font-family: S-CoreDream-3Light;
   font-size: 1rem;
   font-style: normal;
   font-weight: 400;
@@ -47,21 +55,31 @@ const LoginButton = styled.button`
   cursor: pointer;
 
   &:hover {
-    opacity: 0.7;
+    // opacity: 0.7;
+    border-color: #ffbf00;
+    color: #ffbf00;
+    font-weight: bold;
 
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    // transition: transform 0.1s ease, opacity 0.3s ease;
   }
 `;
 
-const MenuItem = styled(Link)`
+const MenuItem = styled.div`
   color: #ecb973;
-  font-family: Inter;
+  font-family: S-CoreDream-3Light;
   font-size: 1rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
   text-transform: capitalize;
-  margin-right: 1.25rem;
+  margin-right: 2.5rem;
+  cursor: pointer;
+  &:hover {
+    // opacity: 0.7;
+    color: #ffbf00;
+    font-weight: bold;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
 `;
 
 const LargeLetter = styled.span`
@@ -78,45 +96,70 @@ const LogoutButton = styled.button`
   border: 0.0625rem solid #ecb973;
   background: rgba(236, 185, 115, 0);
   color: #ecb973;
-  font-family: Inter;
+  font-family: S-CoreDream-3Light;
   font-size: 0.9rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
   text-transform: capitalize;
   cursor: pointer;
+
   &:hover {
-    opacity: 0.7;
+    // opacity: 0.7;
+    color: #ffbf00;
+    border-color: #ffbf00;
+    font-weight: bold;
     transition: transform 0.3s ease, opacity 0.3s ease;
   }
-  margin-right: 1.25rem;
 `;
 
 const Navbar = () => {
-  const navigate = useNavigate();
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
   const setRefreshToken = useSetRecoilState(refreshTokenState);
-
+  const accessTokenValue = useRecoilValue(accessTokenState);
+  const navigate = useNavigate();
   const handleLogout = () => {
     setAccessToken("");
     setRefreshToken("");
-    navigate("/fortuneselect");
+  };
+
+  const handlePageNavigation = () => {
+    if (!accessTokenValue) {
+      navigate("/login");
+    } else {
+      navigate("/mypage");
+    }
   };
 
   return (
     <NavContainer>
-      <LogoContainer>
-        <Link to="/fortuneselect">
+      <LogoContainer
+        initial={{ scale: 1 }}
+        whileHover={{
+          scale: 1.1,
+          originX: 0,
+          position: "relative",
+          fontWeight: "bold",
+        }}
+        whileTap={{ scale: 0.85 }}
+        transition={{ duration: 0.04, ease: "linear" }}
+      >
+        <Link to="/">
           <LargeLetter>T</LargeLetter>AIROT&nbsp;
         </Link>
       </LogoContainer>
       <MenuContainer>
-        <MenuItem to="/mypage"> MYPAGE</MenuItem>
+        <MenuItem onClick={handlePageNavigation}> MYPAGE</MenuItem>
+
         {accessToken ? (
-          <LogoutButton onClick={handleLogout}>LOG OUT</LogoutButton>
+          <MenuItem>
+            <LogoutButton onClick={handleLogout}>LOG OUT</LogoutButton>
+          </MenuItem>
         ) : (
-          <MenuItem to="/login">
-            <LoginButton>LOG IN</LoginButton>
+          <MenuItem>
+            <Link to="/login">
+              <LoginButton>LOG IN</LoginButton>
+            </Link>
           </MenuItem>
         )}
       </MenuContainer>

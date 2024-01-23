@@ -16,7 +16,7 @@ const verifyToken = require("./middleware/verifyToken");
 const socketConnection = require("./middleware/socketConnection");
 const { socketSendHandler } = require("./middleware/socketHandle");
 const checkPoll = require("./middleware/checkPoll");
-const AppConfig = require('./appConfig');
+const AppConfig = require("./appConfig");
 const app = express();
 const secretName = "MySQL_Info";
 const secretGptApiKey = "GPT_KEY";
@@ -36,10 +36,6 @@ io.use(socketConnection.clientAuthor);
 io.use(socketConnection.newClientHandler);
 io.on("connection", (socket) => {
   socketConnection.clientConnectedHandler(socket);
-});
-io.on("disconnect", (socket) => {
-  console.log("소켓 연결 해제");
-  socketConnection.clientDisconnectHandler(socket);
 });
 app.set("io", io); // app 객체에 io 객체를 저장
 const corsOptions = {
