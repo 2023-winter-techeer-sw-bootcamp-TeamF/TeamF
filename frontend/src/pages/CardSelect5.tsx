@@ -106,21 +106,26 @@ const BeforeBtn = styled.button`
 
 const rowVariants = {
   hidden: (isBack: boolean) => ({
-    x: isBack ? -window.outerWidth - 10 : window.outerWidth + 10,
+    x: isBack ? -window.outerWidth + 1000 : window.outerWidth - 1000,
+    opacity: 1,
     transition: {
-      duration: 0.4,
+      duration: 0.25,
+      type: "linear",
     },
   }),
   visible: {
     x: 0,
     transition: {
-      duration: 0.4,
+      duration: 0.25,
+      type: "linear",
     },
   },
   exit: (isBack: boolean) => ({
-    x: isBack ? window.outerWidth + 10 : -window.outerWidth - 10,
+    x: isBack ? window.outerWidth - 1000 : -window.outerWidth + 1000,
+    opacity: 0,
     transition: {
-      duration: 0.4,
+      duration: 0.25,
+      type: "linear",
     },
   }),
 };
@@ -257,7 +262,6 @@ const CardSelect5 = () => {
                   initial="hidden"
                   animate="visible"
                   exit="exit"
-                  transition={{ type: "tween", duration: 1 }}
                   key={count}
                 >
                   {selectedCard[count].map((_, index) =>
@@ -285,7 +289,6 @@ const CardSelect5 = () => {
                   initial="hidden"
                   animate="visible"
                   exit="exit"
-                  transition={{ type: "tween", duration: 1 }}
                   key={count}
                 >
                   {selectedCard[count].map((_, index) =>

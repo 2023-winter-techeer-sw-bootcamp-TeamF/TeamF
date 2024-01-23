@@ -222,7 +222,9 @@ const LoveFortune = () => {
   const setPollId = useSetRecoilState(pollIdState);
   const accessToken = useRecoilValue(accessTokenState);
   const [reply, setReply] = useRecoilState(replyState);
-  const [tellMeText, setTellMeText] = useState(""); //useState TellMeText를 빈칸으로 선언
+  const tellMeText =
+    "안녕하세요! 저에게 찾아오시다니…매우 영광이에요☺️ 여유롭고 차분한 마음으로 당신을 타로의 세계로 안내할 연애운 타로 마스터 샤를린 입니다. 타로점을 볼 때 주의할 점과 타로점을 보는 방법에 대해 먼저 말씀드릴게요. 타로는 삶과 감정의 거울입니다.모호하거나 추상적인 답변은 해석의 명확성을 떨어뜨릴 수 있으니, 명확한 답을 찾기 위해서는 당신의 마음에 집중하고 내면을 탐색해야 합니다. 연애운은 총 5장의 카드를 뽑습니다. 당신의 고민을 생각하며 세심하게 카드를 선택해주세요. 당신이 카드를 다 뽑고 나면, 저는 당신의 고민과 각 카드의 상징들을 종합적으로 고려하여 의미를 찾아낼게요😉 해석은 주관적일 수 있으니, 다양한 관점에서 생각해 보는 것을 추천해요. 이제, 우리의 여정을 함께 시작해 볼까요? 마음을 열고 당신의 고민을 말씀해 보세요✨";
+
   const setLuckType = useSetRecoilState(selectLuck);
   const [taroMaster, setTaroMaster] = useState("");
   const settarotMasterImg = useSetRecoilState(tarotMasterImg);
@@ -237,8 +239,6 @@ const LoveFortune = () => {
         },
       })
       .then((res) => {
-        console.log(res.data.data.content);
-        setTellMeText(res.data.data.content); //set@=텍스트 값 바꿈
         setTaroMaster(res.data.data.master_name);
         setLuckType(2);
         settarotMasterImg(LoveFortuneImg);
@@ -261,7 +261,6 @@ const LoveFortune = () => {
   const completionWord2 = "카드가 인연을 가져다줄 거에요💖";
 
   useEffect(() => {
-    console.log(count2, completionWord2.length);
     if (writeDone) {
       const typingInterval = setInterval(() => {
         setBlobTitle2((prevTitleValue) => {

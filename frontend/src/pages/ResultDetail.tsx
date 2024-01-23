@@ -237,7 +237,6 @@ const FlipcardBackground = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-
   backface-visibility: hidden;
   transform: rotateY(180deg);
 `;
