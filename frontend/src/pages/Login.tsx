@@ -169,28 +169,28 @@ function Login() {
     });
   };
 
-  const refreshAccessToken = async (refreshToken: string) => {
+  const refreshAccessToken = async (refreshToken: object) => {
     try {
       const response = await axios.post("/api/v1/users/refresh-token", {
         refreshToken: refreshToken,
       });
       // 새로운 토큰 저장
       const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
-        response.data;
+        response.data.data;
+
       setAccessToken(newAccessToken);
       setRefreshToken(newRefreshToken);
-      // 토큰이 갱신되면 다시 타이머를 설정합니다.
+      console.log(response.data.data);
       setAccessTokenTimeout(newRefreshToken);
     } catch (error) {
       console.error("토큰 재발급에 실패했습니다.", error);
-      // 여기에 로그아웃 로직 또는 에러 페이지로 리다이렉트 하는 로직을 추가할 수 있습니다.
     }
   };
 
   // 엑세스 토큰 만료 5분 전에 토큰을 재발급하는 타이머 설정
-  const setAccessTokenTimeout = (refreshToken: string) => {
+  const setAccessTokenTimeout = (refreshToken: object) => {
     // 엑세스 토큰 만료 시간을 가정하여 55분으로 설정
-    const EXPIRES_IN = 55 * 60 * 1000; // 55분을 밀리초로 변환
+    const EXPIRES_IN = 55 * 60 * 1000;
     setTimeout(() => {
       refreshAccessToken(refreshToken);
     }, EXPIRES_IN);

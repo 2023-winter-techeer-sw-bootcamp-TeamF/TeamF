@@ -198,7 +198,7 @@ function MyPage() {
 
   useEffect(() => {
     axios
-      .get("/api/v1/polls/list", {
+      .get("/api/v1/polls", {
         headers: {
           authorization: accessToken,
         },
