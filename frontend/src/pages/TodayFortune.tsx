@@ -204,9 +204,10 @@ const TodayFortune = () => {
   const setPollId = useSetRecoilState(pollIdState);
   const accessToken = useRecoilValue(accessTokenState);
   const [reply, setReply] = useRecoilState(replyState);
-  const [tellMeText, setTellMeText] = useState(""); //useState TellMeText를 빈칸으로 선언
-  const [taroMaster, setTaroMaster] = useState("");
+  const tellMeText =
+    "별빛처럼 신비한 오늘의 운세 타로 마스터 세레나 아스트라입니다. 타로점을 볼 때 주의할 점과 타로점을 보는 방법에 대해 말씀드릴게요. 타로는 단순한 운세를 넘어 개인의 삶을 비추는 도구에요. 모호하거나 추상적인 고민은 해석이 어려울 수도 있어요. 명확한 답을 얻고 싶다면, 당신의 마음에 집중하고 내면을 깊이 탐구하는 시간을 충분히 가지세요. 오늘의 운세는 총 1장의 카드를 뽑습니다. 당신의 마음에 귀 기울여 카드를 뽑고나면, 그 의미를 당신의 상황에 맞게 해석할 거예요. 기억하세요. 해석은 주관적일 수 있으니, 다양한 관점에서 생각해보아야 합니다. 이제 여러분의 이야기를 들려주세요. 함께 깊은 의미를 헤아려 보아요.";
   const setLuckType = useSetRecoilState(selectLuck);
+  const [taroMaster, setTaroMaster] = useState("");
   const settarotMasterImg = useSetRecoilState(tarotMasterImg);
   // const로 선언했을 때 불변값이라 값을 변화하면 에러 생김
   const getText = (): void => {
@@ -214,13 +215,11 @@ const TodayFortune = () => {
       .get("/api/v1/tarot/option", {
         params: {
           //await: 비동기 함수 안에서 promise 객체가 처리될 때까지 기다림
-          luckType: "오늘의 운세", // 나중에 사용자가 누른 값에 따라
-          luckOpt: 0, // 사용자가 혼자 하기 누르면 0, 같이는 1 넣어야 함
+          luckType: "오늘의 운세",
+          luckOpt: 0,
         },
       })
       .then((res) => {
-        console.log(res.data.data.content);
-        setTellMeText(res.data.data.content); //set@=텍스트 값 바꿈
         setTaroMaster(res.data.data.master_name);
         setLuckType(1);
         settarotMasterImg(TodayFortuneImg);
@@ -229,7 +228,6 @@ const TodayFortune = () => {
         console.log(error);
       });
   };
-
   // 다 적었다는 버튼 클릭 시
   const [writeDone, setWriteDone] = useState(false);
 
@@ -243,7 +241,6 @@ const TodayFortune = () => {
   const completionWord2 = "자, 그럼 이제 타로의 세계로 떠나볼까요?";
 
   useEffect(() => {
-    console.log(count2, completionWord2.length);
     if (writeDone) {
       const typingInterval = setInterval(() => {
         setBlobTitle2((prevTitleValue) => {
