@@ -137,8 +137,6 @@ const Worry = styled.p`
 const Cards = styled.div<TaroExsProps>`
   display: flex;
   flex-direction: row;
-  gap: 4.75rem;
-  //margin-top: 2rem;
   gap: ${(props) => (props.tarotImage === 5 ? "2.5rem" : "4.75rem")};
   //margin-top: 2rem;
   align-items: center;
@@ -205,7 +203,7 @@ const SolutionDetail = styled.p`
 
   &::-webkit-scrollbar-thumb {
     //background-color: #ecb973; /* 황금색 스크롤바 색상 */
-    background-color: #B99E6F; /* 스크롤바 색상 변경 */
+    background-color: #b99e6f; /* 스크롤바 색상 변경 */
     border-radius: 0.3125rem; /* 스크롤바 모양 (둥근 모서리) */
   }
 
@@ -239,7 +237,7 @@ const FlipcardBackground = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute; // 내가 추가
+
   backface-visibility: hidden;
   transform: rotateY(180deg);
 `;
@@ -252,13 +250,13 @@ const FlipcardImg = styled.img`
 `;
 
 const FlipcardInner = styled.div<FlipcardInnerProps>`
-  position: relative;
   width: 100%;
   height: 100%;
   text-align: center;
   transition: transform 0.6s;
   transform-style: preserve-3d;
   cursor: pointer;
+
   transform: rotateY(${(props) => (props.isFlipped ? "180deg" : "0")});
 `;
 
@@ -384,7 +382,10 @@ function ResultDetail() {
             <DetailBackground>
               <DetailLine1>
                 <DetailLine2>
-                  <Title>당신의 고민<br/> . . .</Title>
+                  <Title>
+                    당신의 고민
+                    <br /> . . .
+                  </Title>
                   <Worry>{question}</Worry>
                   <Cards tarotImage={tarotImage.length}>
                     {tarotImage.map((number, index) => (

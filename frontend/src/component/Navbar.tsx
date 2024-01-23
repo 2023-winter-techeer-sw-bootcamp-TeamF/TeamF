@@ -1,7 +1,8 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { accessTokenState, refreshTokenState } from "../state/atom.ts";
+import { Link, useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 import { motion } from "framer-motion";
 import "../assets/font-S-CoreDream-3Light.css";
 
@@ -25,6 +26,7 @@ const LogoContainer = styled(motion.div)`
   text-transform: capitalize;
   display: flex;
   margin-left: 1.25rem;
+  cursor: pointer;
 `;
 
 const MenuContainer = styled(motion.div)`
@@ -55,7 +57,7 @@ const LoginButton = styled.button`
   }
 `;
 
-const MenuItem = styled(Link)`
+const MenuItem = styled.div`
   color: #ecb973;
   font-family: S-CoreDream-3Light;
   font-size: 1rem;
@@ -91,16 +93,24 @@ const LogoutButton = styled.button`
     opacity: 0.7;
     transition: transform 0.3s ease, opacity 0.3s ease;
   }
-  margin-right: 1.25rem;
 `;
 
 const Navbar = () => {
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
   const setRefreshToken = useSetRecoilState(refreshTokenState);
-
+  const accessTokenValue = useRecoilValue(accessTokenState);
+  const navigate = useNavigate();
   const handleLogout = () => {
     setAccessToken("");
     setRefreshToken("");
+  };
+
+  const handlePageNavigation = () => {
+    if (!accessTokenValue) {
+      navigate("/login");
+    } else {
+      navigate("/mypage");
+    }
   };
 
   return (
@@ -118,14 +128,16 @@ const Navbar = () => {
         whileHover={{ originX: 1, zIndex: 1000 }}
       >
         <motion.div whileHover={{ scale: 1.6 }}>
-          <MenuItem to="/mypage"> MYPAGE</MenuItem>
+          <MenuItem onClick={handlePageNavigation}> MYPAGE</MenuItem>
         </motion.div>
         <motion.div whileHover={{ scale: 1.3, overflow: "visible" }}>
           {accessToken ? (
             <LogoutButton onClick={handleLogout}>LOG OUT</LogoutButton>
           ) : (
-            <MenuItem to="/login">
-              <LoginButton>LOG IN</LoginButton>
+            <MenuItem>
+              <Link to="/login">
+                <LoginButton>LOG IN</LoginButton>
+              </Link>
             </MenuItem>
           )}
         </motion.div>

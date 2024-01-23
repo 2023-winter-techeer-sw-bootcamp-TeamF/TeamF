@@ -195,9 +195,10 @@ interface RecordType {
 function MyPage() {
   const accessToken = useRecoilValue(accessTokenState);
   const [tarotRecord, setTarotRecord] = useState<RecordType[]>([]);
+
   useEffect(() => {
     axios
-      .get("/api/v1/polls/list", {
+      .get("/api/v1/polls", {
         headers: {
           authorization: accessToken,
         },
