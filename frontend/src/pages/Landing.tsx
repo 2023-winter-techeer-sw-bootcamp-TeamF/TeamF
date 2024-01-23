@@ -64,7 +64,7 @@ const Name = styled.p`
   margin-bottom: 16rem;
 `;
 
-const StartButton = styled.button`
+const StartButton = styled(motion.button)`
   width: 13.1875rem;
   height: 3rem;
   border-radius: 7.5rem;
@@ -75,7 +75,7 @@ const StartButton = styled.button`
   z-index: 11;
   &:hover {
     // opacity: 0.7;
-    background: #ecb973;
+    border-color: #ffbf00;
     font-weight: bold;
     transition: transform 0.3s ease, opacity 0.3s ease;
   }
@@ -90,6 +90,9 @@ const StartText = styled.p`
   line-height: normal;
   letter-spacing: 0.083125rem;
   text-transform: uppercase;
+  &:hover {
+    color: #ffbf00;
+  }
 `;
 
 const LandingBackgroundImage = styled.img`
@@ -112,7 +115,7 @@ function Landing() {
         <LandingThings>
           <Name>TAIROT</Name>
           <Link to="/fortuneselect">
-            <StartButton>
+            <StartButton whileTap={{ scale: 0.85 }}>
               <StartText>START</StartText>
             </StartButton>
           </Link>

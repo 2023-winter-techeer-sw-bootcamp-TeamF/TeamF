@@ -32,7 +32,7 @@ const LogoContainer = styled(motion.div)`
   }
 `;
 
-const MenuContainer = styled(motion.div)`
+const MenuContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -55,9 +55,8 @@ const LoginButton = styled.button`
 
   &:hover {
     // opacity: 0.7;
-    background: #ff9900e1;
-    border: #ff9900e1;
-    color: #ffffff;
+    border-color: #ffbf00;
+    color: #ffbf00;
     font-weight: bold;
 
     // transition: transform 0.1s ease, opacity 0.3s ease;
@@ -75,7 +74,7 @@ const MenuItem = styled(Link)`
   margin-right: 2.5rem;
   &:hover {
     // opacity: 0.7;
-    color: #ff9900e1;
+    color: #ffbf00;
     font-weight: bold;
     transition: transform 0.3s ease, opacity 0.3s ease;
   }
@@ -105,7 +104,7 @@ const LogoutButton = styled.button`
 
   &:hover {
     // opacity: 0.7;
-    background: #ecb973;
+    background: #ffbf00;
     color: #ffffff;
     font-weight: bold;
     transition: transform 0.3s ease, opacity 0.3s ease;
@@ -135,32 +134,22 @@ const Navbar = () => {
           position: "relative",
           fontWeight: "bold",
         }}
+        whileTap={{ scale: 0.85 }}
       >
         <Link to="/fortuneselect">
           <LargeLetter>T</LargeLetter>AIROT&nbsp;
         </Link>
       </LogoContainer>
-      <MenuContainer
-        initial={{ scale: 1 }}
-        whileHover={{ originX: 1, zIndex: 1000 }}
-      >
-        <motion.div whileHover={{ scale: 1.4 }}>
-          <MenuItem to="/mypage"> MYPAGE</MenuItem>
-        </motion.div>
-        <motion.div
-          whileHover={{
-            scale: 1.2,
-            overflow: "visible",
-          }}
-        >
-          {accessToken ? (
-            <LogoutButton onClick={handleLogout}>LOG OUT</LogoutButton>
-          ) : (
-            <MenuItem to="/login">
-              <LoginButton>LOG IN</LoginButton>
-            </MenuItem>
-          )}
-        </motion.div>
+      <MenuContainer>
+        <MenuItem to="/mypage"> MYPAGE</MenuItem>
+
+        {accessToken ? (
+          <LogoutButton onClick={handleLogout}>LOG OUT</LogoutButton>
+        ) : (
+          <MenuItem to="/login">
+            <LoginButton>LOG IN</LoginButton>
+          </MenuItem>
+        )}
       </MenuContainer>
     </NavContainer>
   );

@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LoadingPage from "../component/LoadingPage";
 import Swal from "sweetalert2";
+import { motion } from "framer-motion";
 
 const Outside = styled.div`
   background-color: #000;
@@ -124,7 +125,7 @@ const Username = styled.input`
   }
 `;
 
-const SButton = styled.button`
+const SButton = styled(motion.button)`
   width: 23.875rem;
   height: 2.875rem;
   border-radius: 0.9375rem;
@@ -273,7 +274,9 @@ function Signup() {
           onChange={confirmPasswordChange}
         />
         <Username placeholder="USERNAME" value={name} onChange={nameChange} />
-        <SButton onClick={handleSignup}>SIGN UP</SButton>
+        <SButton onClick={handleSignup} whileTap={{ scale: 0.85 }}>
+          SIGN UP
+        </SButton>
       </Circle>
     </Outside>
   );

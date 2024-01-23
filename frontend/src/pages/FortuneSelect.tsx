@@ -12,6 +12,7 @@ import FlipCard from "../assets/FlipCard.png";
 import LoadingPage from "../component/LoadingPage";
 import "../assets/font-YUniverse-B.css";
 import { motion } from "framer-motion";
+// import React from "react";
 
 const BackgroundWrapper = styled.div`
   position: relative; // 자식 요소를 절대 위치로 배치하기 위한 설정
@@ -40,7 +41,7 @@ const BackgroundColor = styled.div`
   height: 100vh;
 `;
 
-const TitleContainer = styled.div`
+const TitleContainer = styled(motion.div)`
   //타로 마스터가 여러분의 운세를 봐드립니다
   text-align: center;
   color: #ecb973;
@@ -267,13 +268,19 @@ const FortuneSelect = () => {
         <BackgroundWrapper>
           <BackgroundImg src={Background} />
           <OverlayContent>
-            <TitleContainer>
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                타로 마스터에게
-                <br /> 여러분의 고민을 들려주세요!
-              </motion.div>
+            <TitleContainer
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.3, duration: 0.3 }}
+            >
+              타로 마스터에게
+              <br /> 여러분의 고민을 들려주세요!
             </TitleContainer>
-            <ContentContainer initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+            <ContentContainer
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 2, duration: 0.5 }}
+            >
               운세별 설명을 참고하여
               <br /> 여러분이 상담하고 싶은 주제를 선택할 수 있어요
             </ContentContainer>
@@ -287,6 +294,7 @@ const FortuneSelect = () => {
                   <CardBox
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.22, ease: "easeInOut" }}
+                    whileTap={{ scale: 0.85 }}
                   >
                     <ProfileImage src={TodayFortuneImg} />
                     <Question>나의 오늘은 어떨까?</Question>
@@ -331,6 +339,7 @@ const FortuneSelect = () => {
                   <CardBox
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.22, ease: "easeInOut" }}
+                    whileTap={{ scale: 0.85 }}
                   >
                     <ProfileImage src={LoveFortuneImg} />
                     <Question>우리 사이 애정은?</Question>

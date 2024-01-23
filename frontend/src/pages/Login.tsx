@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { accessTokenState, refreshTokenState } from "../state/atom.ts";
 import LoadingPage from "../component/LoadingPage";
 import Swal from "sweetalert2";
+import { motion } from "framer-motion";
 
 const Outside = styled.div`
   background-color: #000;
@@ -84,7 +85,7 @@ const Pw = styled.input`
   }
 `;
 
-const LButton = styled.button`
+const LButton = styled(motion.button)`
   width: 25rem;
   height: 3.25rem;
   border-radius: 1.0625rem;
@@ -209,7 +210,9 @@ function Login() {
               value={password}
               onChange={passwordChange}
             />
-            <LButton type="submit">LOG IN</LButton>
+            <LButton type="submit" whileTap={{ scale: 0.85 }}>
+              LOG IN
+            </LButton>
             <Sign>
               <Link to="/signup">SIGN UP</Link>
             </Sign>
