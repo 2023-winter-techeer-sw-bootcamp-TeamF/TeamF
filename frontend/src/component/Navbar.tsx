@@ -26,6 +26,10 @@ const LogoContainer = styled(motion.div)`
   text-transform: capitalize;
   display: flex;
   margin-left: 1.25rem;
+  &:hover {
+    font-weight: 1200;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
   cursor: pointer;
 `;
 
@@ -51,9 +55,12 @@ const LoginButton = styled.button`
   cursor: pointer;
 
   &:hover {
-    opacity: 0.7;
+    // opacity: 0.7;
+    border-color: #ffbf00;
+    color: #ffbf00;
+    font-weight: bold;
 
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    // transition: transform 0.1s ease, opacity 0.3s ease;
   }
 `;
 
@@ -66,6 +73,13 @@ const MenuItem = styled.div`
   line-height: normal;
   text-transform: capitalize;
   margin-right: 2.5rem;
+  cursor: pointer;
+  &:hover {
+    // opacity: 0.7;
+    color: #ffbf00;
+    font-weight: bold;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
 `;
 
 const LargeLetter = styled.span`
@@ -89,8 +103,12 @@ const LogoutButton = styled.button`
   line-height: normal;
   text-transform: capitalize;
   cursor: pointer;
+
   &:hover {
-    opacity: 0.7;
+    // opacity: 0.7;
+    color: #ffbf00;
+    border-color: #ffbf00;
+    font-weight: bold;
     transition: transform 0.3s ease, opacity 0.3s ease;
   }
 `;
@@ -117,32 +135,33 @@ const Navbar = () => {
     <NavContainer>
       <LogoContainer
         initial={{ scale: 1 }}
-        whileHover={{ scale: 1.7, originX: 0, position: "relative" }}
+        whileHover={{
+          scale: 1.1,
+          originX: 0,
+          position: "relative",
+          fontWeight: "bold",
+        }}
+        whileTap={{ scale: 0.85 }}
+        transition={{ duration: 0.04, ease: "linear" }}
       >
         <Link to="/">
           <LargeLetter>T</LargeLetter>AIROT&nbsp;
         </Link>
       </LogoContainer>
-      <MenuContainer
-        initial={{ scale: 1 }}
-        whileHover={{ originX: 1, zIndex: 1000 }}
-      >
-        <motion.div whileHover={{ scale: 1.6 }}>
-          <MenuItem onClick={handlePageNavigation}> MYPAGE</MenuItem>
-        </motion.div>
-        <motion.div whileHover={{ scale: 1.3, overflow: "visible" }}>
-          {accessToken ? (
-            <MenuItem>
-              <LogoutButton onClick={handleLogout}>LOG OUT</LogoutButton>
-            </MenuItem>
-          ) : (
-            <MenuItem>
-              <Link to="/login">
-                <LoginButton>LOG IN</LoginButton>
-              </Link>
-            </MenuItem>
-          )}
-        </motion.div>
+      <MenuContainer>
+        <MenuItem onClick={handlePageNavigation}> MYPAGE</MenuItem>
+
+        {accessToken ? (
+          <MenuItem>
+            <LogoutButton onClick={handleLogout}>LOG OUT</LogoutButton>
+          </MenuItem>
+        ) : (
+          <MenuItem>
+            <Link to="/login">
+              <LoginButton>LOG IN</LoginButton>
+            </Link>
+          </MenuItem>
+        )}
       </MenuContainer>
     </NavContainer>
   );

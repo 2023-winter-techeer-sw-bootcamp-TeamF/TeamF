@@ -10,9 +10,10 @@ import WishFortuneImg from "../assets/WishFortune.png";
 import FlipCard from "../assets/FlipCard.png";
 import LoadingPage from "../component/LoadingPage";
 import "../assets/font-YUniverse-B.css";
-import { useRecoilValue } from "recoil";
+import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { accessTokenState } from "../state/atom.ts";
+import { useRecoilValue } from "recoil";
 
 const BackgroundWrapper = styled.div`
   position: relative; // 자식 요소를 절대 위치로 배치하기 위한 설정
@@ -41,7 +42,7 @@ const BackgroundColor = styled.div`
   height: 100vh;
 `;
 
-const TitleContainer = styled.div`
+const TitleContainer = styled(motion.div)`
   //타로 마스터가 여러분의 운세를 봐드립니다
   text-align: center;
   color: #ecb973;
@@ -56,7 +57,7 @@ const TitleContainer = styled.div`
   margin-bottom: 3.5rem;
 `;
 
-const ContentContainer = styled.p`
+const ContentContainer = styled(motion.p)`
   //타로 마스터의 설명을 참고하여 주제별 운세를 선택해주세요
   color: #ecb973;
   text-align: center;
@@ -71,7 +72,7 @@ const ContentContainer = styled.p`
   margin-bottom: 6rem;
 `;
 
-const CardBox = styled.div`
+const CardBox = styled(motion.div)`
   //각 카드 박스
   width: 12.375rem;
   height: 20.75rem;
@@ -86,9 +87,14 @@ const CardBox = styled.div`
   position: absolute;
   backface-visibility: hidden;
   transform: rotateY(0deg);
+  /*
+  &:hover {
+    background: #2b3140;
+  }
+  */
 `;
 
-const CardsContainer = styled.div`
+const CardsContainer = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -156,7 +162,7 @@ const FlipcardBackground = styled.div`
   transform: rotateY(180deg);
 `;
 
-const FlipcardContainer = styled.div`
+const FlipcardContainer = styled(motion.div)`
   position: relative;
   width: 12.375rem;
   height: 20.75rem;
@@ -170,7 +176,7 @@ const FlipcardInner = styled.div<FlipcardInnerProps>`
   text-align: left;
   transition: transform 0.6s;
   transform-style: preserve-3d;
-  cursor: pointer;
+
   transform: rotateY(${(props) => (props.isFlipped ? "180deg" : "0")});
 `;
 
@@ -220,7 +226,7 @@ const Bold = styled.span`
   font-weight: 700;
   line-height: normal;
 `;
-const SoloBtn = styled.div`
+const SoloBtn = styled(motion.div)`
   width: 8.4375rem;
   height: 1.5rem;
   flex-shrink: 0;
@@ -259,7 +265,6 @@ const FortuneSelect = () => {
       navigate(path);
     }
   };
-
   // 카드를 뒤집는 함수
   const handleFlip = (flipIndex: number) => {
     const newFlippedCards = flippedCards.map((_, index) => index === flipIndex);
@@ -273,18 +278,40 @@ const FortuneSelect = () => {
         <BackgroundWrapper>
           <BackgroundImg src={Background} />
           <OverlayContent>
-            <TitleContainer>
+            <TitleContainer
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.3, duration: 0.3 }}
+            >
               타로 마스터에게
               <br /> 여러분의 고민을 들려주세요!
             </TitleContainer>
-            <ContentContainer>
+            <ContentContainer
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.7, duration: 0.3 }}
+            >
               운세별 설명을 참고하여
               <br /> 여러분이 상담하고 싶은 주제를 선택할 수 있어요
             </ContentContainer>
-            <CardsContainer>
-              <FlipcardContainer onClick={() => handleFlip(0)}>
+            <CardsContainer
+              initial={{ opacity: 0 }}
+              animate={{
+                opacity: 1,
+                y: [-10, 0],
+              }}
+              transition={{ delay: 2.1, duration: 0.8, ease: "easeIn" }}
+            >
+              <FlipcardContainer
+                onClick={() => handleFlip(0)}
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.22, ease: "easeOut" }}
+              >
                 <FlipcardInner isFlipped={flippedCards[0]}>
-                  <CardBox>
+                  <CardBox
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ duration: 0.22, ease: "easeInOut" }}
+                  >
                     <ProfileImage src={TodayFortuneImg} />
                     <Question>나의 오늘은 어떨까?</Question>
                     <CardTitle>오늘의 운세</CardTitle>
@@ -310,7 +337,6 @@ const FortuneSelect = () => {
                       <br />
                       자세히 분석해 드릴게요.
                     </CardText>
-
                     <SoloBtn
                       onClick={() => handlePageNavigation("/todayfortune")}
                     >
@@ -320,9 +346,16 @@ const FortuneSelect = () => {
                 </FlipcardInner>
               </FlipcardContainer>
 
-              <FlipcardContainer onClick={() => handleFlip(1)}>
+              <FlipcardContainer
+                onClick={() => handleFlip(1)}
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.22, ease: "easeInOut" }}
+              >
                 <FlipcardInner isFlipped={flippedCards[1]}>
-                  <CardBox>
+                  <CardBox
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ duration: 0.22, ease: "easeInOut" }}
+                  >
                     <ProfileImage src={LoveFortuneImg} />
                     <Question>우리 사이 애정은?</Question>
                     <CardTitle>연애운</CardTitle>
@@ -357,9 +390,17 @@ const FortuneSelect = () => {
                   </FlipcardBackground>
                 </FlipcardInner>
               </FlipcardContainer>
-              <FlipcardContainer onClick={() => handleFlip(2)}>
+
+              <FlipcardContainer
+                onClick={() => handleFlip(2)}
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.22, ease: "easeInOut" }}
+              >
                 <FlipcardInner isFlipped={flippedCards[2]}>
-                  <CardBox>
+                  <CardBox
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ duration: 0.22, ease: "easeInOut" }}
+                  >
                     <ProfileImage src={FriendshipImg} />
                     <Question>우리 사이 우정은?</Question>
                     <CardTitle>우정운</CardTitle>
@@ -394,9 +435,16 @@ const FortuneSelect = () => {
                   </FlipcardBackground>
                 </FlipcardInner>
               </FlipcardContainer>
-              <FlipcardContainer onClick={() => handleFlip(3)}>
+              <FlipcardContainer
+                onClick={() => handleFlip(3)}
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.22, ease: "easeInOut" }}
+              >
                 <FlipcardInner isFlipped={flippedCards[3]}>
-                  <CardBox>
+                  <CardBox
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ duration: 0.22, ease: "easeInOut" }}
+                  >
                     <ProfileImage src={MoneyFortuneImg} />
                     <Question>나 부자 될 수 있을까?</Question>
                     <CardTitle>재물운</CardTitle>
@@ -433,9 +481,16 @@ const FortuneSelect = () => {
                   </FlipcardBackground>
                 </FlipcardInner>
               </FlipcardContainer>
-              <FlipcardContainer onClick={() => handleFlip(4)}>
+              <FlipcardContainer
+                onClick={() => handleFlip(4)}
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.22, ease: "easeInOut" }}
+              >
                 <FlipcardInner isFlipped={flippedCards[4]}>
-                  <CardBox>
+                  <CardBox
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ duration: 0.22, ease: "easeInOut" }}
+                  >
                     <ProfileImage src={WishFortuneImg} />
                     <Question>이룰 수 있을까?</Question>
                     <CardTitle>소망운</CardTitle>
