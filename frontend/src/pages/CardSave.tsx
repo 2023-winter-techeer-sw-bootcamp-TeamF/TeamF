@@ -239,7 +239,7 @@ function CardSave() {
   const pollId = useRecoilValue(pollIdState);
   const [tarotImage, setTarotImage] = useState<ImgType[]>([]);
   const [explanation, setExplanation] = useState("");
-  const [luck, setLuck] = useState("");
+  const [date, setDate] = useState("");
   useEffect(() => {
     axios
       .get(`/api/v1/polls/detail?poll_id=${pollId}`, {
@@ -250,7 +250,7 @@ function CardSave() {
       .then((response) => {
         setTarotImage(response.data.data.card);
         setExplanation(response.data.data.result[0].explanation);
-        setLuck(response.data.data.result[0].luck);
+        setDate(response.data.data.date);
       })
       .catch((error) => {
         console.error("타로 결과를 불러오는데 실패했습니다:", error);
@@ -278,7 +278,7 @@ function CardSave() {
                     </TaroExs>
                     <CardText>{explanation}</CardText>
                   </CardLine2>
-                  <UserName>ㆍ{luck}ㆍ</UserName>
+                  <UserName>ㆍ{date}ㆍ</UserName>
                 </CardLine1>
               </Card>
               <RightBox>

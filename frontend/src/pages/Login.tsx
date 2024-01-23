@@ -7,8 +7,10 @@ import { useNavigate } from "react-router-dom";
 import { accessTokenState, refreshTokenState } from "../state/atom.ts";
 import LoadingPage from "../component/LoadingPage";
 import Swal from "sweetalert2";
-import axios from "axios";
 import { motion } from "framer-motion";
+
+import axios from "axios";
+
 const Outside = styled.div`
   background-color: #000;
   display: flex;

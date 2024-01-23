@@ -209,6 +209,7 @@ const TodayFortune = () => {
   const setLuckType = useSetRecoilState(selectLuck);
   const [taroMaster, setTaroMaster] = useState("");
   const settarotMasterImg = useSetRecoilState(tarotMasterImg);
+
   // const로 선언했을 때 불변값이라 값을 변화하면 에러 생김
   const getText = (): void => {
     axios

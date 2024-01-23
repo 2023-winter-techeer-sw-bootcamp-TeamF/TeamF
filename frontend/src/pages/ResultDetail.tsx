@@ -312,7 +312,7 @@ function ResultDetail() {
   const { poll_id } = useParams();
   const [question, setQuestion] = useState("");
   const [explanation, setExplanation] = useState("");
-  const [luck, setLuck] = useState("");
+  const [date, setDate] = useState("");
   const [masterName, setMasterName] = useState("");
   const [tarotImage, setTarotImage] = useState<ImgType[]>([]);
   const accessToken = useRecoilValue(accessTokenState);
@@ -340,7 +340,7 @@ function ResultDetail() {
         setQuestion(response.data.data.result[0].question);
         setTarotImage(response.data.data.card);
         setExplanation(response.data.data.result[0].explanation);
-        setLuck(response.data.data.result[0].luck);
+        setDate(response.data.data.date);
         setMasterName(response.data.data.result[0].master_name);
       })
       .catch((error) => {
@@ -435,7 +435,7 @@ function ResultDetail() {
                     </svg>
                   </Solutions>
                 </DetailLine2>
-                <Date>ㆍ{luck}ㆍ</Date>
+                <Date>ㆍ{date}ㆍ</Date>
               </DetailLine1>
             </DetailBackground>
             <Buttons>
