@@ -190,11 +190,12 @@ const NextBox2 = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 1.7rem;
 `;
 const NextText = styled.a`
   color: #ecb973;
   text-align: center;
-  font-family: Inter;
+  font-family: YUniverse-B;
   font-size: 1.4375rem;
   font-style: normal;
   font-weight: 600;
@@ -207,7 +208,7 @@ const NextText = styled.a`
 const NextText2 = styled.a`
   color: #ecb973;
   text-align: center;
-  font-family: Inter;
+  font-family: YUniverse-B;
   font-size: 1.4375rem;
   font-style: normal;
   font-weight: 600;
@@ -220,10 +221,10 @@ const WishFortune = () => {
   const setPollId = useSetRecoilState(pollIdState);
   const accessToken = useRecoilValue(accessTokenState);
   const [reply, setReply] = useRecoilState(replyState);
-  const [tellMeText, setTellMeText] = useState(""); //useState TellMeText를 빈칸으로 선언
-  const [taroMaster, setTaroMaster] = useState("");
-
+  const tellMeText =
+    "안녕하세요, 소망운 타로 마스터 굴이가 왔어요! 🐸✨ 타로점을 볼 때 주의할 점과 타로점을 보는 방법에 대해 말해볼게요. 타로는 마치 마법처럼 개인의 상황과 감정을 반영하는 거예요. 그러니까 고민을 얘기하기 전에, 마음을 집중하고 내면을 탐색하는 시간을 가질 필요가 있어요. 모호하거나 추상적인 답변은 해석이 떨어질 수 있으니까 꼭 명확하게 얘기해 주세용! 소망운은 총 3장의 카드를 뽑아요. 고민을 얘기하고 나면 무작위로 섞인 타로 카드 중 3장을 뽑을 거예요. 타로를 해석할 때는 고민 내용과 타로 카드의 그림, 숫자, 글자를 통해 의미를 찾아볼게요. 해석은 주관적일 수 있어요. 그래서 다양한 관점에서 생각해 보면 더욱 좋아요. 그럼 이제 당신의 고민을 해결하러 가볼까요?! 당신의 고민을 얘기해 주세요! 🌟💖";
   const setLuckType = useSetRecoilState(selectLuck);
+  const [taroMaster, setTaroMaster] = useState("");
   const settarotMasterImg = useSetRecoilState(tarotMasterImg);
   // const로 선언했을 때 불변값이라 값을 변화하면 에러 생김
   const getText = (): void => {
@@ -236,8 +237,6 @@ const WishFortune = () => {
         },
       })
       .then((res) => {
-        console.log(res.data.data.content);
-        setTellMeText(res.data.data.content); //set@=텍스트 값 바꿈
         setTaroMaster(res.data.data.master_name);
         setLuckType(5);
         settarotMasterImg(WishFortuneImg);
@@ -257,7 +256,7 @@ const WishFortune = () => {
   //한글자씩 나오게 하는 로직
   const [blobTitle2, setBlobTitle2] = useState("");
   const [count2, setCount2] = useState(0);
-  const completionWord2 = "자, 그럼 이제 타로의 세계로 떠나볼까요?";
+  const completionWord2 = "자, 그럼 이제 소원을 이루러 가보자굴!";
 
   useEffect(() => {
     if (writeDone) {
@@ -351,7 +350,6 @@ const WishFortune = () => {
   useEffect(() => {
     getText();
   }, []);
-  console.log(comeout);
   return (
     <BackgroundColor>
       <Inside>
@@ -382,7 +380,7 @@ const WishFortune = () => {
               <Profile2 src={WishFortuneImg}></Profile2>
               {!writeDone ? (
                 <NextBox>
-                  <NextText onClick={handleNextButton}>다 적었나요?</NextText>
+                  <NextText onClick={handleNextButton}>다 적었나굴?</NextText>
                 </NextBox>
               ) : (
                 <NextBox2>

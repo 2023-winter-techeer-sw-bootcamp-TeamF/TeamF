@@ -132,7 +132,9 @@ const Navbar = () => {
         </motion.div>
         <motion.div whileHover={{ scale: 1.3, overflow: "visible" }}>
           {accessToken ? (
-            <LogoutButton onClick={handleLogout}>LOG OUT</LogoutButton>
+            <MenuItem>
+              <LogoutButton onClick={handleLogout}>LOG OUT</LogoutButton>
+            </MenuItem>
           ) : (
             <MenuItem>
               <Link to="/login">

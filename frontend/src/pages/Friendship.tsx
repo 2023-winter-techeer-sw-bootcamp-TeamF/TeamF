@@ -191,12 +191,13 @@ const NextBox2 = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 1.7rem;
 `;
 
 const NextText = styled.a`
   color: #ecb973;
   text-align: center;
-  font-family: Inter;
+  font-family: YUniverse-B;
   font-size: 1.4375rem;
   font-style: normal;
   font-weight: 600;
@@ -209,8 +210,8 @@ const NextText = styled.a`
 const NextText2 = styled.a`
   color: #ecb973;
   text-align: center;
-  font-family: Inter;
-  font-size: 1.4375rem;
+  font-family: YUniverse-B;
+  font-size: 1.2rem;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
@@ -223,11 +224,12 @@ const FriendShip = () => {
   const setPollId = useSetRecoilState(pollIdState);
   const accessToken = useRecoilValue(accessTokenState);
   const [reply, setReply] = useRecoilState(replyState);
-  const [tellMeText, setTellMeText] = useState(""); //useState TellMeText를 빈칸으로 선언
+  const tellMeText =
+    "아이고~ 어서와라, 이 할머니는 네가 우정을 찾아나가는 여정을 함께할 우정운 타로 마스터 마틸드 란다. 타로점을 볼 때 주의할 점과 타로점을 보는 방법에 대해 알려줄테니 잘 들어보렴. 타로는 단순한 운세가 아니라 네 상황이나 감정을 반영하는 거란다. 추상적이거나 모호한 대답은 해석을 어렵게 만들어버릴 수 있단다. 그러니 명확한 답을 원한다면, 고민을 얘기하기 전에 네 마음에 집중하고 내면을 좀 더 탐색해보렴. 우정운은 총 5장의 카드를 뽑는단다. 네가 고민을 얘기하고 나면 카드를 뽑을텐데, 네 고민과 카드의 그림, 숫자, 글자를 함께 고려해서 이 할머니가 그 의미를 알아보마. 해석은 주관적일 수 있으니 여러 시각에서 생각해보는 게 중요하단 걸 꼭 기억하렴. 자, 이제 네 고민을 얘기해보려무나. 이 할머니가 귀 기울여 들어줄게.";
+
   const setLuckType = useSetRecoilState(selectLuck);
   const [taroMaster, setTaroMaster] = useState("");
   const settarotMasterImg = useSetRecoilState(tarotMasterImg);
-
   // const로 선언했을 때 불변값이라 값을 변화하면 에러 생김
   const getText = (): void => {
     axios
@@ -239,11 +241,9 @@ const FriendShip = () => {
         },
       })
       .then((res) => {
-        console.log(res.data.data.content);
-        setTellMeText(res.data.data.content); //set@=텍스트 값 바꿈
         setTaroMaster(res.data.data.master_name);
-        settarotMasterImg(FriendshipImg);
         setLuckType(3);
+        settarotMasterImg(FriendshipImg);
       })
       .catch((error) => {
         console.log(error);
@@ -260,7 +260,7 @@ const FriendShip = () => {
   //한글자씩 나오게 하는 로직
   const [blobTitle2, setBlobTitle2] = useState("");
   const [count2, setCount2] = useState(0);
-  const completionWord2 = "자, 그럼 이제 타로의 세계로 떠나볼까요?";
+  const completionWord2 = "너의 친구들을 한번 알아보러 가보자꾸나..🔍";
 
   useEffect(() => {
     if (writeDone) {
@@ -385,7 +385,9 @@ const FriendShip = () => {
               <Profile2 src={FriendshipImg}></Profile2>
               {!writeDone ? (
                 <NextBox>
-                  <NextText onClick={handleNextButton}>다 적었나요?</NextText>
+                  <NextText onClick={handleNextButton}>
+                    다 적었으면 말해주렴.
+                  </NextText>
                 </NextBox>
               ) : (
                 <NextBox2>
