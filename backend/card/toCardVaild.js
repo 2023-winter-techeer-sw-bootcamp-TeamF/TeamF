@@ -1,3 +1,5 @@
+const s3 = require('../aws/awsS3');
+
 function isNotCardValid(card) {
     let result = false;
     if (card === 'undefined' || card === null || card === '') // 값이 없는 경우
@@ -13,7 +15,6 @@ function toCardArray(cards) {
         throw new InvalidDataError();
     }
     let cardsArray = cards.split(',');
-    console.log(cardsArray);
 
     for (let card of cardsArray) {
         if (isNotCardValid(card)) 
@@ -40,6 +41,18 @@ function toVerifyCardArray(cards) {
     return cardsArray;
 }
 
+async function createVerifyCardObjectArray(cards) {
+    let result = [];
+    const cardsArray = toVerifyCardArray(cards);
+    for (const card of cardsArray) {
+        const cardIndex = s3.findIndex(card); // 카드 번호를 통해 S3에서 파일의 인덱스를 가져옴
+        const cardData = await s3.getDataObject(cardIndex); // 파일명을 통해 데이터를 가져옴
+        cardData.number = Number(cardData.number); // number를 숫자로 변환
+        result.push(cardData);
+    }
+    return result;
+}
+
 class InvalidDataError extends Error {
     constructor() {
         super('유효하지 않은 데이터입니다. (널 값, 누락 등)');
@@ -56,5 +69,6 @@ class InvalidCardNumberError extends Error {
 module.exports = {
     toCardArray,
     toCardMessage,
-    toVerifyCardArray
+    toVerifyCardArray,
+    createVerifyCardObjectArray
 };

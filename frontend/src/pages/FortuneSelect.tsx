@@ -93,7 +93,7 @@ const CardBox = styled(motion.div)`
   */
 `;
 
-const CardsContainer = styled.div`
+const CardsContainer = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;

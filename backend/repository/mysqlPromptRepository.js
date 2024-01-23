@@ -1,7 +1,4 @@
-const e = require("express");
 const db = require("../mysql/database.js");
-const util = require("util");
-
 class MysqlPromptRepository {
   constructor() {
     this.connection = db.getConnection();
@@ -20,8 +17,6 @@ class MysqlPromptRepository {
             resolve(result);
         })
       });
-
-      console.log('findSystemByLuckId : ', result[0].system_prompt);
       return result[0].system_prompt;
     } catch (e) {
       console.log(e);
@@ -40,7 +35,6 @@ class MysqlPromptRepository {
             resolve(result);
         })
       });
-      console.log('findUserByLuckId : ', result[0].user_prompt);
       return result[0].user_prompt;
     } catch (e) {
       console.log(e);

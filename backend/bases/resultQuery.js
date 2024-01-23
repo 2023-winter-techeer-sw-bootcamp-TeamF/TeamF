@@ -6,6 +6,7 @@ const router = express.Router();
 
 const resultQuery = async (connection, res, poll_id, next) => {
   try {
+    const connection = db.getConnection();
     const query =
       "SELECT question, explanation, luck, master_name FROM result WHERE poll_id = ?";
     const data = await new Promise((resolve, rejects) => {
@@ -23,9 +24,9 @@ const resultQuery = async (connection, res, poll_id, next) => {
     return data.length > 0 ? data : "데이터가 없음";
   } catch (error) {
     console.error(error);
-    res.locals.data = { message: error.message };
     res.locals.status = 500;
-    return next();
+    res.locals.data = { message: "DB 쿼리 오류", error: error.message };
+    throw error;
   }
 };
 

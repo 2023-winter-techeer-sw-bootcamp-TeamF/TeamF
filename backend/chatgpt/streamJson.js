@@ -40,7 +40,6 @@ class StreamJson {
 
       if (this.status(char) === 3) {
         result += char;
-        console.log('char : ' + char);
       }
 
       if (index != this.index){
@@ -57,7 +56,6 @@ class StreamJson {
       if (this.status(char) === 3) {
         if (this.index >= index) {
           result += char;
-          console.log('char : ' + char);
         }
       }
     }

@@ -4,7 +4,7 @@ import Background from "../assets/Background.png";
 import FriendshipImg from "../assets/Friendship.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRecoilState, useSetRecoilState, useRecoilValue } from "recoil";
 
 import LoadingPage from "../component/LoadingPage";
@@ -181,17 +181,44 @@ const NextBox = styled.div`
   justify-content: center;
 `;
 
+const NextBox2 = styled.div`
+  width: 14.6875rem;
+  height: 7rem;
+  border-radius: 0rem 1.25rem 1.25rem 1.25rem;
+  border: 1px solid #ecb973;
+  background: rgba(236, 185, 115, 0);
+  transform: translate(85%, -489%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.7rem;
+`;
+
 const NextText = styled.a`
   color: #ecb973;
   text-align: center;
-  font-family: Inter;
-  font-size: 1.4375rem;
+  font-family: YUniverse-B;
+  font-size: 1.3rem;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 300;
   line-height: normal;
   text-decoration-line: underline;
   text-transform: capitalize;
   cursor: pointer;
+  line-height: 1.4;
+`;
+
+const NextText2 = styled.a`
+  color: #ecb973;
+  text-align: center;
+  font-family: YUniverse-B;
+  font-size: 1.3rem;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+  text-transform: capitalize;
+  cursor: pointer;
+  line-height: 1.4;
 `;
 
 const FriendShip = () => {
@@ -203,6 +230,7 @@ const FriendShip = () => {
   const setLuckType = useSetRecoilState(selectLuck);
   const [taroMaster, setTaroMaster] = useState("");
   const settarotMasterImg = useSetRecoilState(tarotMasterImg);
+
   // const로 선언했을 때 불변값이라 값을 변화하면 에러 생김
   const getText = (): void => {
     axios
@@ -225,6 +253,43 @@ const FriendShip = () => {
       });
   };
 
+  // 다 적었다는 버튼 클릭 시
+  const [writeDone, setWriteDone] = useState(false);
+
+  const textChange = () => {
+    setWriteDone(true);
+    setComeout(2);
+  };
+  //한글자씩 나오게 하는 로직
+  const [blobTitle2, setBlobTitle2] = useState("");
+  const [count2, setCount2] = useState(0);
+  const completionWord2 = "너의 친구들을 한번 알아보러 가보자꾸나..🔍";
+
+  useEffect(() => {
+    console.log(count2, completionWord2.length);
+    if (writeDone) {
+      const typingInterval = setInterval(() => {
+        setBlobTitle2((prevTitleValue) => {
+          if (count2 < completionWord2.length) {
+            const newChar = completionWord2[count2];
+            const result = prevTitleValue ? prevTitleValue + newChar : newChar;
+            setCount2(count2 + 1);
+            return result;
+          } else {
+            clearInterval(typingInterval);
+            setTimeout(() => {
+              navigate("/cardselect5");
+            }, 2000);
+            return prevTitleValue;
+          }
+        });
+      }, 30);
+
+      return () => {
+        clearInterval(typingInterval);
+      };
+    }
+  });
   const handleNextButton = async () => {
     try {
       const response = await axios.post(
@@ -238,7 +303,7 @@ const FriendShip = () => {
       );
       console.log("성공", response.data);
       setPollId(response.data.data.pollId);
-      navigate("/cardselect5");
+      textChange();
     } catch (error) {
       console.log(error);
     }
@@ -275,6 +340,21 @@ const FriendShip = () => {
       };
     }
   });
+
+  //자동으로 스크롤이 내려가게 하는 로직
+  const chatBoxRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollToBottom = () => {
+    const chatBox = chatBoxRef.current;
+    if (chatBox) {
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [blobTitle]);
+
   useEffect(() => {
     getText();
   }, []);
@@ -291,7 +371,9 @@ const FriendShip = () => {
           </TitleBox>
           <BackgroundImg src={Background} alt="Background" />
           <ChatBox>
-            <Tellme>{blobTitle}</Tellme>
+            <Tellme ref={chatBoxRef} className="chatBox">
+              {blobTitle}
+            </Tellme>
           </ChatBox>
           {comeout === 0 ? (
             <></>
@@ -305,9 +387,17 @@ const FriendShip = () => {
                 ></Reply>
               </ReplyBox>
               <Profile2 src={FriendshipImg}></Profile2>
-              <NextBox>
-                <NextText onClick={handleNextButton}>카드 뽑으러 가기</NextText>
-              </NextBox>
+              {!writeDone ? (
+                <NextBox>
+                  <NextText onClick={handleNextButton}>
+                    다 적었으면 말해주렴.
+                  </NextText>
+                </NextBox>
+              ) : (
+                <NextBox2>
+                  <NextText2>{blobTitle2}</NextText2>
+                </NextBox2>
+              )}
             </>
           )}
         </BackgroundWrapper>

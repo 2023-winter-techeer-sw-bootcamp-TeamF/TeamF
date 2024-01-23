@@ -195,9 +195,10 @@ interface RecordType {
 function MyPage() {
   const accessToken = useRecoilValue(accessTokenState);
   const [tarotRecord, setTarotRecord] = useState<RecordType[]>([]);
+
   useEffect(() => {
     axios
-      .get("/api/v1/polls/list", {
+      .get("/api/v1/polls", {
         headers: {
           authorization: accessToken,
         },
@@ -209,7 +210,7 @@ function MyPage() {
       .catch((error) => {
         console.error("타로 기록을 불러오는데 실패했습니다.", error);
       });
-  }, [accessToken]);
+  }, []);
   return (
     <>
       <Background>
