@@ -4,15 +4,14 @@ import BackgroundImg1 from "../assets/Background.png";
 import LinkBtn from "../assets/LinkButton.png";
 import ShareBtn from "../assets/ShareButton.png";
 import LoadingPage from "../component/LoadingPage";
-import { useNavigate } from "react-router-dom";
 import { shareKakao } from "../utils/shareKakaoLink";
 import { useRecoilValue } from "recoil";
 import { pollIdState, accessTokenState } from "../state/atom.ts";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import "../assets/font-YUniverse-B.css";
 import "../assets/font-S-CoreDream-3Light.css";
-
 
 const Background = styled.div`
   width: 100vw;
@@ -266,7 +265,6 @@ function CardSave() {
   const poll_id = useRecoilValue(pollIdState);
   const accessToken = useRecoilValue(accessTokenState);
   const pollId = useRecoilValue(pollIdState);
-  const navigate = useNavigate();
   const [tarotImage, setTarotImage] = useState<ImgType[]>([]);
   const [explanation, setExplanation] = useState("");
   const [luck, setLuck] = useState("");
@@ -295,9 +293,6 @@ function CardSave() {
 
   const shareButton = () => {
     shareKakao(`http://localhost:5000/share/`, poll_id);
-  };
-  const handleMyPage = () => {
-    navigate("/mypage");
   };
 
   return (
@@ -340,12 +335,11 @@ function CardSave() {
                       링크 공유하기
                     </ShareButtonText>
                   </ShareButton>
-
-                  <SaveButton>
-                    <SaveButtonText onClick={handleMyPage}>
-                      MYPAGE로 이동하기
-                    </SaveButtonText>
-                  </SaveButton>
+                  <Link to="/mypage">
+                    <SaveButton>
+                      <SaveButtonText>MYPAGE로 이동하기</SaveButtonText>
+                    </SaveButton>
+                  </Link>
                 </Buttons>
               </RightBox>
             </Cards>

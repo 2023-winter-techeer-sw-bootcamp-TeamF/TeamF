@@ -96,14 +96,13 @@ const LogoutButton = styled.button`
 `;
 
 const Navbar = () => {
-  const navigate = useNavigate();
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
   const setRefreshToken = useSetRecoilState(refreshTokenState);
   const accessTokenValue = useRecoilValue(accessTokenState);
+  const navigate = useNavigate();
   const handleLogout = () => {
     setAccessToken("");
     setRefreshToken("");
-    navigate("/fortuneselect");
   };
 
   const handlePageNavigation = () => {
@@ -120,7 +119,7 @@ const Navbar = () => {
         initial={{ scale: 1 }}
         whileHover={{ scale: 1.7, originX: 0, position: "relative" }}
       >
-        <Link to="/fortuneselect">
+        <Link to="/">
           <LargeLetter>T</LargeLetter>AIROT&nbsp;
         </Link>
       </LogoContainer>

@@ -356,6 +356,7 @@ router.post(
           cardArray: cardNumArray,
           ask: ask,
           cardAnswerArray: cardAnswerArray,
+          answer: cardAnswerArray[0],
           socketId: socketId,
           poll_id: poll_id,
           luckType: luck, // 운 종류

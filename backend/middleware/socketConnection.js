@@ -32,8 +32,7 @@ const newClientHandler = (socket, next) => {
   next();
 };
 
-const clientDisconnectHandler = (socket) => {
-  const userId = socket.user.name;
+const clientDisconnectHandler = (userId) => {
 
   gptclientConnectionList.delete(userId);
 
@@ -46,6 +45,10 @@ const clientConnectedHandler = (socket) => {
     console.log(`key: ${key}, value: ${value}`);
   }
   console.log('new client connected:', userId);
+  socket.on("disconnect", () => {
+    console.log("소켓 연결 해제");
+    clientDisconnectHandler(userId);
+  });
 };
 
 const getSocketId = (userId) => {
