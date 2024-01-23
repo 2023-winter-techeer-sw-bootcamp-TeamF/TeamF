@@ -171,11 +171,12 @@ const NextBox2 = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 1.7rem;
 `;
 const NextText = styled.a`
   color: #ecb973;
   text-align: center;
-  font-family: Inter;
+  font-family: YUniverse-B;
   font-size: 1.4375rem;
   font-style: normal;
   font-weight: 600;
@@ -188,7 +189,7 @@ const NextText = styled.a`
 const NextText2 = styled.a`
   color: #ecb973;
   text-align: center;
-  font-family: Inter;
+  font-family: YUniverse-B;
   font-size: 1.4375rem;
   font-style: normal;
   font-weight: 600;
