@@ -100,6 +100,11 @@ const LButton = styled.button`
   justify-content: center;
   align-items: center;
   cursor: pointer;
+
+  &:hover {
+    opacity: 0.7;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
 `;
 
 const Sign = styled.button`
@@ -166,7 +171,7 @@ function Login() {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post("/user/login", {
+      const response = await axios.post("/api/v1/users/login", {
         login_id: loginId,
         password: password,
       });
@@ -180,24 +185,31 @@ function Login() {
     }
   };
 
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    handleLogin();
+  };
+
   return (
     <>
       <Outside>
         <LoadingPage></LoadingPage>
-        <Circle>
-          <LWord>LOG IN</LWord>
-          <Id placeholder="ID" value={loginId} onChange={loginIdChange} />
-          <Pw
-            type="password"
-            placeholder="PASSWORD"
-            value={password}
-            onChange={passwordChange}
-          ></Pw>
-          <LButton onClick={handleLogin}>LOG IN</LButton>
-          <Sign>
-            <Link to="/signup">SIGN UP</Link>
-          </Sign>
-        </Circle>
+        <form onSubmit={handleSubmit}>
+          <Circle>
+            <LWord>LOG IN</LWord>
+            <Id placeholder="ID" value={loginId} onChange={loginIdChange} />
+            <Pw
+              type="password"
+              placeholder="PASSWORD"
+              value={password}
+              onChange={passwordChange}
+            />
+            <LButton type="submit">LOG IN</LButton>
+            <Sign>
+              <Link to="/signup">SIGN UP</Link>
+            </Sign>
+          </Circle>
+        </form>
       </Outside>
     </>
   );

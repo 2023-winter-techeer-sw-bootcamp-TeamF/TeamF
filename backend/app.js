@@ -16,6 +16,7 @@ const verifyToken = require("./middleware/verifyToken");
 const socketConnection = require("./middleware/socketConnection");
 const { socketSendHandler } = require("./middleware/socketHandle");
 const checkPoll = require("./middleware/checkPoll");
+const AppConfig = require('./appConfig');
 const app = express();
 const secretName = "MySQL_Info";
 const secretGptApiKey = "GPT_KEY";
@@ -66,10 +67,10 @@ app.use((req, res, next) => {
 // Swagger UI 설정
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // 라우팅 설정
-app.use("/v1/tarot", require("./routes/tarot"));
-app.use("/v1/share", require("./routes/share"));
-app.use("/v1/polls", verifyToken, require("./routes/polls"));
-app.use("/v1/users", require("./routes/users"));
+app.use("/api/v1/tarot", require("./routes/tarot"));
+app.use("/api/v1/share", require("./routes/share"));
+app.use("/api/v1/polls", verifyToken, require("./routes/polls"));
+app.use("/api/v1/users", require("./routes/users"));
 // 공통 응답 미들웨어
 app.use(require("./middleware/commonResponse"));
 // 404 핸들러
@@ -96,6 +97,8 @@ async function startServer() {
     gpt.initializeGpt(gptApiKey);
     // s3 연결
     s3.initializeS3();
+    // appConfig 객체 저장
+    app.set("appConfig", new AppConfig());
     // 서버 시작
     const port = 3000;
     // 기존 app.listen() 대신 server.listen()을 사용

@@ -7,8 +7,6 @@ import { useRecoilValue } from "recoil";
 import {
   accessTokenState,
   cardNumberAtom1,
-  cardNumberAtom2,
-  cardNumberAtom3,
   pollIdState,
   replyState,
   selectLuck,
@@ -44,6 +42,7 @@ const CardBackground = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-left: 13rem;
 `;
 const TaroEx = styled.img`
   width: 7.72438rem;
@@ -120,35 +119,17 @@ function TarotProcess() {
   const pollId = useRecoilValue(pollIdState);
   const luckType = useRecoilValue(selectLuck);
   const card1 = useRecoilValue(cardNumberAtom1);
-  const card2 = useRecoilValue(cardNumberAtom2);
-  const card3 = useRecoilValue(cardNumberAtom3);
+
   const [cardUrl1, setCardUrl1] = useState("");
-  const [cardUrl2, setCardUrl2] = useState("");
-  const [cardUrl3, setCardUrl3] = useState("");
+
   const tarotMasterImage = useRecoilValue(tarotMasterImg);
 
-  const getImage = async (card1: number, card2: number, card3: number) => {
+  const getImage = async (card1: number) => {
     try {
-      const response = await axios.get("/api/v1/tarot/card",  {
+      const response = await axios.get("/api/v1/tarot/card", {
         params: { card: card1 }, // {이름/카드 번호}
       });
       setCardUrl1(response.data.data.image_url);
-    } catch (error) {
-      console.log(error);
-    }
-    try {
-      const response = await axios.get("/api/v1/tarot/card", {
-        params: { card: card2 }, // {이름/카드 번호}
-      });
-      setCardUrl2(response.data.data.image_url);
-    } catch (error) {
-      console.log(error);
-    }
-    try {
-      const response = await axios.get("/api/v1/tarot/card", {
-        params: { card: card3 }, // {이름/카드 번호}
-      });
-      setCardUrl3(response.data.data.image_url);
     } catch (error) {
       console.log(error);
     }
@@ -156,7 +137,7 @@ function TarotProcess() {
   //웹소켓 연결
   const getStream = async () => {
     try {
-      getImage(card1, card2, card3);
+      getImage(card1);
       socket.connect();
       const response = await axios.post(
         "/api/v1/tarot/result",
@@ -166,7 +147,7 @@ function TarotProcess() {
             Authorization: accesstoken,
           },
           params: {
-            cards: `${card1},${card2},${card3}`,
+            cards: `${card1}`,
             ask: ask,
             luckType: luckType,
             poll_id: pollId,
@@ -224,8 +205,7 @@ function TarotProcess() {
   const buttonClear = () => {
     setTrigger(true);
     setCardUrl1("");
-    setCardUrl2("");
-    setCardUrl3("");
+
     setStreamArray("로딩 중...");
     window.location.replace("/cardsave");
   };
@@ -241,12 +221,7 @@ function TarotProcess() {
               <CardBackground>
                 <TaroEx src={cardUrl1} />
               </CardBackground>
-              <CardBackground>
-                <TaroEx src={cardUrl2} />
-              </CardBackground>
-              <CardBackground>
-                <TaroEx src={cardUrl3} />
-              </CardBackground>
+              ㄴ
             </Cards>
             <TaroMaster src={tarotMasterImage} />
             <ChatBox>

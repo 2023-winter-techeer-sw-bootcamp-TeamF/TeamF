@@ -35,6 +35,18 @@ export const cardNumberAtom3 = atom<number>({
   effects_UNSTABLE: [persistAtom],
 });
 
+export const cardNumberAtom4 = atom<number>({
+  key: "cardNumberAtom4",
+  default: 0,
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const cardNumberAtom5 = atom<number>({
+  key: "cardNumberAtom5",
+  default: 0,
+  effects_UNSTABLE: [persistAtom],
+});
+
 export const pollIdState = atom({
   key: "pollIdState",
   default: "",
