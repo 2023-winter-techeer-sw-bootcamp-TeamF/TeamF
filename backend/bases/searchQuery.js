@@ -1,11 +1,7 @@
 const express = require("express");
-const commonResponse = require("../middleware/commonResponse.js");
-const jwt = require("jsonwebtoken");
 const db = require("../mysql/database.js");
 const { resolve } = require("path");
 const { rejects } = require("assert");
-const router = express.Router();
-const verifyToken = require("../middleware/verifyToken.js");
 
 const searchQuery = async (connection, req, res, poll_id, next) => {
   try {
