@@ -175,7 +175,7 @@ const FlipcardInner = styled.div<FlipcardInnerProps>`
   text-align: left;
   transition: transform 0.6s;
   transform-style: preserve-3d;
-  cursor: pointer;
+
   transform: rotateY(${(props) => (props.isFlipped ? "180deg" : "0")});
 `;
 
@@ -225,7 +225,7 @@ const Bold = styled.span`
   font-weight: 700;
   line-height: normal;
 `;
-const SoloBtn = styled.div`
+const SoloBtn = styled(motion.div)`
   width: 8.4375rem;
   height: 1.5rem;
   flex-shrink: 0;
@@ -279,22 +279,28 @@ const FortuneSelect = () => {
             <ContentContainer
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 2, duration: 0.5 }}
+              transition={{ delay: 1.7, duration: 0.3 }}
             >
               운세별 설명을 참고하여
               <br /> 여러분이 상담하고 싶은 주제를 선택할 수 있어요
             </ContentContainer>
-            <CardsContainer>
+            <CardsContainer
+              initial={{ opacity: 0 }}
+              animate={{
+                opacity: 1,
+                y: [-10, 0],
+              }}
+              transition={{ delay: 2.1, duration: 0.8, ease: "easeIn" }}
+            >
               <FlipcardContainer
                 onClick={() => handleFlip(0)}
                 whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.22, ease: "easeInOut" }}
+                transition={{ duration: 0.22, ease: "easeOut" }}
               >
                 <FlipcardInner isFlipped={flippedCards[0]}>
                   <CardBox
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.22, ease: "easeInOut" }}
-                    whileTap={{ scale: 0.85 }}
                   >
                     <ProfileImage src={TodayFortuneImg} />
                     <Question>나의 오늘은 어떨까?</Question>
@@ -339,7 +345,6 @@ const FortuneSelect = () => {
                   <CardBox
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.22, ease: "easeInOut" }}
-                    whileTap={{ scale: 0.85 }}
                   >
                     <ProfileImage src={LoveFortuneImg} />
                     <Question>우리 사이 애정은?</Question>
@@ -411,7 +416,11 @@ const FortuneSelect = () => {
                       자세히 분석해 드릴게요.
                     </CardText>
                     <Link to="/friendship">
-                      <SoloBtn>
+                      <SoloBtn
+                        whileHover={{
+                          boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)",
+                        }}
+                      >
                         <SoloText>우정운 보러가기</SoloText>
                       </SoloBtn>
                     </Link>

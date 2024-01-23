@@ -104,7 +104,6 @@ const LButton = styled(motion.button)`
   cursor: pointer;
 
   &:hover {
-    font-weight: bold;
     opacity: 0.7;
     transition: transform 0.3s ease, opacity 0.3s ease;
   }
@@ -123,7 +122,6 @@ const Sign = styled.button`
   margin-top: -0.4rem;
   cursor: pointer;
   &:hover {
-    font-weight: bold;
     transition: transform 0.3s ease, opacity 0.3s ease;
   }
 `;

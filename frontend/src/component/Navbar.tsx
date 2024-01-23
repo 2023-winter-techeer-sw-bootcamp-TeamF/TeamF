@@ -105,8 +105,8 @@ const LogoutButton = styled.button`
 
   &:hover {
     // opacity: 0.7;
-    background: #ffbf00;
-    color: #ffffff;
+    color: #ffbf00;
+    border-color: #ffbf00;
     font-weight: bold;
     transition: transform 0.3s ease, opacity 0.3s ease;
   }
@@ -135,34 +135,32 @@ const Navbar = () => {
       <LogoContainer
         initial={{ scale: 1 }}
         whileHover={{
-          scale: 1.4,
+          scale: 1.1,
           originX: 0,
           position: "relative",
           fontWeight: "bold",
         }}
         whileTap={{ scale: 0.85 }}
+        transition={{ duration: 0.04, ease: "linear" }}
       >
         <Link to="/">
           <LargeLetter>T</LargeLetter>AIROT&nbsp;
         </Link>
       </LogoContainer>
       <MenuContainer>
-        <motion.div whileHover={{ scale: 1.6 }}>
-          <MenuItem onClick={handlePageNavigation}> MYPAGE</MenuItem>
-        </motion.div>
-        <motion.div whileHover={{ scale: 1.3, overflow: "visible" }}>
-          {accessToken ? (
-            <MenuItem>
-              <LogoutButton onClick={handleLogout}>LOG OUT</LogoutButton>
-            </MenuItem>
-          ) : (
-            <MenuItem>
-              <Link to="/login">
-                <LoginButton>LOG IN</LoginButton>
-              </Link>
-            </MenuItem>
-          )}
-        </motion.div>
+        <MenuItem onClick={handlePageNavigation}> MYPAGE</MenuItem>
+
+        {accessToken ? (
+          <MenuItem>
+            <LogoutButton onClick={handleLogout}>LOG OUT</LogoutButton>
+          </MenuItem>
+        ) : (
+          <MenuItem>
+            <Link to="/login">
+              <LoginButton>LOG IN</LoginButton>
+            </Link>
+          </MenuItem>
+        )}
       </MenuContainer>
     </NavContainer>
   );
