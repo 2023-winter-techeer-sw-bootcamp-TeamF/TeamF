@@ -62,7 +62,7 @@ const ContentContainer = styled(motion.p)`
   color: #ecb973;
   text-align: center;
   font-family: YUniverse-B;
-  font-size: 1rem; //1.125rem
+  font-size: 1.125rem; //1.125rem
   font-style: normal;
   font-weight: 300;
   letter-spacing: 0.05rem;
