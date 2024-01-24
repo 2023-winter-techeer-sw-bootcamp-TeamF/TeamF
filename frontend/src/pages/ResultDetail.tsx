@@ -70,24 +70,8 @@ const DetailLine2 = styled.div`
 `;
 
 const Date = styled.p`
-  /*
-  display: flex;
-  width: 11.0625rem;
-  height: 2.5625rem;
-  flex-direction: column;
-  justify-content: center;
   color: #b88150;
-  text-align: center;
-  font-family: "Italiana", sans-serif;
-  font-size: 1.25rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  text-transform: uppercase;
-  padding-bottom: 0.4rem;
-  */
-  color: #b88150;
-  font-family: YUniverse-B;
+  font-family: Italiana;
   font-size: 1.25rem;
   font-style: normal;
   font-weight: 300;
@@ -114,7 +98,7 @@ const Worry = styled.p`
   font-family: S-CoreDream-3Light;
   font-size: 0.8125rem;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 700;
   line-height: normal;
   margin-top: 0.8125rem;
   overflow-y: scroll;

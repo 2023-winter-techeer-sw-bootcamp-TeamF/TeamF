@@ -161,7 +161,7 @@ const CardText = styled.p`
 const UserName = styled.p`
   color: #b88150;
   text-align: center;
-  font-family: YUniverse-B;
+  font-family: Italiana;
   font-size: 1rem;
   font-style: normal;
   font-weight: 300;
