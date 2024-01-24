@@ -161,7 +161,7 @@ const CardText = styled.p`
 const UserName = styled.p`
   color: #b88150;
   text-align: center;
-  font-family: YUniverse-B;
+  font-family: Italiana;
   font-size: 1rem;
   font-style: normal;
   font-weight: 300;
@@ -189,6 +189,7 @@ interface RecordType {
     explanation: string;
     luck: string;
     pollId: string;
+    date: string;
   };
 }
 
@@ -205,7 +206,6 @@ function MyPage() {
       })
       .then((response) => {
         setTarotRecord(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error("타로 기록을 불러오는데 실패했습니다.", error);
@@ -250,7 +250,7 @@ function MyPage() {
                         </TaroExs>
                         <CardText>{record.resultInfo.explanation}</CardText>
                       </CardLine2>
-                      <UserName>ㆍ{record.resultInfo.luck}ㆍ</UserName>
+                      <UserName>ㆍ{record.resultInfo.date}ㆍ</UserName>
                     </CardLine1>
                   </Card>
                 </Link>

@@ -11,31 +11,26 @@ import axios from "axios";
 import { useSetRecoilState } from "recoil";
 import { cardNumberAtom1 } from "../state/atom";
 import LoadingPage from "../component/LoadingPage";
-
 const BackgroundColor = styled.div`
   background: #000;
   width: 100vw;
   height: 100vh;
 `;
-
 const BackgroundWrapper = styled.div`
   position: relative; // 자식 요소를 절대 위치로 배치하기 위한 설정
   width: 79.4671675rem;
   height: 52.94rem;
   margin: auto;
 `;
-
 const BackgroundImg = styled.img`
   width: 100%;
   height: 100%;
 `;
-
 const Inside = styled.div`
   width: 81.75rem;
   margin-left: auto;
   margin-right: auto;
 `;
-
 const CardBackground = styled.div`
   width: 8.75rem;
   height: 15rem;
@@ -46,18 +41,15 @@ const CardBackground = styled.div`
   justify-content: center;
   margin-left: 20rem;
 `;
-
 const TaroEx = styled.img`
   width: 7.72438rem;
   height: 13.90388rem;
 `;
-
 const Cards = styled.div`
   display: flex;
   flex-direction: row;
   gap: 6.5rem;
 `;
-
 const BackcardBackground = styled(motion.div)`
   width: 8.7089375rem;
   height: 14.890875rem;
@@ -69,12 +61,10 @@ const BackcardBackground = styled(motion.div)`
   position: absolute;
   cursor: pointer;
 `;
-
 const StackedCardsContainer = styled(motion.div)`
   height: 14.890875rem; // 자식 컨테이너(BackcardBackground)와 같은 높이
   width: 6.25rem; // 또는 전체 카드가 겹치는 너비에 맞게 조정
 `;
-
 const NextBtn = styled.button`
   border: none;
   background: none;
@@ -85,7 +75,6 @@ const NextBtn = styled.button`
   bottom: 13.5rem;
   cursor: pointer;
 `;
-
 const BeforeBtn = styled.button`
   border: none;
   background: none;
@@ -97,7 +86,6 @@ const BeforeBtn = styled.button`
   cursor: pointer;
   transform: rotate(180deg);
 `;
-
 const rowVariants = {
   hidden: (isBack: boolean) => ({
     x: isBack ? -window.outerWidth + 1000 : window.outerWidth - 1000,
@@ -123,12 +111,10 @@ const rowVariants = {
     },
   }),
 };
-
 const BackOfCardImg = styled.img`
   width: 95%;
   height: 95%;
 `;
-
 const CardsWrapper = styled.div`
   position: absolute;
   left: 20%;
@@ -139,25 +125,20 @@ const CardsWrapper = styled.div`
   justify-content: center;
   gap: 6rem;
 `;
-
 const NextBtnImg = styled.img`
   width: 100%;
   height: 100%;
 `;
-
-const CardSelect = () => {
+const CardSelect1 = () => {
   const numberOfCards = 22; // 1번째 줄 카드 수
   const numberOfCardsDelete = 12; // 4번째 줄 카드 수
   const Overlap = 1.875; // 카드 겹침 정도
   const [count, setCount] = useState(0); //몇번째 슬라이드인지
-
   const [back, setBack] = useState(false); //뒤로 갈지 앞으로 갈지
   const [card1, setCard1] = useState("");
-
   const [selectedCard, setSelectedCard] = useState<number[][]>([[]]);
   const setCardNumber1 = useSetRecoilState(cardNumberAtom1);
   const navigate = useNavigate();
-
   const incraseIndex = () => {
     setCount((prev) => (prev === 3 ? 0 : prev + 1));
     setBack(false);
@@ -173,7 +154,6 @@ const CardSelect = () => {
       });
       setCard1(response.data.data.image_url);
       setCardNumber1(card);
-
       // 페이지 이동
       setTimeout(() => {
         navigate("/process1");
@@ -182,7 +162,6 @@ const CardSelect = () => {
       console.error("실패:", error);
     }
   };
-
   const consoleIndex = (index: number, count: number) => {
     const card = selectedCard[count][index];
     getImage(card);
@@ -192,7 +171,6 @@ const CardSelect = () => {
     shuffleArray(numbers);
     setSelectedCard(chunkArray(numbers, 22));
   }, []);
-
   return (
     <BackgroundColor>
       <Inside>
@@ -268,7 +246,6 @@ const CardSelect = () => {
               )}
             </AnimatePresence>
           </CardsWrapper>
-
           <NextBtn onClick={incraseIndex}>
             <NextBtnImg src={NextButton} />
           </NextBtn>
@@ -280,5 +257,4 @@ const CardSelect = () => {
     </BackgroundColor>
   );
 };
-
-export default CardSelect;
+export default CardSelect1;

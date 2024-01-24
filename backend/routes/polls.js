@@ -8,7 +8,7 @@ const router = express.Router();
 const verifyToken = require("../middleware/verifyToken.js");
 const resultQuery = require("../bases/resultQuery.js");
 const cardsQuery = require("../bases/cardsQuery.js");
-const searchQuery = require("../bases/searchQuery.js");
+const dateQuery = require("../bases/dateQuery.js");
 
 router.get(
   "",
@@ -37,7 +37,7 @@ router.get(
         const dbCon = db.getConnection();
 
         const pollSearchQuery =
-          "SELECT id FROM poll WHERE user_id = ? AND complete = 1;";
+          "SELECT id, DATE_FORMAT(created_at, '%Y-%m-%d') AS created_date FROM poll WHERE user_id = ? AND complete = 1;";
         dbCon.query(pollSearchQuery, user_id, (error, pollInfo) => {
           if (error) {
             return res
@@ -73,9 +73,12 @@ router.get(
               }
               // 결과 조합
               const combinedData = resultTableData.map((result) => {
+                const poll = pollInfo.find(p => p.id === result.poll_id);
+
                 return {
                   resultInfo: {
                     pollId: result.poll_id,
+                    date: poll ? poll.created_date : '날짜 정보 없음',
                     explanation: result.explanation,
                     luck: result.luck,
                     imageUrls: cardTableData
@@ -111,6 +114,7 @@ router.get(
       in: 'query',
       description: '폴 아이디 입력',
       required: true,
+      type: 'integer',
       example: 'Poll_ID',
       value: '',
   } 
@@ -142,11 +146,20 @@ router.get(
     const connection = db.getConnection();
 
     try {
-      const searchData = await searchQuery(connection, req, res, poll_id, next);
+      const dateData = await dateQuery(connection, req, res, poll_id, next);
+      console.log("dateData: ", dateData);
+      console.log("dateData 첫 번째 요소: ", dateData[0]);
+
+      const createdDate =
+        dateData && dateData.length > 0
+          ? dateData[0].created_date
+          : "날짜 누락";
+      console.log("poll.js dateDate = " + createdDate);
       const resultData = await resultQuery(connection, res, poll_id, next);
       const cardData = await cardsQuery(connection, res, poll_id, next);
 
       res.locals.data = {
+        date: createdDate,
         result: resultData,
         card: cardData,
       };

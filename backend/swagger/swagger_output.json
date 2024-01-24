@@ -5,7 +5,7 @@
     "description": "오늘도 화이팅",
     "version": "1.0.0"
   },
-  "host": "43.202.208.226:3001",
+  "host": "43.202.208.226:3000",
   "basePath": "/",
   "schemes": ["http"],
   "securityDefinitions": {
@@ -682,9 +682,9 @@
             "in": "query",
             "description": "폴 아이디 입력",
             "required": true,
+            "type": "integer",
             "example": "Poll_ID",
-            "value": "",
-            "type": "string"
+            "value": ""
           }
         ],
         "responses": {
