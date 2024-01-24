@@ -10,6 +10,7 @@ import Swal from "sweetalert2";
 import { motion } from "framer-motion";
 
 import axios from "axios";
+
 const Outside = styled.div`
   background-color: #000;
   display: flex;
