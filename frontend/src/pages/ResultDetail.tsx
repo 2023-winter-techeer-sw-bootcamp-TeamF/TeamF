@@ -8,7 +8,6 @@ import { useRecoilValue } from "recoil";
 import axios from "axios";
 import LoadingPage from "../component/LoadingPage";
 import { shareKakao } from "../utils/shareKakaoLink";
-
 import "../assets/font-YUniverse-B.css";
 import "../assets/font-S-CoreDream-3Light.css";
 
@@ -294,10 +293,28 @@ const CardContent = styled.p`
   font-weight: 300;
   line-height: normal;
   position: absolute;
-  top: 38%; // CardTitle 아래에 위치 //57 -> 38
+  top: 32%; // CardTitle 아래에 위치 //57 -> 38
   //left: 50%;
   //transform: translate(-50%, -50%);
   width: 5rem;
+  height: 7.4rem;
+  overflow-y: auto;
+  margin: 0.5rem;
+  padding-right: 0.2rem;
+
+  &::-webkit-scrollbar {
+    width: 0.07rem;
+    height: 0.05rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #ecb973;
+    border-radius: 0.2rem;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #b88150ba;
+  }
 `;
 
 interface ImgType {

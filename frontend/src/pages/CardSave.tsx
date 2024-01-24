@@ -12,6 +12,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import "../assets/font-YUniverse-B.css";
 import "../assets/font-S-CoreDream-3Light.css";
+import { motion } from "framer-motion";
 
 const Background = styled.div`
   width: 100vw;
@@ -38,7 +39,7 @@ const BackgroundImg = styled.img`
   height: 100%;
 `;
 
-const Card = styled.div`
+const Card = styled(motion.div)`
   width: 17.36506rem;
   height: 29.88406rem;
   border-radius: 0.25rem;
@@ -156,7 +157,7 @@ const Cards = styled.div`
   left: 28%;
 `;
 
-const RightBox = styled.div`
+const RightBox = styled(motion.div)`
   width: 17.36506rem;
   height: 29.88406rem;
   border-radius: 0.25rem;
@@ -198,6 +199,10 @@ const ShareButton = styled.button`
   justify-content: center;
   gap: 0.3rem;
   cursor: pointer;
+  &:hover {
+    opacity: 0.9;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
 `;
 
 const ShareButtonIcon = styled.div`
@@ -227,6 +232,10 @@ const SaveButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  &:hover {
+    opacity: 0.9;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
 `;
 
 const SaveButtonText = styled.p`
@@ -299,7 +308,11 @@ function CardSave() {
           <BackgroundWrapper>
             <BackgroundImg src={BackgroundImg1} />
             <Cards>
-              <Card>
+              <Card
+                initial={{ opacity: 1 }}
+                animate={{ opacity: 1, x: [90, 0] }}
+                transition={{ delay: 1.3, duration: 0.6, ease: "easeOut" }}
+              >
                 <CardLine1>
                   <CardLine2>
                     <TaroExs tarotImage={tarotImage.length}>
@@ -313,7 +326,11 @@ function CardSave() {
                 </CardLine1>
               </Card>
 
-              <RightBox>
+              <RightBox
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1, x: [-90, 0] }}
+                transition={{ delay: 1.3, duration: 0.6, ease: "easeOut" }}
+              >
                 <ShareIcon>
                   <ShareButtonIcon1 src={ShareBtn}></ShareButtonIcon1>
                 </ShareIcon>
