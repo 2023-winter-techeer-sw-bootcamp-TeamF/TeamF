@@ -54,7 +54,7 @@ router.get(
 
           // result 테이블 조회
           const resultTableQuery =
-            "SELECT poll_id, explanation, luck FROM result WHERE poll_id IN (?) ORDER BY poll_id DESC;";
+            "SELECT poll_id, explanation, question, luck FROM result WHERE poll_id IN (?) ORDER BY poll_id DESC;";
           dbCon.query(resultTableQuery, [pollIds], (error, resultTableData) => {
             if (error) {
               return res
@@ -79,6 +79,7 @@ router.get(
                   resultInfo: {
                     pollId: result.poll_id,
                     date: poll ? poll.created_date : '날짜 정보 없음',
+                    question: result.question,
                     explanation: result.explanation,
                     luck: result.luck,
                     imageUrls: cardTableData
