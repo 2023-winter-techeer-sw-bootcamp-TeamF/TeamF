@@ -2,7 +2,6 @@ version: "3.8"
 
 services:
   dev_prometheus:
-    # image: prom/prometheus
     build: ./prometheus
     image: teamf-dev_prometheus
     container_name: dev_prometheus_container
@@ -14,7 +13,6 @@ services:
     #   - '--config.file=/etc/prometheus/prometheus.yml'
     #   - '--storage.tsdb.path=/prometheus'
     #   - '--web.enable-lifecycle'
-    #   - /hostpath/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
 
   dev_node-exporter:
     image: prom/node-exporter
@@ -78,6 +76,9 @@ services:
       - mybridge
     # depends_on:
     #   - nginx
+  
+volumes:
+  grafana_data:
 
 networks:
   mybridge:
