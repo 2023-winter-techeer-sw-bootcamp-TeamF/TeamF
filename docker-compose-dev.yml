@@ -8,13 +8,13 @@ services:
     container_name: dev_prometheus_container
     volumes:
       - /hostpath/prometheus_data:/etc/prometheus
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-      - '--web.enable-lifecycle'
+    ports:
+      - "9090:9090"
+    # command:
+    #   - '--config.file=/etc/prometheus/prometheus.yml'
+    #   - '--storage.tsdb.path=/prometheus'
+    #   - '--web.enable-lifecycle'
     #   - /hostpath/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-    # ports:
-      # - "9090:9090"
 
   dev_node-exporter:
     image: prom/node-exporter
@@ -27,6 +27,7 @@ services:
     container_name: dev_grafana_container
     volumes:
       - /hostpath/provisioning:/etc/provisioning
+      - grafana_data:/var/lib/grafana
     ports:
       - 9000:3000
 
