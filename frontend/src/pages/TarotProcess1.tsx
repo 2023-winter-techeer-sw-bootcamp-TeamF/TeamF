@@ -88,6 +88,7 @@ const Chat = styled.p`
   overflow-y: scroll;
   padding-right: 0.9375rem;
   height: 18rem;
+  white-space: pre-wrap;
   &::-webkit-scrollbar {
     width: 0.1875rem; /* 스크롤바의 너비 */
   }

@@ -99,6 +99,7 @@ const Tellme = styled.p`
   height: 96%;
   padding-right: 1rem;
   line-height: 1.4;
+  white-space: pre-wrap;
   &::-webkit-scrollbar {
     width: 0.3125rem; /* 스크롤바의 너비 */
   }
@@ -223,8 +224,14 @@ const WishFortune = () => {
   const setPollId = useSetRecoilState(pollIdState);
   const accessToken = useRecoilValue(accessTokenState);
   const [reply, setReply] = useRecoilState(replyState);
-  const tellMeText =
-    "안녕하세요, 소망운 타로 마스터 굴이가 왔어요! 🐸✨ 타로점을 볼 때 주의할 점과 타로점을 보는 방법에 대해 말해볼게요. 타로는 마치 마법처럼 개인의 상황과 감정을 반영하는 거예요. 그러니까 고민을 얘기하기 전에, 마음을 집중하고 내면을 탐색하는 시간을 가질 필요가 있어요. 모호하거나 추상적인 답변은 해석이 떨어질 수 있으니까 꼭 명확하게 얘기해 주세용! 소망운은 총 3장의 카드를 뽑아요. 고민을 얘기하고 나면 무작위로 섞인 타로 카드 중 3장을 뽑을 거예요. 타로를 해석할 때는 고민 내용과 타로 카드의 그림, 숫자, 글자를 통해 의미를 찾아볼게요. 해석은 주관적일 수 있어요. 그래서 다양한 관점에서 생각해 보면 더욱 좋아요. 그럼 이제 당신의 고민을 해결하러 가볼까요?! 당신의 고민을 얘기해 주세요! 🌟💖";
+  const [writestart, setWriteStart] = useState(false);
+  const tellMeText = `안녕하세요, 소망운 타로 마스터 굴이가 왔어요! 🐸✨
+타로점을 볼 때 주의할 점과 타로점을 보는 방법에 대해 말해볼게요.
+타로는 마치 마법처럼 개인의 상황과 감정을 반영하는 거예요.
+그러니까 고민을 얘기하기 전에, 마음을 집중하고 내면을 탐색하는 시간을 가질 필요가 있어요. 모호하거나 추상적인 답변은 해석이 떨어질 수 있으니까 꼭 명확하게 얘기해 주세용!
+소망운은 총 3장의 카드를 뽑아요. 고민을 얘기하고 나면 무작위로 섞인 타로 카드 중 3장을 뽑을 거예요. 타로를 해석할 때는 고민 내용과 타로 카드의 그림, 숫자, 글자를 통해 의미를 찾아볼게요.
+해석은 주관적일 수 있어요. 그래서 다양한 관점에서 생각해 보면 더욱 좋아요.
+그럼 이제 당신의 고민을 해결하러 가볼까요?! 당신의 고민을 얘기해 주세요! 🌟💖`;
   const setLuckType = useSetRecoilState(selectLuck);
   const [taroMaster, setTaroMaster] = useState("");
   const settarotMasterImg = useSetRecoilState(tarotMasterImg);
@@ -305,6 +312,7 @@ const WishFortune = () => {
 
   const handleReplyChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setReply(event.target.value);
+    setWriteStart(true);
   };
   //한글자씩 나오게 하는 로직
   const [blobTitle, setBlobTitle] = useState("");
@@ -379,15 +387,23 @@ const WishFortune = () => {
                   onChange={handleReplyChange}
                 ></Reply>
               </ReplyBox>
-              <Profile2 src={WishFortuneImg}></Profile2>
-              {!writeDone ? (
-                <NextBox>
-                  <NextText onClick={handleNextButton}>다 적었나굴?</NextText>
-                </NextBox>
+              {writestart ? (
+                <>
+                  <Profile2 src={WishFortuneImg}></Profile2>
+                  {!writeDone ? (
+                    <NextBox>
+                      <NextText onClick={handleNextButton}>
+                        다 적었으면 알려주세요.
+                      </NextText>
+                    </NextBox>
+                  ) : (
+                    <NextBox2>
+                      <NextText2>{blobTitle2}</NextText2>
+                    </NextBox2>
+                  )}
+                </>
               ) : (
-                <NextBox2>
-                  <NextText2>{blobTitle2}</NextText2>
-                </NextBox2>
+                <></>
               )}
             </>
           )}

@@ -99,6 +99,7 @@ const Tellme = styled.p`
   height: 96%;
   padding-right: 1rem;
   line-height: 1.4;
+  white-space: pre-wrap;
   &::-webkit-scrollbar {
     width: 0.3125rem; /* 스크롤바의 너비 */
   }
@@ -226,9 +227,14 @@ const FriendShip = () => {
   const setPollId = useSetRecoilState(pollIdState);
   const accessToken = useRecoilValue(accessTokenState);
   const [reply, setReply] = useRecoilState(replyState);
-  const tellMeText =
-    "아이고~ 어서와라, 이 할머니는 네가 우정을 찾아나가는 여정을 함께할 우정운 타로 마스터 마틸드 란다. 타로점을 볼 때 주의할 점과 타로점을 보는 방법에 대해 알려줄테니 잘 들어보렴. 타로는 단순한 운세가 아니라 네 상황이나 감정을 반영하는 거란다. 추상적이거나 모호한 대답은 해석을 어렵게 만들어버릴 수 있단다. 그러니 명확한 답을 원한다면, 고민을 얘기하기 전에 네 마음에 집중하고 내면을 좀 더 탐색해보렴. 우정운은 총 5장의 카드를 뽑는단다. 네가 고민을 얘기하고 나면 카드를 뽑을텐데, 네 고민과 카드의 그림, 숫자, 글자를 함께 고려해서 이 할머니가 그 의미를 알아보마. 해석은 주관적일 수 있으니 여러 시각에서 생각해보는 게 중요하단 걸 꼭 기억하렴. 자, 이제 네 고민을 얘기해보려무나. 이 할머니가 귀 기울여 들어줄게.";
-
+  const [writestart, setWriteStart] = useState(false);
+  const tellMeText = `아이고~ 어서와라, 이 할머니는 네가 우정을 찾아나가는 여정을 함께할 우정운 타로 마스터 마틸드 란다.
+타로점을 볼 때 주의할 점과 타로점을 보는 방법에 대해 알려줄테니 잘 들어보렴.
+타로는 단순한 운세가 아니라 네 상황이나 감정을 반영하는 거란다.
+추상적이거나 모호한 대답은 해석을 어렵게 만들어버릴 수 있단다. 그러니 명확한 답을 원한다면, 고민을 얘기하기 전에 네 마음에 집중하고 내면을 좀 더 탐색해보렴.
+우정운은 총 5장의 카드를 뽑는단다. 네가 고민을 얘기하고 나면 카드를 뽑을텐데, 네 고민과 카드의 그림, 숫자, 글자를 함께 고려해서 이 할머니가 그 의미를 알아보마.
+해석은 주관적일 수 있으니 여러 시각에서 생각해보는 게 중요하단 걸 꼭 기억하렴.
+자, 이제 네 고민을 얘기해보려무나. 이 할머니가 귀 기울여 들어줄게.`;
   const setLuckType = useSetRecoilState(selectLuck);
   const [taroMaster, setTaroMaster] = useState("");
   const settarotMasterImg = useSetRecoilState(tarotMasterImg);
@@ -309,6 +315,7 @@ const FriendShip = () => {
 
   const handleReplyChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setReply(event.target.value);
+    setWriteStart(true);
   };
   //한글자씩 나오게 하는 로직
   const [blobTitle, setBlobTitle] = useState("");
@@ -384,17 +391,23 @@ const FriendShip = () => {
                   onChange={handleReplyChange}
                 ></Reply>
               </ReplyBox>
-              <Profile2 src={FriendshipImg}></Profile2>
-              {!writeDone ? (
-                <NextBox>
-                  <NextText onClick={handleNextButton}>
-                    다 적었으면 말해주렴.
-                  </NextText>
-                </NextBox>
+              {writestart ? (
+                <>
+                  <Profile2 src={FriendshipImg}></Profile2>
+                  {!writeDone ? (
+                    <NextBox>
+                      <NextText onClick={handleNextButton}>
+                        다 적었으면 알려주세요.
+                      </NextText>
+                    </NextBox>
+                  ) : (
+                    <NextBox2>
+                      <NextText2>{blobTitle2}</NextText2>
+                    </NextBox2>
+                  )}
+                </>
               ) : (
-                <NextBox2>
-                  <NextText2>{blobTitle2}</NextText2>
-                </NextBox2>
+                <></>
               )}
             </>
           )}
