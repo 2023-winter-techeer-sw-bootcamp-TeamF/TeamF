@@ -7,7 +7,7 @@ services:
     image: teamf-dev_prometheus
     container_name: dev_prometheus_container
     volumes:
-      - /hostpath/prometheus_data:/prometheus
+      - /hostpath/prometheus_data:/etc/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
