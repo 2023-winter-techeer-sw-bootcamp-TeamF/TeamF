@@ -5,8 +5,8 @@ services:
     build: ./prometheus
     image: teamf-dev_prometheus
     container_name: dev_prometheus_container
-    volumes:
-      - /hostpath/prometheus_data:/etc/prometheus
+    # volumes:
+    #   - /hostpath/prometheus_data:/etc/prometheus
     ports:
       - "9090:9090"
     # command:
@@ -74,8 +74,8 @@ services:
     command: certonly --webroot --webroot-path=/var/www/html --email tjfgkssk9472@gmail.com --agree-tos --no-eff-email --force-renewal -d tairot.online -v
     networks:
       - mybridge
-    # depends_on:
-    #   - nginx
+    depends_on:
+      - nginx
   
 volumes:
   grafana_data:
