@@ -65,7 +65,8 @@ const StackedCardsContainer = styled(motion.div)`
   height: 14.890875rem; // 자식 컨테이너(BackcardBackground)와 같은 높이
   width: 6.25rem; // 또는 전체 카드가 겹치는 너비에 맞게 조정
 `;
-const NextBtn = styled.button`
+
+const NextBtn = styled(motion.button)`
   border: none;
   background: none;
   width: 5.625rem;
@@ -75,7 +76,8 @@ const NextBtn = styled.button`
   bottom: 13.5rem;
   cursor: pointer;
 `;
-const BeforeBtn = styled.button`
+
+const BeforeBtn = styled(motion.button)`
   border: none;
   background: none;
   width: 5.625rem;
@@ -246,10 +248,15 @@ const CardSelect1 = () => {
               )}
             </AnimatePresence>
           </CardsWrapper>
-          <NextBtn onClick={incraseIndex}>
+
+          <NextBtn onClick={incraseIndex} whileTap={{ scale: 0.9 }}>
             <NextBtnImg src={NextButton} />
           </NextBtn>
-          <BeforeBtn onClick={decraseIndex}>
+          <BeforeBtn
+            onClick={decraseIndex}
+            initial={{ rotate: "180deg" }}
+            whileTap={{ scale: 0.9 }}
+          >
             <NextBtnImg src={NextButton} />
           </BeforeBtn>
         </BackgroundWrapper>

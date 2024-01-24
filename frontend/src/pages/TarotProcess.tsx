@@ -18,6 +18,7 @@ import { io } from "socket.io-client";
 import axios from "axios";
 import LoadingPage from "../component/LoadingPage";
 import "../assets/font-YUniverse-B.css";
+import { motion } from "framer-motion";
 
 const Background = styled.div`
   width: 100vw;
@@ -102,7 +103,7 @@ const Chat = styled.p`
     background-color: #daa520; /* 호버시 색상 변경 (더 진한 황금색) */
   }
 `;
-const NextBtn = styled.button`
+const NextBtn = styled(motion.button)`
   border: none;
   background: none;
   width: 5.625rem;
@@ -272,7 +273,7 @@ function TarotProcess() {
                 {streamArray}
               </Chat>
             </ChatBox>
-            <NextBtn onClick={buttonClear}>
+            <NextBtn onClick={buttonClear} whileTap={{ scale: 0.9 }}>
               <NextBtnImg src={NextButton} />
             </NextBtn>
           </BackgroundWrapper>
