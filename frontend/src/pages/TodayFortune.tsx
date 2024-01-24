@@ -88,6 +88,7 @@ const Tellme = styled.p`
   height: 96%;
   padding-right: 1rem;
   line-height: 1.4;
+  white-space: pre-wrap;
   &::-webkit-scrollbar {
     width: 0.3125rem; /* 스크롤바의 너비 */
   }
@@ -204,8 +205,14 @@ const TodayFortune = () => {
   const setPollId = useSetRecoilState(pollIdState);
   const accessToken = useRecoilValue(accessTokenState);
   const [reply, setReply] = useRecoilState(replyState);
-  const tellMeText =
-    "별빛처럼 신비한 오늘의 운세 타로 마스터 세레나 아스트라입니다. 타로점을 볼 때 주의할 점과 타로점을 보는 방법에 대해 말씀드릴게요. 타로는 단순한 운세를 넘어 개인의 삶을 비추는 도구에요. 모호하거나 추상적인 고민은 해석이 어려울 수도 있어요. 명확한 답을 얻고 싶다면, 당신의 마음에 집중하고 내면을 깊이 탐구하는 시간을 충분히 가지세요. 오늘의 운세는 총 1장의 카드를 뽑습니다. 당신의 마음에 귀 기울여 카드를 뽑고나면, 그 의미를 당신의 상황에 맞게 해석할 거예요. 기억하세요. 해석은 주관적일 수 있으니, 다양한 관점에서 생각해보아야 합니다. 이제 여러분의 이야기를 들려주세요. 함께 깊은 의미를 헤아려 보아요.";
+  const [writestart, setWriteStart] = useState(false);
+  const tellMeText = `별빛처럼 신비한 오늘의 운세 타로 마스터 세레나 아스트라입니다.
+타로점을 볼 때 주의할 점과 타로점을 보는 방법에 대해 말씀드릴게요.
+타로는 단순한 운세를 넘어 개인의 삶을 비추는 도구에요.
+모호하거나 추상적인 고민은 해석이 어려울 수도 있어요. 명확한 답을 얻고 싶다면, 당신의 마음에 집중하고 내면을 깊이 탐구하는 시간을 충분히 가지세요.
+오늘의 운세는 총 1장의 카드를 뽑습니다. 당신의 마음에 귀 기울여 카드를 뽑고나면, 그 의미를 당신의 상황에 맞게 해석할 거예요.
+기억하세요. 해석은 주관적일 수 있으니, 다양한 관점에서 생각해보아야 합니다.
+이제 여러분의 이야기를 들려주세요. 함께 깊은 의미를 헤아려 보아요.`;
   const setLuckType = useSetRecoilState(selectLuck);
   const [taroMaster, setTaroMaster] = useState("");
   const settarotMasterImg = useSetRecoilState(tarotMasterImg);
@@ -285,6 +292,7 @@ const TodayFortune = () => {
   };
   const handleReplyChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setReply(event.target.value);
+    setWriteStart(true);
   };
   //한글자씩 나오게 하는 로직
   const [blobTitle, setBlobTitle] = useState("");
@@ -357,15 +365,23 @@ const TodayFortune = () => {
                   onChange={handleReplyChange}
                 ></Reply>
               </ReplyBox>
-              <Profile2 src={TodayFortuneImg}></Profile2>
-              {!writeDone ? (
-                <NextBox>
-                  <NextText onClick={handleNextButton}>다 적었나요?</NextText>
-                </NextBox>
+              {writestart ? (
+                <>
+                  <Profile2 src={TodayFortuneImg}></Profile2>
+                  {!writeDone ? (
+                    <NextBox>
+                      <NextText onClick={handleNextButton}>
+                        다 적었으면 알려주세요.
+                      </NextText>
+                    </NextBox>
+                  ) : (
+                    <NextBox2>
+                      <NextText2>{blobTitle2}</NextText2>
+                    </NextBox2>
+                  )}
+                </>
               ) : (
-                <NextBox2>
-                  <NextText2>{blobTitle2}</NextText2>
-                </NextBox2>
+                <></>
               )}
             </>
           )}

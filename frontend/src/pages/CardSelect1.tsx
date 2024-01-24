@@ -200,6 +200,7 @@ const CardSelect1 = () => {
                       <BackcardBackground
                         key={index}
                         transition={{ duration: 0.5 }}
+                        whileHover={{ scale: 1.05, y: -20 }}
                         onClick={() => consoleIndex(index, count)}
                         style={{
                           left: `${index * Overlap}rem`,
@@ -228,6 +229,7 @@ const CardSelect1 = () => {
                       <BackcardBackground
                         key={index}
                         transition={{ duration: 0.5 }}
+                        whileHover={{ scale: 1.05, y: -20 }}
                         onClick={() => consoleIndex(index, count)}
                         style={{
                           left: `${index * Overlap}rem`,
