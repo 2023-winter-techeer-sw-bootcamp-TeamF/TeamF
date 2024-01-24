@@ -120,15 +120,15 @@ const CardText = styled.p`
 const UserName = styled.p`
   color: #b88150;
   text-align: center;
-  font-family: YUniverse-B;
-  font-size: 1.1875rem;
+  font-family: Italiana;
+  font-size: 1.5rem;
   font-style: normal;
-  font-weight: 300;
+  font-weight: 400;
   line-height: normal;
   text-transform: uppercase;
   letter-spacing: 0.08313rem;
   text-transform: uppercase;
-  margin-top: 0.5rem;
+  margin-top: 0.3rem;
 `;
 const Cards = styled.div`
   display: flex;
