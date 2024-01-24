@@ -6,7 +6,12 @@ services:
     build: ./prometheus
     image: teamf-dev_prometheus
     container_name: dev_prometheus_container
-    # volumes:
+    volumes:
+      - /hostpath/prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.enable-lifecycle'
     #   - /hostpath/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     # ports:
       # - "9090:9090"
@@ -61,15 +66,15 @@ services:
     networks:
       - mybridge
 
-  # certbot:
-  #   image: certbot/certbot
-  #   volumes:
-  #     - /hostpath/certbot/etc:/etc/letsencrypt
-  #     - /hostpath/certbot/var:/var/lib/letsencrypt
-  #     - /hostpath/www:/var/www/html
-  #   command: certonly --webroot --webroot-path=/var/www/html --email tjfgkssk9472@gmail.com --agree-tos --no-eff-email --force-renewal -d tairot.online -v
-  #   networks:
-  #     - mybridge
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - /hostpath/certbot/etc:/etc/letsencrypt
+      - /hostpath/certbot/var:/var/lib/letsencrypt
+      - /hostpath/www:/var/www/html
+    command: certonly --webroot --webroot-path=/var/www/html --email tjfgkssk9472@gmail.com --agree-tos --no-eff-email --force-renewal -d tairot.online -v
+    networks:
+      - mybridge
     # depends_on:
     #   - nginx
 
