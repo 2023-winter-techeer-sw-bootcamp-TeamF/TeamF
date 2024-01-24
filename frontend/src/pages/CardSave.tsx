@@ -19,21 +19,18 @@ const Background = styled.div`
   height: 100vh;
   background: #000;
 `;
-
 const Inside = styled.div`
   width: 81.75rem;
   margin-left: auto;
   margin-right: auto;
   margin: auto;
 `;
-
 const BackgroundWrapper = styled.div`
   position: relative;
   width: 79.4671675rem;
   height: 52.94rem;
   margin: auto;
 `;
-
 const BackgroundImg = styled.img`
   width: 100%;
   height: 100%;
@@ -47,7 +44,6 @@ const Card = styled(motion.div)`
   display: flex;
   justify-content: center;
 `;
-
 const CardLine1 = styled.div`
   width: 15.50738rem;
   height: 27.78406rem;
@@ -59,7 +55,6 @@ const CardLine1 = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-
 const CardLine2 = styled.div`
   width: 15.02281rem;
   height: 24.79569rem;
@@ -69,7 +64,6 @@ const CardLine2 = styled.div`
   margin-top: 0.3125rem;
   //margin-left: 0.125rem;
 `;
-
 const TaroExs = styled.div<TaroExsProps>`
   display: flex;
   justify-content: center;
@@ -80,17 +74,14 @@ const TaroExs = styled.div<TaroExsProps>`
   overflow-x: auto;
   margin-right: 0.7rem;
   margin-left: 0.7rem;
-
   &::-webkit-scrollbar {
     width: 0.1875rem; /* 스크롤바의 너비 */
     height: 0.2rem;
   }
-
   &::-webkit-scrollbar-thumb {
     background-color: #ecb973; /* 황금색 스크롤바 색상 */
     border-radius: 0.3125rem; /* 스크롤바 모양 (둥근 모서리) */
   }
-
   &::-webkit-scrollbar-thumb:hover {
     background-color: #daa520; /* 호버시 색상 변경 (더 진한 황금색) */
   }
@@ -98,14 +89,12 @@ const TaroExs = styled.div<TaroExsProps>`
 interface TaroExsProps {
   tarotImage: number;
 }
-
 const TaroEx = styled.img`
   width: 4.16306rem;
   height: 7.4935rem;
 `;
-
 const CardText = styled.p`
-  color: #b88150; //#1d1d1d -> #b88150
+  color: #b88150; //#1D1D1D -> #B88150
   text-align: center;
   font-family: YUniverse-B;
   font-size: 1rem;
@@ -122,32 +111,28 @@ const CardText = styled.p`
   &::-webkit-scrollbar {
     width: 0.3125rem; /* 스크롤바의 너비 */
   }
-
   &::-webkit-scrollbar-thumb {
-    //background-color: #e1ded9; /* 연한 흰색 */
+    //background-color: #E1DED9; /* 연한 흰색 */
     background-color: #b8815034; /* 스크롤바 색상 변경 */
     border-radius: 0.25rem; /* 스크롤바 모양 (둥근 모서리) */
   }
-
   &::-webkit-scrollbar-thumb:hover {
     background-color: #ffffff; /* 호버시 색상 변경 (흰색) */
   }
 `;
-
 const UserName = styled.p`
   color: #b88150;
   text-align: center;
-  font-family: YUniverse-B;
-  font-size: 1.1875rem;
+  font-family: Italiana;
+  font-size: 1.5rem;
   font-style: normal;
-  font-weight: 300;
+  font-weight: 400;
   line-height: normal;
   text-transform: uppercase;
   letter-spacing: 0.08313rem;
   text-transform: uppercase;
-  margin-top: 0.5rem;
+  margin-top: 0.3rem;
 `;
-
 const Cards = styled.div`
   display: flex;
   flex-direction: row;
@@ -169,13 +154,11 @@ const RightBox = styled(motion.div)`
   //gap: 4.5rem;
   justify-content: space-evenly;
 `;
-
 const ShareIcon = styled.div`
   width: 2.5rem;
   height: 2.5rem;
   //margin-top: 4.31rem;
 `;
-
 const ShareText = styled.p`
   color: #ecb973;
   text-align: center;
@@ -187,7 +170,6 @@ const ShareText = styled.p`
   letter-spacing: -0.0225rem;
   text-transform: capitalize;
 `;
-
 const ShareButton = styled.button`
   width: 10.375rem;
   height: 2.1875rem;
@@ -204,12 +186,10 @@ const ShareButton = styled.button`
     transition: transform 0.3s ease, opacity 0.3s ease;
   }
 `;
-
 const ShareButtonIcon = styled.div`
   width: 1.375rem;
   height: 1.375rem;
 `;
-
 const ShareButtonText = styled.p`
   color: #ecb973;
   text-align: center;
@@ -221,7 +201,6 @@ const ShareButtonText = styled.p`
   //letter-spacing: -0.0175rem;
   text-transform: capitalize;
 `;
-
 const SaveButton = styled.button`
   width: 10.375rem;
   height: 2.1875rem;
@@ -237,7 +216,6 @@ const SaveButton = styled.button`
     transition: transform 0.3s ease, opacity 0.3s ease;
   }
 `;
-
 const SaveButtonText = styled.p`
   color: #000;
   text-align: center;
@@ -249,7 +227,6 @@ const SaveButtonText = styled.p`
   //letter-spacing: -0.0175rem;
   text-transform: capitalize;
 `;
-
 const Buttons = styled.div`
   display: flex;
   flex-direction: column;
@@ -259,12 +236,10 @@ const LinkButton = styled.img`
   width: 100%;
   height: 100%;
 `;
-
 const ShareButtonIcon1 = styled.img`
   width: 100%;
   height: 100%;
 `;
-
 interface ImgType {
   explanation: string;
   image_url: string;
@@ -276,8 +251,7 @@ function CardSave() {
   const pollId = useRecoilValue(pollIdState);
   const [tarotImage, setTarotImage] = useState<ImgType[]>([]);
   const [explanation, setExplanation] = useState("");
-  const [luck, setLuck] = useState("");
-
+  const [date, setDate] = useState("");
   useEffect(() => {
     axios
       .get(`/api/v1/polls/detail?poll_id=${pollId}`, {
@@ -288,17 +262,15 @@ function CardSave() {
       .then((response) => {
         setTarotImage(response.data.data.card);
         setExplanation(response.data.data.result[0].explanation);
-        setLuck(response.data.data.result[0].luck);
+        setDate(response.data.data.date);
       })
       .catch((error) => {
         console.error("타로 결과를 불러오는데 실패했습니다:", error);
       });
   }, []);
-
   const shareButton = () => {
     shareKakao(`http://localhost:5000/share/`, poll_id);
   };
-
   return (
     <>
       <Background>
@@ -322,7 +294,7 @@ function CardSave() {
                     </TaroExs>
                     <CardText>{explanation}</CardText>
                   </CardLine2>
-                  <UserName>ㆍ{luck}ㆍ</UserName>
+                  <UserName>ㆍ{date}ㆍ</UserName>
                 </CardLine1>
               </Card>
 
@@ -361,5 +333,4 @@ function CardSave() {
     </>
   );
 }
-
 export default CardSave;

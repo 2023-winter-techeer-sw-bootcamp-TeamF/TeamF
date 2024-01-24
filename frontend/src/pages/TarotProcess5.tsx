@@ -92,6 +92,7 @@ const Chat = styled.p`
   overflow-y: scroll;
   padding-right: 0.9375rem;
   height: 18rem;
+  white-space: pre-wrap;
   &::-webkit-scrollbar {
     width: 0.1875rem; /* 스크롤바의 너비 */
   }
@@ -117,7 +118,7 @@ const NextBtnImg = styled.img`
   width: 100%;
   height: 100%;
 `;
-function TarotProcess() {
+function TarotProcess5() {
   const [streamArray, setStreamArray] = useState("로딩 중...");
   const accesstoken = useRecoilValue(accessTokenState);
   const [trigger, setTrigger] = useState(true);
@@ -315,4 +316,4 @@ function TarotProcess() {
     </>
   );
 }
-export default TarotProcess;
+export default TarotProcess5;

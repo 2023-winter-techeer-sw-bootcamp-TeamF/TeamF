@@ -89,6 +89,7 @@ const Chat = styled.p`
   overflow-y: scroll;
   padding-right: 0.9375rem;
   height: 18rem;
+  white-space: pre-wrap;
   &::-webkit-scrollbar {
     width: 0.1875rem; /* 스크롤바의 너비 */
   }
@@ -114,7 +115,7 @@ const NextBtnImg = styled.img`
   width: 100%;
   height: 100%;
 `;
-function TarotProcess() {
+function TarotProcess1() {
   const [streamArray, setStreamArray] = useState("로딩 중...");
   const accesstoken = useRecoilValue(accessTokenState);
   const [trigger, setTrigger] = useState(true);
@@ -122,11 +123,8 @@ function TarotProcess() {
   const pollId = useRecoilValue(pollIdState);
   const luckType = useRecoilValue(selectLuck);
   const card1 = useRecoilValue(cardNumberAtom1);
-
   const [cardUrl1, setCardUrl1] = useState("");
-
   const tarotMasterImage = useRecoilValue(tarotMasterImg);
-
   const getImage = async (card1: number) => {
     try {
       const response = await axios.get("/api/v1/tarot/card", {
@@ -162,24 +160,20 @@ function TarotProcess() {
       console.log(error);
     }
   };
-
   const socket = io("http://localhost:3001/", {
     auth: {
       token: accesstoken,
     },
   });
-
   socket.on("chat message", (msg) => {
     console.log(msg);
     //promptInput();
   });
-
   socket.on("message", (msg) => {
     console.log(streamArray);
     console.log(`받은 메시지 :" + ${msg}`);
     setStreamArray((prev) => prev + msg);
   });
-
   socket.on("connect", () => {
     console.log("서버에 연결되었습니다.");
     if (streamArray === "로딩 중...") {
@@ -190,38 +184,30 @@ function TarotProcess() {
     }
     setTrigger(false);
   });
-
   socket.on("disconnect", () => {
     console.log("서버와의 연결이 끊어졌습니다.");
   });
-
   socket.on("success", () => {
     console.log("연결 작업 성공");
   });
-
   socket.on("finish", async () => {
     console.log("연결 작업 종료");
     socket.disconnect();
   });
-
   useEffect(() => {}, []);
   const buttonClear = () => {
     setTrigger(true);
     setCardUrl1("");
-
     setStreamArray("로딩 중...");
     window.location.replace("/cardsave");
   };
-
   const chatBoxRef = useRef<HTMLDivElement | null>(null);
-
   const scrollToBottom = () => {
     const chatBox = chatBoxRef.current;
     if (chatBox) {
       chatBox.scrollTop = chatBox.scrollHeight;
     }
   };
-
   useEffect(() => {
     scrollToBottom();
   }, [streamArray]);
@@ -237,7 +223,6 @@ function TarotProcess() {
               <CardBackground>
                 <TaroEx src={cardUrl1} />
               </CardBackground>
-              ㄴ
             </Cards>
             <TaroMaster src={tarotMasterImage} />
             <ChatBox>
@@ -254,4 +239,4 @@ function TarotProcess() {
     </>
   );
 }
-export default TarotProcess;
+export default TarotProcess1;

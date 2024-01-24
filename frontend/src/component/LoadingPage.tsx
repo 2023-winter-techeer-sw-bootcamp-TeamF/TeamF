@@ -44,7 +44,7 @@ const LoadingPage: React.FC = () => {
         />
 
         {/* 로그인 중에 보여줄 컨텐츠 (로딩 메시지 등) */}
-        <h2 style={{ color: "#fff" }}>Loading...</h2>
+        <h2 style={{ color: "#ECB973" }}>Loading...</h2>
       </div>
     );
   }
