@@ -193,6 +193,53 @@ interface RecordType {
   };
 }
 
+const ScrollToTopButtonWrapper = styled.div<{ visible: boolean }>`
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: ${(props) => (props.visible ? "block" : "none")};
+`;
+
+const ScrollToTopButton: React.FC = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    // 페이지 스크롤 이벤트를 추가하여 버튼을 표시/숨김
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      if (scrollY > 100) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  return (
+    <ScrollToTopButtonWrapper visible={isVisible} onClick={scrollToTop}>
+      맨 위로 가기
+    </ScrollToTopButtonWrapper>
+  );
+};
+
+export { ScrollToTopButton };
+
 function MyPage() {
   const accessToken = useRecoilValue(accessTokenState);
   const [tarotRecord, setTarotRecord] = useState<RecordType[]>([]);
@@ -256,6 +303,7 @@ function MyPage() {
                 </Link>
               ))}
             </Row>
+            <ScrollToTopButton />
           </div>
         </Inside>
       </Background>
