@@ -6,7 +6,6 @@ const router = express.Router();
 
 const resultQuery = async (connection, res, poll_id, next) => {
   try {
-    const connection = db.getConnection();
     const query =
       "SELECT question, explanation, luck, master_name FROM result WHERE poll_id = ?";
     const data = await new Promise((resolve, rejects) => {

@@ -31,8 +31,8 @@ const Details = styled.div`
 `;
 
 const DetailBackground = styled.div`
-  width: 60.3125rem;
-  height: 44.9375rem;
+  width: 68.3125rem;
+  height: 45.9375rem;
   border-radius: 0.25rem;
   background: #e9e5da;
   margin-top: 2rem;
@@ -42,8 +42,8 @@ const DetailBackground = styled.div`
 `;
 
 const DetailLine1 = styled.div`
-  width: 58.75rem;
-  height: 42.5rem;
+  width: 65.85rem;
+  height: 43.5rem;
   border-radius: 0.625rem;
   border: 0.03125rem solid #b88150;
   background: rgba(217, 217, 217, 0);
@@ -55,8 +55,8 @@ const DetailLine1 = styled.div`
 `;
 
 const DetailLine2 = styled.div`
-  width: 58.0625rem;
-  height: 39.625rem;
+  width: 65.1rem;
+  height: 42.625rem;
   border-radius: 0.5rem 0.5rem 0rem 0rem;
   border: 0.03125rem solid #b88150;
   background: rgba(217, 217, 217, 0);
@@ -65,26 +65,25 @@ const DetailLine2 = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 1.5rem;
 `;
 
 const Date = styled.p`
   color: #b88150;
   font-family: Italiana;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-style: normal;
   font-weight: 300;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
 `;
 
 const Title = styled.p`
   color: #b99e6f;
   text-align: center;
   font-family: YUniverse-B;
-  font-size: 0.8125rem;
+  font-size: 1.4rem;
   font-style: normal;
   font-weight: 700;
-  width: 4.5rem;
+  width: 10rem;
   //margin-top: 0.9375rem;
   line-height: 1;
 `;
@@ -94,8 +93,8 @@ const Worry = styled.p`
   height: 3.125rem;
   color: #b99e6f;
   text-align: center;
-  font-family: S-CoreDream-3Light;
-  font-size: 0.8125rem;
+  font-family: YUniverse-B;
+  font-size: 1.4rem;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
@@ -151,8 +150,8 @@ const TaroEx = styled.img`
 const Solutions = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.875rem;
-  margin-top: 1.8125rem;
+  gap: 0.4rem;
+  margin-top: 1.8rem;
   align-items: center;
 `;
 
@@ -160,25 +159,26 @@ const SolutionTitle = styled.p`
   color: #806838;
   text-align: center;
   font-family: YUniverse-B;
-  font-size: 0.9375rem;
+  font-size: 1.4rem;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
 `;
 
 const SolutionDetail = styled.p`
-  width: 38.875rem;
+  width: 48.875rem;
   color: #806838;
   text-align: center;
   font-family: YUniverse-B;
-  font-size: 0.9375rem;
+  font-size: 1.3rem;
   font-style: normal;
   font-weight: 300;
-  line-height: 1.5;
-  height: 6rem;
+  line-height: 1.6;
+  height: 8rem;
   overflow-y: scroll;
   overflow-x: hidden;
   padding-right: 0.625rem;
+  letter-spacing: 0.01rem;
 
   &::-webkit-scrollbar {
     width: 0.1875rem; /* 스크롤바의 너비 */
@@ -386,7 +386,7 @@ function ResultDetail() {
                     당신의 고민
                     <br /> . . .
                   </Title>
-                  <Worry>{question}</Worry>
+                  <Worry>" {question} "</Worry>
                   <Cards tarotImage={tarotImage.length}>
                     {tarotImage.map((number, index) => (
                       <FlipcardContainer onClick={() => handleFlip(index)}>
@@ -409,8 +409,8 @@ function ResultDetail() {
                     </SolutionTitle>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      width="27"
-                      height="20"
+                      width="20"
+                      height="13"
                       viewBox="0 0 27 20"
                       fill="none"
                     >
@@ -423,8 +423,8 @@ function ResultDetail() {
                     <SolutionDetail>{explanation}</SolutionDetail>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      width="27"
-                      height="20"
+                      width="20"
+                      height="13"
                       viewBox="0 0 27 20"
                       fill="none"
                     >
