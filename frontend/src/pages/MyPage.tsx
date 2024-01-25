@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import LoadingPage from "../component/LoadingPage";
 import "../assets/font-YUniverse-B.css";
 import "../assets/font-S-CoreDream-3Light.css";
+import NextButton from "../assets/NextBtn.png";
+import { motion } from "framer-motion";
 
 const Background = styled.div`
   width: 100vw;
@@ -193,16 +195,19 @@ interface RecordType {
   };
 }
 
-const ScrollToTopButtonWrapper = styled.div<{ visible: boolean }>`
+const ScrollToTopButtonWrapper = styled(motion.div)<{ visible: boolean }>`
+  border: none;
+  background: none;
+  width: 5.625rem;
+  height: 5.125rem;
   position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: #007bff;
-  color: #fff;
-  padding: 10px;
-  border-radius: 5px;
+  right: 2rem;
+  bottom: 2.5rem;
+  cursor: pointer;
+
   cursor: pointer;
   display: ${(props) => (props.visible ? "block" : "none")};
+  transform: rotate(270deg);
 `;
 
 const ScrollToTopButton: React.FC = () => {
@@ -232,13 +237,23 @@ const ScrollToTopButton: React.FC = () => {
   };
 
   return (
-    <ScrollToTopButtonWrapper visible={isVisible} onClick={scrollToTop}>
-      맨 위로 가기
+    <ScrollToTopButtonWrapper
+      visible={isVisible}
+      onClick={scrollToTop}
+      initial={{ rotate: "270deg" }}
+      whileTap={{ scale: 0.9 }}
+    >
+      <NextBtnImg src={NextButton} />
     </ScrollToTopButtonWrapper>
   );
 };
 
 export { ScrollToTopButton };
+
+const NextBtnImg = styled.img`
+  width: 100%;
+  height: 100%;
+`;
 
 function MyPage() {
   const accessToken = useRecoilValue(accessTokenState);
