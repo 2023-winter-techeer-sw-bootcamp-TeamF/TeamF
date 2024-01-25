@@ -61,8 +61,6 @@ router.get(
           .send({ message: "해당 ID를 가진 폴이 존재하지 않습니다." });
       }
 
-      console.log("두 번째 결과", pollInfo);
-
       const resultData = await resultQuery(connection, res, poll_id, next);
       const cardData = await cardsQuery(connection, res, poll_id, next);
 
