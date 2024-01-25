@@ -40,7 +40,7 @@ const Inside = styled.div`
   margin-right: auto;
 `;
 
-const CardBackground = styled.div`
+const CardBackground = styled(motion.div)`
   width: 8.75rem;
   height: 15rem;
   border-radius: 0.9375rem;
@@ -104,7 +104,7 @@ const BeforeBtn = styled(motion.button)`
 
 const rowVariants = {
   hidden: (isBack: boolean) => ({
-    x: isBack ? -window.outerWidth + 1000 : window.outerWidth - 1000,
+    x: isBack ? -window.outerWidth + 1500 : window.outerWidth - 1500,
     opacity: 1,
     transition: {
       duration: 0.25,
@@ -119,7 +119,7 @@ const rowVariants = {
     },
   },
   exit: (isBack: boolean) => ({
-    x: isBack ? window.outerWidth - 1000 : -window.outerWidth + 1000,
+    x: isBack ? window.outerWidth - 1500 : -window.outerWidth + 1500,
     opacity: 0,
     transition: {
       duration: 0.25,
@@ -224,18 +224,21 @@ const CardSelect = () => {
         <BackgroundWrapper>
           <BackgroundImg src={Background} alt="Background" />
           <CardsWrapper>
-            <Cards>
-              <CardBackground>
-                {card1 ? <TaroEx src={card1} /> : null}
-              </CardBackground>
+            <AnimatePresence>
+              <Cards>
+                <CardBackground>
+                  {card1 ? <TaroEx src={card1} /> : <TaroEx src={BackOfCard} />}
+                </CardBackground>
 
-              <CardBackground>
-                {card2 ? <TaroEx src={card2} /> : null}
-              </CardBackground>
-              <CardBackground>
-                {card3 ? <TaroEx src={card3} /> : null}
-              </CardBackground>
-            </Cards>
+                <CardBackground>
+                  {card2 ? <TaroEx src={card2} /> : <TaroEx src={BackOfCard} />}
+                </CardBackground>
+                <CardBackground>
+                  {card3 ? <TaroEx src={card3} /> : <TaroEx src={BackOfCard} />}
+                </CardBackground>
+              </Cards>
+            </AnimatePresence>
+
             <AnimatePresence mode="wait" custom={back}>
               {count !== 3 ? (
                 <StackedCardsContainer

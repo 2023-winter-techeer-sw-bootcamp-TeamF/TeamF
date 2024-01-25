@@ -183,7 +183,7 @@ const CardSelect1 = () => {
           <CardsWrapper>
             <Cards>
               <CardBackground>
-                {card1 ? <TaroEx src={card1} /> : null}
+                {card1 ? <TaroEx src={card1} /> : <TaroEx src={BackOfCard} />}
               </CardBackground>
             </Cards>
             <AnimatePresence mode="wait" custom={back}>

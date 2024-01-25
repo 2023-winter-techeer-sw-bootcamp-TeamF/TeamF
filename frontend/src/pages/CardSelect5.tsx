@@ -151,6 +151,28 @@ const NextBtnImg = styled.img`
   height: 100%;
 `;
 
+const FlipcardContainer = styled(motion.div)`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  perspective: 62.5rem;
+`;
+
+const FlipcardInner = styled.div<FlipcardInnerProps>`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: left;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+
+  transform: rotateY(${(props) => (props.isFlipped ? "180deg" : "0")});
+`;
+
+interface FlipcardInnerProps {
+  isFlipped: boolean;
+}
+
 const CardSelect5 = () => {
   const numberOfCards = 22; // 1번째 줄 카드 수
   const numberOfCardsDelete = 12; // 4번째 줄 카드 수
@@ -163,6 +185,7 @@ const CardSelect5 = () => {
   const [card3, setCard3] = useState("");
   const [card4, setCard4] = useState("");
   const [card5, setCard5] = useState("");
+  const [flippedCards, setFlippedCards] = useState(Array(5).fill(false));
 
   const [selectedCard, setSelectedCard] = useState<number[][]>([[]]);
   const setCardNumber1 = useSetRecoilState(cardNumberAtom1);
@@ -181,6 +204,10 @@ const CardSelect5 = () => {
     setBack(true);
   };
 
+  const handleFlip = (flipIndex: number) => {
+    const newFlippedCards = flippedCards.map((_, index) => index === flipIndex);
+    setFlippedCards(newFlippedCards);
+  };
   const getImage = async (card: number) => {
     axios
       .get("/api/v1/tarot/card", {
@@ -190,18 +217,23 @@ const CardSelect5 = () => {
         if (holdCount === 0) {
           setCard1(response.data.data.image_url);
           setCardNumber1(card);
+          handleFlip(1);
         } else if (holdCount === 1) {
           setCard2(response.data.data.image_url);
           setCardNumber2(card);
+          handleFlip(2);
         } else if (holdCount === 2) {
           setCard3(response.data.data.image_url);
           setCardNumber3(card);
+          handleFlip(3);
         } else if (holdCount === 3) {
           setCard4(response.data.data.image_url);
           setCardNumber4(card);
+          handleFlip(4);
         } else if (holdCount === 4) {
           setCard5(response.data.data.image_url);
           setCardNumber5(card);
+          handleFlip(5);
 
           setTimeout(() => {
             navigate("/process5");
@@ -237,21 +269,33 @@ const CardSelect5 = () => {
           <BackgroundImg src={Background} alt="Background" />
           <CardsWrapper>
             <Cards>
-              <CardBackground>
-                {card1 ? <TaroEx src={card1} /> : null}
-              </CardBackground>
+              <FlipcardContainer
+                onClick={() => handleFlip(2)}
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.22, ease: "easeInOut" }}
+              >
+                <FlipcardInner isFlipped={flippedCards[1]}>
+                  <CardBackground>
+                    {card1 ? (
+                      <TaroEx src={card1} />
+                    ) : (
+                      <TaroEx src={BackOfCard} />
+                    )}
+                  </CardBackground>
+                </FlipcardInner>
+              </FlipcardContainer>
 
               <CardBackground>
-                {card2 ? <TaroEx src={card2} /> : null}
+                {card2 ? <TaroEx src={card2} /> : <TaroEx src={BackOfCard} />}
               </CardBackground>
               <CardBackground>
-                {card3 ? <TaroEx src={card3} /> : null}
+                {card3 ? <TaroEx src={card3} /> : <TaroEx src={BackOfCard} />}
               </CardBackground>
               <CardBackground>
-                {card4 ? <TaroEx src={card4} /> : null}
+                {card4 ? <TaroEx src={card4} /> : <TaroEx src={BackOfCard} />}
               </CardBackground>
               <CardBackground>
-                {card5 ? <TaroEx src={card5} /> : null}
+                {card5 ? <TaroEx src={card5} /> : <TaroEx src={BackOfCard} />}
               </CardBackground>
             </Cards>
             <AnimatePresence mode="wait" custom={back}>
