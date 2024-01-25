@@ -11,10 +11,10 @@ services:
       - "9090:9090"
     networks:
       - mybridge
-    # command:
-    #   - '--config.file=/etc/prometheus/prometheus.yml'
-    #   - '--storage.tsdb.path=/prometheus'
-    #   - '--web.enable-lifecycle'
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.enable-lifecycle'
 
   dev_node-exporter:
     image: prom/node-exporter
