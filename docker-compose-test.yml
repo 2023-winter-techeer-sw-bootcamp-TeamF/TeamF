@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  dev_backend:
+    build: ./backend
+    container_name: dev_backend_container
+    ports:
+      - 3000:3000
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_REGION=${AWS_REGION}
+    deploy:
+      update_config:
+        parallelism: 0
+        delay: 10s
+        order: start-first
+
+  dev_frontend:
+    build: ./frontend
+    container_name: dev_frontend_container
+    ports:
+      - 5000:5000
+    deploy:
+      update_config:
+        parallelism: 0
+        delay: 10s
+        order: start-first
+
+  dev_nginx:
+    build: ./nginx
+    container_name: dev_nginx_container
+    ports:
+      - 80:80
+    depends_on:
+      - dev_backend
+      - dev_frontend
