@@ -8,8 +8,8 @@ import { useEffect, useState } from "react";
 import LoadingPage from "../component/LoadingPage";
 import "../assets/font-YUniverse-B.css";
 import "../assets/font-S-CoreDream-3Light.css";
-import NextButton from "../assets/NextBtn.png";
 import { motion } from "framer-motion";
+import Upward3 from "../assets/Upward3.png";
 
 const Background = styled.div`
   width: 100vw;
@@ -198,16 +198,13 @@ interface RecordType {
 const ScrollToTopButtonWrapper = styled(motion.div)<{ visible: boolean }>`
   border: none;
   background: none;
-  width: 5.625rem;
-  height: 5.125rem;
+  width: 3.625rem;
+  height: 3.525rem;
   position: fixed;
   right: 2rem;
   bottom: 2.5rem;
   cursor: pointer;
-
-  cursor: pointer;
   display: ${(props) => (props.visible ? "block" : "none")};
-  transform: rotate(270deg);
 `;
 
 const ScrollToTopButton: React.FC = () => {
@@ -240,10 +237,9 @@ const ScrollToTopButton: React.FC = () => {
     <ScrollToTopButtonWrapper
       visible={isVisible}
       onClick={scrollToTop}
-      initial={{ rotate: "270deg" }}
       whileTap={{ scale: 0.9 }}
     >
-      <NextBtnImg src={NextButton} />
+      <NextBtnImg src={Upward3} />
     </ScrollToTopButtonWrapper>
   );
 };
@@ -273,6 +269,7 @@ function MyPage() {
         console.error("타로 기록을 불러오는데 실패했습니다.", error);
       });
   }, []);
+
   return (
     <>
       <Background>
