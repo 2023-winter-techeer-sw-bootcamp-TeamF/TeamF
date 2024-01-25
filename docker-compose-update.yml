@@ -3,26 +3,32 @@ version: "3.8"
 services:
   dev_backend:
     build: ./backend
-    container_name: dev_backend_container
+    image: dev_backend
+    container_name: dev_backend
     ports:
       - 3000:3000
     environment:
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - AWS_REGION=${AWS_REGION}
-    deploy:
-      update_config:
-        parallelism: 0
-        delay: 10s
-        order: start-first
 
   dev_frontend:
     build: ./frontend
-    container_name: dev_frontend_container
+    image: dev_frontend
+    container_name: dev_frontend
     ports:
       - 5000:5000
-    deploy:
-      update_config:
-        parallelism: 0
-        delay: 10s
-        order: start-first
+
+  dev_nginx:
+    build: ./nginx
+    image: dev_nginx
+    container_name: dev_nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /hostpath/www:/var/www/html
+      - /hostpath/certbot/etc:/etc/letsencrypt:ro
+    depends_on:
+      - dev_backend
+      - dev_frontend

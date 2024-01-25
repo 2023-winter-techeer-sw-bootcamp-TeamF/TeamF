@@ -2,8 +2,7 @@ version: "3.8"
 
 services:
   dev_backend:
-    build: ./backend
-    container_name: dev_backend_container
+    image: dev_backend:latest
     ports:
       - 3000:3000
     environment:
@@ -12,18 +11,17 @@ services:
       - AWS_REGION=${AWS_REGION}
     deploy:
       update_config:
-        parallelism: 0
+        parallelism: 2
         delay: 10s
         order: start-first
 
   dev_frontend:
-    build: ./frontend
-    container_name: dev_frontend_container
+    image: dev_backend:latest
     ports:
       - 5000:5000
     deploy:
       update_config:
-        parallelism: 0
+        parallelism: 2
         delay: 10s
         order: start-first
 
@@ -32,6 +30,7 @@ services:
     container_name: dev_nginx_container
     ports:
       - 80:80
+      - 443:443
     depends_on:
       - dev_backend
       - dev_frontend
