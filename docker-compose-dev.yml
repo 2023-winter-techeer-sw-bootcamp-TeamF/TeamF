@@ -3,7 +3,7 @@ version: "3.8"
 services:
   dev_prometheus:
     build: ./prometheus
-    image: teamf-dev_prometheus
+    image: dev_prometheus
     container_name: dev_prometheus_container
     # volumes:
     #   - /hostpath/prometheus_data:/etc/prometheus
@@ -31,6 +31,7 @@ services:
 
   dev_backend:
     build: ./backend
+    image: dev_backend
     container_name: dev_backend_container
     ports:
       - "3001:3000"
@@ -41,12 +42,14 @@ services:
 
   dev_frontend:
     build: ./frontend
+    image: dev_frontend
     container_name: dev_frontend_container
     ports:
       - "5001:5000"
 
   dev_nginx:
     build: ./nginx
+    image: dev_nginx
     container_name: dev_nginx_container
     # restart: always
     ports:
@@ -61,6 +64,7 @@ services:
 
   certbot:
     image: certbot/certbot
+    container_name: dev_certbot_container
     volumes:
       - /hostpath/certbot/etc:/etc/letsencrypt
       - /hostpath/certbot/var:/var/lib/letsencrypt
