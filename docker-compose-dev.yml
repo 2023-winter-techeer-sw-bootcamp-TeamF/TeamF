@@ -9,8 +9,6 @@ services:
     #   - /hostpath/prometheus_data:/etc/prometheus
     ports:
       - "9090:9090"
-    networks:
-      - mybridge
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
@@ -21,8 +19,6 @@ services:
     container_name: dev_node_exporter_container
     ports:
       - "9100:9100"
-    networks:
-      - mybridge
 
   dev_grafana:
     image: grafana/grafana
@@ -32,8 +28,6 @@ services:
       - grafana_data:/var/lib/grafana
     ports:
       - 9000:3000
-    networks:
-      - mybridge
 
   dev_backend:
     build: ./backend
@@ -44,16 +38,12 @@ services:
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - AWS_REGION=${AWS_REGION}
-    networks:
-      - mybridge
 
   dev_frontend:
     build: ./frontend
     container_name: dev_frontend_container
     ports:
       - "5001:5000"
-    networks:
-      - mybridge
 
   dev_nginx:
     build: ./nginx
@@ -68,8 +58,6 @@ services:
     depends_on:
       - dev_backend
       - dev_frontend
-    networks:
-      - mybridge
 
   certbot:
     image: certbot/certbot
@@ -78,18 +66,9 @@ services:
       - /hostpath/certbot/var:/var/lib/letsencrypt
       - /hostpath/www:/var/www/html
     command: certonly --webroot --webroot-path=/var/www/html --email tjfgkssk9472@gmail.com --agree-tos --no-eff-email --force-renewal -d tairot.online -v
-    networks:
-      - mybridge
     depends_on:
       - nginx
   
 volumes:
   grafana_data:
-
-networks:
-  mybridge:
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.202.0.1/16
 
