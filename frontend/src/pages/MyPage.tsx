@@ -10,6 +10,10 @@ import "../assets/font-YUniverse-B.css";
 import "../assets/font-S-CoreDream-3Light.css";
 import { motion } from "framer-motion";
 import Upward3 from "../assets/Upward3.png";
+import "../assets/font-MapoDacapo.css";
+import "../assets/font-PyeongChangPeace-Bold.css";
+import "../assets/font-PyeongChangPeace-Light.css";
+import "../assets/font-Shining_star.css";
 
 const Background = styled.div`
   width: 100vw;
@@ -64,6 +68,7 @@ const Card = styled.div`
 `;
 
 const CardLine1 = styled.div`
+  //이게 카드 안쪽 테두리
   width: 11.8269375rem;
   height: 21.2rem;
   border-radius: 0.625rem;
@@ -95,7 +100,7 @@ const TaroExs = styled.div<TaroExsProps>`
   justify-content: ${(props) =>
     props.tarotImage === 1 || props.tarotImage === 3 ? "center" : "flex-start"};
   gap: 0.5rem;
-  margin-top: 0.4rem;
+  margin-top: -0.6rem;
   overflow-x: auto;
   margin-left: 0.5rem;
   margin-right: 0.5rem;
@@ -126,16 +131,29 @@ const TaroEx = styled.img`
   height: 5.579625rem;
 `;
 
-const CardText = styled.p`
+const CardText1 = styled.p`
   //width: 10.0003125rem;
-  height: 11.3rem;
+  height: 2rem;
   color: #b88150; //#1d1d1d -> #b88150
   text-align: center;
   font-family: YUniverse-B;
-  font-size: 0.8125rem;
+  font-size: 1.3rem;
   font-style: normal;
   font-weight: 300;
   line-height: 1.3;
+  transform: translate(0%, -18%);
+  //letter-spacing: -0.01625rem;
+`;
+
+const CardText2 = styled.p`
+  height: 6.3rem;
+  color: #b88150; //#1d1d1d -> #b88150
+  text-align: center;
+  font-family: YUniverse-B;
+  font-size: 1.2rem;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 1.5;
   //letter-spacing: -0.01625rem;
   text-transform: uppercase;
   //margin-top: 1rem;
@@ -192,6 +210,7 @@ interface RecordType {
     luck: string;
     pollId: string;
     date: string;
+    question: string;
   };
 }
 
@@ -263,6 +282,7 @@ function MyPage() {
         },
       })
       .then((response) => {
+        console.log(response.data);
         setTarotRecord(response.data);
       })
       .catch((error) => {
@@ -307,7 +327,12 @@ function MyPage() {
                             <TaroEx key={idx} src={url} />
                           ))}
                         </TaroExs>
-                        <CardText>{record.resultInfo.explanation}</CardText>
+                        <div>
+                          <>
+                            <CardText1>{record.resultInfo.luck}</CardText1>
+                          </>
+                          <CardText2>"{record.resultInfo.question}"</CardText2>
+                        </div>
                       </CardLine2>
                       <UserName>ㆍ{record.resultInfo.date}ㆍ</UserName>
                     </CardLine1>
