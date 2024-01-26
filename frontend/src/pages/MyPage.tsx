@@ -10,10 +10,6 @@ import "../assets/font-YUniverse-B.css";
 import "../assets/font-S-CoreDream-3Light.css";
 import { motion } from "framer-motion";
 import Upward3 from "../assets/Upward3.png";
-import "../assets/font-MapoDacapo.css";
-import "../assets/font-PyeongChangPeace-Bold.css";
-import "../assets/font-PyeongChangPeace-Light.css";
-import "../assets/font-Shining_star.css";
 
 const Background = styled.div`
   width: 100vw;
