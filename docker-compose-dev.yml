@@ -13,16 +13,12 @@ services:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
       - '--web.enable-lifecycle'
-    networks:
-      - default
 
   dev_node-exporter:
     image: prom/node-exporter
     container_name: dev_node_exporter_container
     ports:
       - "9100:9100"
-    networks:
-      - default
 
   dev_grafana:
     image: grafana/grafana
@@ -32,8 +28,6 @@ services:
       - grafana_data:/var/lib/grafana
     ports:
       - 9000:3000
-    networks:
-      - default
 
   dev_backend:
     build: ./backend
@@ -45,8 +39,6 @@ services:
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - AWS_REGION=${AWS_REGION}
-    networks:
-      - default
 
   dev_frontend:
     build: ./frontend
@@ -54,8 +46,6 @@ services:
     container_name: dev_frontend_container
     ports:
       - "5001:5000"
-    networks:
-      - default
 
   dev_nginx:
     build: ./nginx
@@ -71,8 +61,6 @@ services:
     depends_on:
       - dev_backend
       - dev_frontend
-    networks:
-      - default
 
   certbot:
     image: certbot/certbot
@@ -87,8 +75,3 @@ services:
   
 volumes:
   grafana_data:
-
-networks:
-  default:
-    driver: bridge
-
