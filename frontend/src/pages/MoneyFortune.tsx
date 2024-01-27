@@ -226,7 +226,8 @@ const MoneyFortune = () => {
   const accessToken = useRecoilValue(accessTokenState);
   const [reply, setReply] = useRecoilState(replyState);
   const [writestart, setWriteStart] = useState(false);
-  const tellMeText = `하하! 잘왔네, 방문자여. 나는 재물운 타로 마스터 제라드 이올시다 음하하!
+  const tellMeText = `하하! 잘왔네, 방문자여.
+나는 재물운 타로 마스터 제라드 이올시다 음하하!
 타로점을 볼 때 주의할 점과 타로점을 보는 방법에 대해 알려줄테니 잘 들어라!
 타로는 단순한 운세가 아니라, 자네의 개인적인 상황과 내면의 감정을 비추는 거울이다. 
 모호하거나 추상적인 답변은 신비로운 메시지를 주기도 하지. 그러니 명확한 답을 얻고 싶다면 자네 마음에 집중하고 내면을 깊이 탐구하는 시간을 가져야 하는거다 하하!
