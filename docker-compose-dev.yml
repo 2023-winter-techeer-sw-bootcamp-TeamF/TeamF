@@ -77,5 +77,4 @@ volumes:
   grafana_data:
 
 networks:
-  default:
-    driver: bridge
+  - bridge
