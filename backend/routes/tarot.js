@@ -1,22 +1,23 @@
-const express = require('express');
-const socketConnection = require('../middleware/socketConnection');
-const { createVerifyCardObjectArray } = require('../card/toCardVaild');
-const GptMessage = require('../chatgpt/message');
-const StreamJson = require('../chatgpt/streamJson');
-const gpt = require('../chatgpt/api');
-const commonResponse = require('../middleware/commonResponse');
-const s3 = require('../aws/awsS3');
-const { socketFinishHandler } = require('../middleware/socketHandle');
-const savePrompt = require('../middleware/savePrompt');
-const db = require('../mysql/database.js');
+const express = require("express");
+const socketConnection = require("../middleware/socketConnection");
+const { createVerifyCardObjectArray } = require("../card/toCardVaild");
+const GptMessage = require("../chatgpt/message");
+const StreamJson = require("../chatgpt/streamJson");
+const gpt = require("../chatgpt/api");
+const commonResponse = require("../middleware/commonResponse");
+const s3 = require("../aws/awsS3");
+const { socketFinishHandler } = require("../middleware/socketHandle");
+const savePrompt = require("../middleware/savePrompt");
+const db = require("../mysql/database.js");
 const router = express.Router();
-const verifyToken = require('../middleware/verifyToken');
-const { socketSendHandler } = require('../middleware/socketHandle');
-const checkPoll = require('../middleware/checkPoll');
+const verifyToken = require("../middleware/verifyToken");
+const { socketSendHandler } = require("../middleware/socketHandle");
+const checkPoll = require("../middleware/checkPoll");
 const middleware = [verifyToken, checkPoll, socketSendHandler];
+const { clovaTTS } = require("../middleware/clovaTTS.js");
 
 router.get(
-  '/option',
+  "/option",
   async (req, res, next) => {
     // Swagger 문서화
     // #swagger.summary = '가이드라인 불러오기'
@@ -68,8 +69,8 @@ router.get(
     try {
       if (!luckType || !luckOpt) {
         res.locals.status = 400;
-        res.locals.data = { message: '운 종류나 뽑는 사람 수가 없습니다.' };
-        throw new Error('운 종류나 뽑는 사람 수가 없습니다.');
+        res.locals.data = { message: "운 종류나 뽑는 사람 수가 없습니다." };
+        throw new Error("운 종류나 뽑는 사람 수가 없습니다.");
       }
 
       // DB 연결
@@ -79,22 +80,29 @@ router.get(
       const getLuckList = (luckType, luckOpt) => {
         return new Promise((resolve) => {
           // 운 카테고리 Table에서 가이드라인 내용 조회
-          const query = 'SELECT * FROM luck_list WHERE luck = ? AND opt = ?';
-          connection.query(query, [luckType, luckOpt], (error, results, fields) => {
-            if (error) {
-              res.locals.status = 500;
-              res.locals.data = { message: 'DB 조회 오류', error };
-              throw new Error('운 카테고리 Table에서 데이터 조회 중 오류 발생');
-            }
+          const query = "SELECT * FROM luck_list WHERE luck = ? AND opt = ?";
+          connection.query(
+            query,
+            [luckType, luckOpt],
+            (error, results, fields) => {
+              if (error) {
+                res.locals.status = 500;
+                res.locals.data = { message: "DB 조회 오류", error };
+                throw new Error(
+                  "운 카테고리 Table에서 데이터 조회 중 오류 발생"
+                );
+              }
 
-            resolve(results);
-          });
+              resolve(results);
+            }
+          );
         });
       };
 
       const results = await getLuckList(luckType, luckOpt);
 
-      if (results.length <= 0) throw new Error('운 카테고리 Table에서 데이터 조회 중 오류 발생');
+      if (results.length <= 0)
+        throw new Error("운 카테고리 Table에서 데이터 조회 중 오류 발생");
 
       // 조회 성공 시, 타로 마스터 이름과 가이드라인 내용 전달
       res.locals.data = {
@@ -111,7 +119,7 @@ router.get(
 ); // commonResponse 미들웨어를 체인으로 추가
 
 router.get(
-  '/card',
+  "/card",
   async (req, res, next) => {
     /*
    #swagger.tags = ['Tarot']
@@ -153,14 +161,14 @@ router.get(
     try {
       if (!cardNum) {
         res.locals.status = 400;
-        res.locals.data = { message: '카드 넘버가 없습니다.' };
-        throw new Error('카드 넘버가 없습니다.');
+        res.locals.data = { message: "카드 넘버가 없습니다." };
+        throw new Error("카드 넘버가 없습니다.");
       }
 
       if (cardNum < 1 || cardNum > 78) {
         res.locals.status = 400;
-        res.locals.data = { message: '카드 넘버가 잘못되었습니다.' };
-        throw new Error('카드 넘버가 잘못되었습니다.');
+        res.locals.data = { message: "카드 넘버가 잘못되었습니다." };
+        throw new Error("카드 넘버가 잘못되었습니다.");
       }
 
       const cardIndex = await s3.findIndex(cardNum); // 카드 번호를 통해 S3에서 파일의 인덱스를 가져옴
@@ -168,7 +176,7 @@ router.get(
       dataObject = await s3.getDataObject(cardIndex); // 파일명을 통해 데이터를 가져옴
 
       res.locals.data = {
-        message: 'create image url successfully',
+        message: "create image url successfully",
         name: dataObject.name,
         english: dataObject.english,
         mean: dataObject.mean,
@@ -186,7 +194,7 @@ router.get(
 ); // commonResponse 미들웨어를 체인으로 추가
 
 router.post(
-  '/result',
+  "/result",
   middleware,
   async (req, res, next) => {
     /*
@@ -265,17 +273,20 @@ router.post(
     const { cards, ask, luckType } = req.query; // 카드 배열, 질문 저장, 운 종류, poll_id
     const poll_id = res.locals.poll; // poll_id
     const socketId = res.locals.socketId; // 소켓 아이디
-    const io = req.app.get('io'); // 소켓 io 객체
+    const io = req.app.get("io"); // 소켓 io 객체
 
     try {
-      const appConfig = req.app.get('appConfig'); // appConfig 객체
+      const appConfig = req.app.get("appConfig"); // appConfig 객체
       const promptService = appConfig.promptService(); // promptService 객체
       const luckListService = appConfig.LuckListService(); // luckListService 객체
 
-      const masterName = await luckListService.findMasterNameByNumInPlayAlone(luckType); // 마스터 이름 배열
+      const masterName = await luckListService.findMasterNameByNumInPlayAlone(
+        luckType
+      ); // 마스터 이름 배열
       const luck = await luckListService.findLuckByNumInPlayAlone(luckType); // 운 종류 배열
       const luckid = await luckListService.findIdByNumInPlayAlone(luckType); // 운 종류 배열의 인덱스
-      const sizeOfLuckType = await luckListService.findSizeOfLuckTypeInPlayAlone(); // 운 종류 배열의 크기
+      const sizeOfLuckType =
+        await luckListService.findSizeOfLuckTypeInPlayAlone(); // 운 종류 배열의 크기
       let cardArray = []; // 카드 배열
       let cardNumArray = []; // 카드 번호 배열
       let cardEngNameArray = []; // 카드 영어 이름 배열
@@ -290,14 +301,14 @@ router.post(
       if (!cards || !ask || !luckType || !poll_id) {
         res.locals.status = 400;
         res.locals.data = {
-          error: '유효하지 않은 데이터입니다. (널 값, 누락 등)',
+          error: "유효하지 않은 데이터입니다. (널 값, 누락 등)",
         };
         return next();
       }
 
       if (luckType < 1 || luckType > sizeOfLuckType - 2) {
         res.locals.status = 400;
-        res.locals.data = { error: '유효하지 않은 운 종류입니다.' };
+        res.locals.data = { error: "유효하지 않은 운 종류입니다." };
         return next();
       }
 
@@ -314,13 +325,13 @@ router.post(
       messages.addUserCardsArrayMessage(cardEngNameArray);
 
       // 결과 배열 생성
-      resultArray = Array.from({ length: numOfExplain }, () => ''); // 결과 배열 생성
+      resultArray = Array.from({ length: numOfExplain }, () => ""); // 결과 배열 생성
 
       const gptStream = await gpt.getGptJsonStream(messages.getMessages());
 
       // gpt 스트림 데이터를 받는다.
       for await (const chunk of gptStream) {
-        const gptChunkMessage = chunk.choices[0]?.delta?.content || '';
+        const gptChunkMessage = chunk.choices[0]?.delta?.content || "";
 
         if (gptChunkMessage) {
           const resultIndex = streamJson.getIndex();
@@ -330,16 +341,29 @@ router.post(
           clientRecv += streamMessage; // 사용자가 받은 메시지 저장
 
           // resultIndex == numOfExplain
-          if (streamMessage != '') io.to(socketId).emit('message', streamMessage); // 소켓으로 메시지 전송
+          if (streamMessage != "")
+            io.to(socketId).emit("message", streamMessage); // 소켓으로 메시지 전송
         }
       }
 
       cardAnswerArray = resultArray.slice(0, numOfExplain - 1);
       resultAnswer = resultArray[numOfExplain - 1];
 
-      console.log('Client Recv : ' + clientRecv);
+      //TTS 이후 음성출력
+      const gptResultText = resultArray.join(""); // GPT 결과를 합쳐서 하나의 텍스트로...
+      clovaTTS(gptResultText, io.to(socketId), function (err, result) {
+        if (err) {
+          console.error("Error during TTS:", err);
+          // TTS 오류 처리를 원하는 대로 구현
+        } else {
+          console.log(result);
+          // TTS 완료 후에 할 작업을 원하는 대로 구현
+        }
+      });
 
-      if (luck !== '오늘의 운세') {
+      console.log("Client Recv : " + clientRecv);
+
+      if (luck !== "오늘의 운세") {
         res.locals.store = {
           masterName: masterName,
           cardArray: cardNumArray,
@@ -363,13 +387,13 @@ router.post(
         };
       }
 
-      console.log('Result : ' + JSON.stringify(res.locals.store));
+      console.log("Result : " + JSON.stringify(res.locals.store));
 
       return next(); // 다음 미들웨어로 이동
     } catch (error) {
       res.locals.status = 500;
       res.locals.data = {
-        message: '스트리밍 중 오류 발생 : ',
+        message: "스트리밍 중 오류 발생 : ",
         error: error.message,
       };
       return next(); // 오류 발생 → commonResponse 미들웨어로 이동
