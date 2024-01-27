@@ -219,9 +219,6 @@ const CardSelect1 = () => {
         setIsModalOpen(false);
       }, 2000);
     }
-
-    // Cleanup 함수를 반환합니다. 이 함수는 컴포넌트가 언마운트되거나
-    // useEffect의 의존성 배열에 있는 값이 변경될 때 호출됩니다.
     return () => {
       if (timeoutId) {
         // 타임아웃을 취소합니다.

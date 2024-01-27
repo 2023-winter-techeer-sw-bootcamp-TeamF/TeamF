@@ -151,27 +151,37 @@ const NextBtnImg = styled.img`
   height: 100%;
 `;
 
-const FlipcardContainer = styled(motion.div)`
-  position: relative;
-  width: 100%;
-  height: 100%;
-  perspective: 62.5rem;
+const Modal = styled(motion.div)`
+  position: absolute;
+  width: 20vw;
+  height: 60vh;
+  top: 15%;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  border-radius: 0.9375rem;
+  background: #b99e6f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99;
 `;
 
-const FlipcardInner = styled.div<FlipcardInnerProps>`
-  position: relative;
-  width: 100%;
-  height: 100%;
-  text-align: left;
-  transition: transform 0.6s;
-  transform-style: preserve-3d;
-
-  transform: rotateY(${(props) => (props.isFlipped ? "180deg" : "0")});
+const ModalImg = styled.img`
+  width: 95%;
+  height: 95%;
 `;
 
-interface FlipcardInnerProps {
-  isFlipped: boolean;
-}
+const ModalBackground = styled(motion.div)`
+  width: 100vw;
+  height: 100vh;
+
+  background: rgba(0, 0, 0, 0.9);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+`;
 
 const CardSelect5 = () => {
   const numberOfCards = 22; // 1번째 줄 카드 수
@@ -248,6 +258,7 @@ const CardSelect5 = () => {
   };
 
   const consoleIndex = (index: number, count: number) => {
+    setIsModalOpen(true);
     getImage(selectedCard[count][index]);
     const updateCard = [...selectedCard];
     updateCard[count][index] = 0;
@@ -259,7 +270,25 @@ const CardSelect5 = () => {
     shuffleArray(numbers);
     setSelectedCard(chunkArray(numbers, 22));
   }, []);
+  //2초뒤에 카드 모달이 닫히게 하기
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  useEffect(() => {
+    let timeoutId: number | undefined;
+
+    if (isModalOpen) {
+      // 모달이 열리면 타임아웃을 설정합니다.
+      timeoutId = window.setTimeout(() => {
+        setIsModalOpen(false);
+      }, 2000);
+    }
+    return () => {
+      if (timeoutId) {
+        // 타임아웃을 취소합니다.
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [isModalOpen]);
   return (
     <BackgroundColor>
       <Inside>
@@ -269,21 +298,9 @@ const CardSelect5 = () => {
           <BackgroundImg src={Background} alt="Background" />
           <CardsWrapper>
             <Cards>
-              <FlipcardContainer
-                onClick={() => handleFlip(2)}
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.22, ease: "easeInOut" }}
-              >
-                <FlipcardInner isFlipped={flippedCards[1]}>
-                  <CardBackground>
-                    {card1 ? (
-                      <TaroEx src={card1} />
-                    ) : (
-                      <TaroEx src={BackOfCard} />
-                    )}
-                  </CardBackground>
-                </FlipcardInner>
-              </FlipcardContainer>
+              <CardBackground>
+                {card1 ? <TaroEx src={card1} /> : <TaroEx src={BackOfCard} />}
+              </CardBackground>
 
               <CardBackground>
                 {card2 ? <TaroEx src={card2} /> : <TaroEx src={BackOfCard} />}
@@ -369,6 +386,83 @@ const CardSelect5 = () => {
           >
             <NextBtnImg src={NextButton} />
           </BeforeBtn>
+          <AnimatePresence>
+            {holdCount === 1 && isModalOpen ? (
+              <ModalBackground
+                onClick={() => {
+                  setIsModalOpen(false);
+                }}
+                initial={{ opacity: 0, rotateY: 90 }}
+                animate={{ opacity: 1, rotateY: 0 }}
+                exit={{ opacity: 0, rotateY: 90 }}
+                transition={{ duration: 0.4 }}
+              >
+                <Modal layoutId={"1"}>
+                  <ModalImg src={card1} />
+                </Modal>
+              </ModalBackground>
+            ) : holdCount === 2 && isModalOpen ? (
+              <ModalBackground
+                onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+                  e.stopPropagation();
+                  setIsModalOpen(false);
+                }}
+                initial={{ opacity: 0, rotateY: 90 }}
+                animate={{ opacity: 1, rotateY: 0 }}
+                exit={{ opacity: 0, rotateY: 90 }}
+                transition={{ duration: 0.4 }}
+              >
+                <Modal layoutId={"2"}>
+                  <ModalImg src={card2} />
+                </Modal>
+              </ModalBackground>
+            ) : holdCount === 3 && isModalOpen ? (
+              <ModalBackground
+                onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+                  e.stopPropagation();
+                  setIsModalOpen(false);
+                }}
+                initial={{ opacity: 0, rotateY: 90 }}
+                animate={{ opacity: 1, rotateY: 0 }}
+                exit={{ opacity: 0, rotateY: 90 }}
+                transition={{ duration: 0.4 }}
+              >
+                <Modal layoutId={"3"}>
+                  <ModalImg src={card3} />
+                </Modal>
+              </ModalBackground>
+            ) : holdCount === 4 && isModalOpen ? (
+              <ModalBackground
+                onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+                  e.stopPropagation();
+                  setIsModalOpen(false);
+                }}
+                initial={{ opacity: 0, rotateY: 90 }}
+                animate={{ opacity: 1, rotateY: 0 }}
+                exit={{ opacity: 0, rotateY: 90 }}
+                transition={{ duration: 0.4 }}
+              >
+                <Modal layoutId={"4"}>
+                  <ModalImg src={card4} />
+                </Modal>
+              </ModalBackground>
+            ) : holdCount === 5 && isModalOpen ? (
+              <ModalBackground
+                onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+                  e.stopPropagation();
+                  setIsModalOpen(false);
+                }}
+                initial={{ opacity: 0, rotateY: 90 }}
+                animate={{ opacity: 1, rotateY: 0 }}
+                exit={{ opacity: 0, rotateY: 90 }}
+                transition={{ duration: 0.4 }}
+              >
+                <Modal layoutId={"5"}>
+                  <ModalImg src={card5} />
+                </Modal>
+              </ModalBackground>
+            ) : null}
+          </AnimatePresence>
         </BackgroundWrapper>
       </Inside>
     </BackgroundColor>
