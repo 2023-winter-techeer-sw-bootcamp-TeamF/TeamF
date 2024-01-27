@@ -77,4 +77,5 @@ volumes:
   grafana_data:
 
 networks:
-  - bridge
+  my_network:
+    driver: bridge
