@@ -79,7 +79,7 @@ const CardLine1 = styled.div`
 
 const CardLine2 = styled.div`
   width: 11.4628125rem;
-  height: 19rem;
+  height: 19.2rem;
   border-radius: 0.5rem 0.5rem 0rem 0rem;
   border: 0.03125rem solid #b88150;
   background: rgba(217, 217, 217, 0);
@@ -96,7 +96,7 @@ const TaroExs = styled.div<TaroExsProps>`
   justify-content: ${(props) =>
     props.tarotImage === 1 || props.tarotImage === 3 ? "center" : "flex-start"};
   gap: 0.5rem;
-  margin-top: -0.6rem;
+  //margin-top: -0.6rem;
   overflow-x: auto;
   margin-left: 0.5rem;
   margin-right: 0.5rem;
@@ -129,34 +129,67 @@ const TaroEx = styled.img`
 
 const CardText1 = styled.p`
   //width: 10.0003125rem;
-  height: 2rem;
-  color: #b88150; //#1d1d1d -> #b88150
+  //height: 2rem;
+  color: #806838; //#1d1d1d -> #b88150
   text-align: center;
   font-family: YUniverse-B;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-style: normal;
-  font-weight: 300;
-  line-height: 1.3;
+  font-weight: 700;
   transform: translate(0%, -18%);
-  //letter-spacing: -0.01625rem;
+  letter-spacing: 0.1rem;
 `;
 
 const CardText2 = styled.p`
-  height: 6.3rem;
-  color: #b88150; //#1d1d1d -> #b88150
+  //width: 10.0003125rem;
+  height: 2.9rem;
+  color: #806838; //#1d1d1d -> #b88150
   text-align: center;
   font-family: YUniverse-B;
   font-size: 1.2rem;
   font-style: normal;
   font-weight: 300;
-  line-height: 1.5;
+  //line-height: 1.3;
+  transform: translate(0%, -18%);
+  //letter-spacing: -0.01625rem;
+  overflow-y: auto;
+  margin: 0.5rem; //padding -> margin
+  padding-right: 0.05rem;
+  //letter-spacing: 0.01rem;
+
+  &::-webkit-scrollbar {
+    width: 0.1875rem; /* 스크롤바의 너비 */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    //background-color: #ecb973; /* 황금색 스크롤바 색상 */
+    background-color: #b8815079; /* 스크롤바 색상 변경*/
+    border-radius: 0.3125rem; /* 스크롤바 모양 (둥근 모서리) */
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    //background-color: #daa520; /* 호버시 색상 변경 (더 진한 황금색) */
+    background-color: #b88150ba; /* 스크롤바 색상 변경*/
+  }
+`;
+
+const CardText3 = styled.p`
+  height: 6rem;
+  color: #b88150; //#1d1d1d -> #b88150
+  text-align: center;
+  font-family: YUniverse-B;
+  font-size: 1.1rem;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 1.3;
   //letter-spacing: -0.01625rem;
   text-transform: uppercase;
   //margin-top: 1rem;
   //margin-left: 0.7rem;
   overflow-y: auto;
-  margin: 0.5rem; //padding -> margin
+  margin: 0 0.5rem; //padding -> margin
   padding-right: 0.3rem;
+  letter-spacing: 0.01rem;
 
   &::-webkit-scrollbar {
     width: 0.1875rem; /* 스크롤바의 너비 */
@@ -184,7 +217,7 @@ const UserName = styled.p`
   line-height: normal;
   letter-spacing: 0.07875rem;
   text-transform: uppercase;
-  margin-bottom: 0.2rem;
+  margin: 0.2rem;
 `;
 
 const Row = styled.div`
@@ -213,8 +246,8 @@ interface RecordType {
 const ScrollToTopButtonWrapper = styled(motion.div)<{ visible: boolean }>`
   border: none;
   background: none;
-  width: 3.625rem;
-  height: 3.525rem;
+  width: 3rem;
+  height: 3rem;
   position: fixed;
   right: 2rem;
   bottom: 2.5rem;
@@ -324,13 +357,12 @@ function MyPage() {
                           ))}
                         </TaroExs>
                         <div>
-                          <>
-                            <CardText1>{record.resultInfo.luck}</CardText1>
-                          </>
+                          <CardText1>ㆍ{record.resultInfo.luck}ㆍ</CardText1>
                           <CardText2>"{record.resultInfo.question}"</CardText2>
+                          <CardText3>"{record.resultInfo.explanation}"</CardText3>
                         </div>
                       </CardLine2>
-                      <UserName>ㆍ{record.resultInfo.date}ㆍ</UserName>
+                      <UserName><b>ㆍ</b>{record.resultInfo.date}<b>ㆍ</b></UserName>
                     </CardLine1>
                   </Card>
                 </Link>
