@@ -3,16 +3,16 @@ version: "3.8"
 services:
   dev_prometheus:
     build: ./prometheus
-    image: teamf-dev_prometheus
+    image: dev_prometheus
     container_name: dev_prometheus_container
     # volumes:
     #   - /hostpath/prometheus_data:/etc/prometheus
     ports:
       - "9090:9090"
-    # command:
-    #   - '--config.file=/etc/prometheus/prometheus.yml'
-    #   - '--storage.tsdb.path=/prometheus'
-    #   - '--web.enable-lifecycle'
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.enable-lifecycle'
 
   dev_node-exporter:
     image: prom/node-exporter
@@ -31,6 +31,7 @@ services:
 
   dev_backend:
     build: ./backend
+    image: dev_backend
     container_name: dev_backend_container
     ports:
       - "3001:3000"
@@ -38,23 +39,21 @@ services:
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - AWS_REGION=${AWS_REGION}
-    networks:
-      - mybridge
 
   dev_frontend:
     build: ./frontend
+    image: dev_frontend
     container_name: dev_frontend_container
     ports:
       - "5001:5000"
-    networks:
-      - mybridge
 
   dev_nginx:
     build: ./nginx
+    image: dev_nginx
     container_name: dev_nginx_container
     # restart: always
     ports:
-      - "80"
+      - "80:80"
       - "443:443"
     volumes:
       - /hostpath/www:/var/www/html
@@ -62,28 +61,17 @@ services:
     depends_on:
       - dev_backend
       - dev_frontend
-    networks:
-      - mybridge
 
   certbot:
     image: certbot/certbot
+    container_name: dev_certbot_container
     volumes:
       - /hostpath/certbot/etc:/etc/letsencrypt
       - /hostpath/certbot/var:/var/lib/letsencrypt
       - /hostpath/www:/var/www/html
     command: certonly --webroot --webroot-path=/var/www/html --email tjfgkssk9472@gmail.com --agree-tos --no-eff-email --force-renewal -d tairot.online -v
-    networks:
-      - mybridge
     depends_on:
       - nginx
   
 volumes:
   grafana_data:
-
-networks:
-  mybridge:
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.202.0.1/16
-

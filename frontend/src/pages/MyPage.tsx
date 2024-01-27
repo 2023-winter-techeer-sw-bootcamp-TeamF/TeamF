@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import LoadingPage from "../component/LoadingPage";
 import "../assets/font-YUniverse-B.css";
 import "../assets/font-S-CoreDream-3Light.css";
+import { motion } from "framer-motion";
+import Upward3 from "../assets/Upward3.png";
 
 const Background = styled.div`
   width: 100vw;
@@ -62,6 +64,7 @@ const Card = styled.div`
 `;
 
 const CardLine1 = styled.div`
+  //이게 카드 안쪽 테두리
   width: 11.8269375rem;
   height: 21.2rem;
   border-radius: 0.625rem;
@@ -93,7 +96,7 @@ const TaroExs = styled.div<TaroExsProps>`
   justify-content: ${(props) =>
     props.tarotImage === 1 || props.tarotImage === 3 ? "center" : "flex-start"};
   gap: 0.5rem;
-  margin-top: 0.4rem;
+  margin-top: -0.6rem;
   overflow-x: auto;
   margin-left: 0.5rem;
   margin-right: 0.5rem;
@@ -124,16 +127,29 @@ const TaroEx = styled.img`
   height: 5.579625rem;
 `;
 
-const CardText = styled.p`
+const CardText1 = styled.p`
   //width: 10.0003125rem;
-  height: 11.3rem;
+  height: 2rem;
   color: #b88150; //#1d1d1d -> #b88150
   text-align: center;
   font-family: YUniverse-B;
-  font-size: 0.8125rem;
+  font-size: 1.3rem;
   font-style: normal;
   font-weight: 300;
   line-height: 1.3;
+  transform: translate(0%, -18%);
+  //letter-spacing: -0.01625rem;
+`;
+
+const CardText2 = styled.p`
+  height: 6.3rem;
+  color: #b88150; //#1d1d1d -> #b88150
+  text-align: center;
+  font-family: YUniverse-B;
+  font-size: 1.2rem;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 1.5;
   //letter-spacing: -0.01625rem;
   text-transform: uppercase;
   //margin-top: 1rem;
@@ -190,8 +206,65 @@ interface RecordType {
     luck: string;
     pollId: string;
     date: string;
+    question: string;
   };
 }
+
+const ScrollToTopButtonWrapper = styled(motion.div)<{ visible: boolean }>`
+  border: none;
+  background: none;
+  width: 3.625rem;
+  height: 3.525rem;
+  position: fixed;
+  right: 2rem;
+  bottom: 2.5rem;
+  cursor: pointer;
+  display: ${(props) => (props.visible ? "block" : "none")};
+`;
+
+const ScrollToTopButton: React.FC = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    // 페이지 스크롤 이벤트를 추가하여 버튼을 표시/숨김
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      if (scrollY > 100) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  return (
+    <ScrollToTopButtonWrapper
+      visible={isVisible}
+      onClick={scrollToTop}
+      whileTap={{ scale: 0.9 }}
+    >
+      <NextBtnImg src={Upward3} />
+    </ScrollToTopButtonWrapper>
+  );
+};
+
+export { ScrollToTopButton };
+
+const NextBtnImg = styled.img`
+  width: 100%;
+  height: 100%;
+`;
 
 function MyPage() {
   const accessToken = useRecoilValue(accessTokenState);
@@ -205,12 +278,14 @@ function MyPage() {
         },
       })
       .then((response) => {
+        console.log(response.data);
         setTarotRecord(response.data);
       })
       .catch((error) => {
         console.error("타로 기록을 불러오는데 실패했습니다.", error);
       });
   }, []);
+
   return (
     <>
       <Background>
@@ -248,7 +323,12 @@ function MyPage() {
                             <TaroEx key={idx} src={url} />
                           ))}
                         </TaroExs>
-                        <CardText>{record.resultInfo.explanation}</CardText>
+                        <div>
+                          <>
+                            <CardText1>{record.resultInfo.luck}</CardText1>
+                          </>
+                          <CardText2>"{record.resultInfo.question}"</CardText2>
+                        </div>
                       </CardLine2>
                       <UserName>ㆍ{record.resultInfo.date}ㆍ</UserName>
                     </CardLine1>
@@ -256,6 +336,7 @@ function MyPage() {
                 </Link>
               ))}
             </Row>
+            <ScrollToTopButton />
           </div>
         </Inside>
       </Background>
