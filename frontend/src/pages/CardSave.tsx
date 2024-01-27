@@ -269,7 +269,8 @@ function CardSave() {
       });
   }, []);
   const shareButton = () => {
-    shareKakao(`http://localhost:5000/share/`, poll_id);
+    // shareKakao(`http://localhost:5000/share/`, poll_id);
+    shareKakao(`https://tairot.online/share/`, poll_id);
   };
   return (
     <>
