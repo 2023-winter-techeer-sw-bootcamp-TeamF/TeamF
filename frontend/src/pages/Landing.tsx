@@ -65,37 +65,6 @@ const Name = styled.p`
   margin-bottom: 16rem;
 `;
 
-// const StartButton = styled(motion.button)`
-//   width: 13.1875rem;
-//   height: 3rem;
-//   border-radius: 7.5rem;
-//   border: 0.125rem solid #c38017;
-//   background: rgba(195, 128, 23, 0);
-//   cursor: pointer;
-//   position: sticky;
-//   z-index: 11;
-//   &:hover {
-//     // opacity: 0.7;
-//     border-color: #ffbf00;
-//     font-weight: bold;
-//     transition: transform 0.3s ease, opacity 0.3s ease;
-//   }
-// `;
-
-// const StartText = styled.p`
-//   color: #c38017;
-//   font-family: YUniverse-B;
-//   font-size: 1.1875rem;
-//   font-style: normal;
-//   font-weight: 700;
-//   line-height: normal;
-//   letter-spacing: 0.083125rem;
-//   text-transform: uppercase;
-//   &:hover {
-//     color: #ffbf00;
-//   }
-// `;
-
 const StartButton = styled(motion.button)`
   width: 12rem;
   height: 2.5rem;
