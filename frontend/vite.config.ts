@@ -9,7 +9,8 @@ export default defineConfig({
     port: 5000,
     host: true,
     proxy: {
-      "/api": "http://localhost:3001/",
+      "/api": "http://tairot.online/",
+      //"/api": "http://localhost:3001/",
     },
   },
 });
