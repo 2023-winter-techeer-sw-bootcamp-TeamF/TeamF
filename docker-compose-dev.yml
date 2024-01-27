@@ -38,8 +38,6 @@ services:
       - /var/run:/var/run:rw  # Docker 소켓 위치
       - /sys:/sys:ro  # 시스템 정보를 읽기 위한 마운트
       - /var/lib/docker/:/var/lib/docker:ro  # Docker 이미지와 컨테이너 정보
-    networks:
-      - mybridge
 
   dev_backend:
     build: ./backend
