@@ -133,7 +133,7 @@ const CardText1 = styled.p`
   color: #806838; //#1d1d1d -> #b88150
   text-align: center;
   font-family: YUniverse-B;
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-style: normal;
   font-weight: 700;
   transform: translate(0%, -18%);
@@ -142,20 +142,20 @@ const CardText1 = styled.p`
 
 const CardText2 = styled.p`
   //width: 10.0003125rem;
-  height: 1.3rem;
+  height: 2.9rem;
   color: #806838; //#1d1d1d -> #b88150
   text-align: center;
   font-family: YUniverse-B;
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-style: normal;
   font-weight: 300;
-  line-height: 1.3;
+  //line-height: 1.3;
   transform: translate(0%, -18%);
   //letter-spacing: -0.01625rem;
   overflow-y: auto;
   margin: 0.5rem; //padding -> margin
   padding-right: 0.05rem;
-  letter-spacing: 0.01rem;
+  //letter-spacing: 0.01rem;
 
   &::-webkit-scrollbar {
     width: 0.1875rem; /* 스크롤바의 너비 */
@@ -174,11 +174,11 @@ const CardText2 = styled.p`
 `;
 
 const CardText3 = styled.p`
-  height: 8rem;
+  height: 6rem;
   color: #b88150; //#1d1d1d -> #b88150
   text-align: center;
   font-family: YUniverse-B;
-  font-size: 0.9rem;
+  font-size: 1.1rem;
   font-style: normal;
   font-weight: 300;
   line-height: 1.3;
