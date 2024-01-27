@@ -34,6 +34,9 @@ const OverlayContent = styled.div`
   transform: translate(-50%, -50%);
   text-align: center;
   color: #ecb973;
+  display: flex;
+  flex-direction: column;
+  row-gap: 4rem;
 `;
 
 const BackgroundColor = styled.div`
@@ -54,7 +57,8 @@ const TitleContainer = styled(motion.div)`
   line-height: normal;
   text-transform: uppercase;
   font-size: 2rem;
-  margin-bottom: 3.5rem;
+  //margin-bottom: 3.5rem;
+  letter-spacing: 0.01rem;
 `;
 
 const ContentContainer = styled(motion.p)`
@@ -62,14 +66,15 @@ const ContentContainer = styled(motion.p)`
   color: #ecb973;
   text-align: center;
   font-family: YUniverse-B;
-  font-size: 1.125rem; //1.125rem
+  font-size: 1.25rem; //1.125rem
   font-style: normal;
   font-weight: 300;
   letter-spacing: 0.05rem;
   line-height: normal;
   text-transform: uppercase;
-  margin-top: 1.25rem;
-  margin-bottom: 6rem;
+  //margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.01rem;
 `;
 
 const CardBox = styled(motion.div)`
@@ -100,7 +105,7 @@ const CardsContainer = styled(motion.div)`
   justify-content: center;
   align-items: center;
   gap: 1.25rem;
-  margin-top: 2.5rem;
+  //margin-top: 2.5rem;
 `;
 const ProfileImage = styled.img`
   // 프로필 이미지
@@ -187,18 +192,18 @@ interface FlipcardInnerProps {
 
 const CardText = styled.span`
   position: absolute;
-  top: 42%;
+  top: 43%;
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   color: #fffbf2;
   font-family: YUniverse-B;
-  font-weight: 300;
-  font-size: 0.8rem;
+  font-weight: 700;
+  font-size: 0.95rem;
   text-align: center;
-  width: 9.5rem;
-  line-height: 1.5;
+  width: 12rem;
+  line-height: 1.4;
   //margin-top: 0.6rem;
   display: inline;
 `;
@@ -211,30 +216,31 @@ const CardTextToday = styled.span`
   flex-direction: column;
   color: #fffbf2;
   font-family: YUniverse-B;
-  font-weight: 300;
-  font-size: 0.8rem;
+  font-weight: 700;
+  font-size: 0.95rem;
   text-align: center;
-  width: 9.5rem;
-  line-height: 1.5;
+  width: 12rem;
+  line-height: 1.4;
   //margin-top: 0.6rem;
   display: inline;
 `;
 const Bold = styled.span`
-  color: #fffbf2;
+  //color: #fffbf2;
+  color: #fff;
   font-family: YUniverse-B;
-  font-size: 0.95rem;
+  font-size: 1.15rem;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
 `;
 const SoloBtn = styled(motion.div)`
-  width: 8.4375rem;
-  height: 1.5rem;
+  width: 9.5rem;
+  height: 1.8rem;
   flex-shrink: 0;
   border-radius: 0.9375rem;
   background: #fbecc6;
   position: absolute;
-  top: 85%;
+  top: 86%;
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
@@ -247,7 +253,7 @@ const SoloText = styled.p`
   color: #806838;
   text-align: center;
   font-family: YUniverse-B;
-  font-size: 0.7rem;
+  font-size: 0.9rem;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
@@ -321,7 +327,7 @@ const FortuneSelect = () => {
                     <FlipCardImg src={FlipCard} />
                     <CardText>
                       <Bold>세레나 마스터</Bold>는<br />
-                      별과 달의 조화로 미래를 읽는.
+                      별과 달의 조화로 미래를 읽는
                       <br />
                       타로 마스터에요.
                       <br />
@@ -369,7 +375,7 @@ const FortuneSelect = () => {
                       <br />
                       연애 고수 타로 마스터에요.
                       <br />
-                      <Bold>연애운</Bold>는<br />
+                      <Bold>연애운</Bold>은<br />
                       <Bold>총 5장</Bold>의 카드를 뽑아요.
                       <br />
                       <Bold>샤를린 마스터</Bold>에게
@@ -414,7 +420,7 @@ const FortuneSelect = () => {
                       <br />
                       지닌 타로 마스터에요.
                       <br />
-                      <Bold>우정운</Bold>는<br />
+                      <Bold>우정운</Bold>은<br />
                       <Bold>총 5장</Bold>의 카드를 뽑아요.
                       <br />
                       <Bold>마틸드 마스터</Bold>에게

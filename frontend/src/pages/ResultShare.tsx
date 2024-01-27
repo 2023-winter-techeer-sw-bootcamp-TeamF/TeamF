@@ -26,86 +26,85 @@ const Details = styled.div`
 `;
 
 const DetailBackground = styled.div`
-  width: 60.3125rem;
-  height: 44.9375rem;
+  width: 68.3125rem;
+  height: 45.9375rem;
   border-radius: 0.25rem;
   background: #e9e5da;
   margin-top: 2rem;
-
-  display: flex;
-  justify-content: center;
-`;
-
-const DetailLine1 = styled.div`
-  width: 58.75rem;
-  height: 42.5rem;
-  border-radius: 0.625rem;
-  border: 0.03125rem solid #b88150;
-  background: rgba(217, 217, 217, 0);
-
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 1.5rem;
+`;
+
+const DetailLine1 = styled.div`
+  width: 65.85rem;
+  height: 43.5rem;
+  border-radius: 0.625rem;
+  border: 0.03125rem solid #b88150;
+  background: rgba(217, 217, 217, 0);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  //margin-top: 1.5rem;
   flex-direction: column;
 `;
 
 const DetailLine2 = styled.div`
-  width: 58.0625rem;
-  height: 39.625rem;
+  width: 65.1rem;
+  height: 42.625rem;
   border-radius: 0.5rem 0.5rem 0rem 0rem;
   border: 0.03125rem solid #b88150;
   background: rgba(217, 217, 217, 0);
   margin-top: 0.3125rem;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
+  row-gap: 2rem;
 `;
 
 const Date = styled.p`
-  display: flex;
-  width: 11.0625rem;
-  height: 2.5625rem;
-  flex-direction: column;
-  justify-content: center;
   color: #b88150;
-  text-align: center;
-  font-family: "Italiana", sans-serif;
-  font-size: 1.25rem;
+  font-family: Italiana;
+  font-size: 1.5rem;
   font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  text-transform: uppercase;
-  padding-bottom: 0.4rem;
+  font-weight: 300;
+  margin: 0.5rem;
+`;
 
-  margin-top: 0.3rem;
+const Question = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 1rem;
 `;
 
 const Title = styled.p`
   color: #b99e6f;
   text-align: center;
-  font-family: Inter;
-  font-size: 0.8125rem;
+  font-family: YUniverse-B;
+  font-size: 1.25rem;
   font-style: normal;
-  font-weight: 600;
-  width: 4.5rem;
-  margin-top: 0.9375rem;
-  line-height: 1.5;
+  font-weight: 700;
+  width: 10rem;
+  //margin-top: 0.9375rem;
+  //line-height: 1rem;
 `;
 
 const Worry = styled.p`
-  width: 28.125rem;
-  height: 3.125rem;
+  width: 30rem;
+  height: 1.6rem;
   color: #b99e6f;
   text-align: center;
-  font-family: Inter;
-  font-size: 0.8125rem;
+  font-family: YUniverse-B;
+  font-size: 1.3rem;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 700;
   line-height: normal;
-  margin-top: 0.8125rem;
+  //margin-top: 0.8125rem;
   overflow-y: scroll;
   padding-right: 0.125rem;
+  letter-spacing: 0.01rem;
 
   &::-webkit-scrollbar {
     width: 0.1875rem; /* 스크롤바의 너비 */
@@ -125,9 +124,10 @@ const Cards = styled.div`
   display: flex;
   flex-direction: row;
   gap: 4.75rem;
-  margin-top: 2rem;
+  //margin-top: 2rem;
   align-items: center;
   width: 34.375rem;
+  justify-content: center;
 `;
 
 const CardBackground = styled.div`
@@ -151,41 +151,43 @@ const TaroEx = styled.img`
 const Solutions = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.875rem;
-  margin-top: 1.8125rem;
+  gap: 1rem; //0.4 -> 1
+  //margin-top: 1.8rem;
   align-items: center;
 `;
 
 const SolutionTitle = styled.p`
   color: #806838;
   text-align: center;
-  font-family: Inter;
-  font-size: 0.9375rem;
+  font-family: YUniverse-B;
+  font-size: 1.4rem;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 700;
   line-height: normal;
 `;
 
 const SolutionDetail = styled.p`
-  width: 38.875rem;
+  width: 48.875rem;
+  height: 5.7rem;
   color: #806838;
   text-align: center;
-  font-family: Inter;
-  font-size: 0.9375rem;
+  font-family: YUniverse-B;
+  font-size: 1.3rem;
   font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  height: 5rem;
+  font-weight: 300;
+  line-height: 1.6;
   overflow-y: scroll;
   overflow-x: hidden;
   padding-right: 0.625rem;
+  letter-spacing: 0.01rem;
 
   &::-webkit-scrollbar {
     width: 0.1875rem; /* 스크롤바의 너비 */
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #ecb973; /* 황금색 스크롤바 색상 */
+    //background-color: #ecb973; /* 황금색 스크롤바 색상 */
+    background-color: #b99e6f; /* 스크롤바 색상 변경 */
     border-radius: 0.3125rem; /* 스크롤바 모양 (둥근 모서리) */
   }
 
@@ -278,6 +280,7 @@ function ResultShare() {
   const [question, setQuestion] = useState("");
   const [explanation, setExplanation] = useState("");
   const [luck, setLuck] = useState("");
+  const [date, setDate] = useState("");
   const [masterName, setMasterName] = useState("");
   const [tarotImage, setTarotImage] = useState<ImgType[]>([]);
 
@@ -300,6 +303,7 @@ function ResultShare() {
         setTarotImage(response.data.data.card);
         setExplanation(response.data.data.result[0].explanation);
         setLuck(response.data.data.result[0].luck);
+        setDate(response.data.data.date);
         setMasterName(response.data.data.result[0].master_name);
       })
       .catch((error) => {
@@ -320,8 +324,13 @@ function ResultShare() {
             <DetailBackground>
               <DetailLine1>
                 <DetailLine2>
-                  <Title>당신의 고민 . . .</Title>
-                  <Worry>{question}</Worry>
+                  <Question>
+                      <Title>
+                        당신의 고민
+                        <br /> . . .
+                      </Title>
+                      <Worry>" {question} "</Worry>
+                    </Question>
                   <Cards>
                     {tarotImage.map((number, index) => (
                       <FlipcardContainer onClick={() => handleFlip(index)}>
@@ -340,7 +349,7 @@ function ResultShare() {
                   </Cards>
                   <Solutions>
                     <SolutionTitle>
-                      {masterName} 타로 마스터의 솔루션
+                      {masterName} 타로 마스터의 '{luck}' 솔루션
                     </SolutionTitle>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -371,7 +380,7 @@ function ResultShare() {
                     </svg>
                   </Solutions>
                 </DetailLine2>
-                <Date>ㆍ{luck}ㆍ</Date>
+                <Date><b>ㆍ</b>{date}<b>ㆍ</b></Date>
               </DetailLine1>
             </DetailBackground>
           </Details>

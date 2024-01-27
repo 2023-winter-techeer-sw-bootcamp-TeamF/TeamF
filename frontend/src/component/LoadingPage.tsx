@@ -1,6 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Lottie from "react-lottie-player";
 import lottiloading from "../lotti/animation.json";
+import styled from "styled-components";
+import "../assets/font-YUniverse-B.css";
+
+const LoadingText = styled.h2`
+  color: #ECB973;
+  font-family: YUniverse-B;
+  font-size: 1.5rem;
+  font-weight: 300;
+  letter-spacing: 0.01rem;
+`;
 
 const LoadingPage: React.FC = () => {
   // 로딩 상태를 state로 관리
@@ -44,7 +54,7 @@ const LoadingPage: React.FC = () => {
         />
 
         {/* 로그인 중에 보여줄 컨텐츠 (로딩 메시지 등) */}
-        <h2 style={{ color: "#ECB973" }}>Loading...</h2>
+        <LoadingText>Loading...</LoadingText>
       </div>
     );
   }
