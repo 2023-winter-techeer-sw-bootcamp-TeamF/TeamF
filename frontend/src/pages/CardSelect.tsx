@@ -158,12 +158,28 @@ const Modal = styled(motion.div)`
   left: 0;
   right: 0;
   margin: 0 auto;
+  border-radius: 0.9375rem;
+  background: #b99e6f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 99;
 `;
 
 const ModalImg = styled.img`
-  width: 100%;
-  height: 100%;
+  width: 95%;
+  height: 95%;
+`;
+
+const ModalBackground = styled(motion.div)`
+  width: 100vw;
+  height: 100vh;
+
+  background: rgba(0, 0, 0, 0.9);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
 `;
 
 const CardSelect = () => {
@@ -218,7 +234,7 @@ const CardSelect = () => {
         console.error("실패:", error);
       });
   };
-
+  //카드 클릭하면 고른 카드 배열에서 삭제
   const consoleIndex = (index: number, count: number) => {
     setIsModalOpen(true);
     getImage(selectedCard[count][index]);
@@ -231,15 +247,29 @@ const CardSelect = () => {
     shuffleArray(numbers);
     setSelectedCard(chunkArray(numbers, 22));
   }, []);
+  //2초뒤에 카드 모달이 닫히게 하기
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
+    let timeoutId: number | undefined;
+
     if (isModalOpen) {
-      setTimeout(() => {
+      // 모달이 열리면 타임아웃을 설정합니다.
+      timeoutId = window.setTimeout(() => {
         setIsModalOpen(false);
       }, 2000);
     }
+
+    // Cleanup 함수를 반환합니다. 이 함수는 컴포넌트가 언마운트되거나
+    // useEffect의 의존성 배열에 있는 값이 변경될 때 호출됩니다.
+    return () => {
+      if (timeoutId) {
+        // 타임아웃을 취소합니다.
+        clearTimeout(timeoutId);
+      }
+    };
   }, [isModalOpen]);
+  console.log(isModalOpen);
   return (
     <BackgroundColor>
       <Inside>
@@ -342,23 +372,55 @@ const CardSelect = () => {
           >
             <NextBtnImg src={NextButton} />
           </BeforeBtn>
+          <AnimatePresence>
+            {holdCount === 1 && isModalOpen ? (
+              <ModalBackground
+                onClick={() => {
+                  setIsModalOpen(false);
+                }}
+                initial={{ opacity: 0, rotateY: 90 }}
+                animate={{ opacity: 1, rotateY: 0 }}
+                exit={{ opacity: 0, rotateY: 90 }}
+                transition={{ duration: 0.4 }}
+              >
+                <Modal layoutId={"1"}>
+                  <ModalImg src={card1} />
+                </Modal>
+              </ModalBackground>
+            ) : holdCount === 2 && isModalOpen ? (
+              <ModalBackground
+                onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+                  e.stopPropagation();
+                  setIsModalOpen(false);
+                }}
+                initial={{ opacity: 0, rotateY: 90 }}
+                animate={{ opacity: 1, rotateY: 0 }}
+                exit={{ opacity: 0, rotateY: 90 }}
+                transition={{ duration: 0.4 }}
+              >
+                <Modal layoutId={"2"}>
+                  <ModalImg src={card2} />
+                </Modal>
+              </ModalBackground>
+            ) : holdCount === 3 && isModalOpen ? (
+              <ModalBackground
+                onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+                  e.stopPropagation();
+                  setIsModalOpen(false);
+                }}
+                initial={{ opacity: 0, rotateY: 90 }}
+                animate={{ opacity: 1, rotateY: 0 }}
+                exit={{ opacity: 0, rotateY: 90 }}
+                transition={{ duration: 0.4 }}
+              >
+                <Modal layoutId={"3"}>
+                  <ModalImg src={card3} />
+                </Modal>
+              </ModalBackground>
+            ) : null}
+          </AnimatePresence>
         </BackgroundWrapper>
       </Inside>
-      <AnimatePresence>
-        {holdCount === 1 && isModalOpen ? (
-          <Modal layoutId={"1"}>
-            <ModalImg src={card1} />
-          </Modal>
-        ) : holdCount === 2 && isModalOpen ? (
-          <Modal layoutId={"2"}>
-            <ModalImg src={card2} />
-          </Modal>
-        ) : holdCount === 3 && isModalOpen ? (
-          <Modal layoutId={"3"}>
-            <ModalImg src={card3} />
-          </Modal>
-        ) : null}
-      </AnimatePresence>
     </BackgroundColor>
   );
 };
