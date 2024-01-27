@@ -269,7 +269,6 @@ const CardSelect = () => {
       }
     };
   }, [isModalOpen]);
-  console.log(isModalOpen);
   return (
     <BackgroundColor>
       <Inside>
