@@ -1,15 +1,16 @@
-var client_id = process.env.client_id;
-var client_secret = process.env.client_secret;
-var fs = require("fs");
+const client_id = process.env.CLOVA_CLIENT_ID;
+const client_secret = process.env.CLOVA_CLIENT_SECRET;
 const request = require("request");
-const socketIo = require("socket.io");
+const voiceType = ["nminyoung", "nshasha", "nheera", "nseungpyo", "nhajun"];
+let requestQueue = [];
+let isPlaying = false;
 
-function clovaTTS(text, socket, callback) {
+function clovaTTS(text, socket, luckType, callback) {
   var api_url = "https://naveropenapi.apigw.ntruss.com/tts-premium/v1/tts";
   var options = {
     url: api_url,
     form: {
-      speaker: "nara",
+      speaker: voiceType[luckType - 1],
       volume: "0",
       speed: "0",
       pitch: "0",
@@ -22,21 +23,21 @@ function clovaTTS(text, socket, callback) {
     },
   };
 
-  var writeStream = fs.createWriteStream("./tts1.mp3");
+    console.log("clovaTTS : ", options); 
+ 
   var _req = request.post(options).on("response", function (response) {
     console.log(response.statusCode); // 200
     console.log(response.headers["content-type"]);
   });
 
-  _req.pipe(writeStream); // file로 출력
-  _req.on("end", function () {
-    console.log("File has been written");
-    callback(null, "File has been written");
+  _req.on("data", function (data) {
+    console.log(data);
+    socket.emit("audioChunk", data);
+  });
 
-    // 파일 작성이 끝나면 클라이언트로 음성 전송
-    const audioBuffer = fs.readFileSync("./tts1.mp3");
-    const audioBase64 = audioBuffer.toString("base64");
-    socket.emit("audio", audioBase64);
+  _req.on("end", function () {
+    callback(null, "File has been written");
+    isPlaying = false;
   });
 
   _req.on("error", function (err) {
@@ -45,6 +46,23 @@ function clovaTTS(text, socket, callback) {
   });
 }
 
+async function processQueue() {
+  if (isPlaying || requestQueue.length === 0) return;
+
+  isPlaying = true;
+
+  const { text, socket, luckType } = requestQueue.shift();
+
+  clovaTTS(text, socket, luckType, () => {
+    
+  });
+}
+
+function tts(text, socket, luckType) {
+  requestQueue.push({ text, socket, luckType });
+  processQueue();
+}
+
 module.exports = {
-  clovaTTS,
+  tts,
 };

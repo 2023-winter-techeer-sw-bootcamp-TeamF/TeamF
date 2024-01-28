@@ -14,6 +14,7 @@ const verifyToken = require('../middleware/verifyToken');
 const { socketSendHandler } = require('../middleware/socketHandle');
 const checkPoll = require('../middleware/checkPoll');
 const middleware = [verifyToken, checkPoll, socketSendHandler];
+const { tts } = require("../middleware/clovaTTS.js");
 
 router.get(
   '/option',
@@ -329,6 +330,12 @@ router.post(
           resultArray[resultIndex] += streamMessage; // 파싱한 데이터를 배열에 저장
           clientRecv += streamMessage; // 사용자가 받은 메시지 저장
 
+          // if (resultIndex != streamJson.getIndex()) {
+          //   tts(resultArray[resultIndex], io.to(socketId), luckType); // 소켓으로 메시지 전송
+          // }
+
+          
+
           // resultIndex == numOfExplain
           if (streamMessage != '') io.to(socketId).emit('message', streamMessage); // 소켓으로 메시지 전송
         }
@@ -336,6 +343,8 @@ router.post(
 
       cardAnswerArray = resultArray.slice(0, numOfExplain - 1);
       resultAnswer = resultArray[numOfExplain - 1];
+
+      tts(resultAnswer, io.to(socketId), luckType); // 소켓으로 메시지 전송
 
       console.log('Client Recv : ' + clientRecv);
 
