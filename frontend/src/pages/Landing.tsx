@@ -3,6 +3,7 @@ import LandingBackgroundImg from "../assets/LandingBackground3.png";
 import BackOfCard from "../assets/LandingCard.png";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import MusicBar from "../component/MusicBar";
 import "../assets/font-YUniverse-B.css";
 
 const Background = styled.div`
@@ -113,6 +114,7 @@ function Landing() {
         <LandingBackground>
           <LandingBackgroundImage src={LandingBackgroundImg} />
         </LandingBackground>
+        <MusicBar />
         <LandingThings>
           <Name>TAIROT</Name>
           <Link to="/fortuneselect">

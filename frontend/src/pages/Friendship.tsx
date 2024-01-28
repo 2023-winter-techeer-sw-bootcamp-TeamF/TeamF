@@ -17,6 +17,7 @@ import {
 } from "../state/atom.ts";
 
 import "../assets/font-YUniverse-B.css";
+import MusicBar from "../component/MusicBar.tsx";
 
 const BackgroundColor = styled.div`
   background: #000;
@@ -370,6 +371,7 @@ const FriendShip = () => {
       <Inside>
         <LoadingPage></LoadingPage>
         <Navbar />
+        <MusicBar />
         <BackgroundWrapper>
           <Profile src={FriendshipImg}></Profile>
           <TitleBox>

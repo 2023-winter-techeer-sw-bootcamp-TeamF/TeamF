@@ -15,6 +15,7 @@ import {
   cardNumberAtom3,
 } from "../state/atom";
 import LoadingPage from "../component/LoadingPage";
+import MusicBar from "../component/MusicBar";
 import InteractiveCard from "../component/InteractiveCard";
 
 const BackgroundColor = styled.div`
@@ -273,6 +274,7 @@ const CardSelect = () => {
       <Inside>
         <LoadingPage></LoadingPage>
         <Navbar />
+        <MusicBar />
         <BackgroundWrapper>
           <BackgroundImg src={Background} alt="Background" />
           <CardsWrapper>
