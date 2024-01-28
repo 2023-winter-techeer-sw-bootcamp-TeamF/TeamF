@@ -20,6 +20,12 @@ const AppConfig = require("./appConfig");
 const app = express();
 const secretName = "MySQL_Info";
 const secretGptApiKey = "GPT_KEY";
+
+// ELK 관련 npm
+const morgan = require("morgan");
+const logger = require("logger");
+app.use(morgan("combined", { stream: logger.stream }));
+
 // Express 미들웨어 설정
 app.use(express.json());
 const server = http.createServer(app); // http 서버 생성

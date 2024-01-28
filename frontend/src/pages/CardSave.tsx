@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import "../assets/font-YUniverse-B.css";
 import "../assets/font-S-CoreDream-3Light.css";
 import { motion } from "framer-motion";
+import MusicBar from "../component/MusicBar.tsx";
 
 const Background = styled.div`
   width: 100vw;
@@ -269,7 +270,8 @@ function CardSave() {
       });
   }, []);
   const shareButton = () => {
-    shareKakao(`http://localhost:5000/share/`, poll_id);
+    //shareKakao(`http://localhost:5001/share/`, poll_id);
+    shareKakao(`https://tairot.online/share/`, poll_id);
   };
   return (
     <>
@@ -277,6 +279,7 @@ function CardSave() {
         <Inside>
           <LoadingPage></LoadingPage>
           <Navbar />
+          <MusicBar />
           <BackgroundWrapper>
             <BackgroundImg src={BackgroundImg1} />
             <Cards>

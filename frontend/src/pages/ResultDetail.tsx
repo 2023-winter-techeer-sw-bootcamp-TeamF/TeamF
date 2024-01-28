@@ -10,6 +10,7 @@ import LoadingPage from "../component/LoadingPage";
 import { shareKakao } from "../utils/shareKakaoLink";
 import "../assets/font-YUniverse-B.css";
 import "../assets/font-S-CoreDream-3Light.css";
+import MusicBar from "../component/MusicBar";
 
 const Background = styled.div`
   width: 100vw;
@@ -65,6 +66,7 @@ const DetailLine2 = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  row-gap: 2rem;
 `;
 
 const Date = styled.p`
@@ -73,34 +75,42 @@ const Date = styled.p`
   font-size: 1.5rem;
   font-style: normal;
   font-weight: 300;
-  margin-bottom: 0.6rem;
+  margin: 0.5rem;
+`;
+
+const Question = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 1rem;
 `;
 
 const Title = styled.p`
   color: #b99e6f;
   text-align: center;
   font-family: YUniverse-B;
-  font-size: 1.4rem;
+  font-size: 1.25rem;
   font-style: normal;
   font-weight: 700;
   width: 10rem;
   //margin-top: 0.9375rem;
-  line-height: 1;
+  //line-height: 1rem;
 `;
 
 const Worry = styled.p`
-  width: 28.125rem;
-  height: 3.125rem;
+  width: 30rem;
+  height: 1.6rem;
   color: #b99e6f;
   text-align: center;
   font-family: YUniverse-B;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
-  margin-top: 0.8125rem;
+  //margin-top: 0.8125rem;
   overflow-y: scroll;
   padding-right: 0.125rem;
+  letter-spacing: 0.01rem;
 
   &::-webkit-scrollbar {
     width: 0.1875rem; /* 스크롤바의 너비 */
@@ -150,8 +160,8 @@ const TaroEx = styled.img`
 const Solutions = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
-  margin-top: 1.8rem;
+  gap: 1rem; //0.4 -> 1
+  //margin-top: 1.8rem;
   align-items: center;
 `;
 
@@ -167,6 +177,7 @@ const SolutionTitle = styled.p`
 
 const SolutionDetail = styled.p`
   width: 48.875rem;
+  height: 5.7rem;
   color: #806838;
   text-align: center;
   font-family: YUniverse-B;
@@ -174,7 +185,6 @@ const SolutionDetail = styled.p`
   font-style: normal;
   font-weight: 300;
   line-height: 1.6;
-  height: 8rem;
   overflow-y: scroll;
   overflow-x: hidden;
   padding-right: 0.625rem;
@@ -315,6 +325,7 @@ function ResultDetail() {
   const [explanation, setExplanation] = useState("");
   const [date, setDate] = useState("");
   const [masterName, setMasterName] = useState("");
+  const [luck, setLuck] = useState("");
   const [tarotImage, setTarotImage] = useState<ImgType[]>([]);
   const accessToken = useRecoilValue(accessTokenState);
 
@@ -343,6 +354,7 @@ function ResultDetail() {
         setExplanation(response.data.data.result[0].explanation);
         setDate(response.data.data.date);
         setMasterName(response.data.data.result[0].master_name);
+        setLuck(response.data.data.result[0].luck);
       })
       .catch((error) => {
         console.error("마이페이지 디테일 조회 실패:", error);
@@ -378,15 +390,18 @@ function ResultDetail() {
         <Inside>
           <LoadingPage></LoadingPage>
           <Navbar />
+          <MusicBar />
           <Details>
             <DetailBackground>
               <DetailLine1>
                 <DetailLine2>
-                  <Title>
-                    당신의 고민
-                    <br /> . . .
-                  </Title>
-                  <Worry>" {question} "</Worry>
+                  <Question>
+                    <Title>
+                      당신의 고민
+                      <br /> . . .
+                    </Title>
+                    <Worry>" {question} "</Worry>
+                  </Question>
                   <Cards tarotImage={tarotImage.length}>
                     {tarotImage.map((number, index) => (
                       <FlipcardContainer onClick={() => handleFlip(index)}>
@@ -405,7 +420,7 @@ function ResultDetail() {
                   </Cards>
                   <Solutions>
                     <SolutionTitle>
-                      {masterName} 타로 마스터의 솔루션
+                      {masterName} 타로 마스터의 '{luck}' 솔루션
                     </SolutionTitle>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -436,7 +451,7 @@ function ResultDetail() {
                     </svg>
                   </Solutions>
                 </DetailLine2>
-                <Date>ㆍ{date}ㆍ</Date>
+                <Date><b>ㆍ</b>{date}<b>ㆍ</b></Date>
               </DetailLine1>
             </DetailBackground>
             <Buttons>

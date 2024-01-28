@@ -3,6 +3,8 @@ import LandingBackgroundImg from "../assets/LandingBackground3.png";
 import BackOfCard from "../assets/LandingCard.png";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import MusicBar from "../component/MusicBar";
+import "../assets/font-YUniverse-B.css";
 
 const Background = styled.div`
   background: #000;
@@ -65,10 +67,10 @@ const Name = styled.p`
 `;
 
 const StartButton = styled(motion.button)`
-  width: 13.1875rem;
-  height: 3rem;
+  width: 12rem;
+  height: 2.5rem;
   border-radius: 7.5rem;
-  border: 0.125rem solid #c38017;
+  border: 0.1rem solid #c38017;
   background: rgba(195, 128, 23, 0);
   cursor: pointer;
   position: sticky;
@@ -78,21 +80,21 @@ const StartButton = styled(motion.button)`
     border-color: #ffbf00;
     font-weight: bold;
     transition: transform 0.3s ease, opacity 0.3s ease;
+    p {
+      color: #ffbf00;
+    }
   }
 `;
 
 const StartText = styled.p`
   color: #c38017;
-  font-family: Inter;
+  font-family: YUniverse-B;
   font-size: 1.1875rem;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
   letter-spacing: 0.083125rem;
   text-transform: uppercase;
-  &:hover {
-    color: #ffbf00;
-  }
 `;
 
 const LandingBackgroundImage = styled.img`
@@ -112,6 +114,7 @@ function Landing() {
         <LandingBackground>
           <LandingBackgroundImage src={LandingBackgroundImg} />
         </LandingBackground>
+        <MusicBar />
         <LandingThings>
           <Name>TAIROT</Name>
           <Link to="/fortuneselect">

@@ -17,6 +17,7 @@ import {
 } from "../state/atom.ts";
 
 import "../assets/font-YUniverse-B.css";
+import MusicBar from "../component/MusicBar.tsx";
 
 const BackgroundColor = styled.div`
   background: #000;
@@ -228,7 +229,8 @@ const FriendShip = () => {
   const accessToken = useRecoilValue(accessTokenState);
   const [reply, setReply] = useRecoilState(replyState);
   const [writestart, setWriteStart] = useState(false);
-  const tellMeText = `아이고~ 어서와라, 이 할머니는 네가 우정을 찾아나가는 여정을 함께할 우정운 타로 마스터 마틸드 란다.
+  const tellMeText = `아이고~ 어서와라,
+이 할머니는 네가 우정을 찾아나가는 여정을 함께할 우정운 타로 마스터 마틸드 란다.
 타로점을 볼 때 주의할 점과 타로점을 보는 방법에 대해 알려줄테니 잘 들어보렴.
 타로는 단순한 운세가 아니라 네 상황이나 감정을 반영하는 거란다.
 추상적이거나 모호한 대답은 해석을 어렵게 만들어버릴 수 있단다. 그러니 명확한 답을 원한다면, 고민을 얘기하기 전에 네 마음에 집중하고 내면을 좀 더 탐색해보렴.
@@ -369,6 +371,7 @@ const FriendShip = () => {
       <Inside>
         <LoadingPage></LoadingPage>
         <Navbar />
+        <MusicBar />
         <BackgroundWrapper>
           <Profile src={FriendshipImg}></Profile>
           <TitleBox>

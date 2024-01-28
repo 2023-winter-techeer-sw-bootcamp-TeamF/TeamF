@@ -10,6 +10,7 @@ import "../assets/font-YUniverse-B.css";
 import "../assets/font-S-CoreDream-3Light.css";
 import { motion } from "framer-motion";
 import Upward3 from "../assets/Upward3.png";
+import MusicBar from "../component/MusicBar.tsx";
 
 const Background = styled.div`
   width: 100vw;
@@ -64,6 +65,7 @@ const Card = styled.div`
 `;
 
 const CardLine1 = styled.div`
+  //이게 카드 안쪽 테두리
   width: 11.8269375rem;
   height: 21.2rem;
   border-radius: 0.625rem;
@@ -78,7 +80,7 @@ const CardLine1 = styled.div`
 
 const CardLine2 = styled.div`
   width: 11.4628125rem;
-  height: 19rem;
+  height: 19.2rem;
   border-radius: 0.5rem 0.5rem 0rem 0rem;
   border: 0.03125rem solid #b88150;
   background: rgba(217, 217, 217, 0);
@@ -95,7 +97,7 @@ const TaroExs = styled.div<TaroExsProps>`
   justify-content: ${(props) =>
     props.tarotImage === 1 || props.tarotImage === 3 ? "center" : "flex-start"};
   gap: 0.5rem;
-  margin-top: 0.4rem;
+  //margin-top: -0.6rem;
   overflow-x: auto;
   margin-left: 0.5rem;
   margin-right: 0.5rem;
@@ -126,13 +128,58 @@ const TaroEx = styled.img`
   height: 5.579625rem;
 `;
 
-const CardText = styled.p`
+const CardText1 = styled.p`
   //width: 10.0003125rem;
-  height: 11.3rem;
+  //height: 2rem;
+  color: #806838; //#1d1d1d -> #b88150
+  text-align: center;
+  font-family: YUniverse-B;
+  font-size: 1.2rem;
+  font-style: normal;
+  font-weight: 700;
+  transform: translate(0%, -18%);
+  letter-spacing: 0.1rem;
+`;
+
+const CardText2 = styled.p`
+  //width: 10.0003125rem;
+  height: 2.9rem;
+  color: #806838; //#1d1d1d -> #b88150
+  text-align: center;
+  font-family: YUniverse-B;
+  font-size: 1.2rem;
+  font-style: normal;
+  font-weight: 300;
+  //line-height: 1.3;
+  transform: translate(0%, -18%);
+  //letter-spacing: -0.01625rem;
+  overflow-y: auto;
+  margin: 0.5rem; //padding -> margin
+  padding-right: 0.05rem;
+  //letter-spacing: 0.01rem;
+
+  &::-webkit-scrollbar {
+    width: 0.1875rem; /* 스크롤바의 너비 */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    //background-color: #ecb973; /* 황금색 스크롤바 색상 */
+    background-color: #b8815079; /* 스크롤바 색상 변경*/
+    border-radius: 0.3125rem; /* 스크롤바 모양 (둥근 모서리) */
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    //background-color: #daa520; /* 호버시 색상 변경 (더 진한 황금색) */
+    background-color: #b88150ba; /* 스크롤바 색상 변경*/
+  }
+`;
+
+const CardText3 = styled.p`
+  height: 6rem;
   color: #b88150; //#1d1d1d -> #b88150
   text-align: center;
   font-family: YUniverse-B;
-  font-size: 0.8125rem;
+  font-size: 1.1rem;
   font-style: normal;
   font-weight: 300;
   line-height: 1.3;
@@ -141,8 +188,9 @@ const CardText = styled.p`
   //margin-top: 1rem;
   //margin-left: 0.7rem;
   overflow-y: auto;
-  margin: 0.5rem; //padding -> margin
+  margin: 0 0.5rem; //padding -> margin
   padding-right: 0.3rem;
+  letter-spacing: 0.01rem;
 
   &::-webkit-scrollbar {
     width: 0.1875rem; /* 스크롤바의 너비 */
@@ -170,7 +218,7 @@ const UserName = styled.p`
   line-height: normal;
   letter-spacing: 0.07875rem;
   text-transform: uppercase;
-  margin-bottom: 0.2rem;
+  margin: 0.2rem;
 `;
 
 const Row = styled.div`
@@ -192,19 +240,25 @@ interface RecordType {
     luck: string;
     pollId: string;
     date: string;
+    question: string;
   };
 }
 
 const ScrollToTopButtonWrapper = styled(motion.div)<{ visible: boolean }>`
   border: none;
   background: none;
-  width: 3.625rem;
-  height: 3.525rem;
+  width: 3rem;
+  height: 3rem;
   position: fixed;
   right: 2rem;
   bottom: 2.5rem;
   cursor: pointer;
   display: ${(props) => (props.visible ? "block" : "none")};
+  opacity: 0.5;
+  &:hover {
+    opacity: 1;
+    transition: transform 0.2 ease;
+  }
 `;
 
 const ScrollToTopButton: React.FC = () => {
@@ -263,6 +317,7 @@ function MyPage() {
         },
       })
       .then((response) => {
+        console.log(response.data);
         setTarotRecord(response.data);
       })
       .catch((error) => {
@@ -276,6 +331,7 @@ function MyPage() {
         <Inside>
           <LoadingPage></LoadingPage>
           <Navbar />
+          <MusicBar />
           <Folder>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -307,9 +363,13 @@ function MyPage() {
                             <TaroEx key={idx} src={url} />
                           ))}
                         </TaroExs>
-                        <CardText>{record.resultInfo.explanation}</CardText>
+                        <div>
+                          <CardText1>ㆍ{record.resultInfo.luck}ㆍ</CardText1>
+                          <CardText2>"{record.resultInfo.question}"</CardText2>
+                          <CardText3>"{record.resultInfo.explanation}"</CardText3>
+                        </div>
                       </CardLine2>
-                      <UserName>ㆍ{record.resultInfo.date}ㆍ</UserName>
+                      <UserName><b>ㆍ</b>{record.resultInfo.date}<b>ㆍ</b></UserName>
                     </CardLine1>
                   </Card>
                 </Link>

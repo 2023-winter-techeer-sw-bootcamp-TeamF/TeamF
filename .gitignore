@@ -3,3 +3,4 @@ docker-compose-backend.yml
 node_modules
 package-lock.json
 .env
+docker-compose.yml
