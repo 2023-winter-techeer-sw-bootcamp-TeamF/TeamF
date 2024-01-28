@@ -50,6 +50,10 @@ services:
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - AWS_REGION=${AWS_REGION}
+    volumes:
+      - log-data:/usr/src/app/logs
+      # log-data 볼륨과 /usr/src/app/logs라는 dev_backend 컨테이너 내부 경로를
+      # 마운팅(링크로 연결)하여 *.log 파일들을 공유
 
   dev_frontend:
     build: ./frontend
@@ -84,5 +88,106 @@ services:
     depends_on:
       - nginx
 
+  # ELK Stack 관련 Services
+  # .env에 ELASTIC_VERSION=7.17.11 추가
+  elasticsearch:
+    build: 
+      context: elasticsearch/
+      args:
+        ELASTIC_VERSION: ${ELASTIC_VERSION}
+    env_file: .env
+    volumes:
+      - type: bind
+        source: ./elasticsearch/config/elasticsearch.yml
+        target: /usr/share/elasticsearch/config/elasticsearch.yml
+        read_only: true
+      - type: volume
+        source: elasticsearch
+        target: /usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+      # - "9300:9300"
+    environment:
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+      discovery.type: single-node
+    networks:
+      - elk
+
+  logstash:
+    build: 
+      context: logstash/
+      args:
+        ELASTIC_VERSION: ${ELASTIC_VERSION}
+    env_file: .env
+    volumes:
+      - type: bind
+        source: ./logstash/config/logstash.yml
+        target: /usr/share/logstash/config/logstash.yml
+        read_only: true
+      - type: bind
+        source: ./logstash/pipeline
+        target: /usr/share/logstash/pipeline
+        read_only: true
+    ports:
+      - "5044:5044"
+      # - "9600:9600"
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+
+  kibana:
+    build: 
+      context: kibana/
+      args:
+        ELASTIC_VERSION: ${ELASTIC_VERSION}
+    env_file: .env
+    volumes:
+      - type: bind
+        source: ./kibana/config/kibana.yml
+        target: /usr/share/kibana/config/kibana.yml
+        read_only: true
+    ports:
+      - "5601:5601"
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+
+  filebeat:
+    # platform: linux/amd64 # 관련 오류 발생 시 주석 풀고 시도해보기(아마 MAC에서만 발생하는 오류같음,,)
+    build: 
+      context: filebeat/
+      args:
+        ELASTIC_VERSION: ${ELASTIC_VERSION}
+    volumes:
+      - type: bind
+        source: ./filebeat/filebeat.yml
+        target: /usr/share/filebeat/filebeat.yml
+      - type: volume # nodejs 에서 OS에 남겨둔 로그를 filebeat에서 공유하여 logstash:5044로 보낼예정 
+        source: log-data
+        target: /var/log/server
+        # log-data 볼륨과 /var/log/server라는 filebeat 컨테이너 내부 경로를
+        # 마운팅(링크로 연결)하여 *.log 파일들을 공유
+    command: filebeat -e -strict.perms=false
+    networks:
+      - elk
+    depends_on:
+      - logstash
+
 volumes:
   grafana_data:
+  elasticsearch:
+  log-data:
+
+networks:
+  mybridge:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.202.0.1/16
+  elk:
+    driver: bridge
+

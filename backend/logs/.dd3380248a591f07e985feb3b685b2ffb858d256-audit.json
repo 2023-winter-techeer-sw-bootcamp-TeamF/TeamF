@@ -1,0 +1,25 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "/Users/d/Desktop/git_TeamF/TeamF/backend/logs/.dd3380248a591f07e985feb3b685b2ffb858d256-audit.json",
+    "files": [
+        {
+            "date": 1705942797944,
+            "name": "/Users/d/Desktop/git_TeamF/TeamF/backend/logs/2024-01-23.log",
+            "hash": "063524c555a5d92e5626ea03295744ee72a9c29bef1aa44d27d089381eb02a79"
+        },
+        {
+            "date": 1706023938311,
+            "name": "/Users/d/Desktop/git_TeamF/TeamF/backend/logs/2024-01-24.log",
+            "hash": "ac1fe26048fa24f17656a211f90fb340bebb55da7ef6182356575daa84fc9895"
+        },
+        {
+            "date": 1706121231865,
+            "name": "/Users/d/Desktop/git_TeamF/TeamF/backend/logs/2024-01-25.log",
+            "hash": "f71dd7110c4ce4bdc008ab593a6cacec44a5d07955225fbb4e29ac828bb95729"
+        }
+    ],
+    "hashType": "sha256"
+}
