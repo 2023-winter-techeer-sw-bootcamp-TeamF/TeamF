@@ -3,9 +3,11 @@ const client_secret = process.env.CLOVA_CLIENT_SECRET;
 const voiceType = ["nminyoung", "nshasha", "nheera", "nseungpyo", "nhajun"];
 let requestQueue = [];
 let isProcessing = false;
+let strBuffer = '';
 
 
 async function clovaTTS(text, socket, luckType, callback) {
+  console.log('clovaTTS called text:', text);
   const api_url = "https://naveropenapi.apigw.ntruss.com/tts-premium/v1/tts";
   const formData = new FormData();
   formData.append('speaker', voiceType[luckType - 1]);
@@ -25,20 +27,18 @@ async function clovaTTS(text, socket, luckType, callback) {
       },
     });
 
-    console.log('response:', response);
-
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     
     const reader = response.body.getReader();
-    const DELAYTIME = 50;
+    const DELAYTIME = 100;
 
     let audioBuffer = [];
 
-    const transmitData = () => {
+    const transmitData = async () => {
       if (audioBuffer.length > 0) {
-        socket.emit('audioChunk', Buffer.concat(audioBuffer));
+        await socket.emit('audioChunk', Buffer.concat(audioBuffer));
         audioBuffer = [];
       }
     };
@@ -48,6 +48,7 @@ async function clovaTTS(text, socket, luckType, callback) {
     // 스트림 처리
     while (true) {
       const { done, value } = await reader.read();
+      
       if (done) {
         clearInterval(transmitInterval);
         transmitData();
@@ -78,11 +79,27 @@ async function processQueue() {
   }
 }
 
-function tts(text, socket, luckType) {
-  requestQueue.push({ text, socket, luckType });
-  processQueue();
+function tts(str, socket, luckType) {
+  strBuffer += str;
+  if (strBuffer.includes('.')||strBuffer.includes('?')||strBuffer.includes('!')) {
+    text = strBuffer;
+    requestQueue.push({ text, socket, luckType });
+    processQueue();
+    strBuffer = '';
+  }
+}
+
+async function processWaitPromise() {
+  return new Promise((resolve, reject) => {
+    const waitInterval = setInterval(() => {
+      if (!isProcessing && requestQueue.length === 0) {
+        clearInterval(waitInterval);
+        resolve();
+      }
+    }, 100);
+  });
 }
 
 module.exports = {
-  tts,
+  tts, processWaitPromise,
 };

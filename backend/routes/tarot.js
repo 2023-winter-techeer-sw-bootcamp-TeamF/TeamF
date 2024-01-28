@@ -14,7 +14,7 @@ const verifyToken = require('../middleware/verifyToken');
 const { socketSendHandler } = require('../middleware/socketHandle');
 const checkPoll = require('../middleware/checkPoll');
 const middleware = [verifyToken, checkPoll, socketSendHandler];
-const { tts } = require("../middleware/clovaTTS.js");
+const { tts,processWaitPromise } = require("../middleware/clovaTTS.js");
 
 router.get(
   '/option',
@@ -368,8 +368,9 @@ router.post(
         };
       }
 
+      await processWaitPromise();
       console.log('Result : ' + JSON.stringify(res.locals.store));
-
+      
       return next(); // 다음 미들웨어로 이동
     } catch (error) {
       res.locals.status = 500;
