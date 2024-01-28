@@ -18,6 +18,7 @@ import {
 } from "../state/atom";
 import LoadingPage from "../component/LoadingPage";
 import MusicBar from "../component/MusicBar";
+import InteractiveCard from "../component/InteractiveCard";
 
 const BackgroundColor = styled.div`
   background: #000;
@@ -152,6 +153,38 @@ const NextBtnImg = styled.img`
   height: 100%;
 `;
 
+const Modal = styled(motion.div)`
+  position: absolute;
+  width: 20vw;
+  height: 60vh;
+  top: 15%;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  border-radius: 0.9375rem;
+  background: #b99e6f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99;
+`;
+
+const ModalImg = styled.img`
+  width: 95%;
+  height: 95%;
+`;
+
+const ModalBackground = styled(motion.div)`
+  width: 100vw;
+  height: 100vh;
+
+  background: rgba(0, 0, 0, 0.9);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+`;
+
 const CardSelect5 = () => {
   const numberOfCards = 22; // 1번째 줄 카드 수
   const numberOfCardsDelete = 12; // 4번째 줄 카드 수
@@ -164,6 +197,7 @@ const CardSelect5 = () => {
   const [card3, setCard3] = useState("");
   const [card4, setCard4] = useState("");
   const [card5, setCard5] = useState("");
+  const [flippedCards, setFlippedCards] = useState(Array(5).fill(false));
 
   const [selectedCard, setSelectedCard] = useState<number[][]>([[]]);
   const setCardNumber1 = useSetRecoilState(cardNumberAtom1);
@@ -182,6 +216,10 @@ const CardSelect5 = () => {
     setBack(true);
   };
 
+  const handleFlip = (flipIndex: number) => {
+    const newFlippedCards = flippedCards.map((_, index) => index === flipIndex);
+    setFlippedCards(newFlippedCards);
+  };
   const getImage = async (card: number) => {
     axios
       .get("/api/v1/tarot/card", {
@@ -191,18 +229,23 @@ const CardSelect5 = () => {
         if (holdCount === 0) {
           setCard1(response.data.data.image_url);
           setCardNumber1(card);
+          handleFlip(1);
         } else if (holdCount === 1) {
           setCard2(response.data.data.image_url);
           setCardNumber2(card);
+          handleFlip(2);
         } else if (holdCount === 2) {
           setCard3(response.data.data.image_url);
           setCardNumber3(card);
+          handleFlip(3);
         } else if (holdCount === 3) {
           setCard4(response.data.data.image_url);
           setCardNumber4(card);
+          handleFlip(4);
         } else if (holdCount === 4) {
           setCard5(response.data.data.image_url);
           setCardNumber5(card);
+          handleFlip(5);
 
           setTimeout(() => {
             navigate("/process5");
@@ -217,6 +260,7 @@ const CardSelect5 = () => {
   };
 
   const consoleIndex = (index: number, count: number) => {
+    setIsModalOpen(true);
     getImage(selectedCard[count][index]);
     const updateCard = [...selectedCard];
     updateCard[count][index] = 0;
@@ -228,7 +272,25 @@ const CardSelect5 = () => {
     shuffleArray(numbers);
     setSelectedCard(chunkArray(numbers, 22));
   }, []);
+  //2초뒤에 카드 모달이 닫히게 하기
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  useEffect(() => {
+    let timeoutId: number | undefined;
+
+    if (isModalOpen) {
+      // 모달이 열리면 타임아웃을 설정합니다.
+      timeoutId = window.setTimeout(() => {
+        setIsModalOpen(false);
+      }, 2000);
+    }
+    return () => {
+      if (timeoutId) {
+        // 타임아웃을 취소합니다.
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [isModalOpen]);
   return (
     <BackgroundColor>
       <Inside>
@@ -239,22 +301,42 @@ const CardSelect5 = () => {
           <BackgroundImg src={Background} alt="Background" />
           <CardsWrapper>
             <Cards>
-              <CardBackground>
-                {card1 ? <TaroEx src={card1} /> : null}
-              </CardBackground>
+              {card1 ? (
+                <InteractiveCard imageUrl={card1} />
+              ) : (
+                <CardBackground>
+                  <TaroEx src={BackOfCard} />
+                </CardBackground>
+              )}
 
-              <CardBackground>
-                {card2 ? <TaroEx src={card2} /> : null}
-              </CardBackground>
-              <CardBackground>
-                {card3 ? <TaroEx src={card3} /> : null}
-              </CardBackground>
-              <CardBackground>
-                {card4 ? <TaroEx src={card4} /> : null}
-              </CardBackground>
-              <CardBackground>
-                {card5 ? <TaroEx src={card5} /> : null}
-              </CardBackground>
+              {card2 ? (
+                <InteractiveCard imageUrl={card2} />
+              ) : (
+                <CardBackground>
+                  <TaroEx src={BackOfCard} />
+                </CardBackground>
+              )}
+              {card3 ? (
+                <InteractiveCard imageUrl={card3} />
+              ) : (
+                <CardBackground>
+                  <TaroEx src={BackOfCard} />
+                </CardBackground>
+              )}
+              {card4 ? (
+                <InteractiveCard imageUrl={card4} />
+              ) : (
+                <CardBackground>
+                  <TaroEx src={BackOfCard} />
+                </CardBackground>
+              )}
+              {card5 ? (
+                <InteractiveCard imageUrl={card5} />
+              ) : (
+                <CardBackground>
+                  <TaroEx src={BackOfCard} />
+                </CardBackground>
+              )}
             </Cards>
             <AnimatePresence mode="wait" custom={back}>
               {count !== 3 ? (
@@ -327,6 +409,83 @@ const CardSelect5 = () => {
           >
             <NextBtnImg src={NextButton} />
           </BeforeBtn>
+          <AnimatePresence>
+            {holdCount === 1 && isModalOpen ? (
+              <ModalBackground
+                onClick={() => {
+                  setIsModalOpen(false);
+                }}
+                initial={{ opacity: 0, rotateY: 90 }}
+                animate={{ opacity: 1, rotateY: 0 }}
+                exit={{ opacity: 0, rotateY: 90 }}
+                transition={{ duration: 0.4 }}
+              >
+                <Modal layoutId={"1"}>
+                  <ModalImg src={card1} />
+                </Modal>
+              </ModalBackground>
+            ) : holdCount === 2 && isModalOpen ? (
+              <ModalBackground
+                onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+                  e.stopPropagation();
+                  setIsModalOpen(false);
+                }}
+                initial={{ opacity: 0, rotateY: 90 }}
+                animate={{ opacity: 1, rotateY: 0 }}
+                exit={{ opacity: 0, rotateY: 90 }}
+                transition={{ duration: 0.4 }}
+              >
+                <Modal layoutId={"2"}>
+                  <ModalImg src={card2} />
+                </Modal>
+              </ModalBackground>
+            ) : holdCount === 3 && isModalOpen ? (
+              <ModalBackground
+                onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+                  e.stopPropagation();
+                  setIsModalOpen(false);
+                }}
+                initial={{ opacity: 0, rotateY: 90 }}
+                animate={{ opacity: 1, rotateY: 0 }}
+                exit={{ opacity: 0, rotateY: 90 }}
+                transition={{ duration: 0.4 }}
+              >
+                <Modal layoutId={"3"}>
+                  <ModalImg src={card3} />
+                </Modal>
+              </ModalBackground>
+            ) : holdCount === 4 && isModalOpen ? (
+              <ModalBackground
+                onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+                  e.stopPropagation();
+                  setIsModalOpen(false);
+                }}
+                initial={{ opacity: 0, rotateY: 90 }}
+                animate={{ opacity: 1, rotateY: 0 }}
+                exit={{ opacity: 0, rotateY: 90 }}
+                transition={{ duration: 0.4 }}
+              >
+                <Modal layoutId={"4"}>
+                  <ModalImg src={card4} />
+                </Modal>
+              </ModalBackground>
+            ) : holdCount === 5 && isModalOpen ? (
+              <ModalBackground
+                onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+                  e.stopPropagation();
+                  setIsModalOpen(false);
+                }}
+                initial={{ opacity: 0, rotateY: 90 }}
+                animate={{ opacity: 1, rotateY: 0 }}
+                exit={{ opacity: 0, rotateY: 90 }}
+                transition={{ duration: 0.4 }}
+              >
+                <Modal layoutId={"5"}>
+                  <ModalImg src={card5} />
+                </Modal>
+              </ModalBackground>
+            ) : null}
+          </AnimatePresence>
         </BackgroundWrapper>
       </Inside>
     </BackgroundColor>

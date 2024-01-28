@@ -137,6 +137,7 @@ function TarotProcess5() {
   const [cardUrl4, setCardUrl4] = useState("");
   const [cardUrl5, setCardUrl5] = useState("");
   const tarotMasterImage = useRecoilValue(tarotMasterImg);
+  const [onButton, setOnButton] = useState(false);
 
   const getImage = async (
     card1: number,
@@ -251,6 +252,7 @@ function TarotProcess5() {
   socket.on("finish", async () => {
     console.log("연결 작업 종료");
     socket.disconnect();
+    setOnButton(true);
   });
 
   useEffect(() => {}, []);
@@ -309,9 +311,13 @@ function TarotProcess5() {
                 {streamArray}
               </Chat>
             </ChatBox>
-            <NextBtn onClick={buttonClear} whileTap={{ scale: 0.9 }}>
-              <NextBtnImg src={NextButton} />
-            </NextBtn>
+            {onButton ? (
+              <NextBtn onClick={buttonClear} whileTap={{ scale: 0.9 }}>
+                <NextBtnImg src={NextButton} />
+              </NextBtn>
+            ) : (
+              <></>
+            )}
           </BackgroundWrapper>
         </Inside>
       </Background>

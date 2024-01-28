@@ -58,7 +58,7 @@ const TitleBox = styled.div`
 
 const TitleContent = styled.p`
   color: #fff;
-  font-family: 맑은 고딕;
+  font-family: YUniverse-B;
   font-size: 1.25rem;
   font-style: normal;
   font-weight: 350;
@@ -90,7 +90,7 @@ const ChatBox = styled.div`
 const Tellme = styled.p`
   color: #ecb973;
   font-family: YUniverse-B;
-  font-size: 1.4375rem;
+  font-size: 1.3rem;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
@@ -98,7 +98,7 @@ const Tellme = styled.p`
   overflow-y: scroll;
   height: 96%;
   padding-right: 1rem;
-  line-height: 1.5;
+  line-height: 1.4;
   white-space: pre-wrap;
   &::-webkit-scrollbar {
     width: 0.3125rem; /* 스크롤바의 너비 */
@@ -129,7 +129,7 @@ const Reply = styled.textarea`
   background-color: #000;
   width: 37.5rem;
   text-align: left;
-  font-family: Inter;
+  font-family: YUniverse-B;
   font-size: 1.4375rem;
   font-style: normal;
   font-weight: 400;
@@ -226,14 +226,15 @@ const LoveFortune = () => {
   const [reply, setReply] = useRecoilState(replyState);
   const [writestart, setWriteStart] = useState(false);
   const tellMeText = `안녕하세요! 저에게 찾아오시다니…매우 영광이에요☺️
-여유롭고 차분한 마음으로 당신을 타로의 세계로 안내할 연애운 타로 마스터 샤를린 입니다.
-타로점을 볼 때 주의할 점과 타로점을 보는 방법에 대해 먼저 말씀드릴게요.
+저는 여유롭고 차분한 마음으로 당신을 타로의 세계로 안내할 연애운 타로 마스터 샤를린 입니다.
+타로점을 볼 때 주의할 점과 타로점을 보는 방법에 대해 말씀드릴게요.
 타로는 삶과 감정의 거울입니다.
 모호하거나 추상적인 답변은 해석의 명확성을 떨어뜨릴 수 있으니, 명확한 답을 찾기 위해서는 당신의 마음에 집중하고 내면을 탐색해야 합니다.
 연애운은 총 5장의 카드를 뽑습니다. 당신의 고민을 생각하며 세심하게 카드를 선택해주세요.
 당신이 카드를 다 뽑고 나면, 저는 당신의 고민과 각 카드의 상징들을 종합적으로 고려하여 의미를 찾아낼게요😉
 해석은 주관적일 수 있으니, 다양한 관점에서 생각해 보는 것을 추천해요.
-이제, 우리의 여정을 함께 시작해 볼까요? 마음을 열고 당신의 고민을 말씀해 보세요✨`;
+이제, 우리의 여정을 함께 시작해 볼까요?
+마음을 열고 당신의 고민을 말씀해 보세요✨`;
   const setLuckType = useSetRecoilState(selectLuck);
   const [taroMaster, setTaroMaster] = useState("");
   const settarotMasterImg = useSetRecoilState(tarotMasterImg);
