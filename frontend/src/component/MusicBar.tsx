@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import SoundBtnImg from "../assets/Sound.png";
 import NoSoundBtnImg from "../assets/NoSound.png";
-import React, { useState } from "react";
+
+import { useRecoilState } from "recoil";
+import { isPlayingState } from "../state/atom";
 
 const MusicContainer = styled.div`
   width: 4rem;
@@ -49,11 +51,12 @@ const BtnImg = styled.img`
 `;
 
 const MusicBar = () => {
-  const [isSoundOn, setIsSoundOn] = useState(true);
+  const [isSoundOn, setIsSoundOn] = useRecoilState(isPlayingState);
 
   const handleSoundToggle = () => {
-    setIsSoundOn((prevIsSoundOn) => !prevIsSoundOn);
+    setIsSoundOn(!isSoundOn);
   };
+
   return (
     <MusicContainer>
       <Button>
