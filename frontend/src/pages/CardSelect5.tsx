@@ -19,6 +19,11 @@ import {
 import LoadingPage from "../component/LoadingPage";
 import MusicBar from "../component/MusicBar";
 import InteractiveCard from "../component/InteractiveCard";
+import Select1Img from "../assets/Select1.png";
+import Select2Img from "../assets/Select2.png";
+import Select3Img from "../assets/Select3.png";
+import Select4Img from "../assets/Select4.png";
+import Select5Img from "../assets/Select5.png";
 
 const BackgroundColor = styled.div`
   background: #000;
@@ -48,15 +53,15 @@ const CardBackground = styled.div`
   width: 8.75rem;
   height: 15rem;
   border-radius: 0.9375rem;
-  background: #b99e6f;
+  // background: #b99e6f;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
 const TaroEx = styled.img`
-  width: 7.72438rem;
-  height: 13.90388rem;
+  width: 8.75rem;
+  height: 15rem;
 `;
 
 const Cards = styled.div`
@@ -155,8 +160,8 @@ const NextBtnImg = styled.img`
 
 const Modal = styled(motion.div)`
   position: absolute;
-  width: 20vw;
-  height: 60vh;
+  width: 22rem;
+  height: 37.5rem;
   top: 15%;
   left: 0;
   right: 0;
@@ -170,8 +175,8 @@ const Modal = styled(motion.div)`
 `;
 
 const ModalImg = styled.img`
-  width: 95%;
-  height: 95%;
+  width: 20.55rem;
+  height: 36rem;
 `;
 
 const ModalBackground = styled(motion.div)`
@@ -305,7 +310,7 @@ const CardSelect5 = () => {
                 <InteractiveCard imageUrl={card1} />
               ) : (
                 <CardBackground>
-                  <TaroEx src={BackOfCard} />
+                  <TaroEx src={Select1Img} />
                 </CardBackground>
               )}
 
@@ -313,28 +318,28 @@ const CardSelect5 = () => {
                 <InteractiveCard imageUrl={card2} />
               ) : (
                 <CardBackground>
-                  <TaroEx src={BackOfCard} />
+                  <TaroEx src={Select2Img} />
                 </CardBackground>
               )}
               {card3 ? (
                 <InteractiveCard imageUrl={card3} />
               ) : (
                 <CardBackground>
-                  <TaroEx src={BackOfCard} />
+                  <TaroEx src={Select3Img} />
                 </CardBackground>
               )}
               {card4 ? (
                 <InteractiveCard imageUrl={card4} />
               ) : (
                 <CardBackground>
-                  <TaroEx src={BackOfCard} />
+                  <TaroEx src={Select4Img} />
                 </CardBackground>
               )}
               {card5 ? (
                 <InteractiveCard imageUrl={card5} />
               ) : (
                 <CardBackground>
-                  <TaroEx src={BackOfCard} />
+                  <TaroEx src={Select5Img} />
                 </CardBackground>
               )}
             </Cards>
