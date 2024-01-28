@@ -97,8 +97,9 @@ services:
         ELASTIC_VERSION: ${ELASTIC_VERSION}
     # env_file: .env
     volumes:
-      source: elasticsearch
-      target: /usr/share/elasticsearch/data
+      - type: volume
+        source: elasticsearch
+        target: /usr/share/elasticsearch/data
     ports:
       - "9200:9200"
       # - "9300:9300"
