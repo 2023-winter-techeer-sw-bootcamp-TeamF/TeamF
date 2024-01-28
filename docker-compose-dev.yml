@@ -95,7 +95,7 @@ services:
       context: elasticsearch/
       args:
         ELASTIC_VERSION: ${ELASTIC_VERSION}
-    env_file: .env
+    # env_file: .env
     volumes:
       - type: bind
         source: ./elasticsearch/config/elasticsearch.yml
@@ -118,7 +118,7 @@ services:
       context: logstash/
       args:
         ELASTIC_VERSION: ${ELASTIC_VERSION}
-    env_file: .env
+    # env_file: .env
     volumes:
       - type: bind
         source: ./logstash/config/logstash.yml
@@ -143,7 +143,7 @@ services:
       context: kibana/
       args:
         ELASTIC_VERSION: ${ELASTIC_VERSION}
-    env_file: .env
+    # env_file: .env
     volumes:
       - type: bind
         source: ./kibana/config/kibana.yml
