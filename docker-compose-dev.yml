@@ -98,7 +98,7 @@ services:
     # env_file: .env
     volumes:
       - type: bind
-        source: ./elasticsearch/config/elasticsearch.yml
+        source: /hostpath/elasticsearch/config/elasticsearch.yml
         target: /usr/share/elasticsearch/config/elasticsearch.yml
         read_only: true
       - type: volume
