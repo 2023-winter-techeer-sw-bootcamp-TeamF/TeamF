@@ -23,7 +23,7 @@ const secretGptApiKey = "GPT_KEY";
 
 // ELK 관련 npm
 const morgan = require("morgan");
-const logger = require("./logger.js");
+const logger = require("logger");
 app.use(morgan("combined", { stream: logger.stream }));
 
 // Express 미들웨어 설정
