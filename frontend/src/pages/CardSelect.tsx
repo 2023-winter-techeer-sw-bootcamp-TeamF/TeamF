@@ -157,8 +157,8 @@ const NextBtnImg = styled.img`
 
 const Modal = styled(motion.div)`
   position: absolute;
-  width: 20vw;
-  height: 60vh;
+  width: 22rem;
+  height: 37.5rem;
   top: 15%;
   left: 0;
   right: 0;
@@ -172,8 +172,8 @@ const Modal = styled(motion.div)`
 `;
 
 const ModalImg = styled.img`
-  width: 95%;
-  height: 95%;
+  width: 20.55rem;
+  height: 36rem;
 `;
 
 const ModalBackground = styled(motion.div)`
