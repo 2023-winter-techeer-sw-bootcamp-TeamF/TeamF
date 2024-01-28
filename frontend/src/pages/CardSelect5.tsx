@@ -17,6 +17,7 @@ import {
   cardNumberAtom5,
 } from "../state/atom";
 import LoadingPage from "../component/LoadingPage";
+import InteractiveCard from "../component/InteractiveCard";
 
 const BackgroundColor = styled.div`
   background: #000;
@@ -298,22 +299,42 @@ const CardSelect5 = () => {
           <BackgroundImg src={Background} alt="Background" />
           <CardsWrapper>
             <Cards>
-              <CardBackground>
-                {card1 ? <TaroEx src={card1} /> : <TaroEx src={BackOfCard} />}
-              </CardBackground>
+              {card1 ? (
+                <InteractiveCard imageUrl={card1} />
+              ) : (
+                <CardBackground>
+                  <TaroEx src={BackOfCard} />
+                </CardBackground>
+              )}
 
-              <CardBackground>
-                {card2 ? <TaroEx src={card2} /> : <TaroEx src={BackOfCard} />}
-              </CardBackground>
-              <CardBackground>
-                {card3 ? <TaroEx src={card3} /> : <TaroEx src={BackOfCard} />}
-              </CardBackground>
-              <CardBackground>
-                {card4 ? <TaroEx src={card4} /> : <TaroEx src={BackOfCard} />}
-              </CardBackground>
-              <CardBackground>
-                {card5 ? <TaroEx src={card5} /> : <TaroEx src={BackOfCard} />}
-              </CardBackground>
+              {card2 ? (
+                <InteractiveCard imageUrl={card2} />
+              ) : (
+                <CardBackground>
+                  <TaroEx src={BackOfCard} />
+                </CardBackground>
+              )}
+              {card3 ? (
+                <InteractiveCard imageUrl={card3} />
+              ) : (
+                <CardBackground>
+                  <TaroEx src={BackOfCard} />
+                </CardBackground>
+              )}
+              {card4 ? (
+                <InteractiveCard imageUrl={card4} />
+              ) : (
+                <CardBackground>
+                  <TaroEx src={BackOfCard} />
+                </CardBackground>
+              )}
+              {card5 ? (
+                <InteractiveCard imageUrl={card5} />
+              ) : (
+                <CardBackground>
+                  <TaroEx src={BackOfCard} />
+                </CardBackground>
+              )}
             </Cards>
             <AnimatePresence mode="wait" custom={back}>
               {count !== 3 ? (

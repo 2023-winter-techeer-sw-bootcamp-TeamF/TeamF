@@ -15,6 +15,7 @@ import {
   cardNumberAtom3,
 } from "../state/atom";
 import LoadingPage from "../component/LoadingPage";
+import InteractiveCard from "../component/InteractiveCard";
 
 const BackgroundColor = styled.div`
   position: relative;
@@ -277,16 +278,28 @@ const CardSelect = () => {
           <CardsWrapper>
             <AnimatePresence>
               <Cards>
-                <CardBackground>
-                  {card1 ? <TaroEx src={card1} /> : <TaroEx src={BackOfCard} />}
-                </CardBackground>
+                {card1 ? (
+                  <InteractiveCard imageUrl={card1} />
+                ) : (
+                  <CardBackground>
+                    <TaroEx src={BackOfCard} />
+                  </CardBackground>
+                )}
 
-                <CardBackground>
-                  {card2 ? <TaroEx src={card2} /> : <TaroEx src={BackOfCard} />}
-                </CardBackground>
-                <CardBackground>
-                  {card3 ? <TaroEx src={card3} /> : <TaroEx src={BackOfCard} />}
-                </CardBackground>
+                {card2 ? (
+                  <InteractiveCard imageUrl={card2} />
+                ) : (
+                  <CardBackground>
+                    <TaroEx src={BackOfCard} />
+                  </CardBackground>
+                )}
+                {card3 ? (
+                  <InteractiveCard imageUrl={card3} />
+                ) : (
+                  <CardBackground>
+                    <TaroEx src={BackOfCard} />
+                  </CardBackground>
+                )}
               </Cards>
             </AnimatePresence>
 
