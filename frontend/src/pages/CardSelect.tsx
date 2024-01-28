@@ -17,6 +17,9 @@ import {
 import LoadingPage from "../component/LoadingPage";
 import MusicBar from "../component/MusicBar";
 import InteractiveCard from "../component/InteractiveCard";
+import Select1Img from "../assets/Select1.png";
+import Select2Img from "../assets/Select2.png";
+import Select3Img from "../assets/Select3.png";
 
 const BackgroundColor = styled.div`
   position: relative;
@@ -47,15 +50,15 @@ const CardBackground = styled(motion.div)`
   width: 8.75rem;
   height: 15rem;
   border-radius: 0.9375rem;
-  background: #b99e6f;
+  // background: #b99e6f;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
 const TaroEx = styled.img`
-  width: 7.72438rem;
-  height: 13.90388rem;
+  width: 8.75rem;
+  height: 15rem;
 `;
 
 const Cards = styled.div`
@@ -284,7 +287,7 @@ const CardSelect = () => {
                   <InteractiveCard imageUrl={card1} />
                 ) : (
                   <CardBackground>
-                    <TaroEx src={BackOfCard} />
+                    <TaroEx src={Select1Img} />
                   </CardBackground>
                 )}
 
@@ -292,14 +295,14 @@ const CardSelect = () => {
                   <InteractiveCard imageUrl={card2} />
                 ) : (
                   <CardBackground>
-                    <TaroEx src={BackOfCard} />
+                    <TaroEx src={Select2Img} />
                   </CardBackground>
                 )}
                 {card3 ? (
                   <InteractiveCard imageUrl={card3} />
                 ) : (
                   <CardBackground>
-                    <TaroEx src={BackOfCard} />
+                    <TaroEx src={Select3Img} />
                   </CardBackground>
                 )}
               </Cards>

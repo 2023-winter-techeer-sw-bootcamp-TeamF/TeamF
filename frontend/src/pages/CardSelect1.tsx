@@ -12,6 +12,7 @@ import { useSetRecoilState } from "recoil";
 import { cardNumberAtom1 } from "../state/atom";
 import LoadingPage from "../component/LoadingPage";
 import MusicBar from "../component/MusicBar";
+import Select1Img from "../assets/Select1.png";
 
 const BackgroundColor = styled.div`
   background: #000;
@@ -37,15 +38,15 @@ const CardBackground = styled.div`
   width: 8.75rem;
   height: 15rem;
   border-radius: 0.9375rem;
-  background: #b99e6f;
+  // background: #b99e6f;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-left: 20rem;
 `;
 const TaroEx = styled.img`
-  width: 7.72438rem;
-  height: 13.90388rem;
+  width: 8.75rem;
+  height: 15rem;
 `;
 const Cards = styled.div`
   display: flex;
@@ -239,7 +240,7 @@ const CardSelect1 = () => {
           <CardsWrapper>
             <Cards>
               <CardBackground>
-                {card1 ? <TaroEx src={card1} /> : <TaroEx src={BackOfCard} />}
+                {card1 ? <TaroEx src={card1} /> : <TaroEx src={Select1Img} />}
               </CardBackground>
             </Cards>
             <AnimatePresence mode="wait" custom={back}>
