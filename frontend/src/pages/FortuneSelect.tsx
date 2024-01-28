@@ -87,6 +87,7 @@ const CardBox = styled(motion.div)`
   position: absolute;
   backface-visibility: hidden;
   transform: rotateY(0deg);
+  cursor: pointer;
   /*
   &:hover {
     background: #2b3140;

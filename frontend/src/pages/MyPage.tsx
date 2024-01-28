@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import LoadingPage from "../component/LoadingPage";
 import "../assets/font-YUniverse-B.css";
 import "../assets/font-S-CoreDream-3Light.css";
+import { motion } from "framer-motion";
+import Upward3 from "../assets/Upward3.png";
 
 const Background = styled.div`
   width: 100vw;
@@ -193,6 +195,62 @@ interface RecordType {
   };
 }
 
+const ScrollToTopButtonWrapper = styled(motion.div)<{ visible: boolean }>`
+  border: none;
+  background: none;
+  width: 3.625rem;
+  height: 3.525rem;
+  position: fixed;
+  right: 2rem;
+  bottom: 2.5rem;
+  cursor: pointer;
+  display: ${(props) => (props.visible ? "block" : "none")};
+`;
+
+const ScrollToTopButton: React.FC = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    // 페이지 스크롤 이벤트를 추가하여 버튼을 표시/숨김
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      if (scrollY > 100) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  return (
+    <ScrollToTopButtonWrapper
+      visible={isVisible}
+      onClick={scrollToTop}
+      whileTap={{ scale: 0.9 }}
+    >
+      <NextBtnImg src={Upward3} />
+    </ScrollToTopButtonWrapper>
+  );
+};
+
+export { ScrollToTopButton };
+
+const NextBtnImg = styled.img`
+  width: 100%;
+  height: 100%;
+`;
+
 function MyPage() {
   const accessToken = useRecoilValue(accessTokenState);
   const [tarotRecord, setTarotRecord] = useState<RecordType[]>([]);
@@ -211,6 +269,7 @@ function MyPage() {
         console.error("타로 기록을 불러오는데 실패했습니다.", error);
       });
   }, []);
+
   return (
     <>
       <Background>
@@ -256,6 +315,7 @@ function MyPage() {
                 </Link>
               ))}
             </Row>
+            <ScrollToTopButton />
           </div>
         </Inside>
       </Background>

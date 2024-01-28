@@ -305,6 +305,7 @@ interface ImgType {
   explanation: string;
   image_url: string;
   eng_name: string;
+  date: string;
 }
 
 function ResultDetail() {
@@ -338,7 +339,7 @@ function ResultDetail() {
         setQuestion(response.data.data.result[0].question);
         setTarotImage(response.data.data.card);
         setExplanation(response.data.data.result[0].explanation);
-        setDate(response.data.data.date);
+        setDate(response.data.data.date[0].created_date);
         setMasterName(response.data.data.result[0].master_name);
       })
       .catch((error) => {

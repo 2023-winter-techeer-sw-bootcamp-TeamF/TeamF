@@ -1,29 +1,39 @@
 version: "3.8"
 
 services:
-  # dev_prometheus:
-  #   # image: prom/prometheus
-  #   build: ./prometheus
-  #   image: teamf-dev_prometheus
-  #   container_name: dev_prometheus_container
-  #   # volumes:
-  #   #   - /hostpath/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-  #   # ports:
-  #     # - "9090:9090"
+  dev_prometheus:
+    build: ./prometheus
+    image: teamf-dev_prometheus
+    container_name: dev_prometheus_container
+    # volumes:
+    #   - /hostpath/prometheus_data:/etc/prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - mybridge
+    # command:
+    #   - '--config.file=/etc/prometheus/prometheus.yml'
+    #   - '--storage.tsdb.path=/prometheus'
+    #   - '--web.enable-lifecycle'
 
-  # dev_node-exporter:
-  #   image: prom/node-exporter
-  #   container_name: dev_node_exporter_container
-  #   ports:
-  #     - "9100:9100"
+  dev_node-exporter:
+    image: prom/node-exporter
+    container_name: dev_node_exporter_container
+    ports:
+      - "9100:9100"
+    networks:
+      - mybridge
 
-  # dev_grafana:
-  #   image: grafana/grafana
-  #   container_name: dev_grafana_container
-  #   volumes:
-  #     - /hostpath/provisioning:/etc/provisioning
-  #   ports:
-  #     - 9000:3000
+  dev_grafana:
+    image: grafana/grafana
+    container_name: dev_grafana_container
+    volumes:
+      - /hostpath/provisioning:/etc/provisioning
+      - grafana_data:/var/lib/grafana
+    ports:
+      - 9000:3000
+    networks:
+      - mybridge
 
   dev_backend:
     build: ./backend
@@ -70,8 +80,11 @@ services:
     command: certonly --webroot --webroot-path=/var/www/html --email tjfgkssk9472@gmail.com --agree-tos --no-eff-email --force-renewal -d tairot.online -v
     networks:
       - mybridge
-    # depends_on:
-    #   - nginx
+    depends_on:
+      - nginx
+
+volumes:
+  grafana_data:
 
 networks:
   mybridge:
@@ -79,4 +92,3 @@ networks:
       driver: default
       config:
         - subnet: 172.202.0.1/16
-

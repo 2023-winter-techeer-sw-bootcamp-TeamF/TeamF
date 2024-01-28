@@ -43,10 +43,29 @@ router.get(
     const connection = db.getConnection();
 
     try {
+      const pollInfo = await new Promise((resolve, reject) => {
+        const pollSearchQuery =
+          "SELECT DATE_FORMAT(created_at, '%Y-%m-%d') AS created_date FROM poll WHERE id = ? AND complete = 1;";
+        connection.query(pollSearchQuery, [poll_id], (error, results) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(results);
+          }
+        });
+      });
+
+      if (pollInfo.length === 0) {
+        return res
+          .status(404)
+          .send({ message: "해당 ID를 가진 폴이 존재하지 않습니다." });
+      }
+
       const resultData = await resultQuery(connection, res, poll_id, next);
       const cardData = await cardsQuery(connection, res, poll_id, next);
 
       res.locals.data = {
+        date: pollInfo,
         result: resultData,
         card: cardData,
       };
