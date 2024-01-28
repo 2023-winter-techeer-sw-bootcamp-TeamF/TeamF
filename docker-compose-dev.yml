@@ -98,7 +98,7 @@ services:
     # env_file: .env
     volumes:
       - type: bind
-        source: ./elasticsearch/config/elasticsearch.yml
+        source: /hostpath/elasticsearch/config/elasticsearch.yml
         target: /usr/share/elasticsearch/config/elasticsearch.yml
         read_only: true
       - type: volume
@@ -121,11 +121,11 @@ services:
     # env_file: .env
     volumes:
       - type: bind
-        source: ./logstash/config/logstash.yml
+        source: /hostpath/logstash/config/logstash.yml
         target: /usr/share/logstash/config/logstash.yml
         read_only: true
       - type: bind
-        source: ./logstash/pipeline
+        source: /hostpath/logstash/pipeline
         target: /usr/share/logstash/pipeline
         read_only: true
     ports:
@@ -146,7 +146,7 @@ services:
     # env_file: .env
     volumes:
       - type: bind
-        source: ./kibana/config/kibana.yml
+        source: /hostpath/kibana/config/kibana.yml
         target: /usr/share/kibana/config/kibana.yml
         read_only: true
     ports:
@@ -164,7 +164,7 @@ services:
         ELASTIC_VERSION: ${ELASTIC_VERSION}
     volumes:
       - type: bind
-        source: ./filebeat/filebeat.yml
+        source: /hostpath/filebeat/filebeat.yml
         target: /usr/share/filebeat/filebeat.yml
       - type: volume # nodejs 에서 OS에 남겨둔 로그를 filebeat에서 공유하여 logstash:5044로 보낼예정 
         source: log-data
