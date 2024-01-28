@@ -15,6 +15,7 @@ import {
   selectLuck,
   tarotMasterImg,
 } from "../state/atom.ts";
+import MusicBar from "../component/MusicBar.tsx";
 
 const BackgroundColor = styled.div`
   background: #000;
@@ -366,6 +367,7 @@ const LoveFortune = () => {
       <Inside>
         <LoadingPage></LoadingPage>
         <Navbar />
+        <MusicBar />
         <BackgroundWrapper>
           <Profile src={LoveFortuneImg}></Profile>
           <TitleBox>

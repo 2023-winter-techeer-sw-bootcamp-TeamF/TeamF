@@ -10,6 +10,7 @@ import LoadingPage from "../component/LoadingPage";
 import { shareKakao } from "../utils/shareKakaoLink";
 import "../assets/font-YUniverse-B.css";
 import "../assets/font-S-CoreDream-3Light.css";
+import MusicBar from "../component/MusicBar";
 
 const Background = styled.div`
   width: 100vw;
@@ -378,6 +379,7 @@ function ResultDetail() {
         <Inside>
           <LoadingPage></LoadingPage>
           <Navbar />
+          <MusicBar />
           <Details>
             <DetailBackground>
               <DetailLine1>

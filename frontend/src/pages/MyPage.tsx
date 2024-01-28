@@ -10,6 +10,7 @@ import "../assets/font-YUniverse-B.css";
 import "../assets/font-S-CoreDream-3Light.css";
 import { motion } from "framer-motion";
 import Upward3 from "../assets/Upward3.png";
+import MusicBar from "../component/MusicBar.tsx";
 
 const Background = styled.div`
   width: 100vw;
@@ -220,6 +221,11 @@ const ScrollToTopButtonWrapper = styled(motion.div)<{ visible: boolean }>`
   bottom: 2.5rem;
   cursor: pointer;
   display: ${(props) => (props.visible ? "block" : "none")};
+  opacity: 0.5;
+  &:hover {
+    opacity: 1;
+    transition: transform 0.2 ease;
+  }
 `;
 
 const ScrollToTopButton: React.FC = () => {
@@ -292,6 +298,7 @@ function MyPage() {
         <Inside>
           <LoadingPage></LoadingPage>
           <Navbar />
+          <MusicBar />
           <Folder>
             <svg
               xmlns="http://www.w3.org/2000/svg"

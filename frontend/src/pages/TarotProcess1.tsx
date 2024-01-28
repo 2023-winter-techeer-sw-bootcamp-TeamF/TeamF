@@ -17,6 +17,7 @@ import axios from "axios";
 import LoadingPage from "../component/LoadingPage";
 import "../assets/font-YUniverse-B.css";
 import { motion } from "framer-motion";
+import MusicBar from "../component/MusicBar";
 
 const Background = styled.div`
   width: 100vw;
@@ -217,6 +218,7 @@ function TarotProcess1() {
         <Inside>
           <LoadingPage></LoadingPage>
           <Navbar />
+          <MusicBar />
           <BackgroundWrapper>
             <BackgroundImg src={background} />
             <Cards>

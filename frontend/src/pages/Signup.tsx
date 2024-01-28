@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import LoadingPage from "../component/LoadingPage";
 import Swal from "sweetalert2";
 import { motion } from "framer-motion";
+import MusicBar from "../component/MusicBar";
 
 const Outside = styled.div`
   background-color: #000;
@@ -262,6 +263,7 @@ function Signup() {
   return (
     <Outside>
       <LoadingPage></LoadingPage>
+      <MusicBar />
       <Circle>
         <SWord>SIGN UP</SWord>
         <Id placeholder="ID" value={loginId} onChange={loginIdChange} />

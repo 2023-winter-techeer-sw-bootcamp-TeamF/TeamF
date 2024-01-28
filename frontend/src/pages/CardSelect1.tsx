@@ -11,6 +11,8 @@ import axios from "axios";
 import { useSetRecoilState } from "recoil";
 import { cardNumberAtom1 } from "../state/atom";
 import LoadingPage from "../component/LoadingPage";
+import MusicBar from "../component/MusicBar";
+
 const BackgroundColor = styled.div`
   background: #000;
   width: 100vw;
@@ -178,6 +180,7 @@ const CardSelect1 = () => {
       <Inside>
         <LoadingPage></LoadingPage>
         <Navbar />
+        <MusicBar />
         <BackgroundWrapper>
           <BackgroundImg src={Background} alt="Background" />
           <CardsWrapper>

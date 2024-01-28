@@ -10,6 +10,7 @@ import Swal from "sweetalert2";
 import { motion } from "framer-motion";
 
 import axios from "axios";
+import MusicBar from "../component/MusicBar.tsx";
 
 const Outside = styled.div`
   background-color: #000;
@@ -231,6 +232,7 @@ function Login() {
     <>
       <Outside>
         <LoadingPage></LoadingPage>
+        <MusicBar />
         <form onSubmit={handleSubmit}>
           <Circle>
             <LWord>LOG IN</LWord>
