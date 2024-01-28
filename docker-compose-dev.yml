@@ -97,10 +97,6 @@ services:
         ELASTIC_VERSION: ${ELASTIC_VERSION}
     # env_file: .env
     volumes:
-      - type: bind
-        source: /hostpath/elasticsearch/config/elasticsearch.yml
-        target: /usr/share/elasticsearch/config/elasticsearch.yml
-        read_only: true
       - type: volume
         source: elasticsearch
         target: /usr/share/elasticsearch/data
@@ -110,8 +106,6 @@ services:
     environment:
       ES_JAVA_OPTS: "-Xmx256m -Xms256m"
       discovery.type: single-node
-    networks:
-      - elk
 
   logstash:
     build: 
@@ -119,22 +113,11 @@ services:
       args:
         ELASTIC_VERSION: ${ELASTIC_VERSION}
     # env_file: .env
-    volumes:
-      - type: bind
-        source: /hostpath/logstash/config/logstash.yml
-        target: /usr/share/logstash/config/logstash.yml
-        read_only: true
-      - type: bind
-        source: /hostpath/logstash/pipeline
-        target: /usr/share/logstash/pipeline
-        read_only: true
     ports:
       - "5044:5044"
       # - "9600:9600"
     environment:
       LS_JAVA_OPTS: "-Xmx256m -Xms256m"
-    networks:
-      - elk
     depends_on:
       - elasticsearch
 
@@ -144,15 +127,8 @@ services:
       args:
         ELASTIC_VERSION: ${ELASTIC_VERSION}
     # env_file: .env
-    volumes:
-      - type: bind
-        source: /hostpath/kibana/config/kibana.yml
-        target: /usr/share/kibana/config/kibana.yml
-        read_only: true
     ports:
       - "5601:5601"
-    networks:
-      - elk
     depends_on:
       - elasticsearch
 
@@ -163,17 +139,12 @@ services:
       args:
         ELASTIC_VERSION: ${ELASTIC_VERSION}
     volumes:
-      - type: bind
-        source: /hostpath/filebeat/filebeat.yml
-        target: /usr/share/filebeat/filebeat.yml
       - type: volume # nodejs 에서 OS에 남겨둔 로그를 filebeat에서 공유하여 logstash:5044로 보낼예정 
         source: log-data
         target: /var/log/server
         # log-data 볼륨과 /var/log/server라는 filebeat 컨테이너 내부 경로를
         # 마운팅(링크로 연결)하여 *.log 파일들을 공유
     command: filebeat -e -strict.perms=false
-    networks:
-      - elk
     depends_on:
       - logstash
 
@@ -181,13 +152,3 @@ volumes:
   grafana_data:
   elasticsearch:
   log-data:
-
-networks:
-  mybridge:
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.202.0.1/16
-  elk:
-    driver: bridge
-
