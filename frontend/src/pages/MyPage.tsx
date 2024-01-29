@@ -317,12 +317,9 @@ function MyPage() {
         },
       })
       .then((response) => {
-        console.log(response.data);
         setTarotRecord(response.data);
       })
-      .catch((error) => {
-        console.error("타로 기록을 불러오는데 실패했습니다.", error);
-      });
+      .catch(() => {});
   }, []);
 
   return (
@@ -366,10 +363,16 @@ function MyPage() {
                         <div>
                           <CardText1>ㆍ{record.resultInfo.luck}ㆍ</CardText1>
                           <CardText2>"{record.resultInfo.question}"</CardText2>
-                          <CardText3>"{record.resultInfo.explanation}"</CardText3>
+                          <CardText3>
+                            "{record.resultInfo.explanation}"
+                          </CardText3>
                         </div>
                       </CardLine2>
-                      <UserName><b>ㆍ</b>{record.resultInfo.date}<b>ㆍ</b></UserName>
+                      <UserName>
+                        <b>ㆍ</b>
+                        {record.resultInfo.date}
+                        <b>ㆍ</b>
+                      </UserName>
                     </CardLine1>
                   </Card>
                 </Link>

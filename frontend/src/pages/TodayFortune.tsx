@@ -234,9 +234,7 @@ const TodayFortune = () => {
         setLuckType(1);
         settarotMasterImg(TodayFortuneImg);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch(() => {});
   };
   // 다 적었다는 버튼 클릭 시
   const [writeDone, setWriteDone] = useState(false);
@@ -285,7 +283,6 @@ const TodayFortune = () => {
           },
         }
       );
-      console.log("성공", response.data);
       setPollId(response.data.data.pollId);
       textChange();
     } catch (error) {
