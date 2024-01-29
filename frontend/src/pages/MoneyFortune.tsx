@@ -254,9 +254,7 @@ const MoneyFortune = () => {
         setLuckType(4);
         settarotMasterImg(Moneyfortuneimg);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch(() => {});
   };
 
   // 다 적었다는 버튼 클릭 시

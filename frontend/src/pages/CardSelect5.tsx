@@ -259,9 +259,7 @@ const CardSelect5 = () => {
 
         setHoldCount((prev) => (prev === 2 ? 3 : prev + 1));
       })
-      .catch((error) => {
-        console.error("실패:", error);
-      });
+      .catch(() => {});
   };
 
   const consoleIndex = (index: number, count: number) => {

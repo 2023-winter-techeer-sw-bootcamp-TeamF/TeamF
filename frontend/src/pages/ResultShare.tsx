@@ -353,9 +353,7 @@ function ResultDetail() {
         setLuck(response.data.data.result[0].luck);
         setMasterName(response.data.data.result[0].master_name);
       })
-      .catch((error) => {
-        console.error("마이페이지 디테일 조회 실패:", error);
-      });
+      .catch(() => {});
   };
   const deleteCard = () => {
     axios
@@ -371,9 +369,7 @@ function ResultDetail() {
         alert("삭제 완료!");
         navigate("/mypage");
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch(() => {});
   };
   const shareButton = () => {
     shareKakao(`http://localhost:5000/share/`, poll_id);

@@ -255,9 +255,7 @@ const FriendShip = () => {
         setLuckType(3);
         settarotMasterImg(FriendshipImg);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch(() => {});
   };
 
   // 다 적었다는 버튼 클릭 시

@@ -198,8 +198,6 @@ function TarotProcess() {
   });
 
   socket.on("message", (msg) => {
-    console.log(streamArray);
-    console.log(`받은 메시지 :" + ${msg}`);
     setStreamArray((prev) => prev + msg);
   });
 

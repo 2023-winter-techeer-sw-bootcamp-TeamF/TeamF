@@ -187,7 +187,6 @@ function Login() {
 
       setAccessToken(newAccessToken);
       setRefreshToken(newRefreshToken);
-      console.log(response.data.data);
       setAccessTokenTimeout(newRefreshToken);
     } catch (error) {
       console.error("토큰 재발급에 실패했습니다.", error);
