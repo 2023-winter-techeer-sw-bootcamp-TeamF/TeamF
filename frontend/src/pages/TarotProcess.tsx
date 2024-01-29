@@ -19,6 +19,8 @@ import axios from "axios";
 import LoadingPage from "../component/LoadingPage";
 import "../assets/font-YUniverse-B.css";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import MusicBar from "../component/MusicBar";
 
 const Background = styled.div`
   width: 100vw;
@@ -132,6 +134,7 @@ function TarotProcess() {
   const [cardUrl3, setCardUrl3] = useState("");
   const tarotMasterImage = useRecoilValue(tarotMasterImg);
   const [onButton, setOnButton] = useState(false);
+  const navigate = useNavigate();
 
   const getImage = async (card1: number, card2: number, card3: number) => {
     try {
@@ -232,7 +235,6 @@ function TarotProcess() {
     const audio = document.getElementById("audio");
     if (!(audio instanceof HTMLAudioElement)) return;
     audio.src = URL.createObjectURL(mediaSource);
-    console.log(audio.src);
     mediaSource.addEventListener("sourceopen", sourceOpen, false);
     function sourceOpen() {
       try {
@@ -246,7 +248,16 @@ function TarotProcess() {
         });
 
         sourceBuffer.addEventListener("updateend", () => {
-          // 버퍼 상태를 모니터링하기 위한 'updateend' 이벤트
+          // 버퍼 업데이트가 완료되었을 때, 재생 가능 여부를 확인하고 재생을 시작
+          if (
+            audio instanceof HTMLAudioElement &&
+            !audio.paused &&
+            audio.readyState >= HTMLMediaElement.HAVE_ENOUGH_DATA
+          ) {
+            audio.play().catch((error) => {
+              console.error("Playback failed:", error);
+            });
+          }
         });
       } catch (e) {
         console.error("소스 버퍼 추가 중 오류 발생: ", e);
@@ -272,7 +283,7 @@ function TarotProcess() {
     setCardUrl2("");
     setCardUrl3("");
     setStreamArray("로딩 중...");
-    window.location.replace("/cardsave");
+    navigate("/cardsave");
   };
 
   return (
@@ -281,6 +292,8 @@ function TarotProcess() {
         <Inside>
           <LoadingPage></LoadingPage>
           <Navbar />
+          <MusicBar />
+          <audio id="audio" autoPlay />
           <BackgroundWrapper>
             <BackgroundImg src={background} />
             <Cards>
