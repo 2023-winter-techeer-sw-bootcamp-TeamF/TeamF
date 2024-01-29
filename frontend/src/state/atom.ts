@@ -69,3 +69,15 @@ export const tarotMasterImg = atom({
   default: "",
   effects_UNSTABLE: [persistAtom],
 });
+
+export const isPlayingState = atom({
+  key: "isPlayingState",
+  default: false,
+  effects_UNSTABLE: [persistAtom],
+});
+
+export const audioSrcState = atom({
+  key: "audioSrcState",
+  default: "/FrostWaltz.mp3",
+  effects_UNSTABLE: [persistAtom],
+});

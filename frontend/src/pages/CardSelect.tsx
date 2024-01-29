@@ -15,7 +15,11 @@ import {
   cardNumberAtom3,
 } from "../state/atom";
 import LoadingPage from "../component/LoadingPage";
+import MusicBar from "../component/MusicBar";
 import InteractiveCard from "../component/InteractiveCard";
+import Select1Img from "../assets/Select1.png";
+import Select2Img from "../assets/Select2.png";
+import Select3Img from "../assets/Select3.png";
 
 const BackgroundColor = styled.div`
   position: relative;
@@ -46,15 +50,15 @@ const CardBackground = styled(motion.div)`
   width: 8.75rem;
   height: 15rem;
   border-radius: 0.9375rem;
-  background: #b99e6f;
+  // background: #b99e6f;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
 const TaroEx = styled.img`
-  width: 7.72438rem;
-  height: 13.90388rem;
+  width: 8.75rem;
+  height: 15rem;
 `;
 
 const Cards = styled.div`
@@ -153,8 +157,8 @@ const NextBtnImg = styled.img`
 
 const Modal = styled(motion.div)`
   position: absolute;
-  width: 20vw;
-  height: 60vh;
+  width: 22rem;
+  height: 37.5rem;
   top: 15%;
   left: 0;
   right: 0;
@@ -168,8 +172,8 @@ const Modal = styled(motion.div)`
 `;
 
 const ModalImg = styled.img`
-  width: 95%;
-  height: 95%;
+  width: 20.55rem;
+  height: 36rem;
 `;
 
 const ModalBackground = styled(motion.div)`
@@ -231,9 +235,7 @@ const CardSelect = () => {
 
         setHoldCount((prev) => (prev === 2 ? 3 : prev + 1));
       })
-      .catch((error) => {
-        console.error("실패:", error);
-      });
+      .catch(() => {});
   };
   //카드 클릭하면 고른 카드 배열에서 삭제
   const consoleIndex = (index: number, count: number) => {
@@ -273,6 +275,7 @@ const CardSelect = () => {
       <Inside>
         <LoadingPage></LoadingPage>
         <Navbar />
+        <MusicBar />
         <BackgroundWrapper>
           <BackgroundImg src={Background} alt="Background" />
           <CardsWrapper>
@@ -282,7 +285,7 @@ const CardSelect = () => {
                   <InteractiveCard imageUrl={card1} />
                 ) : (
                   <CardBackground>
-                    <TaroEx src={BackOfCard} />
+                    <TaroEx src={Select1Img} />
                   </CardBackground>
                 )}
 
@@ -290,14 +293,14 @@ const CardSelect = () => {
                   <InteractiveCard imageUrl={card2} />
                 ) : (
                   <CardBackground>
-                    <TaroEx src={BackOfCard} />
+                    <TaroEx src={Select2Img} />
                   </CardBackground>
                 )}
                 {card3 ? (
                   <InteractiveCard imageUrl={card3} />
                 ) : (
                   <CardBackground>
-                    <TaroEx src={BackOfCard} />
+                    <TaroEx src={Select3Img} />
                   </CardBackground>
                 )}
               </Cards>

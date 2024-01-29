@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import "../assets/font-YUniverse-B.css";
 import "../assets/font-S-CoreDream-3Light.css";
 import { motion } from "framer-motion";
+import MusicBar from "../component/MusicBar.tsx";
 
 const Background = styled.div`
   width: 100vw;
@@ -264,9 +265,7 @@ function CardSave() {
         setExplanation(response.data.data.result[0].explanation);
         setDate(response.data.data.date);
       })
-      .catch((error) => {
-        console.error("타로 결과를 불러오는데 실패했습니다:", error);
-      });
+      .catch(() => {});
   }, []);
   const shareButton = () => {
     //shareKakao(`http://localhost:5001/share/`, poll_id);
@@ -278,6 +277,7 @@ function CardSave() {
         <Inside>
           <LoadingPage></LoadingPage>
           <Navbar />
+          <MusicBar />
           <BackgroundWrapper>
             <BackgroundImg src={BackgroundImg1} />
             <Cards>

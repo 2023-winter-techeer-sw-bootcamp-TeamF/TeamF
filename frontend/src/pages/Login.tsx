@@ -10,6 +10,7 @@ import Swal from "sweetalert2";
 import { motion } from "framer-motion";
 
 import axios from "axios";
+import MusicBar from "../component/MusicBar.tsx";
 
 const Outside = styled.div`
   background-color: #000;
@@ -186,7 +187,6 @@ function Login() {
 
       setAccessToken(newAccessToken);
       setRefreshToken(newRefreshToken);
-      console.log(response.data.data);
       setAccessTokenTimeout(newRefreshToken);
     } catch (error) {
       console.error("토큰 재발급에 실패했습니다.", error);
@@ -231,6 +231,7 @@ function Login() {
     <>
       <Outside>
         <LoadingPage></LoadingPage>
+        <MusicBar />
         <form onSubmit={handleSubmit}>
           <Circle>
             <LWord>LOG IN</LWord>

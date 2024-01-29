@@ -14,6 +14,7 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { accessTokenState } from "../state/atom.ts";
 import { useRecoilValue } from "recoil";
+import MusicBar from "../component/MusicBar.tsx";
 
 const BackgroundWrapper = styled.div`
   position: relative; // 자식 요소를 절대 위치로 배치하기 위한 설정
@@ -282,6 +283,7 @@ const FortuneSelect = () => {
     <BackgroundColor>
       <Inside>
         <Navbar />
+        <MusicBar />
         <BackgroundWrapper>
           <BackgroundImg src={Background} />
           <OverlayContent>

@@ -10,6 +10,7 @@ import LoadingPage from "../component/LoadingPage";
 import { shareKakao } from "../utils/shareKakaoLink";
 import "../assets/font-YUniverse-B.css";
 import "../assets/font-S-CoreDream-3Light.css";
+import MusicBar from "../component/MusicBar";
 
 const Background = styled.div`
   width: 100vw;
@@ -355,9 +356,7 @@ function ResultDetail() {
         setMasterName(response.data.data.result[0].master_name);
         setLuck(response.data.data.result[0].luck);
       })
-      .catch((error) => {
-        console.error("마이페이지 디테일 조회 실패:", error);
-      });
+      .catch(() => {});
   };
   const deleteCard = () => {
     axios
@@ -373,9 +372,7 @@ function ResultDetail() {
         alert("삭제 완료!");
         navigate("/mypage");
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch(() => {});
   };
   const shareButton = () => {
     shareKakao(`http://localhost:5000/share/`, poll_id);
@@ -389,6 +386,7 @@ function ResultDetail() {
         <Inside>
           <LoadingPage></LoadingPage>
           <Navbar />
+          <MusicBar />
           <Details>
             <DetailBackground>
               <DetailLine1>
@@ -449,7 +447,11 @@ function ResultDetail() {
                     </svg>
                   </Solutions>
                 </DetailLine2>
-                <Date><b>ㆍ</b>{date}<b>ㆍ</b></Date>
+                <Date>
+                  <b>ㆍ</b>
+                  {date}
+                  <b>ㆍ</b>
+                </Date>
               </DetailLine1>
             </DetailBackground>
             <Buttons>

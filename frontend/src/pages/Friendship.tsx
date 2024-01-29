@@ -17,6 +17,7 @@ import {
 } from "../state/atom.ts";
 
 import "../assets/font-YUniverse-B.css";
+import MusicBar from "../component/MusicBar.tsx";
 
 const BackgroundColor = styled.div`
   background: #000;
@@ -254,9 +255,7 @@ const FriendShip = () => {
         setLuckType(3);
         settarotMasterImg(FriendshipImg);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch(() => {});
   };
 
   // 다 적었다는 버튼 클릭 시
@@ -370,6 +369,7 @@ const FriendShip = () => {
       <Inside>
         <LoadingPage></LoadingPage>
         <Navbar />
+        <MusicBar />
         <BackgroundWrapper>
           <Profile src={FriendshipImg}></Profile>
           <TitleBox>
