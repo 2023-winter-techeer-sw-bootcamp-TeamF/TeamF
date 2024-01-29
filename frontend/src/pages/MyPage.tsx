@@ -142,21 +142,17 @@ const CardText1 = styled.p`
 `;
 
 const CardText2 = styled.p`
-  //width: 10.0003125rem;
   height: 2.9rem;
-  color: #806838; //#1d1d1d -> #b88150
+  color: #806838;
   text-align: center;
   font-family: YUniverse-B;
   font-size: 1.2rem;
   font-style: normal;
   font-weight: 300;
-  //line-height: 1.3;
   transform: translate(0%, -18%);
-  //letter-spacing: -0.01625rem;
   overflow-y: auto;
-  margin: 0.5rem; //padding -> margin
+  margin: 0.5rem;
   padding-right: 0.05rem;
-  //letter-spacing: 0.01rem;
 
   &::-webkit-scrollbar {
     width: 0.1875rem; /* 스크롤바의 너비 */
@@ -366,10 +362,16 @@ function MyPage() {
                         <div>
                           <CardText1>ㆍ{record.resultInfo.luck}ㆍ</CardText1>
                           <CardText2>"{record.resultInfo.question}"</CardText2>
-                          <CardText3>"{record.resultInfo.explanation}"</CardText3>
+                          <CardText3>
+                            "{record.resultInfo.explanation}"
+                          </CardText3>
                         </div>
                       </CardLine2>
-                      <UserName><b>ㆍ</b>{record.resultInfo.date}<b>ㆍ</b></UserName>
+                      <UserName>
+                        <b>ㆍ</b>
+                        {record.resultInfo.date}
+                        <b>ㆍ</b>
+                      </UserName>
                     </CardLine1>
                   </Card>
                 </Link>
