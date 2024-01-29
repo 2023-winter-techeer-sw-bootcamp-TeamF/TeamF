@@ -106,9 +106,8 @@ services:
       - "9200:9200"
       # - "9300:9300"
     environment:
-      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+      ES_JAVA_OPTS: -Xmx64m -Xms64m
       discovery.type: single-node
-
 
   logstash:
     build:
@@ -120,7 +119,7 @@ services:
       - "5044:5044"
       # - "9600:9600"
     environment:
-      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+      LS_JAVA_OPTS: -Xmx64m -Xms64m
       LOGSTASH_SYSTEM_PASSWORD: ${LOGSTASH_SYSTEM_PASSWORD}
       ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
     depends_on:
