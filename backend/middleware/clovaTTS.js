@@ -1,6 +1,11 @@
 const client_id = process.env.CLOVA_CLIENT_ID;
 const client_secret = process.env.CLOVA_CLIENT_SECRET;
-const voiceType = ["nminyoung", "nshasha", "nheera", "nseungpyo", "nhajun"];
+const voiceType = {
+  name: ["nminseo", "ngoeun", "nsunhee", "nseungpyo", "nwoof"],
+  speed: [ -1, -2, -2, -2, -2],
+  pitch: [ 0, 0, 0, 0, -1],
+  alpah: [ 1, 0, 0, -2, -1],
+};
 let requestQueue = [];
 let isProcessing = false;
 let strBuffer = '';
@@ -10,10 +15,11 @@ async function clovaTTS(text, socket, luckType, callback) {
   console.log('clovaTTS called text:', text);
   const api_url = "https://naveropenapi.apigw.ntruss.com/tts-premium/v1/tts";
   const formData = new FormData();
-  formData.append('speaker', voiceType[luckType - 1]);
+  formData.append('speaker', voiceType.name[luckType - 1]);
   formData.append('volume', '0');
-  formData.append('speed', '0');
-  formData.append('pitch', '0');
+  formData.append('speed', voiceType.speed[luckType - 1]);
+  formData.append('pitch', voiceType.pitch[luckType - 1]);
+  formData.append('alpha', voiceType.alpah[luckType - 1]);
   formData.append('text', text);
   formData.append('format', 'mp3');
 
@@ -81,7 +87,7 @@ async function processQueue() {
 
 function tts(str, socket, luckType) {
   strBuffer += str;
-  if (strBuffer.includes('.')||strBuffer.includes('?')||strBuffer.includes('!')) {
+  if (strBuffer.includes('.')||strBuffer.includes('?')||strBuffer.includes('!')||strBuffer.includes(',')){
     text = strBuffer;
     requestQueue.push({ text, socket, luckType });
     processQueue();
