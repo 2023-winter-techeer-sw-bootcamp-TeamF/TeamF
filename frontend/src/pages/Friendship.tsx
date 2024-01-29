@@ -398,7 +398,7 @@ const FriendShip = () => {
                   {!writeDone ? (
                     <NextBox>
                       <NextText onClick={handleNextButton}>
-                        다 적었으면 알려주세요.
+                        다 적었으면 알려주렴.
                       </NextText>
                     </NextBox>
                   ) : (

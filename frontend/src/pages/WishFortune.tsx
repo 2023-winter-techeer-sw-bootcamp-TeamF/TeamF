@@ -396,7 +396,7 @@ const WishFortune = () => {
                   {!writeDone ? (
                     <NextBox>
                       <NextText onClick={handleNextButton}>
-                        다 적었으면 알려주세요.
+                        다 적었나굴?
                       </NextText>
                     </NextBox>
                   ) : (
