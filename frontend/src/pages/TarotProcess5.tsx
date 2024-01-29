@@ -22,6 +22,7 @@ import LoadingPage from "../component/LoadingPage";
 import "../assets/font-YUniverse-B.css";
 import { motion } from "framer-motion";
 import MusicBar from "../component/MusicBar";
+import { useNavigate } from "react-router-dom";
 
 const Background = styled.div`
   width: 100vw;
@@ -138,6 +139,7 @@ function TarotProcess5() {
   const [cardUrl5, setCardUrl5] = useState("");
   const tarotMasterImage = useRecoilValue(tarotMasterImg);
   const [onButton, setOnButton] = useState(false);
+  const navigate = useNavigate();
 
   const getImage = async (
     card1: number,
@@ -191,7 +193,7 @@ function TarotProcess5() {
   const getStream = async () => {
     try {
       getImage(card1, card2, card3, card4, card5);
-      socket.connect();
+      //socket.connect();
       const response = await axios.post(
         "/api/v1/tarot/result",
         {},
@@ -213,49 +215,83 @@ function TarotProcess5() {
     }
   };
 
-  const socket = io("http://localhost:3001/", {
-    auth: {
-      token: accesstoken,
-    },
-  });
+  useEffect(() => {
+    const socket = io("http://localhost:3001/", {
+      auth: {
+        token: accesstoken,
+      },
+      reconnection: true,
+    });
 
-  socket.on("chat message", (msg) => {
-    console.log(msg);
-    //promptInput();
-  });
+    socket.on("chat message", (msg) => {
+      console.log(msg);
+      //promptInput();
+    });
 
-  socket.on("message", (msg) => {
-    console.log(streamArray);
-    console.log(`받은 메시지 :" + ${msg}`);
-    setStreamArray((prev) => prev + msg);
-  });
+    socket.on("message", (msg) => {
+      console.log(`받은 메시지 :" + ${msg}`);
+      setStreamArray((prev) => prev + msg);
+    });
 
-  socket.on("connect", () => {
-    console.log("서버에 연결되었습니다.");
-    if (streamArray === "로딩 중...") {
-      setStreamArray("");
+    socket.on("connect", () => {
+      console.log("서버에 연결되었습니다.");
+      if (streamArray === "로딩 중...") {
+        setStreamArray("");
+      }
+      if (trigger) {
+        getStream();
+      }
+      setTrigger(false);
+    });
+
+    socket.on("disconnect", () => {
+      console.log("서버와의 연결이 끊어졌습니다.");
+    });
+
+    socket.on("success", () => {
+      console.log("연결 작업 성공");
+    });
+
+    socket.on("finish", async () => {
+      console.log("연결 작업 종료");
+      socket.disconnect();
+      setOnButton(true);
+    });
+
+    const mediaSource = new MediaSource();
+    const audio = document.getElementById("audio");
+    if (!(audio instanceof HTMLAudioElement)) return;
+    audio.src = URL.createObjectURL(mediaSource);
+    console.log(audio.src);
+    mediaSource.addEventListener("sourceopen", sourceOpen, false);
+    function sourceOpen() {
+      try {
+        const sourceBuffer = mediaSource.addSourceBuffer("audio/mpeg");
+
+        socket.on("audioChunk", (chunk) => {
+          console.log("chunk : " + chunk);
+          if (sourceBuffer.updating || !chunk) return;
+          const arrayBuffer = new Uint8Array(chunk).buffer;
+          sourceBuffer.appendBuffer(arrayBuffer);
+        });
+
+        sourceBuffer.addEventListener("updateend", () => {
+          // 버퍼 업데이트가 완료되었을 때, 재생 가능 여부를 확인하고 재생을 시작
+          if (
+            audio instanceof HTMLAudioElement &&
+            !audio.paused &&
+            audio.readyState >= HTMLMediaElement.HAVE_ENOUGH_DATA
+          ) {
+            audio.play().catch((error) => {
+              console.error("Playback failed:", error);
+            });
+          }
+        });
+      } catch (e) {
+        console.error("소스 버퍼 추가 중 오류 발생: ", e);
+      }
     }
-    if (trigger) {
-      getStream();
-    }
-    setTrigger(false);
-  });
-
-  socket.on("disconnect", () => {
-    console.log("서버와의 연결이 끊어졌습니다.");
-  });
-
-  socket.on("success", () => {
-    console.log("연결 작업 성공");
-  });
-
-  socket.on("finish", async () => {
-    console.log("연결 작업 종료");
-    socket.disconnect();
-    setOnButton(true);
-  });
-
-  useEffect(() => {}, []);
+  }, []);
   const buttonClear = () => {
     setTrigger(true);
     setCardUrl1("");
@@ -264,7 +300,7 @@ function TarotProcess5() {
     setCardUrl4("");
     setCardUrl5("");
     setStreamArray("로딩 중...");
-    window.location.replace("/cardsave");
+    navigate("/cardsave");
   };
 
   const chatBoxRef = useRef<HTMLDivElement | null>(null);
@@ -286,6 +322,7 @@ function TarotProcess5() {
           <LoadingPage></LoadingPage>
           <Navbar />
           <MusicBar />
+          <audio id="audio" autoPlay />
           <BackgroundWrapper>
             <BackgroundImg src={background} />
             <Cards>

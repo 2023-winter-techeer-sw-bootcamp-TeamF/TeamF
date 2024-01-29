@@ -38,16 +38,32 @@ const CardBackground = styled.div`
   width: 8.75rem;
   height: 15rem;
   border-radius: 0.9375rem;
-  // background: #b99e6f;
+  //background: #b99e6f;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-left: 20rem;
 `;
+const CardBackground2 = styled.div`
+  width: 8.75rem;
+  height: 15rem;
+  border-radius: 0.9375rem;
+  background: #b99e6f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 20rem;
+`;
+
 const TaroEx = styled.img`
   width: 8.75rem;
   height: 15rem;
 `;
+const TaroEx2 = styled.img`
+  width: 7.72438rem;
+  height: 13.90388rem;
+`;
+
 const Cards = styled.div`
   display: flex;
   flex-direction: row;
@@ -238,11 +254,20 @@ const CardSelect1 = () => {
         <BackgroundWrapper>
           <BackgroundImg src={Background} alt="Background" />
           <CardsWrapper>
-            <Cards>
-              <CardBackground>
-                {card1 ? <TaroEx src={card1} /> : <TaroEx src={Select1Img} />}
-              </CardBackground>
-            </Cards>
+            <AnimatePresence>
+              <Cards>
+                {card1 ? (
+                  <CardBackground2>
+                    <TaroEx2 src={card1} />
+                  </CardBackground2>
+                ) : (
+                  <CardBackground>
+                    <TaroEx src={Select1Img} />
+                  </CardBackground>
+                )}
+              </Cards>
+            </AnimatePresence>
+
             <AnimatePresence mode="wait" custom={back}>
               {count !== 3 ? (
                 <StackedCardsContainer

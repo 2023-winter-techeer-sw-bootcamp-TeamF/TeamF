@@ -371,7 +371,7 @@ const TodayFortune = () => {
                   {!writeDone ? (
                     <NextBox>
                       <NextText onClick={handleNextButton}>
-                        다 적었으면 알려주세요.
+                        다 적었나요?
                       </NextText>
                     </NextBox>
                   ) : (
