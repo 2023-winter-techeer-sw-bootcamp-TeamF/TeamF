@@ -234,9 +234,7 @@ const TodayFortune = () => {
         setLuckType(1);
         settarotMasterImg(TodayFortuneImg);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch(() => {});
   };
   // 다 적었다는 버튼 클릭 시
   const [writeDone, setWriteDone] = useState(false);
@@ -285,7 +283,6 @@ const TodayFortune = () => {
           },
         }
       );
-      console.log("성공", response.data);
       setPollId(response.data.data.pollId);
       textChange();
     } catch (error) {
@@ -374,7 +371,7 @@ const TodayFortune = () => {
                   {!writeDone ? (
                     <NextBox>
                       <NextText onClick={handleNextButton}>
-                        다 적었으면 알려주세요.
+                        다 적었나요?
                       </NextText>
                     </NextBox>
                   ) : (

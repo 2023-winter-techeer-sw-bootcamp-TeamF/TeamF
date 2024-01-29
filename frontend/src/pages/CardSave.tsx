@@ -265,9 +265,7 @@ function CardSave() {
         setExplanation(response.data.data.result[0].explanation);
         setDate(response.data.data.date);
       })
-      .catch((error) => {
-        console.error("타로 결과를 불러오는데 실패했습니다:", error);
-      });
+      .catch(() => {});
   }, []);
   const shareButton = () => {
     //shareKakao(`http://localhost:5001/share/`, poll_id);

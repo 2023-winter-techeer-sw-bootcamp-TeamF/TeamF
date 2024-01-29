@@ -88,7 +88,7 @@ services:
       - /hostpath/www:/var/www/html
     command: certonly --webroot --webroot-path=/var/www/html --email tjfgkssk9472@gmail.com --agree-tos --no-eff-email --force-renewal -d tairot.online -v
     depends_on:
-      - nginx
+      - dev_nginx
 
   # ELK Stack 관련 Services
   # .env에 ELASTIC_VERSION=7.17.11 추가
@@ -106,7 +106,7 @@ services:
       - "9200:9200"
       # - "9300:9300"
     environment:
-      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+      ES_JAVA_OPTS: -Xmx64m -Xms64m
       discovery.type: single-node
 
   logstash:
@@ -119,7 +119,9 @@ services:
       - "5044:5044"
       # - "9600:9600"
     environment:
-      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+      LS_JAVA_OPTS: -Xmx64m -Xms64m
+      LOGSTASH_SYSTEM_PASSWORD: ${LOGSTASH_SYSTEM_PASSWORD}
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
     depends_on:
       - elasticsearch
 
@@ -131,6 +133,8 @@ services:
     # env_file: .env
     ports:
       - "5601:5601"
+    environment:
+      KIBANA_SYSTEM_PASSWORD: ${KIBANA_SYSTEM_PASSWORD}
     depends_on:
       - elasticsearch
 

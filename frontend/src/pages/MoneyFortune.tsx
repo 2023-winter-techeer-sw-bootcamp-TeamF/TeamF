@@ -254,9 +254,7 @@ const MoneyFortune = () => {
         setLuckType(4);
         settarotMasterImg(Moneyfortuneimg);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch(() => {});
   };
 
   // 다 적었다는 버튼 클릭 시
@@ -397,7 +395,7 @@ const MoneyFortune = () => {
                   {!writeDone ? (
                     <NextBox>
                       <NextText onClick={handleNextButton}>
-                        다 적었으면 알려주세요.
+                        다 적었는가?
                       </NextText>
                     </NextBox>
                   ) : (

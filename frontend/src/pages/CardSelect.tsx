@@ -235,9 +235,7 @@ const CardSelect = () => {
 
         setHoldCount((prev) => (prev === 2 ? 3 : prev + 1));
       })
-      .catch((error) => {
-        console.error("실패:", error);
-      });
+      .catch(() => {});
   };
   //카드 클릭하면 고른 카드 배열에서 삭제
   const consoleIndex = (index: number, count: number) => {

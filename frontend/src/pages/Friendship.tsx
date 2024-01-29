@@ -255,9 +255,7 @@ const FriendShip = () => {
         setLuckType(3);
         settarotMasterImg(FriendshipImg);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch(() => {});
   };
 
   // 다 적었다는 버튼 클릭 시
@@ -400,7 +398,7 @@ const FriendShip = () => {
                   {!writeDone ? (
                     <NextBox>
                       <NextText onClick={handleNextButton}>
-                        다 적었으면 알려주세요.
+                        다 적었으면 알려주렴.
                       </NextText>
                     </NextBox>
                   ) : (
