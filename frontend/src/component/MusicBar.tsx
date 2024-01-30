@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import SoundBtnImg from "../assets/Sound.png";
 import NoSoundBtnImg from "../assets/NoSound.png";
-
 import { useRecoilState } from "recoil";
 import { isPlayingState } from "../state/atom";
 

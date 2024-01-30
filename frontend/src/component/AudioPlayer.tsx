@@ -9,7 +9,7 @@ const AudioPlayer = () => {
 
   useEffect(() => {
     const audio = audioRef.current;
-
+    audio.volume = 0.4;
     if (isSoundOn) {
       audio.play();
     } else {
@@ -21,7 +21,7 @@ const AudioPlayer = () => {
     };
   }, [isSoundOn, audioSrc]);
 
-  return null; // UI를 렌더링하지 않습니다.
+  return null;
 };
 
 export default AudioPlayer;

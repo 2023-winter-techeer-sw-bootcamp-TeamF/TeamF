@@ -11,6 +11,7 @@ import { shareKakao } from "../utils/shareKakaoLink";
 import "../assets/font-YUniverse-B.css";
 import "../assets/font-S-CoreDream-3Light.css";
 import MusicBar from "../component/MusicBar";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Background = styled.div`
   width: 100vw;
@@ -245,7 +246,7 @@ const FlipcardInner = styled.div<FlipcardInnerProps>`
   width: 100%;
   height: 100%;
   text-align: center;
-  transition: transform 0.6s;
+  transition: transform 0.8s;
   transform-style: preserve-3d;
   cursor: pointer;
 
@@ -311,7 +312,86 @@ const CardContent = styled.p`
   }
 `;
 
-interface ImgType {
+const Modal = styled(motion.div)`
+  position: absolute;
+  width: 23rem;
+  height: 38.5rem;
+  top: 15%;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  border-radius: 0.9375rem;
+  background: #b99e6f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99;
+`;
+
+const ModalImg = styled.img`
+  width: 22.9rem;
+  height: 38rem;
+  mix-blend-mode: screen;
+  border-radius: 0.9375rem;
+`;
+
+const ModalBackground = styled(motion.div)`
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.9);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+`;
+
+const ModalCardContent = styled.p`
+  color: #fbecc6;
+  font-family: YUniverse-B;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 2rem;
+  position: absolute;
+  top: 38%;
+  width: 15rem;
+  height: 18.4rem;
+  overflow-y: auto;
+  margin: 0.5rem;
+  padding-right: 0.2rem;
+  text-align: center;
+
+  &::-webkit-scrollbar {
+    width: 0.07rem;
+    height: 0.05rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #ecb973;
+    border-radius: 0.2rem;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #b88150ba;
+  }
+`;
+
+const ModalCardTitle = styled.p`
+  color: #66532c;
+  text-align: center;
+  font-family: YUniverse-B;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  width: 26.8125rem;
+  position: absolute;
+  top: 34%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
+interface CardType {
   explanation: string;
   image_url: string;
   eng_name: string;
@@ -326,8 +406,26 @@ function ResultDetail() {
   const [date, setDate] = useState("");
   const [masterName, setMasterName] = useState("");
   const [luck, setLuck] = useState("");
-  const [tarotImage, setTarotImage] = useState<ImgType[]>([]);
+  const [tarotImage, setTarotImage] = useState<CardType[]>([]);
   const accessToken = useRecoilValue(accessTokenState);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [selectedCard, setSelectedCard] = useState<CardType | null>(null);
+  const [selectedCardIndex, setSelectedCardIndex] = useState<number | null>(
+    null
+  );
+
+  const handleCardClick = (card: CardType, index: number) => {
+    setIsModalOpen(true);
+    setSelectedCard(card);
+    setSelectedCardIndex(index);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    if (selectedCardIndex !== null) {
+      handleFlip(selectedCardIndex);
+    }
+  };
 
   // 카드를 뒤집는 함수
   const handleFlip = (flip: number) => {
@@ -375,7 +473,7 @@ function ResultDetail() {
       .catch(() => {});
   };
   const shareButton = () => {
-    shareKakao(`http://localhost:5000/share/`, poll_id);
+    shareKakao("https://tairot.online/", poll_id);
   };
   useEffect(() => {
     getDetails();
@@ -400,7 +498,13 @@ function ResultDetail() {
                   </Question>
                   <Cards tarotImage={tarotImage.length}>
                     {tarotImage.map((number, index) => (
-                      <FlipcardContainer onClick={() => handleFlip(index)}>
+                      <FlipcardContainer
+                        onClick={() => {
+                          handleFlip(index);
+
+                          handleCardClick(number, index);
+                        }}
+                      >
                         <FlipcardInner isFlipped={flippedCards[index]}>
                           <CardBackground>
                             <TaroEx src={number.image_url} />
@@ -507,6 +611,28 @@ function ResultDetail() {
           </Details>
         </Inside>
       </Background>
+      <AnimatePresence>
+        {isModalOpen && selectedCard && (
+          <ModalBackground
+            onClick={() => {
+              setIsModalOpen(false);
+              {
+                handleCloseModal();
+              }
+            }}
+            initial={{ opacity: 0, rotateY: 90 }}
+            animate={{ opacity: 1, rotateY: 0 }}
+            exit={{ opacity: 0, rotateY: -90 }}
+            transition={{ duration: 0.6, ease: "easeInOut" }}
+          >
+            <Modal layoutId={"5"}>
+              <ModalImg src={FlipCard} />
+              <ModalCardTitle>{selectedCard.eng_name}</ModalCardTitle>
+              <ModalCardContent>{selectedCard.explanation}</ModalCardContent>
+            </Modal>
+          </ModalBackground>
+        )}
+      </AnimatePresence>
     </>
   );
 }
