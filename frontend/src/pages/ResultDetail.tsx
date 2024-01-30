@@ -473,7 +473,7 @@ function ResultDetail() {
       .catch(() => {});
   };
   const shareButton = () => {
-    shareKakao(`http://localhost:5000/share/`, poll_id);
+    shareKakao("https://tairot.online/", poll_id);
   };
   useEffect(() => {
     getDetails();
