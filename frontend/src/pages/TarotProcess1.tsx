@@ -166,7 +166,7 @@ function TarotProcess1() {
     }
   };
   useEffect(() => {
-    const socket = io("http://43.202.208.226:3001/", {
+    const socket = io("https://tairot.online/", {
       auth: {
         token: accesstoken,
       },
