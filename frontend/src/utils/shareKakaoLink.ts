@@ -9,7 +9,7 @@ export const shareKakao = (route: any, poll_id: any) => {
   if (window.Kakao) {
     const kakao = window.Kakao;
     if (!kakao.isInitialized()) {
-      kakao.init(process.env.VITE_SHARE_KAKAO_LINK_KEY); // 카카오에서 제공받은 javascript key를 넣어줌 -> .env파일에서 호출시킴
+      kakao.init(import.meta.env.VITE_SHARE_KAKAO_LINK_KEY); // 카카오에서 제공받은 javascript key를 넣어줌 -> .env파일에서 호출시킴
     }
     kakao.Link.sendScrap({
       requestUrl: route, // 페이지 url
