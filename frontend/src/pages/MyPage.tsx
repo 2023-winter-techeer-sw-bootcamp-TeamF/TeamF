@@ -247,8 +247,8 @@ interface RecordType {
 const ScrollToTopButtonWrapper = styled(motion.div)<{ visible: boolean }>`
   border: none;
   background: none;
-  width: 3rem;
-  height: 3rem;
+  width: 2.5rem;
+  height: 2.5rem;
   position: fixed;
   right: 2rem;
   bottom: 2.5rem;
