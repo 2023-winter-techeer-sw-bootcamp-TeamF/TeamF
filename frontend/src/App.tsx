@@ -2,7 +2,6 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import Landing from "./pages/Landing";
-import Test from "./pages/Test";
 import { theme } from "./theme";
 import MusicBar from "./component/MusicBar";
 import AudioPlayer from "./component/AudioPlayer";
@@ -104,10 +103,6 @@ a {
 `;
 
 const router = createBrowserRouter([
-  {
-    path: "/test",
-    element: <Test />,
-  },
   {
     path: "/",
     element: <Landing />,
