@@ -110,7 +110,7 @@ const BeforeBtn = styled(motion.button)`
 
 const rowVariants = {
   hidden: (isBack: boolean) => ({
-    x: isBack ? -window.outerWidth + 1500 : window.outerWidth - 1500,
+    x: isBack ? -window.outerWidth + 1000 : window.outerWidth - 1000,
     opacity: 1,
     transition: {
       duration: 0.25,
@@ -125,7 +125,7 @@ const rowVariants = {
     },
   },
   exit: (isBack: boolean) => ({
-    x: isBack ? window.outerWidth - 1500 : -window.outerWidth + 1500,
+    x: isBack ? window.outerWidth - 1000 : -window.outerWidth + 1000,
     opacity: 0,
     transition: {
       duration: 0.25,

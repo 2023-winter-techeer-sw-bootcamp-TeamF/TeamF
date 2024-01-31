@@ -283,7 +283,7 @@ const CardSelect1 = () => {
                     selectedCard[count][index] !== 0 ? (
                       <BackcardBackground
                         key={index}
-                        transition={{ duration: 0.5 }}
+                        transition={{ duration: 0.05 }}
                         whileHover={{ scale: 1.05, y: -20 }}
                         onClick={() => consoleIndex(index, count)}
                         style={{
