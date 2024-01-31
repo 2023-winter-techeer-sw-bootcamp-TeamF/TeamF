@@ -63,6 +63,9 @@ services:
     container_name: dev_frontend_container
     ports:
       - "5001:5000"
+    environment:
+      - VITE_SHARE_KAKAO_LINK_KEY = ${VITE_SHARE_KAKAO_LINK_KEY}
+      - VITE_SHARE_IMGUR_CLIENT_ID = ${VITE_SHARE_IMGUR_CLIENT_ID}
 
   dev_nginx:
     build: ./nginx
