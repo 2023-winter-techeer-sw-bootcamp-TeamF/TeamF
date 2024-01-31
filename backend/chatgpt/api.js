@@ -7,6 +7,7 @@
     import {Configuration, OpenAI} from 'openai'
 */
 const { Configuration, OpenAI,  } = require('openai');
+const gptModel = ['gpt-3.5-turbo-1106', 'gpt-4-0125-preview'];
 /**
  * gpt 대화 파라메터 설정 기본 설정만 현재 설정, 추후 수정 예정
  * model : gpt 모델
@@ -15,7 +16,7 @@ const { Configuration, OpenAI,  } = require('openai');
  * Openai.chat.completions.ChatCompletionCreateParamsBase에 더욱 자세한 설명있음
  */
 const GPT_STREAM_CONFIG = {
-  model: 'gpt-3.5-turbo-1106',
+  model: gptModel[1],
   stream: true,
   messages: null,
 };
