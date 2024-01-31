@@ -12,6 +12,9 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import "../assets/font-YUniverse-B.css";
 import "../assets/font-S-CoreDream-3Light.css";
+import { motion } from "framer-motion";
+import MusicBar from "../component/MusicBar.tsx";
+
 const Background = styled.div`
   width: 100vw;
   height: 100vh;
@@ -33,7 +36,8 @@ const BackgroundImg = styled.img`
   width: 100%;
   height: 100%;
 `;
-const Card = styled.div`
+
+const Card = styled(motion.div)`
   width: 17.36506rem;
   height: 29.88406rem;
   border-radius: 0.25rem;
@@ -138,7 +142,8 @@ const Cards = styled.div`
   top: 22%;
   left: 28%;
 `;
-const RightBox = styled.div`
+
+const RightBox = styled(motion.div)`
   width: 17.36506rem;
   height: 29.88406rem;
   border-radius: 0.25rem;
@@ -177,6 +182,10 @@ const ShareButton = styled.button`
   justify-content: center;
   gap: 0.3rem;
   cursor: pointer;
+  &:hover {
+    opacity: 0.9;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
 `;
 const ShareButtonIcon = styled.div`
   width: 1.375rem;
@@ -203,6 +212,10 @@ const SaveButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  &:hover {
+    opacity: 0.9;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
 `;
 const SaveButtonText = styled.p`
   color: #000;
@@ -252,12 +265,11 @@ function CardSave() {
         setExplanation(response.data.data.result[0].explanation);
         setDate(response.data.data.date);
       })
-      .catch((error) => {
-        console.error("타로 결과를 불러오는데 실패했습니다:", error);
-      });
+      .catch(() => {});
   }, []);
   const shareButton = () => {
-    shareKakao(`http://localhost:5000/share/`, poll_id);
+    //shareKakao(`http://localhost:5001/share/`, poll_id);
+    shareKakao(`https://tairot.online/share/`, poll_id);
   };
   return (
     <>
@@ -265,10 +277,15 @@ function CardSave() {
         <Inside>
           <LoadingPage></LoadingPage>
           <Navbar />
+          <MusicBar />
           <BackgroundWrapper>
             <BackgroundImg src={BackgroundImg1} />
             <Cards>
-              <Card>
+              <Card
+                initial={{ opacity: 1 }}
+                animate={{ opacity: 1, x: [90, 0] }}
+                transition={{ delay: 1.3, duration: 0.6, ease: "easeOut" }}
+              >
                 <CardLine1>
                   <CardLine2>
                     <TaroExs tarotImage={tarotImage.length}>
@@ -281,7 +298,12 @@ function CardSave() {
                   <UserName>ㆍ{date}ㆍ</UserName>
                 </CardLine1>
               </Card>
-              <RightBox>
+
+              <RightBox
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1, x: [-90, 0] }}
+                transition={{ delay: 1.3, duration: 0.6, ease: "easeOut" }}
+              >
                 <ShareIcon>
                   <ShareButtonIcon1 src={ShareBtn}></ShareButtonIcon1>
                 </ShareIcon>

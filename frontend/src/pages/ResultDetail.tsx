@@ -8,9 +8,10 @@ import { useRecoilValue } from "recoil";
 import axios from "axios";
 import LoadingPage from "../component/LoadingPage";
 import { shareKakao } from "../utils/shareKakaoLink";
-
 import "../assets/font-YUniverse-B.css";
 import "../assets/font-S-CoreDream-3Light.css";
+import MusicBar from "../component/MusicBar";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Background = styled.div`
   width: 100vw;
@@ -32,8 +33,8 @@ const Details = styled.div`
 `;
 
 const DetailBackground = styled.div`
-  width: 60.3125rem;
-  height: 44.9375rem;
+  width: 68.3125rem;
+  height: 45.9375rem;
   border-radius: 0.25rem;
   background: #e9e5da;
   margin-top: 2rem;
@@ -43,8 +44,8 @@ const DetailBackground = styled.div`
 `;
 
 const DetailLine1 = styled.div`
-  width: 58.75rem;
-  height: 42.5rem;
+  width: 65.85rem;
+  height: 43.5rem;
   border-radius: 0.625rem;
   border: 0.03125rem solid #b88150;
   background: rgba(217, 217, 217, 0);
@@ -56,8 +57,8 @@ const DetailLine1 = styled.div`
 `;
 
 const DetailLine2 = styled.div`
-  width: 58.0625rem;
-  height: 39.625rem;
+  width: 65.1rem;
+  height: 42.625rem;
   border-radius: 0.5rem 0.5rem 0rem 0rem;
   border: 0.03125rem solid #b88150;
   background: rgba(217, 217, 217, 0);
@@ -66,43 +67,51 @@ const DetailLine2 = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 1.5rem;
+  row-gap: 2rem;
 `;
 
 const Date = styled.p`
   color: #b88150;
   font-family: Italiana;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-style: normal;
   font-weight: 300;
-  margin-bottom: 0.5rem;
+  margin: 0.5rem;
+`;
+
+const Question = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 1rem;
 `;
 
 const Title = styled.p`
   color: #b99e6f;
   text-align: center;
   font-family: YUniverse-B;
-  font-size: 0.8125rem;
+  font-size: 1.25rem;
   font-style: normal;
   font-weight: 700;
-  width: 4.5rem;
+  width: 10rem;
   //margin-top: 0.9375rem;
-  line-height: 1;
+  //line-height: 1rem;
 `;
 
 const Worry = styled.p`
-  width: 28.125rem;
-  height: 3.125rem;
+  width: 30rem;
+  height: 1.6rem;
   color: #b99e6f;
   text-align: center;
-  font-family: S-CoreDream-3Light;
-  font-size: 0.8125rem;
+  font-family: YUniverse-B;
+  font-size: 1.3rem;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
-  margin-top: 0.8125rem;
+  //margin-top: 0.8125rem;
   overflow-y: scroll;
   padding-right: 0.125rem;
+  letter-spacing: 0.01rem;
 
   &::-webkit-scrollbar {
     width: 0.1875rem; /* 스크롤바의 너비 */
@@ -152,8 +161,8 @@ const TaroEx = styled.img`
 const Solutions = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.875rem;
-  margin-top: 1.8125rem;
+  gap: 1rem; //0.4 -> 1
+  //margin-top: 1.8rem;
   align-items: center;
 `;
 
@@ -161,25 +170,26 @@ const SolutionTitle = styled.p`
   color: #806838;
   text-align: center;
   font-family: YUniverse-B;
-  font-size: 0.9375rem;
+  font-size: 1.4rem;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
 `;
 
 const SolutionDetail = styled.p`
-  width: 38.875rem;
+  width: 48.875rem;
+  height: 5.7rem;
   color: #806838;
   text-align: center;
   font-family: YUniverse-B;
-  font-size: 0.9375rem;
+  font-size: 1.3rem;
   font-style: normal;
   font-weight: 300;
-  line-height: 1.5;
-  height: 6rem;
+  line-height: 1.6;
   overflow-y: scroll;
   overflow-x: hidden;
   padding-right: 0.625rem;
+  letter-spacing: 0.01rem;
 
   &::-webkit-scrollbar {
     width: 0.1875rem; /* 스크롤바의 너비 */
@@ -236,7 +246,7 @@ const FlipcardInner = styled.div<FlipcardInnerProps>`
   width: 100%;
   height: 100%;
   text-align: center;
-  transition: transform 0.6s;
+  transition: transform 0.8s;
   transform-style: preserve-3d;
   cursor: pointer;
 
@@ -278,13 +288,110 @@ const CardContent = styled.p`
   font-weight: 300;
   line-height: normal;
   position: absolute;
-  top: 38%; // CardTitle 아래에 위치 //57 -> 38
+  top: 32%; // CardTitle 아래에 위치 //57 -> 38
   //left: 50%;
   //transform: translate(-50%, -50%);
   width: 5rem;
+  height: 7.4rem;
+  overflow-y: auto;
+  margin: 0.5rem;
+  padding-right: 0.2rem;
+
+  &::-webkit-scrollbar {
+    width: 0.07rem;
+    height: 0.05rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #ecb973;
+    border-radius: 0.2rem;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #b88150ba;
+  }
 `;
 
-interface ImgType {
+const Modal = styled(motion.div)`
+  position: absolute;
+  width: 23rem;
+  height: 38.5rem;
+  top: 15%;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  border-radius: 0.9375rem;
+  background: #b99e6f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99;
+`;
+
+const ModalImg = styled.img`
+  width: 22.9rem;
+  height: 38rem;
+  mix-blend-mode: screen;
+  border-radius: 0.9375rem;
+`;
+
+const ModalBackground = styled(motion.div)`
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.9);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+`;
+
+const ModalCardContent = styled.p`
+  color: #fbecc6;
+  font-family: YUniverse-B;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 2rem;
+  position: absolute;
+  top: 38%;
+  width: 15rem;
+  height: 18.4rem;
+  overflow-y: auto;
+  margin: 0.5rem;
+  padding-right: 0.2rem;
+  text-align: center;
+
+  &::-webkit-scrollbar {
+    width: 0.07rem;
+    height: 0.05rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #ecb973;
+    border-radius: 0.2rem;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #b88150ba;
+  }
+`;
+
+const ModalCardTitle = styled.p`
+  color: #66532c;
+  text-align: center;
+  font-family: YUniverse-B;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  width: 26.8125rem;
+  position: absolute;
+  top: 34%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
+interface CardType {
   explanation: string;
   image_url: string;
   eng_name: string;
@@ -298,8 +405,27 @@ function ResultDetail() {
   const [explanation, setExplanation] = useState("");
   const [date, setDate] = useState("");
   const [masterName, setMasterName] = useState("");
-  const [tarotImage, setTarotImage] = useState<ImgType[]>([]);
+  const [luck, setLuck] = useState("");
+  const [tarotImage, setTarotImage] = useState<CardType[]>([]);
   const accessToken = useRecoilValue(accessTokenState);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [selectedCard, setSelectedCard] = useState<CardType | null>(null);
+  const [selectedCardIndex, setSelectedCardIndex] = useState<number | null>(
+    null
+  );
+
+  const handleCardClick = (card: CardType, index: number) => {
+    setIsModalOpen(true);
+    setSelectedCard(card);
+    setSelectedCardIndex(index);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    if (selectedCardIndex !== null) {
+      handleFlip(selectedCardIndex);
+    }
+  };
 
   // 카드를 뒤집는 함수
   const handleFlip = (flip: number) => {
@@ -326,10 +452,9 @@ function ResultDetail() {
         setExplanation(response.data.data.result[0].explanation);
         setDate(response.data.data.date);
         setMasterName(response.data.data.result[0].master_name);
+        setLuck(response.data.data.result[0].luck);
       })
-      .catch((error) => {
-        console.error("마이페이지 디테일 조회 실패:", error);
-      });
+      .catch(() => {});
   };
   const deleteCard = () => {
     axios
@@ -345,12 +470,10 @@ function ResultDetail() {
         alert("삭제 완료!");
         navigate("/mypage");
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch(() => {});
   };
   const shareButton = () => {
-    shareKakao(`http://localhost:5000/share/`, poll_id);
+    shareKakao("https://tairot.online/", poll_id);
   };
   useEffect(() => {
     getDetails();
@@ -361,18 +484,27 @@ function ResultDetail() {
         <Inside>
           <LoadingPage></LoadingPage>
           <Navbar />
+          <MusicBar />
           <Details>
             <DetailBackground>
               <DetailLine1>
                 <DetailLine2>
-                  <Title>
-                    당신의 고민
-                    <br /> . . .
-                  </Title>
-                  <Worry>{question}</Worry>
+                  <Question>
+                    <Title>
+                      당신의 고민
+                      <br /> . . .
+                    </Title>
+                    <Worry>" {question} "</Worry>
+                  </Question>
                   <Cards tarotImage={tarotImage.length}>
                     {tarotImage.map((number, index) => (
-                      <FlipcardContainer onClick={() => handleFlip(index)}>
+                      <FlipcardContainer
+                        onClick={() => {
+                          handleFlip(index);
+
+                          handleCardClick(number, index);
+                        }}
+                      >
                         <FlipcardInner isFlipped={flippedCards[index]}>
                           <CardBackground>
                             <TaroEx src={number.image_url} />
@@ -388,12 +520,12 @@ function ResultDetail() {
                   </Cards>
                   <Solutions>
                     <SolutionTitle>
-                      {masterName} 타로 마스터의 솔루션
+                      {masterName} 타로 마스터의 '{luck}' 솔루션
                     </SolutionTitle>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      width="27"
-                      height="20"
+                      width="20"
+                      height="13"
                       viewBox="0 0 27 20"
                       fill="none"
                     >
@@ -406,8 +538,8 @@ function ResultDetail() {
                     <SolutionDetail>{explanation}</SolutionDetail>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      width="27"
-                      height="20"
+                      width="20"
+                      height="13"
                       viewBox="0 0 27 20"
                       fill="none"
                     >
@@ -419,7 +551,11 @@ function ResultDetail() {
                     </svg>
                   </Solutions>
                 </DetailLine2>
-                <Date>ㆍ{date}ㆍ</Date>
+                <Date>
+                  <b>ㆍ</b>
+                  {date}
+                  <b>ㆍ</b>
+                </Date>
               </DetailLine1>
             </DetailBackground>
             <Buttons>
@@ -475,6 +611,28 @@ function ResultDetail() {
           </Details>
         </Inside>
       </Background>
+      <AnimatePresence>
+        {isModalOpen && selectedCard && (
+          <ModalBackground
+            onClick={() => {
+              setIsModalOpen(false);
+              {
+                handleCloseModal();
+              }
+            }}
+            initial={{ opacity: 0, rotateY: 90 }}
+            animate={{ opacity: 1, rotateY: 0 }}
+            exit={{ opacity: 0, rotateY: -90 }}
+            transition={{ duration: 0.6, ease: "easeInOut" }}
+          >
+            <Modal layoutId={"5"}>
+              <ModalImg src={FlipCard} />
+              <ModalCardTitle>{selectedCard.eng_name}</ModalCardTitle>
+              <ModalCardContent>{selectedCard.explanation}</ModalCardContent>
+            </Modal>
+          </ModalBackground>
+        )}
+      </AnimatePresence>
     </>
   );
 }

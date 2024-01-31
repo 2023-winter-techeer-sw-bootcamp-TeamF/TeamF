@@ -17,6 +17,7 @@ import {
 } from "../state/atom.ts";
 
 import "../assets/font-YUniverse-B.css";
+import MusicBar from "../component/MusicBar.tsx";
 
 const BackgroundColor = styled.div`
   background: #000;
@@ -99,6 +100,7 @@ const Tellme = styled.p`
   height: 96%;
   padding-right: 1rem;
   line-height: 1.4;
+  white-space: pre-wrap;
   &::-webkit-scrollbar {
     width: 0.3125rem; /* 스크롤바의 너비 */
   }
@@ -224,9 +226,16 @@ const MoneyFortune = () => {
   const setPollId = useSetRecoilState(pollIdState);
   const accessToken = useRecoilValue(accessTokenState);
   const [reply, setReply] = useRecoilState(replyState);
-  const tellMeText =
-    "하하! 잘왔네, 방문자여. 나는 재물운 타로 마스터 제라드 이올시다 음하하! 타로점을 볼 때 주의할 점과 타로점을 보는 방법에 대해 알려줄테니 잘 들어라! 타로는 단순한 운세가 아니라, 자네의 개인적인 상황과 내면의 감정을 비추는 거울이다. 모호하거나 추상적인 답변은 신비로운 메시지를 주기도 하지. 그러니 명확한 답을 얻고 싶다면 자네 마음에 집중하고 내면을 깊이 탐구하는 시간을 가져야 하는거다 하하! 재물운은 총 3장의 카드를 뽑지. 자네의 고민을 들은 후 카드를 뽑고 그 의미를 풀이할거다. 해석은 주관적이니, 다양한 시각을 고려하는 걸 잊지 말고 하하! 그래 한번 들어나보자! 너의 고민이 무엇이냐.";
-
+  const [writestart, setWriteStart] = useState(false);
+  const tellMeText = `잘왔네, 방문자여.
+나는 재물운 타로 마스터 제라드 이올시다.
+타로점을 볼 때 주의할 점과 타로점을 보는 방법에 대해 알려줄테니 잘 들어라!
+타로는 단순한 운세가 아니라, 자네의 개인적인 상황과 내면의 감정을 비추는 거울이다.
+모호하거나 추상적인 답변은 신비로운 메시지를 주기도 하지.
+그러니 명확한 답을 얻고 싶다면 자네 마음에 집중하고 내면을 깊이 탐구하는 시간을 가져야 하는거다!
+재물운은 총 3장의 카드를 뽑지. 자네의 고민을 들은 후 카드를 뽑고 그 의미를 풀이할거다.
+또한, 해석은 주관적이니, 다양한 시각을 고려하는 걸 잊으면 안된다!
+그래 한번 들어나보자! 너의 고민이 무엇이냐.`;
   const setLuckType = useSetRecoilState(selectLuck);
   const [taroMaster, setTaroMaster] = useState("");
   const settarotMasterImg = useSetRecoilState(tarotMasterImg);
@@ -245,9 +254,7 @@ const MoneyFortune = () => {
         setLuckType(4);
         settarotMasterImg(Moneyfortuneimg);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch(() => {});
   };
 
   // 다 적었다는 버튼 클릭 시
@@ -306,6 +313,7 @@ const MoneyFortune = () => {
   };
   const handleReplyChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setReply(event.target.value);
+    setWriteStart(true);
   };
   //한글자씩 나오게 하는 로직
   const [blobTitle, setBlobTitle] = useState("");
@@ -358,6 +366,7 @@ const MoneyFortune = () => {
       <Inside>
         <LoadingPage></LoadingPage>
         <Navbar />
+        <MusicBar />
         <BackgroundWrapper>
           <Profile src={Moneyfortuneimg}></Profile>
           <TitleBox>
@@ -380,15 +389,23 @@ const MoneyFortune = () => {
                   onChange={handleReplyChange}
                 ></Reply>
               </ReplyBox>
-              <Profile2 src={Moneyfortuneimg}></Profile2>
-              {!writeDone ? (
-                <NextBox>
-                  <NextText onClick={handleNextButton}>다 적었는가?</NextText>
-                </NextBox>
+              {writestart ? (
+                <>
+                  <Profile2 src={Moneyfortuneimg}></Profile2>
+                  {!writeDone ? (
+                    <NextBox>
+                      <NextText onClick={handleNextButton}>
+                        다 적었는가?
+                      </NextText>
+                    </NextBox>
+                  ) : (
+                    <NextBox2>
+                      <NextText2>{blobTitle2}</NextText2>
+                    </NextBox2>
+                  )}
+                </>
               ) : (
-                <NextBox2>
-                  <NextText2>{blobTitle2}</NextText2>
-                </NextBox2>
+                <></>
               )}
             </>
           )}

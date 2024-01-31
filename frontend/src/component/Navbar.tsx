@@ -72,6 +72,24 @@ const MenuItem = styled.div`
   font-weight: 400;
   line-height: normal;
   text-transform: capitalize;
+  margin-right: 1.25rem;
+  cursor: pointer;
+  &:hover {
+    // opacity: 0.7;
+    color: #ffbf00;
+    font-weight: bold;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+`;
+
+const MenuItem2 = styled.div`
+  color: #ecb973;
+  font-family: S-CoreDream-3Light;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-transform: capitalize;
   margin-right: 2.5rem;
   cursor: pointer;
   &:hover {
@@ -149,7 +167,7 @@ const Navbar = () => {
         </Link>
       </LogoContainer>
       <MenuContainer>
-        <MenuItem onClick={handlePageNavigation}> MYPAGE</MenuItem>
+        <MenuItem2 onClick={handlePageNavigation}> MYPAGE</MenuItem2>
 
         {accessToken ? (
           <MenuItem>

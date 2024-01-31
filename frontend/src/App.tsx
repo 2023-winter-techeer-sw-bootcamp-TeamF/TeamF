@@ -2,9 +2,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import Landing from "./pages/Landing";
-import Test from "./pages/Test";
 import { theme } from "./theme";
-
+import MusicBar from "./component/MusicBar";
+import AudioPlayer from "./component/AudioPlayer";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Main from "./pages/Main";
@@ -104,10 +104,6 @@ a {
 
 const router = createBrowserRouter([
   {
-    path: "/test",
-    element: <Test />,
-  },
-  {
     path: "/",
     element: <Landing />,
   },
@@ -197,6 +193,8 @@ function App() {
       <RecoilRoot>
         <ThemeProvider theme={theme}>
           <GlobalStyle />
+          <AudioPlayer />
+          <MusicBar />
           <RouterProvider router={router} />
         </ThemeProvider>
       </RecoilRoot>

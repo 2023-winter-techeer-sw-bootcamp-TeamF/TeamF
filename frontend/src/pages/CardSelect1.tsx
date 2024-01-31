@@ -11,6 +11,9 @@ import axios from "axios";
 import { useSetRecoilState } from "recoil";
 import { cardNumberAtom1 } from "../state/atom";
 import LoadingPage from "../component/LoadingPage";
+import MusicBar from "../component/MusicBar";
+import Select1Img from "../assets/Select1.png";
+
 const BackgroundColor = styled.div`
   background: #000;
   width: 100vw;
@@ -35,16 +38,32 @@ const CardBackground = styled.div`
   width: 8.75rem;
   height: 15rem;
   border-radius: 0.9375rem;
+  //background: #b99e6f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 20rem;
+`;
+const CardBackground2 = styled.div`
+  width: 8.75rem;
+  height: 15rem;
+  border-radius: 0.9375rem;
   background: #b99e6f;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-left: 20rem;
 `;
+
 const TaroEx = styled.img`
+  width: 8.75rem;
+  height: 15rem;
+`;
+const TaroEx2 = styled.img`
   width: 7.72438rem;
   height: 13.90388rem;
 `;
+
 const Cards = styled.div`
   display: flex;
   flex-direction: row;
@@ -65,7 +84,8 @@ const StackedCardsContainer = styled(motion.div)`
   height: 14.890875rem; // 자식 컨테이너(BackcardBackground)와 같은 높이
   width: 6.25rem; // 또는 전체 카드가 겹치는 너비에 맞게 조정
 `;
-const NextBtn = styled.button`
+
+const NextBtn = styled(motion.button)`
   border: none;
   background: none;
   width: 5.625rem;
@@ -75,7 +95,8 @@ const NextBtn = styled.button`
   bottom: 13.5rem;
   cursor: pointer;
 `;
-const BeforeBtn = styled.button`
+
+const BeforeBtn = styled(motion.button)`
   border: none;
   background: none;
   width: 5.625rem;
@@ -129,6 +150,38 @@ const NextBtnImg = styled.img`
   width: 100%;
   height: 100%;
 `;
+
+const Modal = styled(motion.div)`
+  position: absolute;
+  width: 22rem;
+  height: 37.5rem;
+  top: 15%;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  border-radius: 0.9375rem;
+  background: #b99e6f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99;
+`;
+
+const ModalImg = styled.img`
+  width: 20.55rem;
+  height: 36rem;
+`;
+
+const ModalBackground = styled(motion.div)`
+  width: 100vw;
+  height: 100vh;
+
+  background: rgba(0, 0, 0, 0.9);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+`;
 const CardSelect1 = () => {
   const numberOfCards = 22; // 1번째 줄 카드 수
   const numberOfCardsDelete = 12; // 4번째 줄 카드 수
@@ -163,6 +216,7 @@ const CardSelect1 = () => {
     }
   };
   const consoleIndex = (index: number, count: number) => {
+    setIsModalOpen(true);
     const card = selectedCard[count][index];
     getImage(card);
   };
@@ -171,19 +225,49 @@ const CardSelect1 = () => {
     shuffleArray(numbers);
     setSelectedCard(chunkArray(numbers, 22));
   }, []);
+
+  //2초뒤에 카드 모달이 닫히게 하기
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    let timeoutId: number | undefined;
+
+    if (isModalOpen) {
+      // 모달이 열리면 타임아웃을 설정합니다.
+      timeoutId = window.setTimeout(() => {
+        setIsModalOpen(false);
+      }, 2000);
+    }
+    return () => {
+      if (timeoutId) {
+        // 타임아웃을 취소합니다.
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [isModalOpen]);
   return (
     <BackgroundColor>
       <Inside>
         <LoadingPage></LoadingPage>
         <Navbar />
+        <MusicBar />
         <BackgroundWrapper>
           <BackgroundImg src={Background} alt="Background" />
           <CardsWrapper>
-            <Cards>
-              <CardBackground>
-                {card1 ? <TaroEx src={card1} /> : null}
-              </CardBackground>
-            </Cards>
+            <AnimatePresence>
+              <Cards>
+                {card1 ? (
+                  <CardBackground2>
+                    <TaroEx2 src={card1} />
+                  </CardBackground2>
+                ) : (
+                  <CardBackground>
+                    <TaroEx src={Select1Img} />
+                  </CardBackground>
+                )}
+              </Cards>
+            </AnimatePresence>
+
             <AnimatePresence mode="wait" custom={back}>
               {count !== 3 ? (
                 <StackedCardsContainer
@@ -199,7 +283,8 @@ const CardSelect1 = () => {
                     selectedCard[count][index] !== 0 ? (
                       <BackcardBackground
                         key={index}
-                        transition={{ duration: 0.5 }}
+                        transition={{ duration: 0.05 }}
+                        whileHover={{ scale: 1.05, y: -20 }}
                         onClick={() => consoleIndex(index, count)}
                         style={{
                           left: `${index * Overlap}rem`,
@@ -228,6 +313,7 @@ const CardSelect1 = () => {
                       <BackcardBackground
                         key={index}
                         transition={{ duration: 0.5 }}
+                        whileHover={{ scale: 1.05, y: -20 }}
                         onClick={() => consoleIndex(index, count)}
                         style={{
                           left: `${index * Overlap}rem`,
@@ -244,12 +330,34 @@ const CardSelect1 = () => {
               )}
             </AnimatePresence>
           </CardsWrapper>
-          <NextBtn onClick={incraseIndex}>
+
+          <NextBtn onClick={incraseIndex} whileTap={{ scale: 0.9 }}>
             <NextBtnImg src={NextButton} />
           </NextBtn>
-          <BeforeBtn onClick={decraseIndex}>
+          <BeforeBtn
+            onClick={decraseIndex}
+            initial={{ rotate: "180deg" }}
+            whileTap={{ scale: 0.9 }}
+          >
             <NextBtnImg src={NextButton} />
           </BeforeBtn>
+          <AnimatePresence>
+            {isModalOpen ? (
+              <ModalBackground
+                onClick={() => {
+                  setIsModalOpen(false);
+                }}
+                initial={{ opacity: 0, rotateY: 90 }}
+                animate={{ opacity: 1, rotateY: 0 }}
+                exit={{ opacity: 0, rotateY: 90 }}
+                transition={{ duration: 0.4 }}
+              >
+                <Modal layoutId={"1"}>
+                  <ModalImg src={card1} />
+                </Modal>
+              </ModalBackground>
+            ) : null}
+          </AnimatePresence>
         </BackgroundWrapper>
       </Inside>
     </BackgroundColor>

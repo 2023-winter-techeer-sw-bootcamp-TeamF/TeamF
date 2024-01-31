@@ -54,7 +54,7 @@ router.get(
 
           // result 테이블 조회
           const resultTableQuery =
-            "SELECT poll_id, explanation, luck FROM result WHERE poll_id IN (?) ORDER BY poll_id DESC;";
+            "SELECT poll_id, explanation, question, luck FROM result WHERE poll_id IN (?) ORDER BY poll_id DESC;";
           dbCon.query(resultTableQuery, [pollIds], (error, resultTableData) => {
             if (error) {
               return res
@@ -73,12 +73,13 @@ router.get(
               }
               // 결과 조합
               const combinedData = resultTableData.map((result) => {
-                const poll = pollInfo.find(p => p.id === result.poll_id);
+                const poll = pollInfo.find((p) => p.id === result.poll_id);
 
                 return {
                   resultInfo: {
                     pollId: result.poll_id,
-                    date: poll ? poll.created_date : '날짜 정보 없음',
+                    date: poll ? poll.created_date : "날짜 정보 없음",
+                    question: result.question,
                     explanation: result.explanation,
                     luck: result.luck,
                     imageUrls: cardTableData
@@ -213,7 +214,7 @@ router.delete(
     const connection = db.getConnection();
 
     try {
-      const searchData = await searchQuery(connection, req, res, poll_id, next);
+      const dateData = await dateQuery(connection, req, res, poll_id, next);
       const deleteResultQuery = "DELETE FROM poll WHERE id = ?";
       await new Promise((resolve, reject) => {
         connection.query(deleteResultQuery, [poll_id], (error) => {

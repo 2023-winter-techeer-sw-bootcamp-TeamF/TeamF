@@ -18,6 +18,10 @@ import { io } from "socket.io-client";
 import axios from "axios";
 import LoadingPage from "../component/LoadingPage";
 import "../assets/font-YUniverse-B.css";
+import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import MusicBar from "../component/MusicBar";
+import { useSetRecoilState } from "recoil";
 
 const Background = styled.div`
   width: 100vw;
@@ -90,6 +94,7 @@ const Chat = styled.p`
   overflow-y: scroll;
   padding-right: 0.9375rem;
   height: 18rem;
+  white-space: pre-wrap;
   &::-webkit-scrollbar {
     width: 0.1875rem; /* 스크롤바의 너비 */
   }
@@ -101,7 +106,7 @@ const Chat = styled.p`
     background-color: #daa520; /* 호버시 색상 변경 (더 진한 황금색) */
   }
 `;
-const NextBtn = styled.button`
+const NextBtn = styled(motion.button)`
   border: none;
   background: none;
   width: 5.625rem;
@@ -129,6 +134,9 @@ function TarotProcess() {
   const [cardUrl2, setCardUrl2] = useState("");
   const [cardUrl3, setCardUrl3] = useState("");
   const tarotMasterImage = useRecoilValue(tarotMasterImg);
+  const [onButton, setOnButton] = useState(false);
+  const navigate = useNavigate();
+  const setReplyState = useSetRecoilState(replyState);
 
   const getImage = async (card1: number, card2: number, card3: number) => {
     try {
@@ -160,7 +168,7 @@ function TarotProcess() {
   const getStream = async () => {
     try {
       getImage(card1, card2, card3);
-      socket.connect();
+      //socket.connect();
       const response = await axios.post(
         "/api/v1/tarot/result",
         {},
@@ -182,59 +190,84 @@ function TarotProcess() {
     }
   };
 
-  const socket = io("http://localhost:3001/", {
-    auth: {
-      token: accesstoken,
-    },
-  });
+  useEffect(() => {
+    const socket = io("https://tairot.online/", {
+      auth: {
+        token: accesstoken,
+      },
+      reconnection: true,
+    });
 
-  socket.on("chat message", (msg) => {
-    console.log(msg);
-    //promptInput();
-  });
+    socket.on("chat message", (msg) => {
+      console.log(msg);
+      //promptInput();
+    });
 
-  socket.on("message", (msg) => {
-    console.log(streamArray);
-    console.log(`받은 메시지 :" + ${msg}`);
-    setStreamArray((prev) => prev + msg);
-  });
+    socket.on("message", (msg) => {
+      console.log(`받은 메시지 :" + ${msg}`);
+      setStreamArray((prev) => prev + msg);
+    });
 
-  socket.on("connect", () => {
-    console.log("서버에 연결되었습니다.");
-    if (streamArray === "로딩 중...") {
-      setStreamArray("");
+    socket.on("connect", () => {
+      console.log("서버에 연결되었습니다.");
+      if (streamArray === "로딩 중...") {
+        setStreamArray("");
+      }
+      if (trigger) {
+        getStream();
+      }
+      setTrigger(false);
+    });
+
+    socket.on("disconnect", () => {
+      console.log("서버와의 연결이 끊어졌습니다.");
+    });
+
+    socket.on("success", () => {
+      console.log("연결 작업 성공");
+    });
+
+    socket.on("finish", async () => {
+      console.log("연결 작업 종료");
+      socket.disconnect();
+      setOnButton(true);
+    });
+
+    const mediaSource = new MediaSource();
+    const audio = document.getElementById("audio");
+    if (!(audio instanceof HTMLAudioElement)) return;
+    audio.src = URL.createObjectURL(mediaSource);
+    mediaSource.addEventListener("sourceopen", sourceOpen, false);
+    function sourceOpen() {
+      try {
+        const sourceBuffer = mediaSource.addSourceBuffer("audio/mpeg");
+
+        socket.on("audioChunk", (chunk) => {
+          console.log("chunk : " + chunk);
+          if (sourceBuffer.updating || !chunk) return;
+          const arrayBuffer = new Uint8Array(chunk).buffer;
+          sourceBuffer.appendBuffer(arrayBuffer);
+        });
+
+        sourceBuffer.addEventListener("updateend", () => {
+          // 버퍼 업데이트가 완료되었을 때, 재생 가능 여부를 확인하고 재생을 시작
+          if (
+            audio instanceof HTMLAudioElement &&
+            !audio.paused &&
+            audio.readyState >= HTMLMediaElement.HAVE_ENOUGH_DATA
+          ) {
+            audio.play().catch((error) => {
+              console.error("Playback failed:", error);
+            });
+          }
+        });
+      } catch (e) {
+        console.error("소스 버퍼 추가 중 오류 발생: ", e);
+      }
     }
-    if (trigger) {
-      getStream();
-    }
-    setTrigger(false);
-  });
-
-  socket.on("disconnect", () => {
-    console.log("서버와의 연결이 끊어졌습니다.");
-  });
-
-  socket.on("success", () => {
-    console.log("연결 작업 성공");
-  });
-
-  socket.on("finish", async () => {
-    console.log("연결 작업 종료");
-    socket.disconnect();
-  });
-
-  useEffect(() => {}, []);
-  const buttonClear = () => {
-    setTrigger(true);
-    setCardUrl1("");
-    setCardUrl2("");
-    setCardUrl3("");
-    setStreamArray("로딩 중...");
-    window.location.replace("/cardsave");
-  };
+  }, []);
 
   const chatBoxRef = useRef<HTMLDivElement | null>(null);
-
   const scrollToBottom = () => {
     const chatBox = chatBoxRef.current;
     if (chatBox) {
@@ -246,12 +279,24 @@ function TarotProcess() {
     scrollToBottom();
   }, [streamArray]);
 
+  const buttonClear = () => {
+    setTrigger(true);
+    setCardUrl1("");
+    setCardUrl2("");
+    setCardUrl3("");
+    setReplyState("");
+    setStreamArray("로딩 중...");
+    navigate("/cardsave");
+  };
+
   return (
     <>
       <Background>
         <Inside>
           <LoadingPage></LoadingPage>
           <Navbar />
+          <MusicBar />
+          <audio id="audio" autoPlay />
           <BackgroundWrapper>
             <BackgroundImg src={background} />
             <Cards>
@@ -271,9 +316,13 @@ function TarotProcess() {
                 {streamArray}
               </Chat>
             </ChatBox>
-            <NextBtn onClick={buttonClear}>
-              <NextBtnImg src={NextButton} />
-            </NextBtn>
+            {onButton ? (
+              <NextBtn onClick={buttonClear} whileTap={{ scale: 0.9 }}>
+                <NextBtnImg src={NextButton} />
+              </NextBtn>
+            ) : (
+              <></>
+            )}
           </BackgroundWrapper>
         </Inside>
       </Background>
