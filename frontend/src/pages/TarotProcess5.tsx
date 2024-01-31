@@ -23,6 +23,7 @@ import "../assets/font-YUniverse-B.css";
 import { motion } from "framer-motion";
 import MusicBar from "../component/MusicBar";
 import { useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
 
 const Background = styled.div`
   width: 100vw;
@@ -140,6 +141,7 @@ function TarotProcess5() {
   const tarotMasterImage = useRecoilValue(tarotMasterImg);
   const [onButton, setOnButton] = useState(false);
   const navigate = useNavigate();
+  const setReplyState = useSetRecoilState(replyState);
 
   const getImage = async (
     card1: number,
@@ -299,6 +301,7 @@ function TarotProcess5() {
     setCardUrl3("");
     setCardUrl4("");
     setCardUrl5("");
+    setReplyState("");
     setStreamArray("로딩 중...");
     navigate("/cardsave");
   };
