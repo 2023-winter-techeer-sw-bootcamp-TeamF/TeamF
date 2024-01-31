@@ -14,7 +14,7 @@ const verifyToken = require('../middleware/verifyToken');
 const { socketSendHandler } = require('../middleware/socketHandle');
 const checkPoll = require('../middleware/checkPoll');
 const middleware = [verifyToken, checkPoll, socketSendHandler];
-const { tts,processWaitPromise } = require("../middleware/clovaTTS.js");
+const ClovaTTS = require("../middleware/clovaTTS.js");
 
 router.get(
   '/option',
@@ -267,6 +267,7 @@ router.post(
     const poll_id = res.locals.poll; // poll_id
     const socketId = res.locals.socketId; // 소켓 아이디
     const io = req.app.get('io'); // 소켓 io 객체
+    const clova = new ClovaTTS(); // clovaTTS 객체 생성
 
     try {
       const appConfig = req.app.get('appConfig'); // appConfig 객체
@@ -330,7 +331,7 @@ router.post(
           resultArray[resultIndex] += streamMessage; // 파싱한 데이터를 배열에 저장
           clientRecv += streamMessage; // 사용자가 받은 메시지 저장
 
-          tts(streamMessage, io.to(socketId), luckType); // 소켓으로 메시지 전송
+          clova.tts(streamMessage, io.to(socketId), luckType); // 소켓으로 메시지 전송
           
           // resultIndex == numOfExplain
           if (streamMessage != '') io.to(socketId).emit('message', streamMessage); // 소켓으로 메시지 전송
@@ -368,7 +369,7 @@ router.post(
         };
       }
 
-      await processWaitPromise();
+      await clova.processWaitPromise();
       console.log('Result : ' + JSON.stringify(res.locals.store));
       
       return next(); // 다음 미들웨어로 이동
