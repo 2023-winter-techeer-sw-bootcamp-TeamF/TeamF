@@ -267,9 +267,10 @@ function Signup() {
       <Circle>
         <SWord>SIGN UP</SWord>
         <Id placeholder="ID" value={loginId} onChange={loginIdChange} />
-        <Pw placeholder="PASSWORD" value={password} onChange={passwordChange} />
+        <Pw type="password" placeholder="PASSWORD" value={password} onChange={passwordChange} />
 
         <ConfirmP
+          type="password"
           placeholder="CONFIRM PASSWORD"
           value={confirmPassword}
           onChange={confirmPasswordChange}
