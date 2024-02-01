@@ -79,6 +79,21 @@ app.use((req, res, next) => {
 });
 // Swagger UI 설정
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+// 클라이언트의 실제 IP 주소를 추출하는 미들웨어 1
+app.use((req, res, next) => {
+  const realIp = req.headers['x-real-ip'] || req.headers['x-forwarded-for'];
+  next();
+});
+
+// // 클라이언트의 실제 IP 주소를 추출하는 미들웨어 2
+// app.use((req, res, next) => {
+//   const xForwardedFor = (req.headers['x-forwarded-for'] || '').split(',').pop().trim();
+//   const realIp = req.headers['x-real-ip'] || req.headers['x-forwarded-for'].split(',')[0].trim();
+//   req.realIp = req.headers['x-real-ip'] || xForwardedFor || req.connection.remoteAddress;
+//   next();
+// });
+
 // 라우팅 설정
 app.use("/api/v1/tarot", require("./routes/tarot"));
 app.use("/api/v1/share", require("./routes/share"));
