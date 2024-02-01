@@ -37,7 +37,9 @@ const accessLogStream = fs.createWriteStream(path.join(logsDir, 'access.log'), {
 
 // 사용자 정의 토큰 'real-ip' 정의
 morgan.token('real-ip', function(req, res) {
-  return req.headers['x-real-ip'] || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  const realIp = req.headers['x-real-ip'] || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  console.log('Real IP:', realIp);
+  return realIp;
 });
 
 // Morgan 로거 설정
