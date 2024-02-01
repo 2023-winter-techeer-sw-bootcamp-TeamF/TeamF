@@ -95,6 +95,8 @@ app.use((error, req, res, next) => {
   console.error(error);
   res.status(500).json({ message: "서버 내부 오류" });
 });
+
+
 // 서버 시작 함수
 async function startServer() {
   try {
@@ -124,3 +126,5 @@ async function startServer() {
   }
 }
 startServer();
+
+module.exports = { app, server };
