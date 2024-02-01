@@ -100,6 +100,7 @@ services:
       context: elasticsearch/
       args:
         ELASTIC_VERSION: ${ELASTIC_VERSION}
+    container_name: dev_elasticsearch_container
     # env_file: .env
     volumes:
       - type: volume
@@ -117,6 +118,7 @@ services:
       context: logstash/
       args:
         ELASTIC_VERSION: ${ELASTIC_VERSION}
+    container_name: dev_logstash_container
     ports:
       - "5044:5044"
       # - "9600:9600"
@@ -132,6 +134,7 @@ services:
       context: kibana/
       args:
         ELASTIC_VERSION: ${ELASTIC_VERSION}
+    container_name: dev_kibana_container
     ports:
       - "5601:5601"
     environment:
@@ -145,6 +148,7 @@ services:
       context: filebeat/
       args:
         ELASTIC_VERSION: ${ELASTIC_VERSION}
+    container_name: dev_filebeat_container
     volumes:
       - log-data:/var/log/server # nodejs 에서 OS에 남겨둔 로그를 filebeat에서 공유하여 logstash:5044로 보낼예정
         # log-data 볼륨과 /var/log/server라는 filebeat 컨테이너 내부 경로를
