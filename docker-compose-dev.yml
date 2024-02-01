@@ -74,10 +74,10 @@ services:
     # restart: always
     ports:
       - "80:80"
-      # - "443:443"
+      - "443:443"
     volumes:
       - /hostpath/www:/var/www/html
-      # - /hostpath/certbot/etc:/etc/letsencrypt:ro
+      - /hostpath/certbot/etc:/etc/letsencrypt:ro
     depends_on:
       - dev_backend
       - dev_frontend
