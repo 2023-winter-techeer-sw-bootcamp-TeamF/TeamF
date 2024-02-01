@@ -34,8 +34,14 @@ if (!fs.existsSync(logsDir)) {
 }
 
 const accessLogStream = fs.createWriteStream(path.join(logsDir, 'access.log'), { flags: 'a' });
-app.use(morgan('combined', { stream: accessLogStream }));
-// app.use(morgan("combined", { stream: logger.stream }));
+
+// 사용자 정의 토큰 'real-ip' 정의
+morgan.token('real-ip', function(req, res) {
+  return req.headers['x-real-ip'] || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+});
+
+// Morgan 로거 설정
+app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" - :real-ip'));
 
 // Express 미들웨어 설정
 app.use(express.json());
