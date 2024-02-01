@@ -43,7 +43,7 @@ morgan.token('real-ip', function(req, res) {
 });
 
 // Morgan 로거 설정
-app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" - :real-ip'));
+app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" - :real-ip', { stream: accessLogStream }));
 
 // Express 미들웨어 설정
 app.use(express.json());
@@ -139,7 +139,7 @@ async function startServer() {
     // appConfig 객체 저장
     app.set("appConfig", new AppConfig());
     // 서버 시작
-    const port = 3000;
+    const port = 3001;
     // 기존 app.listen() 대신 server.listen()을 사용
     // HTTP 서버와 소켓 서버가 모두 동일한 포트로 설정
     server.listen(port, () =>
