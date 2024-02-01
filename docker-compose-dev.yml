@@ -100,7 +100,7 @@ services:
       context: elasticsearch/
       args:
         ELASTIC_VERSION: ${ELASTIC_VERSION}
-    env_file: .env
+    # env_file: .env
     volumes:
       - type: volume
         source: elasticsearch
