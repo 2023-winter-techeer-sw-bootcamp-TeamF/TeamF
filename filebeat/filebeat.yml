@@ -3,6 +3,7 @@ filebeat.inputs:
     enabled: true
     paths:
       - "/var/log/server/*.log"
+    scan_frequency: 10s  # 로그 파일 스캔 빈도 10초 설정
 
 output.logstash:
   hosts: ["logstash:5044"]

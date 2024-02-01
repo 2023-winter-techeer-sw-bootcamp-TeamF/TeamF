@@ -20,11 +20,22 @@ const AppConfig = require("./appConfig");
 const app = express();
 const secretName = "MySQL_Info";
 const secretGptApiKey = "GPT_KEY";
+const fs = require('fs');
+const path = require('path');
 
 // ELK 관련 npm
 const morgan = require("morgan");
 const logger = require("logger");
-app.use(morgan("combined", { stream: logger.stream }));
+const logsDir = path.join(__dirname, 'logs');
+
+// 'logs' 디렉토리가 존재하지 않으면 생성
+if (!fs.existsSync(logsDir)) {
+    fs.mkdirSync(logsDir, { recursive: true });
+}
+
+const accessLogStream = fs.createWriteStream(path.join(logsDir, 'access.log'), { flags: 'a' });
+app.use(morgan('combined', { stream: accessLogStream }));
+// app.use(morgan("combined", { stream: logger.stream }));
 
 // Express 미들웨어 설정
 app.use(express.json());
