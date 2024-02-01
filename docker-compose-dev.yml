@@ -1,44 +1,44 @@
 version: "3.8"
 
 services:
-  # dev_prometheus:
-  #   build: ./prometheus
-  #   image: dev_prometheus
-  #   container_name: dev_prometheus_container
-  #   ports:
-  #     - "9090:9090"
-  #   command:
-  #     - "--config.file=/etc/prometheus/prometheus.yml"
-  #     - "--storage.tsdb.path=/prometheus"
-  #     - "--web.enable-lifecycle"
+  dev_prometheus:
+    build: ./prometheus
+    image: dev_prometheus
+    container_name: dev_prometheus_container
+    ports:
+      - "9090:9090"
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--web.enable-lifecycle"
 
-  # dev_node-exporter:
-  #   image: prom/node-exporter
-  #   container_name: dev_node_exporter_container
-  #   ports:
-  #     - "9100:9100"
+  dev_node-exporter:
+    image: prom/node-exporter
+    container_name: dev_node_exporter_container
+    ports:
+      - "9100:9100"
 
-  # dev_grafana:
-  #   image: grafana/grafana
-  #   container_name: dev_grafana_container
-  #   volumes:
-  #     - /hostpath/provisioning:/etc/provisioning
-  #     - grafana_data:/var/lib/grafana
-  #   ports:
-  #     - 9000:3000
+  dev_grafana:
+    image: grafana/grafana
+    container_name: dev_grafana_container
+    volumes:
+      - /hostpath/provisioning:/etc/provisioning
+      - grafana_data:/var/lib/grafana
+    ports:
+      - 9000:3000
 
-  # dev_cadvisor:
-  #   image: gcr.io/cadvisor/cadvisor:latest
-  #   container_name: dev_cadvisor_container
-  #   ports:
-  #     - "8080:8080" # cAdvisor의 웹 인터페이스에 접근하기 위한 포트
-  #   volumes:
-  #     - /etc/machine-id:/etc/machine-id:ro
-  #     - /:/rootfs:ro # 호스트 시스템의 루트 디렉토리를 읽기 전용으로 마운트
-  #     - /var/run:/var/run:rw # Docker 소켓 위치
-  #     - /sys:/sys:ro # 시스템 정보를 읽기 위한 마운트
-  #     - /var/lib/docker/:/var/lib/docker:ro # Docker 이미지와 컨테이너 정보
-  #     - /sys/fs/cgroup:/sys/fs/cgroup:ro # cgroup 정보를 위한 볼륨 마운트 추가
+  dev_cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: dev_cadvisor_container
+    ports:
+      - "8080:8080" # cAdvisor의 웹 인터페이스에 접근하기 위한 포트
+    volumes:
+      - /etc/machine-id:/etc/machine-id:ro
+      - /:/rootfs:ro # 호스트 시스템의 루트 디렉토리를 읽기 전용으로 마운트
+      - /var/run:/var/run:rw # Docker 소켓 위치
+      - /sys:/sys:ro # 시스템 정보를 읽기 위한 마운트
+      - /var/lib/docker/:/var/lib/docker:ro # Docker 이미지와 컨테이너 정보
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro # cgroup 정보를 위한 볼륨 마운트 추가
 
   dev_backend:
     build: ./backend
@@ -82,16 +82,16 @@ services:
       - dev_backend
       - dev_frontend
 
-  # certbot:
-  #   image: certbot/certbot
-  #   container_name: dev_certbot_container
-  #   volumes:
-  #     - /hostpath/certbot/etc:/etc/letsencrypt
-  #     - /hostpath/certbot/var:/var/lib/letsencrypt
-  #     - /hostpath/www:/var/www/html
-  #   command: certonly --webroot --webroot-path=/var/www/html --email tjfgkssk9472@gmail.com --agree-tos --no-eff-email --force-renewal -d tairot.online -v
-  #   depends_on:
-  #     - dev_nginx
+  certbot:
+    image: certbot/certbot
+    container_name: dev_certbot_container
+    volumes:
+      - /hostpath/certbot/etc:/etc/letsencrypt
+      - /hostpath/certbot/var:/var/lib/letsencrypt
+      - /hostpath/www:/var/www/html
+    command: certonly --webroot --webroot-path=/var/www/html --email tjfgkssk9472@gmail.com --agree-tos --no-eff-email --force-renewal -d tairot.online -v
+    depends_on:
+      - dev_nginx
 
   # ELK Stack 관련 Services
   # .env에 ELASTIC_VERSION=7.17.11 추가
