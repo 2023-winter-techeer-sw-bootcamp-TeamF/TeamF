@@ -24,8 +24,6 @@ const dateQuery = async (connection, req, res, poll_id, next) => {
           res.locals.data = { message: "DB 쿼리 오류", error: error.message };
           reject(new Error("DB 오류: poll에서 user_id 조회 중 오류 발생"));
         } else {
-          console.log("dateQuery.js dateData = " + JSON.stringify(dateData));
-          console.log("dateQuery.js dateData = " + dateData[0].created_date);
           resolve(dateData);
         }
       });
