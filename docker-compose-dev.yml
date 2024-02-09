@@ -52,8 +52,8 @@ services:
       - AWS_REGION=${AWS_REGION}
       - CLOVA_CLIENT_ID=${CLOVA_CLIENT_ID}
       - CLOVA_CLIENT_SECRET=${CLOVA_CLIENT_SECRET}
-    volumes:
-      - log-data:/usr/src/app/logs
+    # volumes:
+    #   - log-data:/usr/src/app/logs
       # log-data 볼륨과 /usr/src/app/logs라는 dev_backend 컨테이너 내부 경로를
       # 마운팅(링크로 연결)하여 *.log 파일들을 공유
 
